@@ -22362,10 +22362,12 @@ document.addEventListener('DOMContentLoaded', () => {
     /* ══ SALARY STRUCTURE — live compute (Monthly) ══ */
     function salNum(id){ var el = document.getElementById(id); var v = el ? parseFloat(el.value) : 0; return isNaN(v) ? 0 : v; }
     function salFmt(n){ return '₹' + (n || 0).toLocaleString('en-IN', {maximumFractionDigits:0}); }
-    function salSetAuto(id, val, dirty){
+    function salSetAuto(id, val, dirty, showZero){
         var el = document.getElementById(id); if (!el) return;
         if (dirty) return;          // user has manually overridden — leave alone
-        el.value = (val > 0) ? Math.round(val) : '';
+        if (val > 0)        el.value = Math.round(val);
+        else if (showZero)  el.value = 0;     // show literal 0 (e.g. ESIC below threshold) so auto rule is visible
+        else                el.value = '';    // pristine empty (e.g. HRA when Basic is 0)
         el.classList.add('is-auto');
     }
     // Dirty flags — set true when user manually edits an auto field
@@ -22373,11 +22375,10 @@ document.addEventListener('DOMContentLoaded', () => {
     window.salOnBasicInput = function(){
         // Recompute HRA = 50% of Basic, only if user hasn't overridden
         var basic = salNum('sal-basicPay');
-        salSetAuto('sal-hra', basic * 0.5, window._salDirty.hra);
+        salSetAuto('sal-hra', basic * 0.5, window._salDirty.hra, false);
         salCompute();
     };
     window.salOnHraInput = function(){
-        // Mark HRA as user-overridden; remove auto styling
         var el = document.getElementById('sal-hra');
         window._salDirty.hra = true;
         if (el) el.classList.remove('is-auto');
@@ -22404,12 +22405,15 @@ document.addEventListener('DOMContentLoaded', () => {
         var otherAllow = salNum('sal-otherAllow');
         var gross = basic + hra + conv + medical + otherAllow;
 
-        // ── ESIC auto rule (50% of Gross threshold) ──
+        // ── ESIC auto rule (per Excel spec):
+        //    if (50% of Gross) < 21,000 → 0
+        //    else employer = 3.25% of (50% of Gross), employee = 0.75% of (50% of Gross)
         var halfGross = gross * 0.5;
-        var esicEmplrAuto = (halfGross < 21000) ? 0 : Math.round(halfGross * 0.0325);
-        var esicEmpAuto   = (halfGross < 21000) ? 0 : Math.round(halfGross * 0.0075);
-        salSetAuto('sal-emplEsi', esicEmplrAuto, window._salDirty.emplEsi);
-        salSetAuto('sal-dedEsic', esicEmpAuto,   window._salDirty.dedEsic);
+        var belowThreshold = halfGross < 21000;
+        var esicEmplrAuto = belowThreshold ? 0 : Math.round(halfGross * 0.0325);
+        var esicEmpAuto   = belowThreshold ? 0 : Math.round(halfGross * 0.0075);
+        salSetAuto('sal-emplEsi', esicEmplrAuto, window._salDirty.emplEsi, true);
+        salSetAuto('sal-dedEsic', esicEmpAuto,   window._salDirty.dedEsic, true);
 
         // ── Employer deductions ──
         var emplPf    = salNum('sal-emplPf');
