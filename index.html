@@ -11305,6 +11305,508 @@
         /* Empty state */
         .ovw-empty { text-align:center; padding:50px 20px; color:var(--gray-400); }
         .ovw-empty svg { width:48px; height:48px; margin:0 auto 12px; display:block; }
+
+        /* ══════════════════════════════════════════════
+           SALARY MODULE — Encrypted column + 2FA modal
+        ══════════════════════════════════════════════ */
+        /* Encrypted column header + cell tint (Zoho/QB style) */
+        .col-encrypted {
+            background:linear-gradient(180deg, color-mix(in srgb,var(--warning) 10%,transparent), color-mix(in srgb,var(--warning) 4%,transparent));
+            border-left:2px solid color-mix(in srgb,var(--warning) 40%,transparent);
+            border-right:2px solid color-mix(in srgb,var(--warning) 40%,transparent);
+        }
+        [data-dark="true"] .col-encrypted { background:rgba(184,137,58,0.08) !important; }
+
+        /* Salary cell — masked / revealed */
+        .salary-cell { display:inline-flex; align-items:center; gap:6px; font-variant-numeric:tabular-nums; }
+        .salary-masked {
+            font-family:'Courier New',monospace; font-weight:700; font-size:14px;
+            letter-spacing:2px; color:var(--gray-500);
+        }
+        .salary-value {
+            font-family:'Courier New',monospace; font-weight:700; font-size:13px;
+            color:var(--success); background:color-mix(in srgb,var(--success) 14%,transparent);
+            padding:2px 10px; border-radius:6px;
+        }
+
+        /* Locked salary cell — clickable to unlock with 2FA */
+        .salary-cell.locked {
+            cursor:pointer;
+            padding:3px 8px;
+            border-radius:6px;
+            border:1px dashed color-mix(in srgb,var(--warning) 40%,transparent);
+            background:color-mix(in srgb,var(--warning) 7%,transparent);
+            color:var(--warning);
+            transition:var(--transition);
+        }
+        .salary-cell.locked:hover {
+            background:color-mix(in srgb,var(--warning) 14%,transparent);
+            border-color:var(--warning);
+            border-style:solid;
+            transform:translateY(-1px);
+            box-shadow:0 2px 6px color-mix(in srgb,var(--warning) 18%,transparent);
+        }
+        .salary-cell.locked .salary-lock-icon {
+            color:var(--warning);
+            flex-shrink:0;
+        }
+        .salary-cell.locked:hover .salary-masked {
+            color:var(--warning);
+        }
+        [data-dark="true"] .salary-cell.locked {
+            background:rgba(245,158,11,0.10) !important;
+            border-color:rgba(245,158,11,0.4) !important;
+        }
+        [data-dark="true"] .salary-cell.locked:hover {
+            background:rgba(245,158,11,0.18) !important;
+        }
+
+        /* Re-lock icon button next to revealed salary */
+        .salary-cell.unlocked { gap:4px; }
+        .salary-relock-btn {
+            display:inline-flex; align-items:center; justify-content:center;
+            width:20px; height:20px; padding:0;
+            border:none; border-radius:5px;
+            background:transparent;
+            color:var(--gray-400);
+            cursor:pointer;
+            transition:var(--transition);
+            flex-shrink:0;
+        }
+        .salary-relock-btn:hover {
+            background:color-mix(in srgb,var(--danger) 12%,transparent);
+            color:var(--danger);
+        }
+        [data-dark="true"] .salary-relock-btn { color:#9ca3af !important; }
+        [data-dark="true"] .salary-relock-btn:hover { background:rgba(239,68,68,0.18) !important; color:#fca5a5 !important; }
+
+        .emp-column-item.restricted {
+            background:color-mix(in srgb,var(--warning) 6%,transparent);
+            border:1px dashed color-mix(in srgb,var(--warning) 40%,transparent);
+            border-radius:6px; padding:6px 8px;
+        }
+        .emp-column-item.restricted .emp-column-name::after {
+            content:' 🔒'; font-size:10px;
+        }
+
+        /* 2FA / OTP modal */
+        .sal-modal-backdrop {
+            position:fixed; inset:0; background:rgba(15,17,25,0.55);
+            backdrop-filter:blur(4px); z-index:3000;
+            display:none; align-items:center; justify-content:center;
+            animation:salFadeIn 0.2s ease;
+        }
+        .sal-modal-backdrop.active { display:flex; }
+        @keyframes salFadeIn { from { opacity:0; } to { opacity:1; } }
+        .sal-modal-box {
+            background:var(--white); border-radius:18px;
+            width:min(400px,94vw); box-shadow:0 24px 60px rgba(0,0,0,0.25);
+            overflow:hidden; animation:salSlideUp 0.25s cubic-bezier(0.4,0,0.2,1);
+        }
+        @keyframes salSlideUp { from { transform:translateY(16px); opacity:0; } to { transform:translateY(0); opacity:1; } }
+        .sal-modal-top {
+            background:linear-gradient(135deg,var(--primary),color-mix(in srgb,var(--primary) 60%,var(--cta)));
+            padding:22px 24px; text-align:center; position:relative; color:#fff;
+        }
+        .sal-modal-shield {
+            width:52px; height:52px; background:rgba(255,255,255,0.18);
+            border-radius:14px; margin:0 auto 10px;
+            display:flex; align-items:center; justify-content:center;
+        }
+        .sal-modal-top h2 { font-size:17px; font-family:'Fraunces',serif; font-weight:700; margin:0 0 3px; }
+        .sal-modal-top p { font-size:12px; color:rgba(255,255,255,0.78); margin:0; }
+        .sal-modal-body { padding:22px 24px; }
+        .sal-otp-hint {
+            background:color-mix(in srgb,var(--primary) 10%,transparent);
+            border-radius:9px; padding:9px 12px; font-size:11.5px;
+            color:var(--primary); margin-bottom:16px;
+            display:flex; gap:7px; align-items:center;
+        }
+        .sal-otp-hint svg { width:13px; height:13px; flex-shrink:0; }
+        .sal-otp-timer { font-family:'Courier New',monospace; color:var(--danger); font-weight:700; margin-left:auto; }
+        .sal-otp-label { font-size:11.5px; font-weight:600; color:var(--gray-600); margin-bottom:7px; }
+        .sal-otp-inputs { display:flex; gap:7px; justify-content:center; margin-bottom:16px; }
+        .sal-otp-digit {
+            width:40px; height:48px; border:2px solid var(--gray-200);
+            border-radius:10px; text-align:center; font-size:18px; font-weight:700;
+            color:var(--primary); background:var(--white); outline:none;
+            transition:var(--transition); font-family:'Courier New',monospace;
+        }
+        .sal-otp-digit:focus { border-color:var(--primary); box-shadow:0 0 0 3px color-mix(in srgb,var(--primary) 18%,transparent); }
+        .sal-otp-digit.filled { background:color-mix(in srgb,var(--primary) 10%,transparent); border-color:var(--primary); }
+        .sal-otp-digit.error { border-color:var(--danger); background:color-mix(in srgb,var(--danger) 10%,transparent); animation:salShake 0.3s; }
+        @keyframes salShake { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-4px)} 75%{transform:translateX(4px)} }
+        .sal-modal-actions { display:flex; flex-direction:column; gap:8px; }
+        .sal-modal-btn-primary {
+            width:100%; padding:10px; border-radius:10px; border:none; cursor:pointer;
+            background:var(--primary); color:#fff; font-size:13px; font-weight:700;
+            display:inline-flex; align-items:center; justify-content:center; gap:6px;
+            transition:var(--transition);
+        }
+        .sal-modal-btn-primary:hover { background:color-mix(in srgb,var(--primary) 85%,#000); }
+        .sal-modal-btn-outline {
+            width:100%; padding:10px; border-radius:10px; cursor:pointer;
+            background:var(--white); color:var(--gray-600); font-size:13px; font-weight:600;
+            border:1.5px solid var(--gray-200);
+        }
+        .sal-modal-btn-outline:hover { border-color:var(--primary); color:var(--primary); }
+        .sal-resend-row { display:flex; align-items:center; justify-content:space-between; font-size:11.5px; color:var(--gray-400); margin-top:12px; }
+        .sal-resend-btn { background:none; border:none; cursor:pointer; color:var(--primary); font-weight:700; font-size:11.5px; }
+        .sal-modal-hint {
+            background:color-mix(in srgb,var(--warning) 10%,transparent);
+            border-top:1px solid color-mix(in srgb,var(--warning) 20%,transparent);
+            padding:10px 24px; font-size:11px; color:var(--warning); text-align:center; font-weight:600;
+        }
+        [data-dark="true"] .sal-modal-box { background:#1e2130 !important; }
+        [data-dark="true"] .sal-otp-digit { background:#252836 !important; border-color:#363b52 !important; color:#fff !important; }
+
+        /* Access-denied modal (non-HR/admin trying to view salary) */
+        .sal-denied-box { text-align:center; padding:26px 24px 20px; }
+        .sal-denied-icon { width:56px; height:56px; border-radius:16px; background:color-mix(in srgb,var(--danger) 12%,transparent); color:var(--danger); margin:0 auto 14px; display:flex; align-items:center; justify-content:center; }
+        .sal-denied-icon svg { width:26px; height:26px; }
+        .sal-denied-title { font-size:16px; font-weight:700; font-family:'Fraunces',serif; color:var(--gray-900); margin-bottom:6px; }
+        .sal-denied-sub { font-size:12.5px; color:var(--gray-500); line-height:1.5; margin-bottom:16px; }
+        [data-dark="true"] .sal-denied-title { color:#e6e9f0 !important; }
+        [data-dark="true"] .sal-denied-sub { color:#9ca3af !important; }
+
+        /* Add Employee — Salary (Step 5) styling */
+        .ae-step-panel .ae-section-divider {
+            display:flex; align-items:center; gap:10px; margin:18px 0 12px;
+            font-size:11px; font-weight:700; color:var(--gray-500);
+            text-transform:uppercase; letter-spacing:0.6px;
+        }
+        .ae-step-panel .ae-section-divider::before,
+        .ae-step-panel .ae-section-divider::after {
+            content:''; flex:1; height:1px; background:var(--gray-200);
+        }
+        .ae-salary-field-label { display:inline-flex; align-items:center; gap:4px; }
+        .ae-salary-field-label svg { width:11px; height:11px; color:var(--warning); flex-shrink:0; }
+        .ae-salary-notice {
+            display:flex; gap:10px; padding:10px 13px; border-radius:10px;
+            background:color-mix(in srgb,var(--warning) 10%,transparent);
+            border:1px solid color-mix(in srgb,var(--warning) 28%,transparent);
+            color:color-mix(in srgb,var(--warning) 80%,#000);
+            font-size:11.5px; line-height:1.5; margin-top:14px;
+        }
+        .ae-salary-notice svg { width:16px; height:16px; flex-shrink:0; margin-top:1px; color:var(--warning); }
+        .ae-salary-notice strong { color:var(--warning); }
+        .ae-salary-lockbanner {
+            display:flex; align-items:center; gap:10px; padding:12px 14px;
+            border-radius:12px; background:linear-gradient(135deg,var(--primary-light),var(--white));
+            border:1.5px solid color-mix(in srgb,var(--primary) 24%,transparent);
+            margin-bottom:14px;
+        }
+        .ae-salary-lockbanner-icon {
+            width:34px; height:34px; border-radius:9px;
+            background:color-mix(in srgb,var(--primary) 14%,transparent);
+            color:var(--primary); display:flex; align-items:center; justify-content:center; flex-shrink:0;
+        }
+        .ae-salary-lockbanner-icon svg { width:17px; height:17px; }
+        .ae-salary-lockbanner-title { font-size:13px; font-weight:700; font-family:'Fraunces',serif; color:var(--gray-900); }
+        .ae-salary-lockbanner-sub { font-size:11.5px; color:var(--gray-600); }
+        [data-dark="true"] .ae-salary-lockbanner { background:rgba(45,74,53,0.15) !important; border-color:rgba(45,74,53,0.4) !important; }
+
+        /* ══ SALARY STRUCTURE — two-column payroll breakdown ══ */
+        .sal-struct-wrap {
+            display:grid;
+            grid-template-columns: 1.35fr 1fr;
+            gap:14px;
+            margin-top:4px;
+        }
+        .sal-struct-panel {
+            border:1.5px solid var(--gray-200);
+            border-radius:10px;
+            overflow:hidden;
+            background:var(--white);
+        }
+        [data-dark="true"] .sal-struct-panel { background:#1e2130 !important; border-color:#363b52 !important; }
+        .sal-struct-head {
+            display:grid;
+            grid-template-columns: 1.4fr 1fr;
+            background:linear-gradient(135deg, color-mix(in srgb,var(--primary) 18%,transparent), color-mix(in srgb,var(--primary) 6%,transparent));
+            border-bottom:1.5px solid color-mix(in srgb,var(--primary) 20%,transparent);
+        }
+        .sal-struct-head > div {
+            padding:10px 14px;
+            font-size:11.5px;
+            font-weight:700;
+            font-family:'Fraunces',serif;
+            color:var(--gray-900);
+            text-align:center;
+            letter-spacing:-0.2px;
+        }
+        .sal-struct-head > div:first-child {
+            text-align:left;
+            border-right:1px solid color-mix(in srgb,var(--primary) 16%,transparent);
+        }
+        [data-dark="true"] .sal-struct-head > div { color:#e6e9f0 !important; }
+
+        .sal-struct-row {
+            display:grid;
+            grid-template-columns: 1.4fr 1fr;
+            border-bottom:1px solid var(--gray-100);
+            transition:background 0.15s;
+        }
+        .sal-struct-row:last-child { border-bottom:none; }
+        .sal-struct-row:hover { background:var(--gray-50); }
+        [data-dark="true"] .sal-struct-row { border-bottom-color:#2d3145 !important; }
+        [data-dark="true"] .sal-struct-row:hover { background:#252836 !important; }
+
+        .sal-struct-label {
+            padding:0 14px;
+            display:flex;
+            align-items:center;
+            font-size:12.5px;
+            color:var(--gray-700);
+            font-weight:500;
+            border-right:1px solid var(--gray-100);
+            min-height:38px;
+        }
+        [data-dark="true"] .sal-struct-label { color:#d1d5db !important; border-right-color:#2d3145 !important; }
+
+        .sal-struct-cell {
+            display:flex;
+            align-items:center;
+            justify-content:flex-end;
+            padding:4px 8px;
+        }
+        .sal-struct-input {
+            width:100%;
+            padding:6px 10px 6px 22px;
+            border:1px solid transparent;
+            border-radius:6px;
+            font-size:13px;
+            font-weight:600;
+            font-family:'Courier New',monospace;
+            text-align:right;
+            background:var(--gray-50);
+            color:var(--gray-900);
+            outline:none;
+            transition:var(--transition);
+            font-variant-numeric:tabular-nums;
+            background-image:linear-gradient(to right, transparent 8px, transparent 8px);
+        }
+        .sal-struct-input:hover { background:var(--white); border-color:var(--gray-200); }
+        .sal-struct-input:focus {
+            background:var(--white);
+            border-color:var(--primary);
+            box-shadow:0 0 0 3px color-mix(in srgb,var(--primary) 14%,transparent);
+        }
+        [data-dark="true"] .sal-struct-input { background:#252836 !important; color:#e6e9f0 !important; }
+        [data-dark="true"] .sal-struct-input:hover { background:#2d3145 !important; border-color:#363b52 !important; }
+
+        .sal-struct-cell-wrap { position:relative; width:100%; }
+        .sal-struct-cell-wrap::before {
+            content:'₹';
+            position:absolute;
+            left:10px;
+            top:50%;
+            transform:translateY(-50%);
+            font-size:11.5px;
+            color:var(--gray-400);
+            font-weight:600;
+            pointer-events:none;
+        }
+        [data-dark="true"] .sal-struct-cell-wrap::before { color:#6b7280 !important; }
+
+        /* Summary rows — Gross, Total, Net Take Home */
+        .sal-struct-row.summary {
+            background:color-mix(in srgb,var(--primary) 7%,transparent);
+            border-top:1.5px solid color-mix(in srgb,var(--primary) 22%,transparent);
+            border-bottom:1.5px solid color-mix(in srgb,var(--primary) 22%,transparent);
+        }
+        .sal-struct-row.summary:hover { background:color-mix(in srgb,var(--primary) 10%,transparent); }
+        .sal-struct-row.summary .sal-struct-label {
+            font-weight:700;
+            font-family:'Fraunces',serif;
+            color:var(--gray-900);
+            font-size:13px;
+        }
+        .sal-struct-row.summary .sal-struct-display {
+            font-weight:700;
+            color:var(--primary);
+            font-family:'Courier New',monospace;
+            font-size:13.5px;
+        }
+        [data-dark="true"] .sal-struct-row.summary { background:rgba(45,74,53,0.18) !important; }
+        [data-dark="true"] .sal-struct-row.summary .sal-struct-label { color:#e6e9f0 !important; }
+
+        /* CTC row — final monthly total, normal summary look (no gradient) */
+        .sal-struct-row.ctc {
+            background:color-mix(in srgb,var(--primary) 9%,transparent);
+            border-top:1.5px solid color-mix(in srgb,var(--primary) 28%,transparent);
+            border-bottom:1.5px solid color-mix(in srgb,var(--primary) 28%,transparent);
+        }
+        .sal-struct-row.ctc:hover { background:color-mix(in srgb,var(--primary) 13%,transparent); }
+        .sal-struct-row.ctc .sal-struct-label {
+            font-weight:700;
+            font-family:'Fraunces',serif;
+            font-size:13.5px;
+            color:var(--gray-900);
+        }
+        .sal-struct-row.ctc .sal-struct-display {
+            font-weight:700;
+            color:var(--primary);
+            font-family:'Courier New',monospace;
+            font-size:14px;
+        }
+        [data-dark="true"] .sal-struct-row.ctc { background:rgba(45,74,53,0.22) !important; }
+        [data-dark="true"] .sal-struct-row.ctc .sal-struct-label { color:#e6e9f0 !important; }
+
+        /* Read-only computed display cell */
+        .sal-struct-display {
+            display:flex;
+            align-items:center;
+            justify-content:flex-end;
+            width:100%;
+            padding:6px 14px;
+            font-size:13px;
+            font-weight:600;
+            font-family:'Courier New',monospace;
+            color:var(--gray-700);
+            font-variant-numeric:tabular-nums;
+        }
+        [data-dark="true"] .sal-struct-display { color:#d1d5db !important; }
+
+        /* Sub-section header inside a panel (e.g. "Employer Deductions" inside left panel) */
+        .sal-struct-subhead {
+            display:grid;
+            grid-template-columns: 1.4fr 1fr;
+            background:linear-gradient(135deg, color-mix(in srgb,var(--primary) 10%,transparent), color-mix(in srgb,var(--primary) 3%,transparent));
+            border-top:1px solid color-mix(in srgb,var(--primary) 18%,transparent);
+            border-bottom:1px solid color-mix(in srgb,var(--primary) 14%,transparent);
+        }
+        .sal-struct-subhead > div {
+            padding:7px 14px;
+            font-size:11px;
+            font-weight:700;
+            font-family:'Fraunces',serif;
+            color:var(--gray-900);
+            letter-spacing:-0.1px;
+            text-transform:uppercase;
+        }
+        .sal-struct-subhead > div:first-child {
+            border-right:1px solid color-mix(in srgb,var(--primary) 14%,transparent);
+        }
+        .sal-struct-subhead > div:last-child {
+            text-align:right;
+            font-size:10.5px;
+            color:var(--gray-600);
+            text-transform:none;
+            font-style:italic;
+            font-weight:600;
+        }
+        [data-dark="true"] .sal-struct-subhead > div { color:#e6e9f0 !important; }
+        [data-dark="true"] .sal-struct-subhead > div:last-child { color:#9ca3af !important; }
+
+        /* Auto-computed but editable input — subtle visual cue */
+        .sal-struct-input.is-auto {
+            background:color-mix(in srgb, var(--info) 6%, var(--gray-50));
+            color:var(--gray-700);
+            font-style:italic;
+        }
+        .sal-struct-input.is-auto:hover,
+        .sal-struct-input.is-auto:focus {
+            background:var(--white);
+            color:var(--gray-900);
+            font-style:normal;
+        }
+        [data-dark="true"] .sal-struct-input.is-auto {
+            background:rgba(59,130,246,0.10) !important;
+            color:#9ca3af !important;
+        }
+        [data-dark="true"] .sal-struct-input.is-auto:hover,
+        [data-dark="true"] .sal-struct-input.is-auto:focus {
+            background:#252836 !important;
+            color:#e6e9f0 !important;
+        }
+        .sal-auto-badge {
+            display:inline-flex;
+            align-items:center;
+            gap:3px;
+            margin-left:6px;
+            padding:1px 6px;
+            font-size:9px;
+            font-weight:700;
+            font-family:'DM Sans',sans-serif;
+            text-transform:uppercase;
+            letter-spacing:0.4px;
+            color:var(--info, #3b82f6);
+            background:color-mix(in srgb, var(--info, #3b82f6) 12%, transparent);
+            border-radius:4px;
+            border:1px solid color-mix(in srgb, var(--info, #3b82f6) 30%, transparent);
+            line-height:1.4;
+        }
+        [data-dark="true"] .sal-auto-badge { color:#93c5fd !important; background:rgba(59,130,246,0.18) !important; border-color:rgba(59,130,246,0.4) !important; }
+
+        /* Annual CTC — grand total, slightly emphasized (no gradient, no decorations) */
+        .sal-struct-row.annual-ctc {
+            background:color-mix(in srgb,var(--primary) 12%,transparent);
+            border-top:2.5px solid color-mix(in srgb,var(--primary) 45%,transparent);
+            border-bottom:none;
+        }
+        .sal-struct-row.annual-ctc:hover { background:color-mix(in srgb,var(--primary) 16%,transparent); }
+        .sal-struct-row.annual-ctc .sal-struct-label {
+            font-weight:700;
+            font-family:'Fraunces',serif;
+            font-size:14px;
+            color:var(--gray-900);
+        }
+        .sal-struct-row.annual-ctc .sal-struct-display {
+            font-weight:700;
+            color:var(--primary);
+            font-family:'Courier New',monospace;
+            font-size:14.5px;
+        }
+        [data-dark="true"] .sal-struct-row.annual-ctc { background:rgba(45,74,53,0.28) !important; }
+        [data-dark="true"] .sal-struct-row.annual-ctc .sal-struct-label { color:#e6e9f0 !important; }
+
+        /* Section title strip above the two panels */
+        .sal-struct-topbar {
+            display:flex;
+            align-items:center;
+            justify-content:space-between;
+            margin-bottom:10px;
+            gap:12px;
+        }
+        .sal-struct-title {
+            font-size:13px;
+            font-weight:700;
+            font-family:'Fraunces',serif;
+            color:var(--gray-900);
+            display:inline-flex;
+            align-items:center;
+            gap:8px;
+        }
+        .sal-struct-title svg { width:15px; height:15px; color:var(--primary); }
+        [data-dark="true"] .sal-struct-title { color:#e6e9f0 !important; }
+
+        .sal-struct-eff {
+            display:inline-flex;
+            align-items:center;
+            gap:8px;
+            padding:5px 10px;
+            background:var(--gray-50);
+            border:1px solid var(--gray-200);
+            border-radius:8px;
+            font-size:11.5px;
+            color:var(--gray-600);
+            font-weight:600;
+        }
+        .sal-struct-eff label { font-weight:600; }
+        .sal-struct-eff input {
+            border:none; background:transparent; outline:none;
+            font-size:12px; color:var(--gray-900); font-weight:700;
+            font-family:'Courier New',monospace;
+        }
+        [data-dark="true"] .sal-struct-eff { background:#252836 !important; border-color:#363b52 !important; color:#9ca3af !important; }
+        [data-dark="true"] .sal-struct-eff input { color:#e6e9f0 !important; }
+
+        /* Responsive: stack on narrow modals */
+        @media (max-width: 820px) {
+            .sal-struct-wrap { grid-template-columns: 1fr; }
+        }
+
     </style>
 </head>
 <body>
@@ -15956,6 +16458,10 @@
                     <div class="ae-step-num" id="ae-sn-4">4</div>
                     <div class="ae-step-lbl">Address</div>
                 </div>
+                <div class="ae-step-item" id="ae-si-5" onclick="aeGoStep(5)">
+                    <div class="ae-step-num" id="ae-sn-5">5</div>
+                    <div class="ae-step-lbl">Salary 🔒</div>
+                </div>
             </div>
 
             <!-- Modal Body (scrollable) -->
@@ -16215,11 +16721,120 @@
                     </div>
                 </div>
 
+                <!-- STEP 5: Salary (Compensation — Encrypted) -->
+                <div class="ae-step-panel" id="ae-panel-5">
+                    <div class="ae-section-hd">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+                        Salary
+                    </div>
+
+                    <!-- Lock banner -->
+                    <div class="ae-salary-lockbanner">
+                        <div class="ae-salary-lockbanner-icon">
+                            <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+                        </div>
+                        <div style="flex:1;min-width:0;">
+                            <div class="ae-salary-lockbanner-title">Confidential — HR / Admin only</div>
+                            <div class="ae-salary-lockbanner-sub">Fields below are AES-256 encrypted at rest. This step is saved separately and audit-logged.</div>
+                        </div>
+                    </div>
+
+                    <!-- Title + Effective From -->
+                    <div class="sal-struct-topbar">
+                        <div class="sal-struct-title">
+                            <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 17v-2a2 2 0 00-2-2H5a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v8m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v12a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+                            Compensation Structure (Encrypted)
+                        </div>
+                        <div class="sal-struct-eff">
+                            <label for="ae-effectiveFrom">Effective From:</label>
+                            <input type="month" id="ae-effectiveFrom" value="2026-04">
+                        </div>
+                    </div>
+
+                    <!-- Two-panel salary structure -->
+                    <div class="sal-struct-wrap">
+                        <!-- LEFT: Salary Components + Employer Deductions + CTC Summary -->
+                        <div class="sal-struct-panel">
+                            <div class="sal-struct-head">
+                                <div>Salary Components</div>
+                                <div>Monthly</div>
+                            </div>
+                            <div class="sal-struct-row"><div class="sal-struct-label">Basic</div>
+                                <div class="sal-struct-cell"><div class="sal-struct-cell-wrap"><input type="number" class="sal-struct-input" id="sal-basicPay" min="0" placeholder="0" oninput="salOnBasicInput()"></div></div></div>
+                            <div class="sal-struct-row"><div class="sal-struct-label">HRA<span class="sal-auto-badge" title="Auto-fills as 50% of Basic. You can override.">Auto</span></div>
+                                <div class="sal-struct-cell"><div class="sal-struct-cell-wrap"><input type="number" class="sal-struct-input is-auto" id="sal-hra" min="0" placeholder="0" oninput="salOnHraInput()"></div></div></div>
+                            <div class="sal-struct-row"><div class="sal-struct-label">Conv Allowance</div>
+                                <div class="sal-struct-cell"><div class="sal-struct-cell-wrap"><input type="number" class="sal-struct-input" id="sal-conv" min="0" placeholder="0" oninput="salCompute()"></div></div></div>
+                            <div class="sal-struct-row"><div class="sal-struct-label">Medical Allowance</div>
+                                <div class="sal-struct-cell"><div class="sal-struct-cell-wrap"><input type="number" class="sal-struct-input" id="sal-medical" min="0" placeholder="0" oninput="salCompute()"></div></div></div>
+                            <div class="sal-struct-row"><div class="sal-struct-label">Other Allowances</div>
+                                <div class="sal-struct-cell"><div class="sal-struct-cell-wrap"><input type="number" class="sal-struct-input" id="sal-otherAllow" min="0" placeholder="0" oninput="salCompute()"></div></div></div>
+
+                            <div class="sal-struct-row summary"><div class="sal-struct-label">Gross</div>
+                                <div class="sal-struct-display" id="sal-gross">₹0</div></div>
+
+                            <!-- Employer Deductions sub-section -->
+                            <div class="sal-struct-subhead">
+                                <div>Employer Deductions</div>
+                                <div>Monthly</div>
+                            </div>
+                            <div class="sal-struct-row"><div class="sal-struct-label">PF</div>
+                                <div class="sal-struct-cell"><div class="sal-struct-cell-wrap"><input type="number" class="sal-struct-input" id="sal-emplPf" min="0" placeholder="0" value="1800" oninput="salCompute()"></div></div></div>
+                            <div class="sal-struct-row"><div class="sal-struct-label">PF Admin Charges</div>
+                                <div class="sal-struct-cell"><div class="sal-struct-cell-wrap"><input type="number" class="sal-struct-input" id="sal-pfAdmin" min="0" placeholder="0" value="150" oninput="salCompute()"></div></div></div>
+                            <div class="sal-struct-row"><div class="sal-struct-label">ESIC<span class="sal-auto-badge" title="Auto: 0 if 50% of Gross < ₹21,000, else 3.25% of (50% of Gross). Editable.">Auto</span></div>
+                                <div class="sal-struct-cell"><div class="sal-struct-cell-wrap"><input type="number" class="sal-struct-input is-auto" id="sal-emplEsi" min="0" placeholder="0" oninput="salOnEmplEsiInput()"></div></div></div>
+                            <div class="sal-struct-row"><div class="sal-struct-label">Insurance</div>
+                                <div class="sal-struct-cell"><div class="sal-struct-cell-wrap"><input type="number" class="sal-struct-input" id="sal-insurance" min="0" placeholder="0" oninput="salCompute()"></div></div></div>
+                            <div class="sal-struct-row"><div class="sal-struct-label">LWF</div>
+                                <div class="sal-struct-cell"><div class="sal-struct-cell-wrap"><input type="number" class="sal-struct-input" id="sal-lwfEr" min="0" placeholder="0" value="20" oninput="salCompute()"></div></div></div>
+
+                            <div class="sal-struct-row summary"><div class="sal-struct-label">Employer Total Deductions</div>
+                                <div class="sal-struct-display" id="sal-emprTotal">₹0</div></div>
+
+                            <div class="sal-struct-row summary"><div class="sal-struct-label">Take Home</div>
+                                <div class="sal-struct-display" id="sal-netTakeHome">₹0</div></div>
+
+                            <div class="sal-struct-row ctc"><div class="sal-struct-label">CTC</div>
+                                <div class="sal-struct-display" id="sal-ctc">₹0</div></div>
+
+                            <div class="sal-struct-row annual-ctc"><div class="sal-struct-label">Annual CTC</div>
+                                <div class="sal-struct-display" id="sal-annualCtc">₹0</div></div>
+                        </div>
+
+                        <!-- RIGHT: Employee Deductions -->
+                        <div class="sal-struct-panel">
+                            <div class="sal-struct-head">
+                                <div>Employee Deductions</div>
+                                <div>Monthly</div>
+                            </div>
+                            <div class="sal-struct-row"><div class="sal-struct-label">PF</div>
+                                <div class="sal-struct-cell"><div class="sal-struct-cell-wrap"><input type="number" class="sal-struct-input" id="sal-dedPf" min="0" placeholder="0" value="1800" oninput="salCompute()"></div></div></div>
+                            <div class="sal-struct-row"><div class="sal-struct-label">ESIC<span class="sal-auto-badge" title="Auto: 0 if 50% of Gross < ₹21,000, else 0.75% of (50% of Gross). Editable.">Auto</span></div>
+                                <div class="sal-struct-cell"><div class="sal-struct-cell-wrap"><input type="number" class="sal-struct-input is-auto" id="sal-dedEsic" min="0" placeholder="0" oninput="salOnDedEsicInput()"></div></div></div>
+                            <div class="sal-struct-row"><div class="sal-struct-label">TDS</div>
+                                <div class="sal-struct-cell"><div class="sal-struct-cell-wrap"><input type="number" class="sal-struct-input" id="sal-dedTds" min="0" placeholder="0" oninput="salCompute()"></div></div></div>
+                            <div class="sal-struct-row"><div class="sal-struct-label">LWF</div>
+                                <div class="sal-struct-cell"><div class="sal-struct-cell-wrap"><input type="number" class="sal-struct-input" id="sal-dedLwf" min="0" placeholder="0" value="5" oninput="salCompute()"></div></div></div>
+                            <div class="sal-struct-row"><div class="sal-struct-label">P. Tax</div>
+                                <div class="sal-struct-cell"><div class="sal-struct-cell-wrap"><input type="number" class="sal-struct-input" id="sal-dedPTax" min="0" placeholder="0" value="200" oninput="salCompute()"></div></div></div>
+
+                            <div class="sal-struct-row summary"><div class="sal-struct-label">Employee Total Deductions</div>
+                                <div class="sal-struct-display" id="sal-dedTotal">₹0</div></div>
+                        </div>
+                    </div>
+
+                    <div class="ae-salary-notice">
+                        <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+                        <span><strong>Encryption Notice:</strong> All values above are AES-256 encrypted before transmission. Raw values are never stored in plain text. The encryption key is held separately in a secure KMS (Key Management Service). All reads and writes are audit-logged.</span>
+                    </div>
+                </div>
+
             </div><!-- /.ae-modal-body -->
 
             <!-- Footer -->
             <div class="ae-modal-ft">
-                <span class="step-info" id="ae-step-hint">Step 1 of 4</span>
+                <span class="step-info" id="ae-step-hint">Step 1 of 5</span>
                 <button class="btn-secondary" id="ae-btn-prev" onclick="aeGoStep(window._aeCurrentStep-1)" style="display:none;">← Back</button>
                 <button class="btn-secondary" onclick="empCloseAddModal()">Cancel</button>
                 <button class="btn-primary-modal" id="ae-btn-next" onclick="aeGoStep(window._aeCurrentStep+1)">Next →</button>
@@ -21407,8 +22022,53 @@ document.addEventListener('DOMContentLoaded', () => {
         {key:'branch',label:'Branch',visible:false},{key:'department',label:'Department',visible:false},
         {key:'division',label:'Division',visible:false},{key:'gender',label:'Gender',visible:false},
         {key:'date_of_joining',label:'Joined',visible:true},{key:'date_of_leaving',label:'Leaving',visible:false},
-        {key:'status',label:'Status',visible:true},{key:'actions',label:'Actions',visible:true,fixed:true},
+        {key:'status',label:'Status',visible:true},
+        {key:'salary',label:'Salary 🔒',visible:true,restricted:true},
+        {key:'actions',label:'Actions',visible:true,fixed:true},
     ];
+
+    /* ══ SALARY ACCESS (2FA + role gating) ══ */
+    // Deterministic pseudo-salary per employee (so masked width is consistent)
+    function empSalaryFor(emp) {
+        const base = 35000;
+        const code = String(emp.employee_id || emp.employee_code || '');
+        let h = 0; for (let i=0;i<code.length;i++) h = ((h<<5)-h) + code.charCodeAt(i);
+        const salary = base + (Math.abs(h) % 85) * 1000; // ₹35k – ₹1.2L
+        return salary;
+    }
+    function empCurrentUserRole() {
+        const el = document.querySelector('.user-menu .user-role');
+        return (el && el.textContent || '').trim();
+    }
+    function empIsHROrAdmin() {
+        const r = empCurrentUserRole().toLowerCase();
+        return r.includes('admin') || r.includes('hr');
+    }
+    // Session-only 2FA flag — resets on page reload
+    let empSalary2FAVerified = false;
+    function empIs2FAVerified() { return empSalary2FAVerified; }
+
+    function empUpdateSalaryBanner() {
+        const wrap = document.getElementById('empSalaryBanner');
+        if (!wrap) return;
+        if (!empIsHROrAdmin()) { wrap.style.display = 'none'; return; }
+        wrap.style.display = '';
+        const locked = document.getElementById('empSalaryBannerLocked');
+        const unlocked = document.getElementById('empSalaryBannerUnlocked');
+        if (empIs2FAVerified()) {
+            if (locked)   locked.style.display   = 'none';
+            if (unlocked) unlocked.style.display = '';
+        } else {
+            if (locked)   locked.style.display   = '';
+            if (unlocked) unlocked.style.display = 'none';
+        }
+    }
+
+    function empLockSalaries() {
+        empSalary2FAVerified = false;
+        empUpdateSalaryBanner();
+        if (typeof empRenderTable === 'function') empRenderTable();
+    }
 
     function empGetInitials(name){return(name||'?').split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();}
     function empGetAvatarClass(name){let h=0;for(let c of(name||''))h=((h<<5)-h)+c.charCodeAt(0);return'av-'+(Math.abs(h)%10);}
@@ -21416,14 +22076,16 @@ document.addEventListener('DOMContentLoaded', () => {
     function empFormatDate(d){if(!d)return'<span class="cell-dash">—</span>';try{const dt=new Date(d);if(isNaN(dt))return'<span class="cell-dash">—</span>';return dt.toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'});}catch(e){return'<span class="cell-dash">—</span>';}}
 
     function empRenderHeader() {
-        const visible=empAllColumns.filter(c=>c.visible);
+        const canHR = empIsHROrAdmin();
+        const visible=empAllColumns.filter(c=>c.visible && !(c.restricted && !canHR));
         const th=document.getElementById('empTableHeader'); if(!th) return;
-        th.innerHTML=visible.map(col=>col.key==='actions'?`<th style="width:50px;text-align:center;">Actions</th>`:`<th class="sortable">${col.label}</th>`).join('');
+        th.innerHTML=visible.map(col=>col.key==='actions'?`<th style="width:50px;text-align:center;">Actions</th>`:(col.key==='salary'?`<th class="col-encrypted">${col.label}</th>`:`<th class="sortable">${col.label}</th>`)).join('');
     }
 
     function empRenderRow(emp, idx) {
         const jd=emp.job_details||{};
-        const visible=empAllColumns.filter(c=>c.visible);
+        const canHR = empIsHROrAdmin();
+        const visible=empAllColumns.filter(c=>c.visible && !(c.restricted && !canHR));
         const cells=visible.map(col=>{
             switch(col.key){
                 case 'employee': return `<td><div class="employee-cell"><div class="employee-avatar ${empGetAvatarClass(emp.name)}">${empGetInitials(emp.name)}</div><div class="employee-details"><div class="employee-name">${emp.name||'—'}</div><div class="employee-id">${emp.employee_code}</div></div></div></td>`;
@@ -21440,6 +22102,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 case 'date_of_joining': return `<td><span class="cell-date">${empFormatDate(jd.date_of_joining)}</span></td>`;
                 case 'date_of_leaving': return `<td><span class="cell-date">${empFormatDate(jd.date_of_leaving)}</span></td>`;
                 case 'status': return `<td><span class="status-badge active"><span class="status-dot"></span>Active</span></td>`;
+                case 'salary': {
+                    // Only reached when canHR is true (filtered above). Masked by default; tap to unlock with 2FA.
+                    const val = empSalaryFor(emp);
+                    if (empIs2FAVerified()) {
+                        return `<td class="col-encrypted"><div class="salary-cell unlocked"><span class="salary-value">₹${val.toLocaleString('en-IN')}</span><button class="salary-relock-btn" title="Lock salaries" onclick="empLockSalaries();event.stopPropagation();"><svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg></button></div></td>`;
+                    }
+                    return `<td class="col-encrypted"><div class="salary-cell locked" title="Click to unlock with 2FA" onclick="empRequestSalary2FA(event)"><svg class="salary-lock-icon" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg><span class="salary-masked">●●●●●</span></div></td>`;
+                }
                 case 'actions': return `<td style="text-align:center;"><div class="action-dropdown" id="empdd-${idx}"><button class="action-trigger" onclick="empToggleDropdown('empdd-${idx}',event)"><svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="5" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="12" cy="19" r="1.5"/></svg></button><div class="action-menu"><button class="action-menu-item"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>View Profile</button><button class="action-menu-item"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>Edit Employee</button><div class="action-menu-divider"></div><button class="action-menu-item danger"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>Delete</button></div></div></td>`;
                 default: return '<td>—</td>';
             }
@@ -21449,6 +22119,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function empRenderTable() {
         empRenderHeader();
+        empUpdateSalaryBanner();
         const start=(empCurrentPage-1)*EMP_PAGE_SIZE;
         const pageData=filteredEmployees.slice(start,start+EMP_PAGE_SIZE);
         const tbody=document.getElementById('empTableBody'); if(!tbody) return;
@@ -21584,9 +22255,27 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function empRenderColumnList() {
         const cl=document.getElementById('empColumnList'); if(!cl) return;
-        cl.innerHTML=empAllColumns.map((col,i)=>`<div class="emp-column-item"><input type="checkbox" id="empcol-${i}" ${col.visible?'checked':''} ${col.fixed?'disabled':''} onchange="empToggleColumn(${i})"><label class="emp-column-name" for="empcol-${i}">${col.label}</label>${col.fixed?'<span style="font-size:10px;color:var(--gray-400);">Fixed</span>':''}</div>`).join('');
+        const canHR = empIsHROrAdmin();
+        cl.innerHTML=empAllColumns.map((col,i)=>{
+            // Restricted columns hidden entirely from non-HR/admin users
+            if(col.restricted && !canHR) return '';
+            const cls = 'emp-column-item' + (col.restricted ? ' restricted' : '');
+            const suffix = col.fixed
+                ? '<span style="font-size:10px;color:var(--gray-400);">Fixed</span>'
+                : (col.restricted ? '<span style="font-size:9px;color:var(--warning);font-weight:700;">HR/ADMIN · 2FA</span>' : '');
+            return `<div class="${cls}"><input type="checkbox" id="empcol-${i}" ${col.visible?'checked':''} ${col.fixed?'disabled':''} onchange="empToggleColumn(${i})"><label class="emp-column-name" for="empcol-${i}">${col.label}</label>${suffix}</div>`;
+        }).join('');
     }
-    function empToggleColumn(idx){empAllColumns[idx].visible=!empAllColumns[idx].visible;empRenderTable();}
+    function empToggleColumn(idx){
+        const col = empAllColumns[idx];
+        if(col.restricted && !empIsHROrAdmin()){
+            empShowAccessDenied();
+            empRenderColumnList();
+            return;
+        }
+        col.visible=!col.visible;
+        empRenderTable();
+    }
     function empResetColumns(){empAllColumns.forEach((c,i)=>{if(!c.fixed) c.visible=[1,2,3,4,9,11].includes(i);});empRenderColumnList();empRenderTable();}
 
     function empOpenFilterPanel(){
@@ -21612,13 +22301,15 @@ document.addEventListener('DOMContentLoaded', () => {
         // Reset checkbox
         var cb = document.getElementById('ae-sameAddr');
         if(cb) cb.checked = false;
+        // Reset salary form to defaults
+        if(typeof salResetForm === 'function') salResetForm();
         aeUpdateStepUI(1);
         document.getElementById('empAddModal').classList.add('active');
     }
     function empCloseAddModal(){ document.getElementById('empAddModal').classList.remove('active'); }
 
     window.aeGoStep = function(n){
-        if(n < 1 || n > 4) return;
+        if(n < 1 || n > 5) return;
         if(n > window._aeCurrentStep) window._aeDoneSteps.add(window._aeCurrentStep);
         window._aeCurrentStep = n;
         aeUpdateStepUI(n);
@@ -21628,11 +22319,11 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     function aeUpdateStepUI(n){
-        var hints = ['Step 1 of 4 — Basic Information','Step 2 of 4 — Personal Details','Step 3 of 4 — Job Details','Step 4 of 4 — Address Details'];
+        var hints = ['Step 1 of 5 — Basic Information','Step 2 of 5 — Personal Details','Step 3 of 5 — Job Details','Step 4 of 5 — Address Details','Step 5 of 5 — Salary (Encrypted)'];
         var hintEl = document.getElementById('ae-step-hint');
         if(hintEl) hintEl.textContent = hints[n-1] || '';
         // panels
-        for(var i=1;i<=4;i++){
+        for(var i=1;i<=5;i++){
             var p = document.getElementById('ae-panel-'+i);
             if(p) p.classList.toggle('active', i===n);
             var si = document.getElementById('ae-si-'+i);
@@ -21645,8 +22336,8 @@ document.addEventListener('DOMContentLoaded', () => {
         var next = document.getElementById('ae-btn-next');
         var submit = document.getElementById('ae-btn-submit');
         if(prev) prev.style.display = n > 1 ? '' : 'none';
-        if(next) next.style.display = n < 4 ? '' : 'none';
-        if(submit) submit.style.display = n === 4 ? '' : 'none';
+        if(next) next.style.display = n < 5 ? '' : 'none';
+        if(submit) submit.style.display = n === 5 ? '' : 'none';
     }
 
     window.aeCopySameAddress = function(checked){
@@ -21666,6 +22357,119 @@ document.addEventListener('DOMContentLoaded', () => {
         var name = (document.getElementById('ae-firstName')||{}).value || '';
         if(!name.trim()){ alert('Please enter first name.'); aeGoStep(1); return; }
         empCloseAddModal();
+    };
+
+    /* ══ SALARY STRUCTURE — live compute (Monthly) ══ */
+    function salNum(id){ var el = document.getElementById(id); var v = el ? parseFloat(el.value) : 0; return isNaN(v) ? 0 : v; }
+    function salFmt(n){ return '₹' + (n || 0).toLocaleString('en-IN', {maximumFractionDigits:0}); }
+    function salSetAuto(id, val, dirty){
+        var el = document.getElementById(id); if (!el) return;
+        if (dirty) return;          // user has manually overridden — leave alone
+        el.value = (val > 0) ? Math.round(val) : '';
+        el.classList.add('is-auto');
+    }
+    // Dirty flags — set true when user manually edits an auto field
+    window._salDirty = window._salDirty || { hra:false, emplEsi:false, dedEsic:false };
+    window.salOnBasicInput = function(){
+        // Recompute HRA = 50% of Basic, only if user hasn't overridden
+        var basic = salNum('sal-basicPay');
+        salSetAuto('sal-hra', basic * 0.5, window._salDirty.hra);
+        salCompute();
+    };
+    window.salOnHraInput = function(){
+        // Mark HRA as user-overridden; remove auto styling
+        var el = document.getElementById('sal-hra');
+        window._salDirty.hra = true;
+        if (el) el.classList.remove('is-auto');
+        salCompute();
+    };
+    window.salOnEmplEsiInput = function(){
+        var el = document.getElementById('sal-emplEsi');
+        window._salDirty.emplEsi = true;
+        if (el) el.classList.remove('is-auto');
+        salCompute();
+    };
+    window.salOnDedEsicInput = function(){
+        var el = document.getElementById('sal-dedEsic');
+        window._salDirty.dedEsic = true;
+        if (el) el.classList.remove('is-auto');
+        salCompute();
+    };
+    window.salCompute = function(){
+        // ── Salary components ──
+        var basic   = salNum('sal-basicPay');
+        var hra     = salNum('sal-hra');
+        var conv    = salNum('sal-conv');
+        var medical = salNum('sal-medical');
+        var otherAllow = salNum('sal-otherAllow');
+        var gross = basic + hra + conv + medical + otherAllow;
+
+        // ── ESIC auto rule (50% of Gross threshold) ──
+        var halfGross = gross * 0.5;
+        var esicEmplrAuto = (halfGross < 21000) ? 0 : Math.round(halfGross * 0.0325);
+        var esicEmpAuto   = (halfGross < 21000) ? 0 : Math.round(halfGross * 0.0075);
+        salSetAuto('sal-emplEsi', esicEmplrAuto, window._salDirty.emplEsi);
+        salSetAuto('sal-dedEsic', esicEmpAuto,   window._salDirty.dedEsic);
+
+        // ── Employer deductions ──
+        var emplPf    = salNum('sal-emplPf');
+        var pfAdmin   = salNum('sal-pfAdmin');
+        var emplEsi   = salNum('sal-emplEsi');
+        var insurance = salNum('sal-insurance');
+        var lwfEr     = salNum('sal-lwfEr');
+        var emprTotal = emplPf + pfAdmin + emplEsi + insurance + lwfEr;
+
+        // ── Employee deductions ──
+        var dedPf   = salNum('sal-dedPf');
+        var dedEsic = salNum('sal-dedEsic');
+        var dedTds  = salNum('sal-dedTds');
+        var dedLwf  = salNum('sal-dedLwf');
+        var dedPTax = salNum('sal-dedPTax');
+        var dedTotal = dedPf + dedEsic + dedTds + dedLwf + dedPTax;
+
+        // ── Final summaries ──
+        var takeHome  = gross - dedTotal;
+        var ctc       = gross + emprTotal;
+        var annualCtc = ctc * 12;
+
+        // ── Paint ──
+        var set = function(id, val){ var el = document.getElementById(id); if (el) el.textContent = salFmt(val); };
+        set('sal-gross',       gross);
+        set('sal-emprTotal',   emprTotal);
+        set('sal-netTakeHome', takeHome);
+        set('sal-ctc',          ctc);
+        set('sal-annualCtc',   annualCtc);
+        set('sal-dedTotal',    dedTotal);
+    };
+    // Compute once when modal opens (via defer) and on DOMContentLoaded for safety
+    document.addEventListener('DOMContentLoaded', function(){ if (typeof salCompute === 'function') salCompute(); });
+
+    /* Reset salary form to defaults — called when Add Employee modal opens */
+    window.salResetForm = function(){
+        // Clear dirty flags
+        window._salDirty = { hra:false, emplEsi:false, dedEsic:false };
+        // Clear manual inputs
+        ['sal-basicPay','sal-hra','sal-conv','sal-medical','sal-otherAllow',
+         'sal-emplEsi','sal-insurance','sal-dedEsic','sal-dedTds']
+            .forEach(function(id){ var el = document.getElementById(id); if(el) el.value = ''; });
+        // Pre-fill defaults
+        var defaults = {
+            'sal-emplPf':   '1800',
+            'sal-pfAdmin':  '150',
+            'sal-lwfEr':    '20',
+            'sal-dedPf':    '1800',
+            'sal-dedLwf':   '5',
+            'sal-dedPTax':  '200'
+        };
+        Object.keys(defaults).forEach(function(id){
+            var el = document.getElementById(id); if(el) el.value = defaults[id];
+        });
+        // Restore is-auto styling on auto fields (in case it was removed by previous override)
+        ['sal-hra','sal-emplEsi','sal-dedEsic'].forEach(function(id){
+            var el = document.getElementById(id); if(el) el.classList.add('is-auto');
+        });
+        // Repaint
+        if(typeof salCompute === 'function') salCompute();
     };
     function empRefreshData(){const tb=document.getElementById('empTableBody');if(!tb) return;tb.style.opacity='0.4';setTimeout(()=>{tb.style.opacity='1';empRenderTable();},600);}
 
@@ -30147,5 +30951,161 @@ document.addEventListener('DOMContentLoaded',function(){
 
 })();
 </script>
+
+<!-- ══ SALARY 2FA / ACCESS-DENIED MODALS ══ -->
+<div class="sal-modal-backdrop" id="salary2FAModal" onclick="if(event.target===this)empClose2FAModal()">
+    <div class="sal-modal-box" onclick="event.stopPropagation()">
+        <div class="sal-modal-top">
+            <div class="sal-modal-shield">
+                <svg width="24" height="24" fill="none" stroke="#fff" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+                </svg>
+            </div>
+            <h2>2-Factor Verification</h2>
+            <p>Verify your identity to reveal salary data</p>
+        </div>
+        <div class="sal-modal-body">
+            <div class="sal-otp-hint">
+                <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+                <span>OTP sent to <strong>ad***@onaqt.com</strong></span>
+                <span class="sal-otp-timer" id="salOtpTimer">05:00</span>
+            </div>
+            <div class="sal-otp-label">Enter 6-digit OTP (try <strong>123456</strong> in this demo)</div>
+            <div class="sal-otp-inputs">
+                <input class="sal-otp-digit" type="text" maxlength="1" id="salOtp0" oninput="salOtpNext(this,0)" onkeydown="salOtpBack(this,0,event)">
+                <input class="sal-otp-digit" type="text" maxlength="1" id="salOtp1" oninput="salOtpNext(this,1)" onkeydown="salOtpBack(this,1,event)">
+                <input class="sal-otp-digit" type="text" maxlength="1" id="salOtp2" oninput="salOtpNext(this,2)" onkeydown="salOtpBack(this,2,event)">
+                <input class="sal-otp-digit" type="text" maxlength="1" id="salOtp3" oninput="salOtpNext(this,3)" onkeydown="salOtpBack(this,3,event)">
+                <input class="sal-otp-digit" type="text" maxlength="1" id="salOtp4" oninput="salOtpNext(this,4)" onkeydown="salOtpBack(this,4,event)">
+                <input class="sal-otp-digit" type="text" maxlength="1" id="salOtp5" oninput="salOtpNext(this,5)" onkeydown="salOtpBack(this,5,event)">
+            </div>
+            <div class="sal-modal-actions">
+                <button class="sal-modal-btn-primary" onclick="empVerify2FA()">
+                    <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+                    Verify &amp; Reveal
+                </button>
+                <button class="sal-modal-btn-outline" onclick="empClose2FAModal()">Cancel</button>
+            </div>
+            <div class="sal-resend-row">
+                <span>Didn't receive it?</span>
+                <button class="sal-resend-btn" onclick="empResend2FA()">Resend OTP</button>
+            </div>
+        </div>
+        <div class="sal-modal-hint">🔒 This session is encrypted · Do not share your OTP</div>
+    </div>
+</div>
+
+<div class="sal-modal-backdrop" id="salaryAccessDeniedModal" onclick="if(event.target===this)empCloseAccessDenied()">
+    <div class="sal-modal-box" onclick="event.stopPropagation()">
+        <div class="sal-denied-box">
+            <div class="sal-denied-icon">
+                <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+            </div>
+            <div class="sal-denied-title">Access Restricted</div>
+            <div class="sal-denied-sub">Salary data is only visible to users with the <strong>HR</strong> or <strong>Admin</strong> role, and additionally requires 2-Factor verification. Please contact your administrator if you believe you should have access.</div>
+            <button class="sal-modal-btn-primary" style="width:auto;margin:0 auto;padding:8px 22px;" onclick="empCloseAccessDenied()">Close</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    /* ══ SALARY 2FA HANDLERS ══ */
+    function empRequestSalary2FA(e){
+        if(e){ e.stopPropagation(); e.preventDefault(); }
+        if(!empIsHROrAdmin()){ empShowAccessDenied(); return; }
+        // Reset the OTP fields
+        for(let i=0;i<6;i++){
+            const el=document.getElementById('salOtp'+i);
+            if(el){ el.value=''; el.classList.remove('filled','error'); }
+        }
+        document.getElementById('salary2FAModal').classList.add('active');
+        setTimeout(()=>{ const f=document.getElementById('salOtp0'); if(f) f.focus(); },60);
+        empStart2FATimer();
+    }
+    function empClose2FAModal(){
+        document.getElementById('salary2FAModal').classList.remove('active');
+        empStop2FATimer();
+    }
+    function empShowAccessDenied(){
+        document.getElementById('salaryAccessDeniedModal').classList.add('active');
+    }
+    function empCloseAccessDenied(){
+        document.getElementById('salaryAccessDeniedModal').classList.remove('active');
+    }
+    function salOtpNext(el, i){
+        if(el.value.length === 1){
+            el.classList.add('filled');
+            const next = document.getElementById('salOtp'+(i+1));
+            if(next) next.focus();
+        } else {
+            el.classList.remove('filled');
+        }
+    }
+    function salOtpBack(el, i, ev){
+        if(ev.key === 'Backspace' && !el.value){
+            const prev = document.getElementById('salOtp'+(i-1));
+            if(prev){ prev.focus(); prev.value=''; prev.classList.remove('filled'); }
+        } else if(ev.key === 'Enter'){
+            empVerify2FA();
+        }
+    }
+    function empVerify2FA(){
+        let code = '';
+        for(let i=0;i<6;i++){ code += (document.getElementById('salOtp'+i)||{}).value || ''; }
+        if(code.length !== 6){
+            for(let i=0;i<6;i++){ const el=document.getElementById('salOtp'+i); if(el) el.classList.add('error'); }
+            setTimeout(()=>{ for(let i=0;i<6;i++){ const el=document.getElementById('salOtp'+i); if(el) el.classList.remove('error'); } }, 400);
+            return;
+        }
+        if(code !== '123456'){
+            // Error shake
+            for(let i=0;i<6;i++){ const el=document.getElementById('salOtp'+i); if(el){ el.classList.add('error'); el.value=''; el.classList.remove('filled'); } }
+            setTimeout(()=>{
+                for(let i=0;i<6;i++){ const el=document.getElementById('salOtp'+i); if(el) el.classList.remove('error'); }
+                const f=document.getElementById('salOtp0'); if(f) f.focus();
+            }, 400);
+            return;
+        }
+        // Success — flip session flag and re-render
+        empSalary2FAVerified = true;
+        empClose2FAModal();
+        if(typeof empUpdateSalaryBanner === 'function') empUpdateSalaryBanner();
+        if(typeof empRenderTable === 'function') empRenderTable();
+    }
+    function empResend2FA(){
+        for(let i=0;i<6;i++){
+            const el=document.getElementById('salOtp'+i);
+            if(el){ el.value=''; el.classList.remove('filled','error'); }
+        }
+        const f=document.getElementById('salOtp0'); if(f) f.focus();
+        empStart2FATimer();
+    }
+    let _salOtpTimerId = null;
+    function empStart2FATimer(){
+        empStop2FATimer();
+        let s = 5 * 60;
+        const el = document.getElementById('salOtpTimer');
+        function tick(){
+            const m = Math.floor(s/60); const ss = s%60;
+            if(el) el.textContent = String(m).padStart(2,'0')+':'+String(ss).padStart(2,'0');
+            if(s<=0){ empStop2FATimer(); return; }
+            s--;
+        }
+        tick();
+        _salOtpTimerId = setInterval(tick, 1000);
+    }
+    function empStop2FATimer(){
+        if(_salOtpTimerId){ clearInterval(_salOtpTimerId); _salOtpTimerId = null; }
+    }
+    // ESC closes the 2FA / denied modals
+    document.addEventListener('keydown', function(ev){
+        if(ev.key !== 'Escape') return;
+        const m1 = document.getElementById('salary2FAModal');
+        const m2 = document.getElementById('salaryAccessDeniedModal');
+        if(m1 && m1.classList.contains('active')) empClose2FAModal();
+        if(m2 && m2.classList.contains('active')) empCloseAccessDenied();
+    });
+</script>
+
 </body>
 </html>
