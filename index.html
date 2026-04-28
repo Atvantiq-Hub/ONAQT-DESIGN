@@ -12371,14 +12371,6 @@
                             </button>
                         </div>
                         <div class="ood-body">
-                            <div class="ood-applying-as">
-                                <div class="ood-applying-avatar" id="oodApplyingAvatar">O</div>
-                                <div class="ood-applying-text">
-                                    <div class="ood-applying-label">Applying as</div>
-                                    <div class="ood-applying-name" id="oodApplyingName">ops · Administrator</div>
-                                </div>
-                                <div class="ood-applying-badge">Self request</div>
-                            </div>
                             <div class="ood-info">
                                 <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
                                 <span>OOD entries bypass the standard Sign In / Sign Out flow. They require approval from your reporting manager before the dates are marked as present.</span>
@@ -18750,17 +18742,6 @@
             if (fromEl) fromEl.value = today;
             const singleEl = document.getElementById('ood-single-date');
             if (singleEl) singleEl.value = today;
-            // Populate "Applying as" chip from the signed-in user shown in the top bar
-            const nameSrc = document.querySelector('.user-menu .user-name');
-            const roleSrc = document.querySelector('.user-menu .user-role');
-            const avSrc   = document.querySelector('.user-menu .user-avatar');
-            const nm = (nameSrc && nameSrc.textContent.trim()) || 'You';
-            const rl = (roleSrc && roleSrc.textContent.trim()) || '';
-            const av = (avSrc && avSrc.textContent.trim()) || nm.slice(0,1).toUpperCase();
-            const nameEl = document.getElementById('oodApplyingName');
-            const avEl   = document.getElementById('oodApplyingAvatar');
-            if (nameEl) nameEl.textContent = rl ? `${nm} · ${rl}` : nm;
-            if (avEl)   avEl.textContent   = av;
             document.getElementById('oodRequestModal').classList.add('active');
         }
 
