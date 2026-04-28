@@ -12342,14 +12342,6 @@
                             </button>
                         </div>
                         <div class="ood-body">
-                            <div class="ood-applying-as">
-                                <div class="ood-applying-avatar" id="leaveApplyingAvatar">O</div>
-                                <div class="ood-applying-text">
-                                    <div class="ood-applying-label">Applying as</div>
-                                    <div class="ood-applying-name" id="leaveApplyingName">ops · Administrator</div>
-                                </div>
-                                <div class="ood-applying-badge">Self request</div>
-                            </div>
                             <div class="ood-info">
                                 <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
                                 <span>Leave requests need approval from your reporting manager. Paid leaves deduct from your annual balance; unpaid leaves are recorded but don't deduct.</span>
@@ -12357,59 +12349,49 @@
                             <div class="ood-grid">
                                 <div class="ae-field ood-span-2">
                                     <label class="ae-label">Leave Type <span class="req">*</span></label>
-                                    <div class="ood-dur-seg" role="tablist">
-                                        <button type="button" class="ood-dur-seg-btn active" id="leaveTypeCasual" onclick="leaveSetType('casual')">
-                                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
-                                            Casual
-                                        </button>
-                                        <button type="button" class="ood-dur-seg-btn" id="leaveTypeSick" onclick="leaveSetType('sick')">
+                                    <div class="ood-dur-seg" role="tablist" style="grid-template-columns:repeat(5,1fr);">
+                                        <button type="button" class="ood-dur-seg-btn active" id="leaveTypeSick" onclick="leaveSetType('sick')">
                                             <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
                                             Sick
                                         </button>
-                                        <button type="button" class="ood-dur-seg-btn" id="leaveTypeEarned" onclick="leaveSetType('earned')">
+                                        <button type="button" class="ood-dur-seg-btn" id="leaveTypeCasual" onclick="leaveSetType('casual')">
+                                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
+                                            Casual
+                                        </button>
+                                        <button type="button" class="ood-dur-seg-btn" id="leaveTypePaid" onclick="leaveSetType('paid')">
                                             <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                                            Earned
+                                            Paid
                                         </button>
                                         <button type="button" class="ood-dur-seg-btn" id="leaveTypeUnpaid" onclick="leaveSetType('unpaid')">
                                             <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636"/></svg>
                                             Unpaid
                                         </button>
-                                    </div>
-                                </div>
-                                <div class="ae-field ood-span-2">
-                                    <label class="ae-label">Duration <span class="req">*</span></label>
-                                    <div class="ood-dur-seg" role="tablist">
-                                        <button type="button" class="ood-dur-seg-btn" id="leaveDurFirst" onclick="leaveSetDuration('first')">
-                                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l-2 2M12 3a9 9 0 109 9h-9V3z"/></svg>
-                                            First Half
-                                        </button>
-                                        <button type="button" class="ood-dur-seg-btn" id="leaveDurSecond" onclick="leaveSetDuration('second')">
-                                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l2 2M12 3a9 9 0 019 9h-9V3z"/></svg>
-                                            Second Half
-                                        </button>
-                                        <button type="button" class="ood-dur-seg-btn active" id="leaveDurFull" onclick="leaveSetDuration('full')">
-                                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
-                                            Full Day
+                                        <button type="button" class="ood-dur-seg-btn" id="leaveTypeEmergency" onclick="leaveSetType('emergency')">
+                                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01M5.07 19h13.86c1.54 0 2.5-1.67 1.73-3L13.73 4a2 2 0 00-3.46 0L3.34 16c-.77 1.33.19 3 1.73 3z"/></svg>
+                                            Emergency
                                         </button>
                                     </div>
                                 </div>
-                                <!-- Single-date block: shown for First Half / Second Half -->
-                                <div class="ae-field ood-span-2" id="leave-single-wrap" style="display:none;">
-                                    <label class="ae-label">Date <span class="req">*</span></label>
-                                    <input type="date" id="leave-single-date" class="ae-input">
-                                </div>
-                                <!-- Date-range block: shown for Full Day -->
-                                <div class="ae-field" id="leave-from-wrap">
-                                    <label class="ae-label">From <span class="req">*</span></label>
+                                <div class="ae-field">
+                                    <label class="ae-label">Leave Start Date <span class="req">*</span></label>
                                     <input type="date" id="leave-from" class="ae-input">
                                 </div>
-                                <div class="ae-field" id="leave-to-wrap">
-                                    <label class="ae-label">To <span class="req">*</span></label>
+                                <div class="ae-field">
+                                    <label class="ae-label">Leave End Date <span class="req">*</span></label>
                                     <input type="date" id="leave-to" class="ae-input">
                                 </div>
                                 <div class="ae-field ood-span-2">
                                     <label class="ae-label">Reason <span class="req">*</span></label>
-                                    <textarea id="leave-reason" class="ae-input" rows="3" placeholder="e.g. Family function, Medical check-up, Personal work…"></textarea>
+                                    <textarea id="leave-reason" class="ae-input" rows="3" placeholder="e.g. Family function, Medical check-up, Personal work…" style="resize:vertical;min-height:70px;font-family:'DM Sans',sans-serif;"></textarea>
+                                </div>
+                                <div class="ae-field ood-span-2">
+                                    <label class="ae-label">Attachment <span style="color:var(--gray-400);font-weight:600;">(Optional)</span></label>
+                                    <input type="file" id="leave-attachment-file" accept="image/*,.pdf,.doc,.docx" style="display:none;" onchange="leaveOnAttachmentChange(this)">
+                                    <div class="bill-upload-zone" id="leave-attachment-zone" style="padding:18px;" onclick="document.getElementById('leave-attachment-file').click()">
+                                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.9A5 5 0 0115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/></svg>
+                                        <div class="upload-title" id="leave-attachment-title">Click to upload supporting document</div>
+                                        <div class="upload-sub" id="leave-attachment-sub">PDF, DOC or image up to 5 MB</div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -18690,64 +18672,59 @@
         }
 
         /* ══ APPLY LEAVE ══ */
-        let leaveType = 'casual';       // 'casual' | 'sick' | 'earned' | 'unpaid'
-        let leaveDurationType = 'full'; // 'first' | 'second' | 'full'
+        let leaveType = 'sick';   // 'sick' | 'casual' | 'paid' | 'unpaid' | 'emergency'
+        let leaveAttachmentFile = null;
 
         function leaveSetType(type) {
             leaveType = type;
-            ['leaveTypeCasual','leaveTypeSick','leaveTypeEarned','leaveTypeUnpaid'].forEach(id => {
+            ['leaveTypeSick','leaveTypeCasual','leaveTypePaid','leaveTypeUnpaid','leaveTypeEmergency'].forEach(id => {
                 const b = document.getElementById(id); if (b) b.classList.remove('active');
             });
-            const map = { casual: 'leaveTypeCasual', sick: 'leaveTypeSick', earned: 'leaveTypeEarned', unpaid: 'leaveTypeUnpaid' };
+            const map = { sick: 'leaveTypeSick', casual: 'leaveTypeCasual', paid: 'leaveTypePaid', unpaid: 'leaveTypeUnpaid', emergency: 'leaveTypeEmergency' };
             const activeBtn = document.getElementById(map[type]);
             if (activeBtn) activeBtn.classList.add('active');
         }
 
-        function leaveSetDuration(type) {
-            leaveDurationType = type;
-            ['leaveDurFirst','leaveDurSecond','leaveDurFull'].forEach(id => {
-                const b = document.getElementById(id); if (b) b.classList.remove('active');
-            });
-            const activeBtn = document.getElementById(
-                type === 'first' ? 'leaveDurFirst' : (type === 'second' ? 'leaveDurSecond' : 'leaveDurFull')
-            );
-            if (activeBtn) activeBtn.classList.add('active');
-            const singleWrap = document.getElementById('leave-single-wrap');
-            const fromWrap   = document.getElementById('leave-from-wrap');
-            const toWrap     = document.getElementById('leave-to-wrap');
-            if (type === 'full') {
-                if (singleWrap) singleWrap.style.display = 'none';
-                if (fromWrap)   fromWrap.style.display   = '';
-                if (toWrap)     toWrap.style.display     = '';
-            } else {
-                if (singleWrap) singleWrap.style.display = '';
-                if (fromWrap)   fromWrap.style.display   = 'none';
-                if (toWrap)     toWrap.style.display     = 'none';
+        function leaveOnAttachmentChange(input) {
+            const f = input && input.files && input.files[0];
+            const titleEl = document.getElementById('leave-attachment-title');
+            const subEl   = document.getElementById('leave-attachment-sub');
+            if (!f) {
+                leaveAttachmentFile = null;
+                if (titleEl) titleEl.textContent = 'Click to upload supporting document';
+                if (subEl)   subEl.textContent   = 'PDF, DOC or image up to 5 MB';
+                return;
             }
+            if (f.size > 5 * 1024 * 1024) {
+                alert('File too large. Maximum size is 5 MB.');
+                input.value = '';
+                leaveAttachmentFile = null;
+                return;
+            }
+            leaveAttachmentFile = f;
+            const sizeKB = (f.size / 1024).toFixed(0);
+            const sizeStr = sizeKB > 1024 ? (sizeKB / 1024).toFixed(1) + ' MB' : sizeKB + ' KB';
+            if (titleEl) titleEl.textContent = f.name;
+            if (subEl)   subEl.textContent   = sizeStr + ' · Click to change';
         }
 
         function leaveOpenModal() {
-            ['leave-from','leave-to','leave-single-date','leave-reason'].forEach(id => {
+            ['leave-from','leave-to','leave-reason'].forEach(id => {
                 const el = document.getElementById(id); if (el) el.value = '';
             });
-            leaveSetType('casual');
-            leaveSetDuration('full');
+            const fileInput = document.getElementById('leave-attachment-file');
+            if (fileInput) fileInput.value = '';
+            leaveAttachmentFile = null;
+            const titleEl = document.getElementById('leave-attachment-title');
+            const subEl   = document.getElementById('leave-attachment-sub');
+            if (titleEl) titleEl.textContent = 'Click to upload supporting document';
+            if (subEl)   subEl.textContent   = 'PDF, DOC or image up to 5 MB';
+            leaveSetType('sick');
             const today = new Date().toISOString().slice(0, 10);
             const fromEl = document.getElementById('leave-from');
             if (fromEl) fromEl.value = today;
-            const singleEl = document.getElementById('leave-single-date');
-            if (singleEl) singleEl.value = today;
-            // Populate "Applying as" chip
-            const nameSrc = document.querySelector('.user-menu .user-name');
-            const roleSrc = document.querySelector('.user-menu .user-role');
-            const avSrc   = document.querySelector('.user-menu .user-avatar');
-            const nm = (nameSrc && nameSrc.textContent.trim()) || 'You';
-            const rl = (roleSrc && roleSrc.textContent.trim()) || '';
-            const av = (avSrc && avSrc.textContent.trim()) || nm.slice(0,1).toUpperCase();
-            const nameEl = document.getElementById('leaveApplyingName');
-            const avEl   = document.getElementById('leaveApplyingAvatar');
-            if (nameEl) nameEl.textContent = rl ? `${nm} · ${rl}` : nm;
-            if (avEl)   avEl.textContent   = av;
+            const toEl = document.getElementById('leave-to');
+            if (toEl) toEl.value = today;
             document.getElementById('leaveRequestModal').classList.add('active');
         }
 
@@ -18757,32 +18734,22 @@
 
         function leaveSubmit() {
             const reason = (document.getElementById('leave-reason') || {}).value || '';
-            const typeLabel = { casual: 'Casual Leave', sick: 'Sick Leave', earned: 'Earned Leave', unpaid: 'Unpaid Leave' }[leaveType] || 'Leave';
-            let days = 1, durationLabel = 'Full Day', summaryDate = '';
-
-            if (leaveDurationType === 'full') {
-                const f = (document.getElementById('leave-from') || {}).value || '';
-                const t = (document.getElementById('leave-to')   || {}).value || '';
-                if (!f || !t) { alert('Please choose From and To dates.'); return; }
-                if (new Date(t) < new Date(f)) { alert('To date cannot be before From date.'); return; }
-                const msPerDay = 86400000;
-                days = Math.round((new Date(t) - new Date(f)) / msPerDay) + 1;
-                durationLabel = `${days} day${days > 1 ? 's' : ''}`;
-                summaryDate = `${f} → ${t}`;
-            } else {
-                const d = (document.getElementById('leave-single-date') || {}).value || '';
-                if (!d) { alert('Please choose a Date.'); return; }
-                days = 0.5;
-                durationLabel = leaveDurationType === 'first' ? 'First Half Day' : 'Second Half Day';
-                summaryDate = `${d} (${durationLabel})`;
-            }
-
+            const typeLabel = { sick: 'Sick Leave', casual: 'Casual Leave', paid: 'Paid Leave', unpaid: 'Unpaid Leave', emergency: 'Emergency Leave' }[leaveType] || 'Leave';
+            const f = (document.getElementById('leave-from') || {}).value || '';
+            const t = (document.getElementById('leave-to')   || {}).value || '';
+            if (!f || !t) { alert('Please choose Leave Start and End dates.'); return; }
+            if (new Date(t) < new Date(f)) { alert('Leave End Date cannot be before Leave Start Date.'); return; }
             if (!reason.trim()) { alert('Please enter a reason for your leave.'); return; }
+            const msPerDay = 86400000;
+            const days = Math.round((new Date(t) - new Date(f)) / msPerDay) + 1;
+            const durationLabel = `${days} day${days > 1 ? 's' : ''}`;
+            const summaryDate = f === t ? f : `${f} → ${t}`;
+            const attachLine = leaveAttachmentFile ? `\nAttachment: ${leaveAttachmentFile.name}` : '';
 
             const nm = (document.querySelector('.user-menu .user-name') || {}).textContent || 'you';
 
             leaveCloseModal();
-            alert(`✓ Leave request submitted for ${nm.trim()}\nType: ${typeLabel}\nDuration: ${durationLabel}\n${summaryDate}\nReason: ${reason}\n\nYour reporting manager will be notified for approval.`);
+            alert(`✓ Leave request submitted for ${nm.trim()}\nType: ${typeLabel}\nDuration: ${durationLabel}\n${summaryDate}\nReason: ${reason}${attachLine}\n\nYour reporting manager will be notified for approval.`);
         }
 
         /* ══ ATTENDANCE IMPORT WIZARD (backfill missed entries) ══ */
