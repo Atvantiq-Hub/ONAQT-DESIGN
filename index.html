@@ -11506,6 +11506,117 @@
         .ae-salary-lockbanner-sub { font-size:11.5px; color:var(--gray-600); }
         [data-dark="true"] .ae-salary-lockbanner { background:rgba(45,74,53,0.15) !important; border-color:rgba(45,74,53,0.4) !important; }
 
+        /* ══ Statutory toggles (PF / ESIC) — controls inclusion in payroll calculation ══ */
+        .sal-stat-bar {
+            display:flex;
+            align-items:center;
+            gap:10px;
+            flex-wrap:wrap;
+            padding:10px 14px;
+            background:linear-gradient(135deg, color-mix(in srgb,var(--primary) 7%,transparent), color-mix(in srgb,var(--primary) 2%,transparent));
+            border:1.5px solid color-mix(in srgb,var(--primary) 20%,transparent);
+            border-radius:10px;
+            margin:6px 0 12px;
+        }
+        .sal-stat-bar-title {
+            font-size:11px;
+            font-weight:700;
+            text-transform:uppercase;
+            letter-spacing:0.5px;
+            color:var(--gray-600);
+            display:inline-flex;
+            align-items:center;
+            gap:6px;
+            margin-right:4px;
+        }
+        .sal-stat-bar-title svg { width:13px; height:13px; color:var(--primary); }
+        .sal-stat-toggle {
+            display:inline-flex;
+            align-items:center;
+            gap:8px;
+            padding:6px 11px 6px 9px;
+            background:var(--white);
+            border:1.5px solid var(--gray-200);
+            border-radius:8px;
+            cursor:pointer;
+            user-select:none;
+            transition:var(--transition);
+        }
+        .sal-stat-toggle:hover { border-color:color-mix(in srgb,var(--primary) 50%,var(--gray-300)); }
+        .sal-stat-toggle.on {
+            background:color-mix(in srgb,var(--primary) 8%,var(--white));
+            border-color:color-mix(in srgb,var(--primary) 45%,transparent);
+        }
+        .sal-stat-switch {
+            position:relative;
+            width:30px;
+            height:17px;
+            background:var(--gray-300);
+            border-radius:999px;
+            flex-shrink:0;
+            transition:var(--transition);
+        }
+        .sal-stat-switch::after {
+            content:'';
+            position:absolute;
+            top:2px; left:2px;
+            width:13px; height:13px;
+            background:var(--white);
+            border-radius:50%;
+            box-shadow:0 1px 2px rgba(0,0,0,0.25);
+            transition:var(--transition);
+        }
+        .sal-stat-toggle.on .sal-stat-switch { background:var(--primary); }
+        .sal-stat-toggle.on .sal-stat-switch::after { left:15px; }
+        .sal-stat-label { font-size:12px; font-weight:700; color:var(--gray-700); }
+        .sal-stat-toggle.on .sal-stat-label { color:var(--primary); }
+        .sal-stat-state {
+            font-size:10px;
+            font-weight:700;
+            text-transform:uppercase;
+            letter-spacing:0.4px;
+            color:var(--gray-500);
+            padding:2px 6px;
+            border-radius:4px;
+            background:var(--gray-100);
+        }
+        .sal-stat-toggle.on .sal-stat-state {
+            color:var(--primary);
+            background:color-mix(in srgb,var(--primary) 14%,transparent);
+        }
+        [data-dark="true"] .sal-stat-bar { background:rgba(45,74,53,0.12) !important; border-color:rgba(45,74,53,0.4) !important; }
+        [data-dark="true"] .sal-stat-bar-title { color:#9ca3af !important; }
+        [data-dark="true"] .sal-stat-toggle { background:#1e2130 !important; border-color:#363b52 !important; }
+        [data-dark="true"] .sal-stat-toggle.on { background:rgba(45,74,53,0.25) !important; }
+        [data-dark="true"] .sal-stat-label { color:#d1d5db !important; }
+        [data-dark="true"] .sal-stat-state { background:#252836 !important; color:#9ca3af !important; }
+
+        /* Disabled salary row — when its statutory toggle is off, the row is excluded from the calculation */
+        .sal-struct-row.is-disabled { opacity:0.42; }
+        .sal-struct-row.is-disabled:hover { background:transparent; }
+        .sal-struct-row.is-disabled .sal-struct-input {
+            background:var(--gray-100);
+            color:var(--gray-400);
+            cursor:not-allowed;
+            text-decoration:line-through;
+        }
+        .sal-struct-row.is-disabled .sal-struct-label::after {
+            content:'Excluded';
+            margin-left:8px;
+            font-size:9px;
+            font-weight:700;
+            text-transform:uppercase;
+            letter-spacing:0.4px;
+            color:var(--gray-500);
+            background:var(--gray-100);
+            border:1px solid var(--gray-200);
+            padding:1px 6px;
+            border-radius:4px;
+            line-height:1.4;
+        }
+        [data-dark="true"] .sal-struct-row.is-disabled .sal-struct-input { background:#252836 !important; color:#5b6376 !important; }
+        [data-dark="true"] .sal-struct-row.is-disabled .sal-struct-label::after { background:#252836 !important; border-color:#363b52 !important; color:#9ca3af !important; }
+
         /* ══ SALARY STRUCTURE — two-column payroll breakdown ══ */
         .sal-struct-wrap {
             display:grid;
@@ -16733,6 +16844,25 @@
                         </div>
                     </div>
 
+                    <!-- Statutory toggles — control whether PF / ESIC are included in calculations -->
+                    <div class="sal-stat-bar">
+                        <div class="sal-stat-bar-title">
+                            <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+                            Statutory Components
+                        </div>
+                        <div class="sal-stat-toggle on" id="sal-toggle-pf" onclick="salTogglePf()">
+                            <div class="sal-stat-switch"></div>
+                            <div class="sal-stat-label">PF</div>
+                            <div class="sal-stat-state" id="sal-toggle-pf-state">Enabled</div>
+                        </div>
+                        <div class="sal-stat-toggle on" id="sal-toggle-esic" onclick="salToggleEsic()">
+                            <div class="sal-stat-switch"></div>
+                            <div class="sal-stat-label">ESIC</div>
+                            <div class="sal-stat-state" id="sal-toggle-esic-state">Enabled</div>
+                        </div>
+                        <div style="flex:1;min-width:120px;font-size:11px;color:var(--gray-500);font-style:italic;text-align:right;">When disabled, that component is excluded from all calculations.</div>
+                    </div>
+
                     <!-- Two-panel salary structure -->
                     <div class="sal-struct-wrap">
                         <!-- LEFT: Salary Components + Employer Deductions + CTC Summary -->
@@ -16760,11 +16890,11 @@
                                 <div>Employer Deductions</div>
                                 <div>Monthly</div>
                             </div>
-                            <div class="sal-struct-row"><div class="sal-struct-label">PF</div>
+                            <div class="sal-struct-row" id="sal-row-emplPf"><div class="sal-struct-label">PF</div>
                                 <div class="sal-struct-cell"><div class="sal-struct-cell-wrap"><input type="number" class="sal-struct-input" id="sal-emplPf" min="0" placeholder="0" value="1800" oninput="salCompute()"></div></div></div>
-                            <div class="sal-struct-row"><div class="sal-struct-label">PF Admin Charges</div>
+                            <div class="sal-struct-row" id="sal-row-pfAdmin"><div class="sal-struct-label">PF Admin Charges</div>
                                 <div class="sal-struct-cell"><div class="sal-struct-cell-wrap"><input type="number" class="sal-struct-input" id="sal-pfAdmin" min="0" placeholder="0" value="150" oninput="salCompute()"></div></div></div>
-                            <div class="sal-struct-row"><div class="sal-struct-label">ESIC<span class="sal-auto-badge" title="Auto: 0 if 50% of Gross < ₹21,000, else 3.25% of (50% of Gross). Editable.">Auto</span></div>
+                            <div class="sal-struct-row" id="sal-row-emplEsi"><div class="sal-struct-label">ESIC<span class="sal-auto-badge" title="Auto: 0 if 50% of Gross < ₹21,000, else 3.25% of (50% of Gross). Editable.">Auto</span></div>
                                 <div class="sal-struct-cell"><div class="sal-struct-cell-wrap"><input type="number" class="sal-struct-input is-auto" id="sal-emplEsi" min="0" placeholder="0" oninput="salOnEmplEsiInput()"></div></div></div>
                             <div class="sal-struct-row"><div class="sal-struct-label">Insurance</div>
                                 <div class="sal-struct-cell"><div class="sal-struct-cell-wrap"><input type="number" class="sal-struct-input" id="sal-insurance" min="0" placeholder="0" oninput="salCompute()"></div></div></div>
@@ -16790,9 +16920,9 @@
                                 <div>Employee Deductions</div>
                                 <div>Monthly</div>
                             </div>
-                            <div class="sal-struct-row"><div class="sal-struct-label">PF</div>
+                            <div class="sal-struct-row" id="sal-row-dedPf"><div class="sal-struct-label">PF</div>
                                 <div class="sal-struct-cell"><div class="sal-struct-cell-wrap"><input type="number" class="sal-struct-input" id="sal-dedPf" min="0" placeholder="0" value="1800" oninput="salCompute()"></div></div></div>
-                            <div class="sal-struct-row"><div class="sal-struct-label">ESIC<span class="sal-auto-badge" title="Auto: 0 if 50% of Gross < ₹21,000, else 0.75% of (50% of Gross). Editable.">Auto</span></div>
+                            <div class="sal-struct-row" id="sal-row-dedEsic"><div class="sal-struct-label">ESIC<span class="sal-auto-badge" title="Auto: 0 if 50% of Gross < ₹21,000, else 0.75% of (50% of Gross). Editable.">Auto</span></div>
                                 <div class="sal-struct-cell"><div class="sal-struct-cell-wrap"><input type="number" class="sal-struct-input is-auto" id="sal-dedEsic" min="0" placeholder="0" oninput="salOnDedEsicInput()"></div></div></div>
                             <div class="sal-struct-row"><div class="sal-struct-label">TDS</div>
                                 <div class="sal-struct-cell"><div class="sal-struct-cell-wrap"><input type="number" class="sal-struct-input" id="sal-dedTds" min="0" placeholder="0" oninput="salCompute()"></div></div></div>
@@ -22327,6 +22457,41 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     /* ══ SALARY STRUCTURE — live compute (Monthly) ══ */
+    // Statutory toggle state — when off, the component is excluded from all calculations
+    window._salStat = window._salStat || { pf: true, esic: true };
+    window.salTogglePf = function(){
+        window._salStat.pf = !window._salStat.pf;
+        salApplyStatutoryUI();
+        salCompute();
+    };
+    window.salToggleEsic = function(){
+        window._salStat.esic = !window._salStat.esic;
+        salApplyStatutoryUI();
+        salCompute();
+    };
+    window.salApplyStatutoryUI = function(){
+        // PF toggle visual
+        var pfOn = window._salStat.pf;
+        var esicOn = window._salStat.esic;
+        var pfBtn = document.getElementById('sal-toggle-pf');
+        var esicBtn = document.getElementById('sal-toggle-esic');
+        if (pfBtn) pfBtn.classList.toggle('on', pfOn);
+        if (esicBtn) esicBtn.classList.toggle('on', esicOn);
+        var pfStateEl = document.getElementById('sal-toggle-pf-state');
+        var esicStateEl = document.getElementById('sal-toggle-esic-state');
+        if (pfStateEl) pfStateEl.textContent = pfOn ? 'Enabled' : 'Disabled';
+        if (esicStateEl) esicStateEl.textContent = esicOn ? 'Enabled' : 'Disabled';
+        // Disable / enable the affected rows
+        var pfRowIds = ['sal-row-emplPf','sal-row-pfAdmin','sal-row-dedPf'];
+        var esicRowIds = ['sal-row-emplEsi','sal-row-dedEsic'];
+        var pfInputIds = ['sal-emplPf','sal-pfAdmin','sal-dedPf'];
+        var esicInputIds = ['sal-emplEsi','sal-dedEsic'];
+        pfRowIds.forEach(function(id){ var r = document.getElementById(id); if (r) r.classList.toggle('is-disabled', !pfOn); });
+        esicRowIds.forEach(function(id){ var r = document.getElementById(id); if (r) r.classList.toggle('is-disabled', !esicOn); });
+        pfInputIds.forEach(function(id){ var i = document.getElementById(id); if (i) i.disabled = !pfOn; });
+        esicInputIds.forEach(function(id){ var i = document.getElementById(id); if (i) i.disabled = !esicOn; });
+    };
+
     function salNum(id){ var el = document.getElementById(id); var v = el ? parseFloat(el.value) : 0; return isNaN(v) ? 0 : v; }
     function salFmt(n){ return '₹' + (n || 0).toLocaleString('en-IN', {maximumFractionDigits:0}); }
     function salSetAuto(id, val, dirty, showZero){
@@ -22364,6 +22529,10 @@ document.addEventListener('DOMContentLoaded', () => {
         salCompute();
     };
     window.salCompute = function(){
+        // ── Statutory toggle state ──
+        var pfOn   = !!(window._salStat && window._salStat.pf);
+        var esicOn = !!(window._salStat && window._salStat.esic);
+
         // ── Salary components ──
         var basic   = salNum('sal-basicPay');
         var hra     = salNum('sal-hra');
@@ -22375,24 +22544,25 @@ document.addEventListener('DOMContentLoaded', () => {
         // ── ESIC auto rule (per Excel spec):
         //    if (50% of Gross) < 21,000 → 0
         //    else employer = 3.25% of (50% of Gross), employee = 0.75% of (50% of Gross)
+        //    When ESIC is disabled via toggle, force auto values to 0.
         var halfGross = gross * 0.5;
         var belowThreshold = halfGross < 21000;
-        var esicEmplrAuto = belowThreshold ? 0 : Math.round(halfGross * 0.0325);
-        var esicEmpAuto   = belowThreshold ? 0 : Math.round(halfGross * 0.0075);
+        var esicEmplrAuto = (!esicOn) ? 0 : (belowThreshold ? 0 : Math.round(halfGross * 0.0325));
+        var esicEmpAuto   = (!esicOn) ? 0 : (belowThreshold ? 0 : Math.round(halfGross * 0.0075));
         salSetAuto('sal-emplEsi', esicEmplrAuto, window._salDirty.emplEsi, true);
         salSetAuto('sal-dedEsic', esicEmpAuto,   window._salDirty.dedEsic, true);
 
-        // ── Employer deductions ──
-        var emplPf    = salNum('sal-emplPf');
-        var pfAdmin   = salNum('sal-pfAdmin');
-        var emplEsi   = salNum('sal-emplEsi');
+        // ── Employer deductions ── (PF / ESIC excluded if their toggle is off)
+        var emplPf    = pfOn   ? salNum('sal-emplPf')  : 0;
+        var pfAdmin   = pfOn   ? salNum('sal-pfAdmin') : 0;
+        var emplEsi   = esicOn ? salNum('sal-emplEsi') : 0;
         var insurance = salNum('sal-insurance');
         var lwfEr     = salNum('sal-lwfEr');
         var emprTotal = emplPf + pfAdmin + emplEsi + insurance + lwfEr;
 
-        // ── Employee deductions ──
-        var dedPf   = salNum('sal-dedPf');
-        var dedEsic = salNum('sal-dedEsic');
+        // ── Employee deductions ── (PF / ESIC excluded if their toggle is off)
+        var dedPf   = pfOn   ? salNum('sal-dedPf')   : 0;
+        var dedEsic = esicOn ? salNum('sal-dedEsic') : 0;
         var dedTds  = salNum('sal-dedTds');
         var dedLwf  = salNum('sal-dedLwf');
         var dedPTax = salNum('sal-dedPTax');
@@ -22419,6 +22589,9 @@ document.addEventListener('DOMContentLoaded', () => {
     window.salResetForm = function(){
         // Clear dirty flags
         window._salDirty = { hra:false, emplEsi:false, dedEsic:false };
+        // Reset statutory toggles to enabled (default for new employees)
+        window._salStat = { pf: true, esic: true };
+        if (typeof salApplyStatutoryUI === 'function') salApplyStatutoryUI();
         // Clear manual inputs
         ['sal-basicPay','sal-hra','sal-conv','sal-medical','sal-otherAllow',
          'sal-emplEsi','sal-insurance','sal-dedEsic','sal-dedTds']
