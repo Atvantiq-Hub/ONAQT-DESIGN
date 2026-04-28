@@ -10849,7 +10849,7 @@
         .trip-stop-body { flex:1; }
 
         /* ── BILL TABLE STATUS ── */
-        .bill-stage { display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:700;padding:3px 9px;border-radius:6px;white-space:nowrap; }
+        .bill-stage { display:inline-flex;align-items:center;justify-content:center;gap:5px;font-size:11px;font-weight:700;padding:4px 10px;border-radius:6px;white-space:nowrap;min-width:118px; }
         .bill-stage-draft    { background:var(--gray-100);color:var(--gray-500); }
         .bill-stage-pending  { background:#fef3c7;color:#92400e; }
         .bill-stage-pm       { background:#dbeafe;color:#1e40af; }
@@ -10861,8 +10861,84 @@
         [data-dark="true"] .bill-stage-pm       { background:rgba(30,64,175,0.3) !important;color:#93c5fd !important; }
         [data-dark="true"] .bill-stage-approved { background:rgba(6,95,70,0.3) !important;color:#6ee7b7 !important; }
 
+        /* ── Unified bill action buttons ── */
+        .bill-actions {
+            display:inline-flex;
+            align-items:center;
+            gap:5px;
+            justify-content:flex-start;
+        }
+        .bill-action-btn {
+            display:inline-flex;
+            align-items:center;
+            justify-content:center;
+            width:30px;
+            height:30px;
+            border:1px solid var(--gray-200);
+            background:var(--white);
+            color:var(--gray-500);
+            border-radius:7px;
+            cursor:pointer;
+            transition:var(--transition);
+            padding:0;
+            flex-shrink:0;
+        }
+        .bill-action-btn:hover { border-color:var(--primary); color:var(--primary); background:color-mix(in srgb,var(--primary) 6%,transparent); }
+        .bill-action-btn[data-tone="success"]:hover { border-color:var(--success); color:var(--success); background:color-mix(in srgb,var(--success) 6%,transparent); }
+        .bill-action-btn[data-tone="primary"]:hover { border-color:var(--primary); color:var(--primary); background:color-mix(in srgb,var(--primary) 6%,transparent); }
+        .bill-action-btn[data-tone="danger"]:hover { border-color:var(--danger); color:var(--danger); background:color-mix(in srgb,var(--danger) 6%,transparent); }
+        .bill-action-placeholder {
+            display:inline-block;
+            width:30px;
+            height:30px;
+            flex-shrink:0;
+        }
+        [data-dark="true"] .bill-action-btn { background:#252836 !important; border-color:#363b52 !important; color:#9ca3af !important; }
+        [data-dark="true"] .bill-action-btn:hover { background:rgba(45,74,53,0.25) !important; color:#a7d4b6 !important; }
+
+        /* ── Unified payment status badges (Bill Payments page) ── */
+        .pmt-status { display:inline-flex;align-items:center;justify-content:center;gap:5px;font-size:11px;font-weight:700;padding:4px 10px;border-radius:6px;white-space:nowrap;min-width:100px; }
+        .pmt-status-cleared    { background:#d1fae5;color:#065f46; }
+        .pmt-status-processing { background:#fef3c7;color:#92400e; }
+        .pmt-status-scheduled  { background:#ede9fe;color:#5b21b6; }
+        .pmt-status-failed     { background:#fee2e2;color:#991b1b; }
+        [data-dark="true"] .pmt-status-cleared    { background:rgba(6,95,70,0.3) !important;color:#6ee7b7 !important; }
+        [data-dark="true"] .pmt-status-processing { background:rgba(146,64,14,0.3) !important;color:#fcd34d !important; }
+        [data-dark="true"] .pmt-status-scheduled  { background:rgba(91,33,182,0.3) !important;color:#c4b5fd !important; }
+        [data-dark="true"] .pmt-status-failed     { background:rgba(153,27,27,0.3) !important;color:#fca5a5 !important; }
+
+        /* ── Payment mode chip ── */
+        .pmt-mode {
+            display:inline-flex;
+            align-items:center;
+            justify-content:center;
+            font-size:11px;
+            font-weight:600;
+            padding:3px 9px;
+            background:var(--gray-100);
+            color:var(--gray-700);
+            border-radius:5px;
+            min-width:60px;
+            font-family:'DM Sans',sans-serif;
+            letter-spacing:0.2px;
+        }
+        [data-dark="true"] .pmt-mode { background:#363b52 !important; color:#d1d5db !important; }
+
+        /* ── Unified inventory category chip ── */
+        .inv-cat-chip {
+            display:inline-flex;
+            align-items:center;
+            justify-content:center;
+            font-size:10.5px;
+            font-weight:700;
+            padding:3px 9px;
+            border-radius:5px;
+            min-width:80px;
+            letter-spacing:0.2px;
+        }
+
         /* ── TRIP STATUS ── */
-        .trip-status { display:inline-flex;align-items:center;gap:4px;font-size:10px;font-weight:700;padding:3px 8px;border-radius:5px; }
+        .trip-status { display:inline-flex;align-items:center;justify-content:center;gap:4px;font-size:11px;font-weight:700;padding:4px 10px;border-radius:6px;min-width:88px; }
         .trip-draft     { background:var(--gray-100);color:var(--gray-500); }
         .trip-submitted { background:#dbeafe;color:#1e40af; }
         .trip-approved  { background:#d1fae5;color:#065f46; }
@@ -10885,7 +10961,7 @@
         ══════════════════════════════════════════════ */
 
         /* Stock status badges */
-        .stock-status { display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:700;padding:3px 9px;border-radius:6px;white-space:nowrap; }
+        .stock-status { display:inline-flex;align-items:center;justify-content:center;gap:5px;font-size:11px;font-weight:700;padding:4px 10px;border-radius:6px;white-space:nowrap;min-width:88px; }
         .stock-ok       { background:#d1fae5;color:#065f46; }
         .stock-low      { background:#fef3c7;color:#92400e; }
         .stock-critical { background:#fee2e2;color:#991b1b; }
@@ -10895,9 +10971,9 @@
         [data-dark="true"] .stock-critical { background:rgba(153,27,27,0.3)!important;color:#fca5a5!important; }
 
         /* Movement direction chips */
-        .mov-in  { display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:700;padding:3px 9px;border-radius:5px;background:#d1fae5;color:#065f46; }
-        .mov-out { display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:700;padding:3px 9px;border-radius:5px;background:#fee2e2;color:#991b1b; }
-        .mov-adj { display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:700;padding:3px 9px;border-radius:5px;background:#dbeafe;color:#1e40af; }
+        .mov-in  { display:inline-flex;align-items:center;justify-content:center;gap:4px;font-size:11px;font-weight:700;padding:4px 10px;border-radius:6px;background:#d1fae5;color:#065f46;min-width:62px; }
+        .mov-out { display:inline-flex;align-items:center;justify-content:center;gap:4px;font-size:11px;font-weight:700;padding:4px 10px;border-radius:6px;background:#fee2e2;color:#991b1b;min-width:62px; }
+        .mov-adj { display:inline-flex;align-items:center;justify-content:center;gap:4px;font-size:11px;font-weight:700;padding:4px 10px;border-radius:6px;background:#dbeafe;color:#1e40af;min-width:62px; }
         [data-dark="true"] .mov-in  { background:rgba(6,95,70,0.3)!important;color:#6ee7b7!important; }
         [data-dark="true"] .mov-out { background:rgba(153,27,27,0.3)!important;color:#fca5a5!important; }
         [data-dark="true"] .mov-adj { background:rgba(30,64,175,0.3)!important;color:#93c5fd!important; }
@@ -11129,6 +11205,15 @@
             overflow-y: auto;
             padding-bottom: 12px;
         }
+        /* Stock & Log panels must also be flex containers so .table-card inside flexes correctly */
+        #inv-panel-stock,
+        #inv-panel-log {
+            flex: 1;
+            min-height: 0;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
         /* Control bar stays fixed height */
         #page-vendor .control-bar,
         #page-vendor-bills .control-bar,
@@ -11216,8 +11301,298 @@
 
         /* ══ OVERVIEW PAGE — Work Status Cards ══ */
         #page-vendor-overview { padding: 0; }
-        .ovw-filter-bar { display:flex; align-items:center; gap:10px; padding:10px 16px; background:var(--white); border:1px solid var(--gray-100); border-radius:12px; margin-bottom:10px; flex-shrink:0; }
+
+        /* Status tabs — single clean horizontal strip, no wrap, scrolls if narrow */
+        .ovw-status-tabs {
+            display:flex;
+            align-items:stretch;
+            gap:2px;
+            padding:4px;
+            background:var(--white);
+            border:1px solid var(--gray-100);
+            border-radius:10px;
+            margin-bottom:8px;
+            flex-shrink:0;
+            overflow-x:auto;
+            scrollbar-width:thin;
+        }
+        .ovw-status-tabs::-webkit-scrollbar { height:4px; }
+        .ovw-status-tabs::-webkit-scrollbar-thumb { background:var(--gray-200); border-radius:2px; }
+        .ovw-tab {
+            padding:7px 13px;
+            border-radius:7px;
+            font-size:11.5px;
+            font-weight:600;
+            color:var(--gray-500);
+            cursor:pointer;
+            transition:var(--transition);
+            white-space:nowrap;
+            flex-shrink:0;
+            user-select:none;
+        }
+        .ovw-tab:hover:not(.active) { color:var(--gray-800); background:var(--gray-50); }
+        .ovw-tab.active {
+            background:color-mix(in srgb,var(--primary) 12%,transparent);
+            color:var(--primary);
+            font-weight:700;
+        }
+        .ovw-tab-count {
+            display:inline-flex;
+            align-items:center;
+            justify-content:center;
+            min-width:16px;
+            height:16px;
+            padding:0 5px;
+            margin-left:4px;
+            background:var(--gray-100);
+            color:var(--gray-500);
+            border-radius:8px;
+            font-size:10px;
+            font-weight:700;
+            line-height:1;
+        }
+        .ovw-tab.active .ovw-tab-count {
+            background:color-mix(in srgb,var(--primary) 22%,transparent);
+            color:var(--primary);
+        }
+        .ovw-tab-count-alert {
+            background:#fee2e2 !important;
+            color:#991b1b !important;
+        }
+        .ovw-tab.active .ovw-tab-count-alert {
+            background:#991b1b !important;
+            color:#fff !important;
+        }
+        [data-dark="true"] .ovw-tab-count-alert { background:rgba(153,27,27,0.3) !important; color:#fca5a5 !important; }
+        [data-dark="true"] .ovw-tab.active .ovw-tab-count-alert { background:#991b1b !important; color:#fff !important; }
+        [data-dark="true"] .ovw-tab-count { background:#363b52 !important; color:#9ca3af !important; }
+        [data-dark="true"] .ovw-tab.active .ovw-tab-count { background:rgba(45,74,53,0.45) !important; color:#a7d4b6 !important; }
+        [data-dark="true"] .ovw-status-tabs { background:#1e2130 !important; border-color:#2d3145 !important; }
+        [data-dark="true"] .ovw-tab { color:#9ca3af !important; }
+        [data-dark="true"] .ovw-tab:hover:not(.active) { background:#252836 !important; color:#e6e9f0 !important; }
+        [data-dark="true"] .ovw-tab.active { background:rgba(45,74,53,0.3) !important; color:#a7d4b6 !important; }
+
+        /* Advanced filters bar — compact, single row */
+        .ovw-filter-bar {
+            display:flex;
+            align-items:center;
+            gap:8px;
+            padding:8px 12px;
+            background:var(--white);
+            border:1px solid var(--gray-100);
+            border-radius:10px;
+            margin-bottom:10px;
+            flex-shrink:0;
+        }
+        .ovw-filter-label {
+            display:inline-flex;
+            align-items:center;
+            gap:5px;
+            font-size:11px;
+            font-weight:700;
+            color:var(--gray-500);
+            text-transform:uppercase;
+            letter-spacing:0.4px;
+            flex-shrink:0;
+            padding-right:4px;
+            border-right:1px solid var(--gray-200);
+            margin-right:2px;
+            padding-top:1px;
+            padding-bottom:1px;
+            height:26px;
+        }
+        .ovw-filter-label svg { color:var(--gray-400); }
+        .ovw-select {
+            font-size:11.5px;
+            font-weight:500;
+            padding:5px 24px 5px 9px;
+            border:1px solid var(--gray-200);
+            border-radius:7px;
+            background:var(--white) url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 24 24' fill='none' stroke='%239ca3af' stroke-width='2.5'%3e%3cpolyline points='6 9 12 15 18 9'/%3e%3c/svg%3e") right 7px center / 10px no-repeat;
+            color:var(--gray-700);
+            cursor:pointer;
+            appearance:none;
+            outline:none;
+            transition:var(--transition);
+            min-width:120px;
+            font-family:'DM Sans',sans-serif;
+        }
+        .ovw-select:hover { border-color:var(--gray-300); }
+        .ovw-select:focus { border-color:var(--primary); box-shadow:0 0 0 3px color-mix(in srgb,var(--primary) 12%,transparent); }
+        .ovw-filter-spacer { flex:1; min-width:8px; }
+        .ovw-search { width:200px; flex-shrink:0; }
+        .ovw-search .search-input { font-size:11.5px !important; padding-top:5px !important; padding-bottom:5px !important; }
+        .ovw-export-btn {
+            display:inline-flex;
+            align-items:center;
+            gap:5px;
+            padding:5px 11px;
+            border:1px solid var(--gray-200);
+            background:var(--white);
+            color:var(--gray-700);
+            border-radius:7px;
+            font-size:11.5px;
+            font-weight:600;
+            cursor:pointer;
+            transition:var(--transition);
+            font-family:'DM Sans',sans-serif;
+            flex-shrink:0;
+        }
+        .ovw-export-btn:hover { border-color:var(--primary); color:var(--primary); background:color-mix(in srgb,var(--primary) 5%,transparent); }
         [data-dark="true"] .ovw-filter-bar { background:#1e2130 !important; border-color:#2d3145 !important; }
+        [data-dark="true"] .ovw-filter-label { color:#9ca3af !important; border-color:#363b52 !important; }
+        [data-dark="true"] .ovw-select { background-color:#252836 !important; border-color:#363b52 !important; color:#d1d5db !important; }
+        [data-dark="true"] .ovw-export-btn { background:#252836 !important; border-color:#363b52 !important; color:#d1d5db !important; }
+        [data-dark="true"] .ovw-export-btn:hover { background:rgba(45,74,53,0.25) !important; }
+
+        /* ── Vendor table row height consistency (single-line cells for clean rhythm) ── */
+        #page-vendor .premium-table tbody tr { height:54px; }
+        #page-vendor .premium-table tbody td { vertical-align:middle; padding-top:8px; padding-bottom:8px; }
+        #page-vendor-bills .premium-table tbody tr { height:48px; }
+        #page-vendor-bills .premium-table tbody td { vertical-align:middle; padding-top:8px; padding-bottom:8px; }
+        #page-vendor-payments .premium-table tbody tr { height:48px; }
+        #page-vendor-payments .premium-table tbody td { vertical-align:middle; padding-top:8px; padding-bottom:8px; }
+        #page-vendor-mileage .premium-table tbody tr { height:48px; }
+        #page-vendor-mileage .premium-table tbody td { vertical-align:middle; padding-top:8px; padding-bottom:8px; }
+        #page-inventory .premium-table tbody tr { height:54px; }
+        #page-inventory .premium-table tbody td { vertical-align:middle; padding-top:8px; padding-bottom:8px; }
+
+        /* ── Vendor Hub reusable controls (shared across Vendors, Bills, Payments, Mileage) ── */
+        .vh-title-chip {
+            display:inline-flex;
+            align-items:center;
+            gap:8px;
+            flex-shrink:0;
+        }
+        .vh-title-text {
+            font-size:13px;
+            font-weight:700;
+            font-family:'Fraunces',serif;
+            color:var(--gray-900);
+            letter-spacing:-0.2px;
+        }
+        .vh-count-badge {
+            font-size:10.5px;
+            font-weight:600;
+            background:color-mix(in srgb,var(--primary) 10%,transparent);
+            color:var(--primary);
+            border:1px solid color-mix(in srgb,var(--primary) 20%,transparent);
+            border-radius:5px;
+            padding:2px 7px;
+            white-space:nowrap;
+        }
+        [data-dark="true"] .vh-title-text { color:#e6e9f0 !important; }
+        [data-dark="true"] .vh-count-badge { background:rgba(45,74,53,0.25) !important; color:#a7d4b6 !important; border-color:rgba(45,74,53,0.4) !important; }
+
+        .vh-icon-btn {
+            display:inline-flex;
+            align-items:center;
+            justify-content:center;
+            width:28px;
+            height:28px;
+            border:1px solid var(--gray-200);
+            background:var(--white);
+            color:var(--gray-600);
+            border-radius:7px;
+            cursor:pointer;
+            transition:var(--transition);
+            flex-shrink:0;
+        }
+        .vh-icon-btn:hover { border-color:var(--primary); color:var(--primary); background:color-mix(in srgb,var(--primary) 5%,transparent); }
+        [data-dark="true"] .vh-icon-btn { background:#252836 !important; border-color:#363b52 !important; color:#9ca3af !important; }
+        [data-dark="true"] .vh-icon-btn:hover { background:rgba(45,74,53,0.25) !important; color:#a7d4b6 !important; }
+
+        .vh-btn-secondary {
+            display:inline-flex;
+            align-items:center;
+            gap:5px;
+            padding:5px 11px;
+            height:28px;
+            border:1px solid var(--gray-200);
+            background:var(--white);
+            color:var(--gray-700);
+            border-radius:7px;
+            font-size:11.5px;
+            font-weight:600;
+            cursor:pointer;
+            transition:var(--transition);
+            font-family:'DM Sans',sans-serif;
+            flex-shrink:0;
+            white-space:nowrap;
+        }
+        .vh-btn-secondary:hover { border-color:var(--primary); color:var(--primary); background:color-mix(in srgb,var(--primary) 5%,transparent); }
+        .vh-btn-secondary:disabled { opacity:0.4; cursor:not-allowed; }
+        [data-dark="true"] .vh-btn-secondary { background:#252836 !important; border-color:#363b52 !important; color:#d1d5db !important; }
+        [data-dark="true"] .vh-btn-secondary:hover { background:rgba(45,74,53,0.25) !important; color:#a7d4b6 !important; }
+
+        .vh-btn-primary {
+            display:inline-flex;
+            align-items:center;
+            gap:5px;
+            padding:5px 12px;
+            height:28px;
+            border:1px solid var(--primary);
+            background:var(--primary);
+            color:#fff;
+            border-radius:7px;
+            font-size:11.5px;
+            font-weight:600;
+            cursor:pointer;
+            transition:var(--transition);
+            font-family:'DM Sans',sans-serif;
+            flex-shrink:0;
+            white-space:nowrap;
+            box-shadow:0 1px 3px color-mix(in srgb,var(--primary) 30%,transparent);
+        }
+        .vh-btn-primary:hover { background:color-mix(in srgb,var(--primary) 88%,#000); border-color:color-mix(in srgb,var(--primary) 88%,#000); transform:translateY(-1px); box-shadow:0 3px 8px color-mix(in srgb,var(--primary) 35%,transparent); }
+        .vh-btn-primary:disabled { opacity:0.4; cursor:not-allowed; transform:none; box-shadow:none; }
+
+        /* API Sync style toggle pill */
+        .vh-toggle {
+            display:inline-flex;
+            align-items:center;
+            gap:7px;
+            padding:5px 11px 5px 9px;
+            height:28px;
+            border:1px solid var(--gray-200);
+            background:var(--white);
+            border-radius:7px;
+            cursor:pointer;
+            user-select:none;
+            transition:var(--transition);
+            flex-shrink:0;
+        }
+        .vh-toggle:hover { border-color:color-mix(in srgb,var(--primary) 50%,var(--gray-300)); }
+        .vh-toggle.on {
+            background:color-mix(in srgb,var(--primary) 8%,var(--white));
+            border-color:color-mix(in srgb,var(--primary) 45%,transparent);
+        }
+        .vh-toggle-switch {
+            position:relative;
+            width:24px;
+            height:13px;
+            background:var(--gray-300);
+            border-radius:999px;
+            flex-shrink:0;
+            transition:var(--transition);
+        }
+        .vh-toggle-switch::after {
+            content:'';
+            position:absolute;
+            top:2px; left:2px;
+            width:9px; height:9px;
+            background:var(--white);
+            border-radius:50%;
+            box-shadow:0 1px 2px rgba(0,0,0,0.25);
+            transition:var(--transition);
+        }
+        .vh-toggle.on .vh-toggle-switch { background:var(--primary); }
+        .vh-toggle.on .vh-toggle-switch::after { left:13px; }
+        .vh-toggle-label { font-size:11.5px; font-weight:600; color:var(--gray-700); white-space:nowrap; }
+        .vh-toggle.on .vh-toggle-label { color:var(--primary); font-weight:700; }
+        [data-dark="true"] .vh-toggle { background:#252836 !important; border-color:#363b52 !important; }
+        [data-dark="true"] .vh-toggle.on { background:rgba(45,74,53,0.25) !important; }
+        [data-dark="true"] .vh-toggle-label { color:#d1d5db !important; }
 
         .ovw-grid { display:flex; flex-direction:column; gap:0; background:var(--white); border:1px solid var(--gray-100); border-radius:12px; overflow:hidden; box-shadow:var(--shadow-sm); }
         [data-dark="true"] .ovw-grid { background:#1e2130 !important; border-color:#2d3145 !important; }
@@ -11236,7 +11611,7 @@
         .ovw-vstat-lbl { font-size:9px; color:var(--gray-500); text-transform:uppercase; letter-spacing:0.4px; }
 
         .ovw-work-list { padding: 0; }
-        .ovw-site-row { display:grid; grid-template-columns:28px 22px 120px 70px 90px 80px 80px 80px 80px 80px 90px 100px 36px; gap:8px; align-items:center; padding:7px 14px; border-bottom:1px solid var(--gray-100); transition:var(--transition); }
+        .ovw-site-row { display:grid; grid-template-columns:28px 22px 130px 70px 90px 80px 80px 70px 70px 60px 90px 140px 36px; gap:8px; align-items:center; padding:7px 14px; border-bottom:1px solid var(--gray-100); transition:var(--transition); }
         .ovw-site-row:last-child { border-bottom:none; }
         .ovw-site-row:hover { background:var(--gray-50); }
         .ovw-site-row.selected { background:var(--primary-light); }
@@ -11252,12 +11627,16 @@
         .ovw-site-amt { font-size:12px; font-weight:700; font-family:'Fraunces',serif; color:var(--primary); text-align:right; }
 
         .ovw-status { display:inline-flex; align-items:center; gap:4px; font-size:10px; font-weight:700; padding:3px 8px; border-radius:5px; white-space:nowrap; }
+        .ovw-st-assigned{ background:#fef3c7; color:#92400e; }
+        .ovw-st-progress{ background:#dbeafe; color:#1e40af; }
         .ovw-st-ready   { background:var(--gray-100); color:var(--gray-600); }
         .ovw-st-review  { background:#fef3c7; color:#92400e; }
         .ovw-st-l1      { background:#dbeafe; color:#1e40af; }
         .ovw-st-l1-rej  { background:#fee2e2; color:#991b1b; }
         .ovw-st-accepted{ background:#d1fae5; color:#065f46; }
         .ovw-st-billed  { background:var(--primary-light); color:var(--primary); }
+        [data-dark="true"] .ovw-st-assigned { background:rgba(146,64,14,0.3)!important; color:#fcd34d!important; }
+        [data-dark="true"] .ovw-st-progress { background:rgba(30,64,175,0.3)!important; color:#93c5fd!important; }
         [data-dark="true"] .ovw-st-review { background:rgba(146,64,14,0.3)!important; color:#fcd34d!important; }
         [data-dark="true"] .ovw-st-l1 { background:rgba(30,64,175,0.3)!important; color:#93c5fd!important; }
         [data-dark="true"] .ovw-st-accepted { background:rgba(6,95,70,0.3)!important; color:#6ee7b7!important; }
@@ -11285,22 +11664,16 @@
         .ovw-bulk-btn.danger:hover { background:rgba(255,100,90,0.4); }
 
         /* Header row in overview cards */
-        .ovw-list-head { display:grid; grid-template-columns:28px 22px 120px 70px 90px 80px 80px 80px 80px 80px 90px 100px 36px; gap:8px; padding:6px 14px; background:var(--gray-50); font-size:9px; font-weight:700; color:var(--gray-400); text-transform:uppercase; letter-spacing:0.4px; border-bottom:1px solid var(--gray-100); }
+        .ovw-list-head { display:grid; grid-template-columns:28px 22px 130px 70px 90px 80px 80px 70px 70px 60px 90px 140px 36px; gap:8px; padding:8px 14px; background:var(--gray-50); font-size:9.5px; font-weight:700; color:var(--gray-500); text-transform:uppercase; letter-spacing:0.5px; border-bottom:1px solid var(--gray-100); }
         [data-dark="true"] .ovw-list-head { background:#252836 !important; border-color:#2d3145 !important; }
 
         /* Compact stats for overview */
-        .ovw-summary-stats { display:grid; grid-template-columns:repeat(5,1fr); gap:8px; margin-bottom:10px; }
+        .ovw-summary-stats { display:grid; grid-template-columns:repeat(6,1fr); gap:8px; margin-bottom:10px; }
         .ovw-summary-card { background:var(--white); border:1px solid var(--gray-100); border-radius:10px; padding:10px 14px; box-shadow:var(--shadow-sm); }
         .ovw-summary-lbl { font-size:10px; font-weight:700; text-transform:uppercase; color:var(--gray-500); letter-spacing:0.4px; }
         .ovw-summary-val { font-size:16px; font-weight:700; font-family:'Fraunces',serif; color:var(--gray-900); line-height:1.2; margin-top:2px; }
         .ovw-summary-sub { font-size:10px; color:var(--gray-400); }
         [data-dark="true"] .ovw-summary-card { background:#1e2130 !important; border-color:#2d3145 !important; }
-
-        /* Filter pills */
-        .ovw-filter-pill { padding:5px 11px; border-radius:7px; font-size:11px; font-weight:600; background:var(--gray-50); border:1.5px solid var(--gray-200); color:var(--gray-600); cursor:pointer; transition:var(--transition); }
-        .ovw-filter-pill.active { background:var(--primary); color:#fff; border-color:var(--primary); }
-        .ovw-filter-pill:hover:not(.active) { border-color:var(--primary); color:var(--primary); }
-        [data-dark="true"] .ovw-filter-pill { background:#252836 !important; border-color:#363b52 !important; }
 
         /* Empty state */
         .ovw-empty { text-align:center; padding:50px 20px; color:var(--gray-400); }
@@ -13330,52 +13703,51 @@
                         </div>
                     </div>
 
-                    <!-- Control Bar -->
-                    <div class="vnd-tabs" style="flex-shrink:0;">
-                        <div style="display:flex;align-items:center;gap:8px;">
-                            <span style="font-size:13px;font-weight:700;font-family:'Fraunces',serif;background:linear-gradient(90deg,var(--primary),color-mix(in srgb,var(--primary) 60%,var(--cta)));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">All Vendors</span>
-                            <span id="vndTotalBadge" style="font-size:11px;font-weight:600;background:color-mix(in srgb,var(--primary) 12%,transparent);color:var(--primary);border:1px solid color-mix(in srgb,var(--primary) 22%,transparent);border-radius:5px;padding:2px 7px;">8 records</span>
+                    <!-- Type tabs row -->
+                    <div class="ovw-status-tabs">
+                        <div class="ovw-tab vnd-type-opt active" data-type="all" onclick="vndFilterType('all',this)">All Types</div>
+                        <div class="ovw-tab vnd-type-opt" data-type="subcon" onclick="vndFilterType('subcon',this)">Service</div>
+                        <div class="ovw-tab vnd-type-opt" data-type="transport" onclick="vndFilterType('transport',this)">Transporter</div>
+                        <div class="ovw-tab vnd-type-opt" data-type="cab" onclick="vndFilterType('cab',this)">Monthly Cab</div>
+                        <div class="ovw-tab vnd-type-opt" data-type="procurement" onclick="vndFilterType('procurement',this)">Procurement</div>
+                        <div class="ovw-tab vnd-type-opt" data-type="time_activity" onclick="vndFilterType('time_activity',this)">Time Activity</div>
+                    </div>
+
+                    <!-- Compact action bar -->
+                    <div class="ovw-filter-bar">
+                        <div class="vh-title-chip">
+                            <span class="vh-title-text">All Vendors</span>
+                            <span id="vndTotalBadge" class="vh-count-badge">8 records</span>
                         </div>
-                        <div class="vnd-tab-actions">
-                            <div class="search-container" style="width:230px;">
-                                <span class="search-icon"><svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg></span>
-                                <input type="text" class="search-input" id="vndSearchInput" placeholder="Search vendor, type, GST, state…" oninput="vndHandleSearch(this.value)">
-                            </div>
-                            <div style="position:relative;">
-                                <button class="filter-btn" id="vndTypeFilterBtn" onclick="toggleVndTypeFilter()" title="Filter by Type">
-                                    <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"/></svg>
-                                    Type
-                                </button>
-                                <div id="vndTypeDropdown" style="display:none;position:absolute;top:36px;right:0;background:var(--white);border:1.5px solid var(--gray-200);border-radius:10px;box-shadow:var(--shadow-md);z-index:100;min-width:160px;padding:6px;">
-                                    <div class="vnd-type-opt active" data-type="all" onclick="vndFilterType('all',this)">All Types</div>
-                                    <div class="vnd-type-opt" data-type="subcon" onclick="vndFilterType('subcon',this)">Service</div>
-                                    <div class="vnd-type-opt" data-type="transport" onclick="vndFilterType('transport',this)">Transporter</div>
-                                    <div class="vnd-type-opt" data-type="cab" onclick="vndFilterType('cab',this)">Monthly Cab</div>
-                                    <div class="vnd-type-opt" data-type="procurement" onclick="vndFilterType('procurement',this)">Procurement</div>
-                                    <div class="vnd-type-opt" data-type="time_activity" onclick="vndFilterType('time_activity',this)">Time Activity</div>
-                                </div>
-                            </div>
-                            <button class="filter-btn" onclick="vndRefresh()" title="Refresh">
-                                <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
-                            </button>
-                            <button class="filter-btn" title="Export">
-                                <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg> Export
-                            </button>
-                            <!-- API Mode Toggle -->
-                            <label style="display:flex;align-items:center;gap:6px;font-size:11px;font-weight:600;color:var(--gray-600);cursor:pointer;flex-shrink:0;padding:4px 10px;border:1.5px solid var(--gray-200);border-radius:7px;background:var(--white);" title="When enabled, vendors are pulled from Zoho/QuickBooks — manual creation is disabled">
-                                <input type="checkbox" id="vndApiMode" onchange="vndToggleApiMode(this.checked)" style="accent-color:var(--primary);">
-                                <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.2"/></svg>
-                                API Sync
-                            </label>
-                            <button class="vnd-zoho-btn" id="vndZohoBtn" onclick="openZohoModal()">
-                                <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.2"/></svg>
-                                <span id="vndSyncLabel">Sync Zoho</span>
-                            </button>
-                            <button class="btn-add" id="vndAddBtn" onclick="openAddVendorModal()">
-                                <svg width="15" height="15" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"/></svg>
-                                <span id="vndAddLabel">Add Vendor</span>
-                            </button>
+
+                        <div class="ovw-filter-spacer"></div>
+
+                        <div class="search-container ovw-search" style="width:220px;">
+                            <span class="search-icon"><svg width="13" height="13" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg></span>
+                            <input type="text" class="search-input" id="vndSearchInput" placeholder="Search vendor, type, GST, state…" oninput="vndHandleSearch(this.value)">
                         </div>
+                        <button class="vh-icon-btn" onclick="vndRefresh()" title="Refresh">
+                            <svg width="13" height="13" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+                        </button>
+                        <button class="ovw-export-btn" title="Export">
+                            <svg width="13" height="13" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+                            Export
+                        </button>
+
+                        <div class="vh-toggle" id="vndApiToggle" onclick="vndApiToggleClick()" title="When enabled, vendors are pulled from Zoho/QuickBooks — manual creation is disabled">
+                            <input type="checkbox" id="vndApiMode" style="display:none;" onchange="vndToggleApiMode(this.checked)">
+                            <div class="vh-toggle-switch"></div>
+                            <div class="vh-toggle-label">API Sync</div>
+                        </div>
+
+                        <button class="vh-btn-secondary" id="vndZohoBtn" onclick="openZohoModal()">
+                            <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.2"/></svg>
+                            <span id="vndSyncLabel">Sync Zoho</span>
+                        </button>
+                        <button class="vh-btn-primary" id="vndAddBtn" onclick="openAddVendorModal()">
+                            <svg width="13" height="13" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"/></svg>
+                            <span id="vndAddLabel">Add Vendor</span>
+                        </button>
                     </div>
 
                     <!-- Vendor Table -->
@@ -13414,9 +13786,14 @@
                     <!-- Compact Stats -->
                     <div class="ovw-summary-stats">
                         <div class="ovw-summary-card">
-                            <div class="ovw-summary-lbl">Total Work Value</div>
-                            <div class="ovw-summary-val" id="ovwTotalValue">₹4.2L</div>
-                            <div class="ovw-summary-sub">This month</div>
+                            <div class="ovw-summary-lbl">Pending Acceptance</div>
+                            <div class="ovw-summary-val" id="ovwAssignedCount" style="color:#92400e;">0</div>
+                            <div class="ovw-summary-sub">Awaiting vendor</div>
+                        </div>
+                        <div class="ovw-summary-card">
+                            <div class="ovw-summary-lbl">In Progress</div>
+                            <div class="ovw-summary-val" id="ovwProgressCount" style="color:#1e40af;">0</div>
+                            <div class="ovw-summary-sub">Work ongoing</div>
                         </div>
                         <div class="ovw-summary-card">
                             <div class="ovw-summary-lbl">Ready to Submit</div>
@@ -13440,27 +13817,27 @@
                         </div>
                     </div>
 
-                    <!-- Filter Bar -->
+                    <!-- Status tabs row -->
+                    <div class="ovw-status-tabs">
+                        <div class="ovw-tab active" data-status="all" onclick="ovwFilterStatus('all',this)">All</div>
+                        <div class="ovw-tab" data-status="assigned" onclick="ovwFilterStatus('assigned',this)">Pending Acceptance</div>
+                        <div class="ovw-tab" data-status="in_progress" onclick="ovwFilterStatus('in_progress',this)">In Progress</div>
+                        <div class="ovw-tab" data-status="ready" onclick="ovwFilterStatus('ready',this)">Ready</div>
+                        <div class="ovw-tab" data-status="review" onclick="ovwFilterStatus('review',this)">In Review</div>
+                        <div class="ovw-tab" data-status="l1" onclick="ovwFilterStatus('l1',this)">L1 Approved</div>
+                        <div class="ovw-tab" data-status="accepted" onclick="ovwFilterStatus('accepted',this)">L2 Accepted</div>
+                        <div class="ovw-tab" data-status="billed" onclick="ovwFilterStatus('billed',this)">Billed</div>
+                    </div>
+
+                    <!-- Advanced filters row -->
                     <div class="ovw-filter-bar">
-                        <div style="display:flex;align-items:center;gap:6px;font-size:12px;font-weight:700;color:var(--gray-700);flex-shrink:0;">
-                            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"/></svg>
-                            Filters:
+                        <div class="ovw-filter-label">
+                            <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"/></svg>
+                            Filter by
                         </div>
-
-                        <!-- Status pills -->
-                        <div style="display:flex;gap:4px;">
-                            <div class="ovw-filter-pill active" data-status="all" onclick="ovwFilterStatus('all',this)">All</div>
-                            <div class="ovw-filter-pill" data-status="ready" onclick="ovwFilterStatus('ready',this)">Ready</div>
-                            <div class="ovw-filter-pill" data-status="review" onclick="ovwFilterStatus('review',this)">In Review</div>
-                            <div class="ovw-filter-pill" data-status="l1" onclick="ovwFilterStatus('l1',this)">L1 Approved</div>
-                            <div class="ovw-filter-pill" data-status="accepted" onclick="ovwFilterStatus('accepted',this)">L2 Accepted</div>
-                            <div class="ovw-filter-pill" data-status="billed" onclick="ovwFilterStatus('billed',this)">Billed</div>
-                        </div>
-
-                        <div style="width:1px;height:22px;background:var(--gray-200);"></div>
 
                         <!-- Date range -->
-                        <select class="search-input" style="width:auto;font-size:11px;padding:5px 8px;max-width:130px;" id="ovwDateFilter" onchange="ovwRender()">
+                        <select class="ovw-select" id="ovwDateFilter" onchange="ovwRender()">
                             <option value="month">This Month</option>
                             <option value="last_month">Last Month</option>
                             <option value="quarter">This Quarter</option>
@@ -13469,27 +13846,27 @@
                         </select>
 
                         <!-- Billed filter -->
-                        <select class="search-input" style="width:auto;font-size:11px;padding:5px 8px;max-width:120px;" id="ovwBilledFilter" onchange="ovwRender()">
+                        <select class="ovw-select" id="ovwBilledFilter" onchange="ovwRender()">
                             <option value="all">All Work</option>
                             <option value="unbilled">Unbilled Only</option>
                             <option value="billed">Billed Only</option>
                         </select>
 
                         <!-- Vendor filter -->
-                        <select class="search-input" style="width:auto;font-size:11px;padding:5px 8px;max-width:150px;" id="ovwVendorFilter" onchange="ovwRender()">
+                        <select class="ovw-select" id="ovwVendorFilter" onchange="ovwRender()">
                             <option value="">All Vendors</option>
                         </select>
 
-                        <div style="display:flex;align-items:center;gap:6px;margin-left:auto;">
-                            <div class="search-container" style="max-width:180px;">
-                                <span class="search-icon"><svg width="13" height="13" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg></span>
-                                <input type="text" class="search-input" id="ovwSearchInput" placeholder="Search site, activity…" oninput="ovwHandleSearch(this.value)" style="font-size:11px;">
-                            </div>
-                            <button class="filter-btn" title="Export" style="font-size:11px;padding:5px 10px;">
-                                <svg width="13" height="13" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
-                                Export
-                            </button>
+                        <div class="ovw-filter-spacer"></div>
+
+                        <div class="search-container ovw-search">
+                            <span class="search-icon"><svg width="13" height="13" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg></span>
+                            <input type="text" class="search-input" id="ovwSearchInput" placeholder="Search site, activity…" oninput="ovwHandleSearch(this.value)">
                         </div>
+                        <button class="ovw-export-btn" title="Export">
+                            <svg width="13" height="13" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+                            Export
+                        </button>
                     </div>
 
                     <!-- Bulk Action Bar -->
@@ -13547,24 +13924,23 @@
                         </div>
                     </div>
 
-                    <!-- Control Bar -->
-                    <div class="control-bar">
-                        <div style="display:flex;align-items:center;gap:8px;flex-shrink:0;">
-                            <span style="display:inline-flex;align-items:center;gap:7px;font-size:13px;font-weight:700;font-family:'Fraunces',serif;white-space:nowrap;background:linear-gradient(90deg,var(--primary),color-mix(in srgb,var(--primary) 60%,var(--cta)));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">
-                                <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="-webkit-text-fill-color:initial;color:var(--primary);flex-shrink:0;"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-                                Vendor Bills
-                            </span>
+                    <!-- Status tabs row -->
+                    <div class="ovw-status-tabs">
+                        <div class="ovw-tab active" data-tab="all" onclick="billSwitchTab('all',this)">All</div>
+                        <div class="ovw-tab" data-tab="draft" onclick="billSwitchTab('draft',this)">Draft <span class="ovw-tab-count" id="bill-badge-draft">2</span></div>
+                        <div class="ovw-tab" data-tab="pending" onclick="billSwitchTab('pending',this)">Pending <span class="ovw-tab-count" id="bill-badge-pending">3</span></div>
+                        <div class="ovw-tab" data-tab="approved" onclick="billSwitchTab('approved',this)">Approved <span class="ovw-tab-count" id="bill-badge-approved">6</span></div>
+                        <div class="ovw-tab" data-tab="paid" onclick="billSwitchTab('paid',this)">Paid <span class="ovw-tab-count" id="bill-badge-paid">3</span></div>
+                    </div>
+
+                    <!-- Compact action bar -->
+                    <div class="ovw-filter-bar">
+                        <div class="vh-title-chip">
+                            <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="color:var(--primary);flex-shrink:0;"><path stroke-linecap="round" stroke-linejoin="round" d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                            <span class="vh-title-text">Vendor Bills</span>
                         </div>
 
-                        <div class="tab-list" style="background:var(--white);border:1px solid var(--gray-200);border-radius:9px;padding:2px;flex-shrink:0;">
-                            <div class="tab-item active" data-tab="all" onclick="billSwitchTab('all',this)">All</div>
-                            <div class="tab-item" data-tab="draft" onclick="billSwitchTab('draft',this)">Draft <span class="tab-badge" id="bill-badge-draft">2</span></div>
-                            <div class="tab-item" data-tab="pending" onclick="billSwitchTab('pending',this)">Pending <span class="tab-badge" id="bill-badge-pending">3</span></div>
-                            <div class="tab-item" data-tab="approved" onclick="billSwitchTab('approved',this)">Approved <span class="tab-badge" id="bill-badge-approved">6</span></div>
-                            <div class="tab-item" data-tab="paid" onclick="billSwitchTab('paid',this)">Paid <span class="tab-badge" id="bill-badge-paid">3</span></div>
-                        </div>
-
-                        <select class="search-input" style="width:auto;font-size:11px;padding:5px 8px;max-width:130px;flex-shrink:0;" id="billVendorFilter" onchange="billRender()">
+                        <select class="ovw-select" id="billVendorFilter" onchange="billRender()">
                             <option value="">All Vendors</option>
                             <option>Sharma Infra</option>
                             <option>Punjab Express</option>
@@ -13572,23 +13948,27 @@
                             <option>Raj Civil</option>
                             <option>Jaipur Cab Rentals</option>
                         </select>
-                        <select class="search-input" style="width:auto;font-size:11px;padding:5px 8px;max-width:130px;flex-shrink:0;" id="billDateFilter" onchange="billRender()">
+                        <select class="ovw-select" id="billDateFilter" onchange="billRender()">
                             <option value="month">This Month</option>
                             <option value="last_month">Last Month</option>
                             <option value="quarter">This Quarter</option>
                             <option value="all">All Time</option>
                         </select>
 
-                        <div style="display:flex;align-items:center;gap:8px;margin-left:auto;">
-                            <div class="search-container" style="max-width:200px;">
-                                <span class="search-icon"><svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg></span>
-                                <input type="text" class="search-input" placeholder="Search bill no., vendor…" oninput="billHandleSearch(this.value)">
-                            </div>
-                            <button class="filter-btn" title="Export"><svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg> Export</button>
-                            <button class="vnd-zoho-btn" onclick="showToast('Bills synced with Zoho Books.','success')">
-                                <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.2"/></svg> Sync Zoho
-                            </button>
+                        <div class="ovw-filter-spacer"></div>
+
+                        <div class="search-container ovw-search" style="width:220px;">
+                            <span class="search-icon"><svg width="13" height="13" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg></span>
+                            <input type="text" class="search-input" placeholder="Search bill no., vendor…" oninput="billHandleSearch(this.value)">
                         </div>
+                        <button class="ovw-export-btn" title="Export">
+                            <svg width="13" height="13" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+                            Export
+                        </button>
+                        <button class="vh-btn-secondary" onclick="showToast('Bills synced with Zoho Books.','success')">
+                            <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.2"/></svg>
+                            Sync Zoho
+                        </button>
                     </div>
 
                     <!-- Bills Table -->
@@ -13605,7 +13985,7 @@
                                         <th style="text-align:right;">GST</th>
                                         <th style="text-align:right;">Grand Total</th>
                                         <th>Status</th>
-                                        <th style="width:90px;text-align:center;">Actions</th>
+                                        <th style="width:90px;">Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody id="billTableBody"></tbody>
@@ -13641,11 +14021,22 @@
                         </div>
                     </div>
 
-                    <!-- Control Bar -->
-                    <div class="control-bar">
-                        <span style="font-size:13px;font-weight:700;font-family:'Fraunces',serif;background:linear-gradient(90deg,var(--primary),color-mix(in srgb,var(--primary) 60%,var(--cta)));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;flex-shrink:0;">Bill Payments</span>
+                    <!-- Status tabs row -->
+                    <div class="ovw-status-tabs">
+                        <div class="ovw-tab active" data-tab="all" onclick="pmtSwitchTab('all',this)">All</div>
+                        <div class="ovw-tab" data-tab="cleared" onclick="pmtSwitchTab('cleared',this)">Cleared <span class="ovw-tab-count" id="pmt-badge-cleared">0</span></div>
+                        <div class="ovw-tab" data-tab="processing" onclick="pmtSwitchTab('processing',this)">Processing <span class="ovw-tab-count" id="pmt-badge-processing">0</span></div>
+                        <div class="ovw-tab" data-tab="scheduled" onclick="pmtSwitchTab('scheduled',this)">Scheduled <span class="ovw-tab-count" id="pmt-badge-scheduled">0</span></div>
+                    </div>
 
-                        <select class="search-input" id="pmtVendorFilter" onchange="pmtRender()" style="width:auto;max-width:150px;font-size:11px;padding:5px 8px;flex-shrink:0;">
+                    <!-- Compact action bar -->
+                    <div class="ovw-filter-bar">
+                        <div class="vh-title-chip">
+                            <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="color:var(--primary);flex-shrink:0;"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+                            <span class="vh-title-text">Bill Payments</span>
+                        </div>
+
+                        <select class="ovw-select" id="pmtVendorFilter" onchange="pmtRender()">
                             <option value="">All Vendors</option>
                             <option>Sharma Infra Pvt Ltd</option>
                             <option>Punjab Express Transport</option>
@@ -13653,40 +14044,38 @@
                             <option>Raj Civil Contractors</option>
                             <option>Jaipur Cab Rentals</option>
                         </select>
-                        <select class="search-input" id="pmtDateFilter" onchange="pmtRender()" style="width:auto;max-width:130px;font-size:11px;padding:5px 8px;flex-shrink:0;">
+                        <select class="ovw-select" id="pmtDateFilter" onchange="pmtRender()">
                             <option value="month">This Month</option>
                             <option value="last_month">Last Month</option>
                             <option value="quarter">This Quarter</option>
                             <option value="all">All Time</option>
                         </select>
-                        <select class="search-input" id="pmtModeFilter" onchange="pmtRender()" style="width:auto;max-width:130px;font-size:11px;padding:5px 8px;flex-shrink:0;">
+                        <select class="ovw-select" id="pmtModeFilter" onchange="pmtRender()">
                             <option value="">All Modes</option>
                             <option value="NEFT">NEFT / RTGS</option>
                             <option value="UPI">UPI</option>
                             <option value="Cheque">Cheque</option>
                             <option value="Cash">Cash</option>
                         </select>
-                        <select class="search-input" id="pmtStatusFilter" onchange="pmtRender()" style="width:auto;max-width:130px;font-size:11px;padding:5px 8px;flex-shrink:0;">
-                            <option value="">All Status</option>
-                            <option value="cleared">Cleared</option>
-                            <option value="processing">Processing</option>
-                            <option value="failed">Failed</option>
-                        </select>
 
-                        <div style="display:flex;align-items:center;gap:8px;margin-left:auto;">
-                            <div class="search-container" style="max-width:200px;">
-                                <span class="search-icon"><svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg></span>
-                                <input type="text" class="search-input" placeholder="Search payment, UTR…" oninput="pmtHandleSearch(this.value)">
-                            </div>
-                            <button class="filter-btn" title="Export"><svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg> Export</button>
-                            <button class="vnd-zoho-btn" onclick="showToast('Payments synced with Zoho Books.','success')">
-                                <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.2"/></svg> Sync Zoho
-                            </button>
-                            <button class="btn-add" onclick="openRecordPaymentModal()">
-                                <svg width="15" height="15" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"/></svg>
-                                Record Payment
-                            </button>
+                        <div class="ovw-filter-spacer"></div>
+
+                        <div class="search-container ovw-search" style="width:220px;">
+                            <span class="search-icon"><svg width="13" height="13" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg></span>
+                            <input type="text" class="search-input" placeholder="Search payment, UTR…" oninput="pmtHandleSearch(this.value)">
                         </div>
+                        <button class="ovw-export-btn" title="Export">
+                            <svg width="13" height="13" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+                            Export
+                        </button>
+                        <button class="vh-btn-secondary" onclick="showToast('Payments synced with Zoho Books.','success')">
+                            <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.2"/></svg>
+                            Sync Zoho
+                        </button>
+                        <button class="vh-btn-primary" onclick="openRecordPaymentModal()">
+                            <svg width="13" height="13" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"/></svg>
+                            Record Payment
+                        </button>
                     </div>
 
                     <!-- Payments Table -->
@@ -13744,47 +14133,58 @@
                         </div>
                     </div>
 
-                    <!-- Control Bar -->
-                    <div class="control-bar">
-                        <span style="font-size:13px;font-weight:700;font-family:'Fraunces',serif;background:linear-gradient(90deg,var(--primary),color-mix(in srgb,var(--primary) 60%,var(--cta)));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;flex-shrink:0;">Mileage &amp; Trip Log</span>
-                        <div class="search-container" style="max-width:200px;">
-                            <span class="search-icon"><svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg></span>
-                            <input type="text" class="search-input" id="mlgSearchInput" placeholder="Search vendor, route, site…" oninput="mlgHandleSearch(this.value)">
+                    <!-- Status tabs row -->
+                    <div class="ovw-status-tabs">
+                        <div class="ovw-tab active" data-tab="all" onclick="mlgSwitchTab('all',this)">All</div>
+                        <div class="ovw-tab" data-tab="draft" onclick="mlgSwitchTab('draft',this)">Draft <span class="ovw-tab-count" id="mlg-badge-draft">0</span></div>
+                        <div class="ovw-tab" data-tab="submitted" onclick="mlgSwitchTab('submitted',this)">Submitted <span class="ovw-tab-count" id="mlg-badge-submitted">0</span></div>
+                        <div class="ovw-tab" data-tab="approved" onclick="mlgSwitchTab('approved',this)">Approved <span class="ovw-tab-count" id="mlg-badge-approved">0</span></div>
+                        <div class="ovw-tab" data-tab="billed" onclick="mlgSwitchTab('billed',this)">Billed <span class="ovw-tab-count" id="mlg-badge-billed">0</span></div>
+                    </div>
+
+                    <!-- Compact action bar -->
+                    <div class="ovw-filter-bar">
+                        <div class="vh-title-chip">
+                            <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="color:var(--primary);flex-shrink:0;"><path d="M1 6v16l7-4 8 4 7-4V2l-7 4-8-4-7 4z"/><line x1="8" y1="2" x2="8" y2="18"/><line x1="16" y1="6" x2="16" y2="22"/></svg>
+                            <span class="vh-title-text">Mileage &amp; Trip Log</span>
                         </div>
-                        <select class="search-input" id="mlgVendorFilter" onchange="mlgRender()" style="max-width:160px;">
+
+                        <select class="ovw-select" id="mlgVendorFilter" onchange="mlgRender()">
                             <option value="">All Vendors</option>
                             <option value="2">Punjab Express Transport</option>
                             <option value="3">Delhi Cab Services</option>
                             <option value="5">North India Movers</option>
                             <option value="7">Jaipur Cab Rentals</option>
                         </select>
-                        <select class="search-input" id="mlgTypeFilter" onchange="mlgRender()" style="max-width:130px;">
+                        <select class="ovw-select" id="mlgTypeFilter" onchange="mlgRender()">
                             <option value="">All Types</option>
                             <option value="transport">Transporter</option>
                             <option value="cab">Monthly Cab</option>
                         </select>
-                        <select class="search-input" id="mlgDateFilter" onchange="mlgRender()" style="max-width:130px;">
+                        <select class="ovw-select" id="mlgDateFilter" onchange="mlgRender()">
                             <option value="month">This Month</option>
                             <option value="last_month">Last Month</option>
                             <option value="quarter">This Quarter</option>
                             <option value="all">All Time</option>
                         </select>
-                        <select class="search-input" id="mlgBilledFilter" onchange="mlgRender()" style="max-width:130px;">
-                            <option value="">All Status</option>
-                            <option value="unbilled">Unbilled</option>
-                            <option value="billed">Billed</option>
-                            <option value="submitted">Submitted</option>
-                            <option value="approved">Approved</option>
-                            <option value="draft">Draft</option>
-                        </select>
-                        <button class="filter-btn" title="Export"><svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg> Export</button>
-                        <!-- Bulk generate bill from selected trips -->
-                        <button class="vnd-zoho-btn" id="mlgGenerateBillBtn" onclick="mlgGenerateBill()" style="display:none;">
-                            <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+
+                        <div class="ovw-filter-spacer"></div>
+
+                        <div class="search-container ovw-search" style="width:220px;">
+                            <span class="search-icon"><svg width="13" height="13" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg></span>
+                            <input type="text" class="search-input" id="mlgSearchInput" placeholder="Search vendor, route, site…" oninput="mlgHandleSearch(this.value)">
+                        </div>
+                        <button class="ovw-export-btn" title="Export">
+                            <svg width="13" height="13" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+                            Export
+                        </button>
+                        <!-- Bulk generate bill from selected trips (appears when trips selected) -->
+                        <button class="vh-btn-primary" id="mlgGenerateBillBtn" onclick="mlgGenerateBill()" style="display:none;">
+                            <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
                             Generate Bill (<span id="mlgSelCount">0</span>)
                         </button>
-                        <button class="btn-add" onclick="openAddTripModal()">
-                            <svg width="15" height="15" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"/></svg>
+                        <button class="vh-btn-primary" onclick="openAddTripModal()">
+                            <svg width="13" height="13" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"/></svg>
                             Add Trip
                         </button>
                     </div>
@@ -13806,7 +14206,7 @@
                                         <th style="text-align:right;">Amount (₹)</th>
                                         <th>Attachment</th>
                                         <th>Status</th>
-                                        <th style="width:80px;text-align:center;">Actions</th>
+                                        <th style="width:80px;">Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody id="mlgTableBody"></tbody>
@@ -14783,40 +15183,47 @@
                         </div>
                     </div>
 
-                    <!-- Tabs: Stock Register | Transaction Log | Reorder Alerts -->
-                    <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-shrink:0;margin-bottom:10px;">
-                        <div class="tab-bar" style="flex:none;margin-bottom:0;background:transparent;border:none;padding:0;">
-                            <div class="tab-list" style="border:1px solid var(--gray-200);border-radius:8px;padding:2px;background:var(--white);">
-                                <div class="tab-item active" data-tab="stock" onclick="invSwitchTab('stock',this)" style="padding:4px 14px;font-size:12px;">Stock Register</div>
-                                <div class="tab-item" data-tab="log" onclick="invSwitchTab('log',this)" style="padding:4px 14px;font-size:12px;">Movement Log</div>
-                                <div class="tab-item" data-tab="alerts" onclick="invSwitchTab('alerts',this)" style="padding:4px 14px;font-size:12px;">
-                                    Reorder Alerts
-                                    <span class="tab-badge" style="background:#fee2e2;color:#991b1b;">5</span>
-                                </div>
-                            </div>
+                    <!-- View tabs row -->
+                    <div class="ovw-status-tabs">
+                        <div class="ovw-tab active" data-tab="stock" onclick="invSwitchTab('stock',this)">Stock Register</div>
+                        <div class="ovw-tab" data-tab="log" onclick="invSwitchTab('log',this)">Movement Log</div>
+                        <div class="ovw-tab" data-tab="alerts" onclick="invSwitchTab('alerts',this)">Reorder Alerts <span class="ovw-tab-count ovw-tab-count-alert" id="inv-badge-alerts">5</span></div>
+                    </div>
+
+                    <!-- Compact action bar -->
+                    <div class="ovw-filter-bar">
+                        <div class="vh-title-chip">
+                            <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="color:var(--primary);flex-shrink:0;"><path d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg>
+                            <span class="vh-title-text">Inventory</span>
                         </div>
-                        <div style="display:flex;align-items:center;gap:8px;">
-                            <div class="search-container" style="max-width:220px;">
-                                <span class="search-icon"><svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg></span>
-                                <input type="text" class="search-input" id="invSearchInput" placeholder="Search item, SKU, category…" oninput="invHandleSearch(this.value)">
-                            </div>
-                            <select class="search-input" id="invCatFilter" onchange="invRender()" style="max-width:140px;">
-                                <option value="">All Categories</option>
-                                <option>Electrical</option>
-                                <option>Civil</option>
-                                <option>Mechanical</option>
-                                <option>Safety</option>
-                                <option>General</option>
-                            </select>
-                            <button class="filter-btn" title="Export"><svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg> Export</button>
-                            <button class="vnd-zoho-btn" onclick="invSyncStock()">
-                                <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.2"/></svg> <span id="invSyncLabel">Sync Stock</span>
-                            </button>
-                            <button class="btn-add" id="invAdjBtn" onclick="openInvAdjModal()">
-                                <svg width="15" height="15" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"/></svg>
-                                <span id="invAdjLabel">Adjust Stock</span>
-                            </button>
+
+                        <select class="ovw-select" id="invCatFilter" onchange="invRender()">
+                            <option value="">All Categories</option>
+                            <option>Electrical</option>
+                            <option>Civil</option>
+                            <option>Mechanical</option>
+                            <option>Safety</option>
+                            <option>General</option>
+                        </select>
+
+                        <div class="ovw-filter-spacer"></div>
+
+                        <div class="search-container ovw-search" style="width:220px;">
+                            <span class="search-icon"><svg width="13" height="13" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg></span>
+                            <input type="text" class="search-input" id="invSearchInput" placeholder="Search item, SKU, category…" oninput="invHandleSearch(this.value)">
                         </div>
+                        <button class="ovw-export-btn" title="Export">
+                            <svg width="13" height="13" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+                            Export
+                        </button>
+                        <button class="vh-btn-secondary" onclick="invSyncStock()">
+                            <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.2"/></svg>
+                            <span id="invSyncLabel">Sync Stock</span>
+                        </button>
+                        <button class="vh-btn-primary" id="invAdjBtn" onclick="openInvAdjModal()">
+                            <svg width="13" height="13" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"/></svg>
+                            <span id="invAdjLabel">Adjust Stock</span>
+                        </button>
                     </div>
 
                     <!-- Stock Register Panel -->
@@ -14838,7 +15245,7 @@
                                             <th>Project / Site</th>
                                             <th>Zoho</th>
                                             <th>Status</th>
-                                            <th style="width:70px;text-align:center;">Actions</th>
+                                            <th style="width:80px;">Actions</th>
                                         </tr>
                                     </thead>
                                     <tbody id="invStockBody"></tbody>
@@ -29670,7 +30077,7 @@ window.vndRefresh=function(){ vndRender(); };
 window.vndFilterType=function(type,el){
   vndTypeFilter=type;
   document.querySelectorAll('.vnd-type-opt').forEach(o=>o.classList.toggle('active',o.dataset.type===type));
-  document.getElementById('vndTypeDropdown').style.display='none';
+  const d=document.getElementById('vndTypeDropdown'); if(d) d.style.display='none';
   vndRender();
 };
 window.toggleVndTypeFilter=function(){
@@ -29707,7 +30114,7 @@ function vndRender(){
       </td>
       <td style="font-size:11px;color:var(--gray-600);">${v.email||'—'}</td>
       <td style="font-family:'Courier New',monospace;font-size:10px;color:var(--gray-600);">${v.gst||'—'}</td>
-      <td><div style="display:flex;flex-wrap:wrap;gap:2px;">${(v.sites||[]).slice(0,2).map(s=>`<span style="font-size:10px;padding:1px 5px;background:var(--gray-100);border-radius:3px;font-weight:600;color:var(--gray-600);">${s}</span>`).join('')}${v.sites.length>2?`<span style="font-size:10px;color:var(--gray-400);">+${v.sites.length-2}</span>`:''}</div></td>
+      <td>${(v.sites||[]).length===0?`<span style="font-size:11px;color:var(--gray-300);">—</span>`:`<div style="display:inline-flex;align-items:center;gap:6px;white-space:nowrap;"><span style="font-size:10.5px;padding:2px 7px;background:var(--gray-100);border-radius:4px;font-weight:600;color:var(--gray-700);font-family:'Courier New',monospace;letter-spacing:0.2px;">${v.sites[0]}</span>${v.sites.length>1?`<span style="font-size:10.5px;color:var(--gray-500);font-weight:600;">+${v.sites.length-1} more</span>`:''}</div>`}</td>
       <td><div class="task-mini"><div class="task-mini-bar"><div class="task-mini-fill" style="width:${pct}%;"></div></div><div class="task-mini-lbl"><span>${done}/${total}</span><span style="color:var(--warning);">${v.tasks.in_progress}▶</span></div></div></td>
       <td>${bb}</td>
       <td>${zb}</td>
@@ -29720,7 +30127,7 @@ function vndRender(){
 /* ─── BILLS TABLE ───────────────────────────────── */
 window.billSwitchTab=function(tab,el){
   billTab=tab;
-  if(el) el.closest('.tab-list')?.querySelectorAll('.tab-item').forEach(t=>t.classList.toggle('active',t.dataset.tab===tab));
+  if(el) el.closest('.ovw-status-tabs')?.querySelectorAll('.ovw-tab').forEach(t=>t.classList.toggle('active',t.dataset.tab===tab));
   billRender();
 };
 window.billHandleSearch=function(q){ billSearchQ=q; billRender(); };
@@ -29749,6 +30156,22 @@ function billRender(){
   body.innerHTML=list.map(b=>{
     const sl=statusLabel[b.stage]||b.stage;
     const sc=statusClass[b.stage]||'bill-stage-draft';
+
+    // Build secondary action — exactly one slot reserved per row for symmetry
+    let secondaryBtn = '';
+    if(b.stage==='submitted_l1'){
+      secondaryBtn = `<button class="bill-action-btn" title="Approve L1" data-tone="success" onclick="billApproveL1(${b.id})"><svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></button>`;
+    } else if(b.stage==='l1_approved' && isApi){
+      secondaryBtn = `<button class="bill-action-btn" title="Download Excel" onclick="billDownloadExcel(${b.id})"><svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg></button>`;
+    } else if(b.stage==='l1_approved'){
+      secondaryBtn = `<button class="bill-action-btn" title="Mark Synced" data-tone="primary" onclick="billMarkSynced(${b.id})"><svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.2"/></svg></button>`;
+    } else if(b.stage==='synced'){
+      secondaryBtn = `<button class="bill-action-btn" title="Mark Paid" data-tone="success" onclick="billMarkPaid(${b.id})"><svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></button>`;
+    } else {
+      // No secondary action available — render invisible placeholder so all rows align
+      secondaryBtn = `<span class="bill-action-placeholder" aria-hidden="true"></span>`;
+    }
+
     return `<tr class="site-row">
     <td><span class="employee-id" style="font-size:11px;">${b.bill_no}</span></td>
     <td style="font-weight:600;color:var(--gray-800);font-size:12px;">${b.vendor}</td>
@@ -29758,13 +30181,10 @@ function billRender(){
     <td style="text-align:right;font-variant-numeric:tabular-nums;color:var(--gray-500);font-size:12px;">₹${b.gst.toLocaleString('en-IN')}</td>
     <td style="text-align:right;font-weight:700;font-family:'Fraunces',serif;color:var(--primary);font-size:12px;">₹${b.total.toLocaleString('en-IN')}</td>
     <td><span class="bill-stage ${sc}">${sl}</span></td>
-    <td style="text-align:center;">
-      <div style="display:flex;gap:3px;justify-content:center;">
-        <button class="icon-btn" title="View" onclick="openBillDetail(${b.id})"><svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button>
-        ${b.stage==='submitted_l1'?`<button class="icon-btn" title="Approve L1" style="color:var(--success);" onclick="billApproveL1(${b.id})"><svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></button>`:''}
-        ${b.stage==='l1_approved'&&isApi?`<button class="icon-btn" title="Download Excel" onclick="billDownloadExcel(${b.id})"><svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg></button>`:''}
-        ${b.stage==='l1_approved'?`<button class="icon-btn" title="Mark Synced" onclick="billMarkSynced(${b.id})" style="color:var(--primary);"><svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.2"/></svg></button>`:''}
-        ${b.stage==='synced'?`<button class="icon-btn" title="Mark Paid" onclick="billMarkPaid(${b.id})" style="color:var(--success);"><svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></button>`:''}
+    <td>
+      <div class="bill-actions">
+        <button class="bill-action-btn" title="View" onclick="openBillDetail(${b.id})"><svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button>
+        ${secondaryBtn}
       </div>
     </td>
   </tr>`;
@@ -29783,25 +30203,52 @@ window.openBillDetail=function(id){ showToast('Bill detail view — coming soon.
 window.pmtHandleSearch=function(q){ pmtSearchQ=q; pmtRender(); };
 window.openRecordPaymentModal=function(){ document.getElementById('vndPaymentModal').classList.add('open'); };
 window.savePayment=function(){ showToast('Payment recorded and synced to Zoho Books.','success'); closeVndModal('vndPaymentModal'); };
+let pmtTab = 'all';
+
+window.pmtSwitchTab = function(tab, el){
+  pmtTab = tab;
+  if(el) el.closest('.ovw-status-tabs')?.querySelectorAll('.ovw-tab').forEach(t=>t.classList.toggle('active', t.dataset.tab===tab));
+  pmtRender();
+};
+
 function pmtRender(){
   let list=[...PMT_DATA];
+  // Tab filter
+  if(pmtTab && pmtTab !== 'all') list = list.filter(p => p.status === pmtTab);
+  // Other filters
+  const vf=document.getElementById('pmtVendorFilter')?.value;
+  const mf=document.getElementById('pmtModeFilter')?.value;
+  if(vf) list=list.filter(p=>p.vendor===vf);
+  if(mf) list=list.filter(p=>(p.mode||'').toUpperCase().includes(mf.toUpperCase()));
   if(pmtSearchQ){ const q=pmtSearchQ.toLowerCase(); list=list.filter(p=>p.vendor.toLowerCase().includes(q)||p.bill.toLowerCase().includes(q)||p.ref.toLowerCase().includes(q)); }
+
   const body=document.getElementById('pmtTableBody');
   const info=document.getElementById('pmtPaginInfo');
   if(!body) return;
   if(info) info.textContent=`Showing 1–${list.length} of ${list.length} record${list.length===1?'':'s'}`;
-  const pmtStatus={cleared:'<span class="status-badge status-active">Cleared</span>',processing:'<span class="status-badge status-warning">Processing</span>',scheduled:'<span class="status-badge" style="background:#ede9fe;color:#5b21b6;">Scheduled</span>'};
+
+  // Update tab counts (across full data set, not filtered)
+  const counts = { cleared:0, processing:0, scheduled:0 };
+  PMT_DATA.forEach(p => { if(counts[p.status] !== undefined) counts[p.status]++; });
+  const setCount = (id, n) => { const el = document.getElementById(id); if(el) el.textContent = n; };
+  setCount('pmt-badge-cleared',    counts.cleared);
+  setCount('pmt-badge-processing', counts.processing);
+  setCount('pmt-badge-scheduled',  counts.scheduled);
+
+  const statusLabel = { cleared:'Cleared', processing:'Processing', scheduled:'Scheduled', failed:'Failed' };
+  const statusClass = { cleared:'pmt-status-cleared', processing:'pmt-status-processing', scheduled:'pmt-status-scheduled', failed:'pmt-status-failed' };
+
   body.innerHTML=list.map(p=>`<tr class="site-row">
     <td><span class="employee-id" style="font-size:11px;">${p.ref}</span></td>
     <td style="font-weight:600;color:var(--gray-800);font-size:12px;">${p.vendor}</td>
     <td><span class="employee-id" style="font-size:10px;">${p.bill}</span></td>
     <td style="font-size:12px;color:var(--gray-600);">${p.date}</td>
-    <td style="text-align:right;font-weight:700;font-family:'Fraunces',serif;color:var(--primary);">₹${p.amount.toLocaleString('en-IN')}</td>
-    <td><span style="font-size:11px;font-weight:600;padding:2px 8px;background:var(--gray-100);border-radius:5px;color:var(--gray-600);">${p.mode}</span></td>
+    <td style="text-align:right;font-weight:700;font-family:'Fraunces',serif;color:var(--primary);font-variant-numeric:tabular-nums;">₹${p.amount.toLocaleString('en-IN')}</td>
+    <td><span class="pmt-mode">${p.mode}</span></td>
     <td style="font-family:'Courier New',monospace;font-size:11px;color:var(--gray-600);">${p.utr}</td>
     <td>${p.zoho_synced?'<span class="zoho-chip synced">✓ Synced</span>':'<span class="zoho-chip pending">Pending</span>'}</td>
-    <td>${pmtStatus[p.status]||p.status}</td>
-    <td><button class="icon-btn" title="View"><svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button></td>
+    <td><span class="pmt-status ${statusClass[p.status]||'pmt-status-cleared'}">${statusLabel[p.status]||p.status}</span></td>
+    <td><button class="bill-action-btn" title="View"><svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button></td>
   </tr>`).join('');
 }
 
@@ -29829,33 +30276,64 @@ function mlgGetList(){
   return list;
 }
 
+let mlgTab = 'all';
+
+window.mlgSwitchTab = function(tab, el){
+  mlgTab = tab;
+  if(el) el.closest('.ovw-status-tabs')?.querySelectorAll('.ovw-tab').forEach(t=>t.classList.toggle('active', t.dataset.tab===tab));
+  mlgRender();
+};
+
 function mlgRender(){
-  const list=mlgGetList();
+  let list = mlgGetList();
+  // Tab filter (applied AFTER mlgGetList so other filters still work)
+  if(mlgTab && mlgTab !== 'all') list = list.filter(t => t.status === mlgTab);
+
   const body=document.getElementById('mlgTableBody');
   const info=document.getElementById('mlgPaginInfo');
   if(!body) return;
   if(info) info.textContent=`Showing 1–${list.length} of ${list.length} record${list.length===1?'':'s'}`;
+
+  // Update tab counts (across full TRIP_DATA)
+  const counts = { draft:0, submitted:0, approved:0, billed:0 };
+  TRIP_DATA.forEach(t => { if(counts[t.status] !== undefined) counts[t.status]++; });
+  const setCount = (id, n) => { const el = document.getElementById(id); if(el) el.textContent = n; };
+  setCount('mlg-badge-draft',     counts.draft);
+  setCount('mlg-badge-submitted', counts.submitted);
+  setCount('mlg-badge-approved',  counts.approved);
+  setCount('mlg-badge-billed',    counts.billed);
+
   const sc={draft:'trip-draft',submitted:'trip-submitted',approved:'trip-approved',billed:'trip-billed'};
   const tc={transport:'vtype-transport',cab:'vtype-cab'};
-  body.innerHTML=list.map(t=>`<tr class="site-row${mlgSelected.has(t.id)?' selected':''}">
-    <td><input type="checkbox" ${mlgSelected.has(t.id)?'checked':''} ${t.status==='billed'?'disabled':''} onchange="mlgToggle(${t.id},this.checked)"></td>
-    <td><span class="employee-id" style="font-size:10px;">${t.trip_id}</span></td>
-    <td style="font-size:12px;color:var(--gray-600);">${t.date}</td>
-    <td style="font-weight:600;color:var(--gray-800);font-size:12px;">${t.vendor}</td>
-    <td><span class="vtype ${tc[t.type]||'vtype-transport'}" style="font-size:10px;">${t.type==='transport'?'Transporter':'Monthly Cab'}</span></td>
-    <td style="font-size:11px;color:var(--gray-600);max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="${t.route}">${t.route}</td>
-    <td style="text-align:right;font-weight:700;font-variant-numeric:tabular-nums;color:var(--primary);">${t.kms.toLocaleString()}</td>
-    <td><div style="display:flex;flex-wrap:wrap;gap:3px;">${(t.sites||[]).map(s=>`<span style="font-size:10px;padding:1px 5px;background:var(--gray-100);border-radius:4px;font-weight:600;color:var(--gray-600);">${s}</span>`).join('')}</div></td>
-    <td style="text-align:right;font-weight:700;font-family:'Fraunces',serif;color:var(--primary);">₹${t.amount.toLocaleString('en-IN')}</td>
-    <td>${t.attachment?`<span class="att-chip"><svg width="10" height="10" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/></svg>Photo</span>`:'<span style="color:var(--gray-400);font-size:11px;">—</span>'}</td>
-    <td><span class="trip-status ${sc[t.status]||'trip-draft'}">${t.status.charAt(0).toUpperCase()+t.status.slice(1)}</span></td>
-    <td style="text-align:center;">
-      <div style="display:flex;gap:3px;justify-content:center;">
-        <button class="icon-btn" title="View" onclick="showToast('Trip detail view: ${t.trip_id}','info')"><svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button>
-        ${t.status==='draft'||t.status==='submitted'?`<button class="icon-btn" title="Approve" style="color:var(--success);" onclick="mlgApprove(${t.id})"><svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></button>`:''}
-      </div>
-    </td>
-  </tr>`).join('');
+  body.innerHTML=list.map(t=>{
+    const sitesCell = (t.sites||[]).length===0
+      ? '<span style="font-size:11px;color:var(--gray-300);">—</span>'
+      : `<div style="display:inline-flex;align-items:center;gap:6px;white-space:nowrap;"><span style="font-size:10.5px;padding:2px 7px;background:var(--gray-100);border-radius:4px;font-weight:600;color:var(--gray-700);font-family:'Courier New',monospace;letter-spacing:0.2px;">${t.sites[0]}</span>${t.sites.length>1?`<span style="font-size:10.5px;color:var(--gray-500);font-weight:600;">+${t.sites.length-1} more</span>`:''}</div>`;
+
+    const secondaryBtn = (t.status==='draft' || t.status==='submitted')
+      ? `<button class="bill-action-btn" title="Approve" data-tone="success" onclick="mlgApprove(${t.id})"><svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></button>`
+      : `<span class="bill-action-placeholder" aria-hidden="true"></span>`;
+
+    return `<tr class="site-row${mlgSelected.has(t.id)?' selected':''}">
+      <td><input type="checkbox" ${mlgSelected.has(t.id)?'checked':''} ${t.status==='billed'?'disabled':''} onchange="mlgToggle(${t.id},this.checked)"></td>
+      <td><span class="employee-id" style="font-size:10px;">${t.trip_id}</span></td>
+      <td style="font-size:12px;color:var(--gray-600);">${t.date}</td>
+      <td style="font-weight:600;color:var(--gray-800);font-size:12px;">${t.vendor}</td>
+      <td><span class="vtype ${tc[t.type]||'vtype-transport'}" style="font-size:10px;">${t.type==='transport'?'Transporter':'Monthly Cab'}</span></td>
+      <td style="font-size:11px;color:var(--gray-600);max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="${t.route}">${t.route}</td>
+      <td style="text-align:right;font-weight:700;font-variant-numeric:tabular-nums;color:var(--primary);">${t.kms.toLocaleString()}</td>
+      <td>${sitesCell}</td>
+      <td style="text-align:right;font-weight:700;font-family:'Fraunces',serif;color:var(--primary);font-variant-numeric:tabular-nums;">₹${t.amount.toLocaleString('en-IN')}</td>
+      <td>${t.attachment?`<span class="att-chip"><svg width="10" height="10" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/></svg>Photo</span>`:'<span style="color:var(--gray-400);font-size:11px;">—</span>'}</td>
+      <td><span class="trip-status ${sc[t.status]||'trip-draft'}">${t.status.charAt(0).toUpperCase()+t.status.slice(1)}</span></td>
+      <td>
+        <div class="bill-actions">
+          <button class="bill-action-btn" title="View" onclick="showToast('Trip detail view: ${t.trip_id}','info')"><svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button>
+          ${secondaryBtn}
+        </div>
+      </td>
+    </tr>`;
+  }).join('');
 }
 window.mlgApprove=function(id){ const t=TRIP_DATA.find(x=>x.id===id); if(t&&t.status!=='billed'){ t.status='approved'; mlgRender(); showToast(`Trip ${t.trip_id} approved.`,'success'); } };
 
@@ -30280,6 +30758,12 @@ window.showToast=showToast;
 const OVW_DATA = [
   { vendor_id:1, vendor_name:'Sharma Infra Pvt Ltd', vendor_code:'VND-001', avatar:'SI',
     sites:[
+      { site_id:'HR-088', project:'Voult Project', circle:'Haryana', pm:'Rajan Sharma', start_date:'2026-04-22', end_date:'2026-04-29', desc:'Tower Maintenance', date:'2026-04-29', status:'assigned',
+        activities:[
+          {name:'Tower Maintenance',  unit:'Per Visit', qty:1, rate:8500, amount:8500, status:'pending'},
+          {name:'Equipment Mounting', unit:'Per Site', qty:1, rate:18000, amount:18000, status:'pending'}
+        ]
+      },
       { site_id:'HR-001', project:'Voult Project', circle:'Haryana', pm:'Rajan Sharma', start_date:'2026-04-01', end_date:'2026-04-14', desc:'New Tower Install', date:'2026-04-14', status:'ready',
         activities:[
           {name:'New Tower Installation', unit:'Per Site', qty:1, rate:32000, amount:32000, status:'completed'},
@@ -30287,10 +30771,10 @@ const OVW_DATA = [
           {name:'Testing & Commissioning', unit:'Per Site', qty:1, rate:6000,  amount:6000,  status:'completed'}
         ]
       },
-      { site_id:'HR-045', project:'Voult Project', circle:'Haryana', pm:'Rajan Sharma', start_date:'2026-04-03', end_date:'2026-04-10', desc:'Foundation Work', date:'2026-04-10', status:'ready',
+      { site_id:'HR-045', project:'Voult Project', circle:'Haryana', pm:'Rajan Sharma', start_date:'2026-04-03', end_date:'2026-04-10', desc:'Foundation Work', date:'2026-04-10', status:'in_progress',
         activities:[
-          {name:'Civil Work',       unit:'Per Site', qty:1, rate:22000, amount:22000, status:'completed'},
-          {name:'Cable Laying',     unit:'Per Meter', qty:120, rate:180, amount:21600, status:'completed'}
+          {name:'Civil Work',       unit:'Per Site', qty:1, rate:22000, amount:22000, status:'pending'},
+          {name:'Cable Laying',     unit:'Per Meter', qty:120, rate:180, amount:21600, status:'pending'}
         ]
       },
       { site_id:'PB-012', project:'Voult Project', circle:'Punjab', pm:'Gurdev Singh', start_date:'2026-04-05', end_date:'2026-04-12', desc:'Equipment Mount', date:'2026-04-12', status:'l1_approved',
@@ -30308,15 +30792,20 @@ const OVW_DATA = [
   },
   { vendor_id:4, vendor_name:'Raj Civil Contractors', vendor_code:'VND-004', avatar:'RC',
     sites:[
+      { site_id:'UP-404', project:'Telecom Infra', circle:'Uttar Pradesh', pm:'Manish Tiwari', start_date:'2026-04-24', end_date:'2026-05-02', desc:'Cable Laying', date:'2026-05-02', status:'assigned',
+        activities:[
+          {name:'Cable Laying', unit:'Per Meter', qty:300, rate:180, amount:54000, status:'pending'}
+        ]
+      },
       { site_id:'UP-101', project:'Telecom Infra', circle:'Uttar Pradesh', pm:'Rajesh Kumar', start_date:'2026-04-06', end_date:'2026-04-13', desc:'Civil Works', date:'2026-04-13', status:'review',
         activities:[
           {name:'Civil Work', unit:'Per Site', qty:1, rate:20000, amount:20000, status:'completed'},
           {name:'Site Survey', unit:'Per Site', qty:1, rate:4500, amount:4500, status:'completed'}
         ]
       },
-      { site_id:'UP-202', project:'Telecom Infra', circle:'Uttar Pradesh', pm:'Rajesh Kumar', start_date:'2026-04-04', end_date:'2026-04-11', desc:'Foundation', date:'2026-04-11', status:'ready',
+      { site_id:'UP-202', project:'Telecom Infra', circle:'Uttar Pradesh', pm:'Rajesh Kumar', start_date:'2026-04-04', end_date:'2026-04-11', desc:'Foundation', date:'2026-04-11', status:'in_progress',
         activities:[
-          {name:'Foundation Work', unit:'Per Site', qty:1, rate:42000, amount:42000, status:'completed'}
+          {name:'Foundation Work', unit:'Per Site', qty:1, rate:42000, amount:42000, status:'pending'}
         ]
       },
       { site_id:'UP-303', project:'Telecom Infra', circle:'Uttar Pradesh', pm:'Manish Tiwari', start_date:'2026-03-28', end_date:'2026-04-07', desc:'Dismantling', date:'2026-04-07', status:'accepted',
@@ -30360,6 +30849,8 @@ let ovwSelected = new Set();   // keys: "vendor_id:site_id"
 let ovwExpanded = new Set();   // same key pattern for activity expansion
 
 const OVW_STATUS_INFO = {
+  assigned:    {label:'Pending Acceptance', class:'ovw-st-assigned', next:'in_progress'},
+  in_progress: {label:'In Progress',        class:'ovw-st-progress', next:'ready'},
   ready:       {label:'Ready to Submit',  class:'ovw-st-ready',    next:'review'},
   review:      {label:'L1 Review (PM)',   class:'ovw-st-review',   next:'l1_approved'},
   l1_approved: {label:'L1 Approved',      class:'ovw-st-l1',       next:'accepted'},
@@ -30371,7 +30862,7 @@ const OVW_STATUS_INFO = {
 /* ─── ACTIONS ────────────────────────────────────── */
 window.ovwFilterStatus = function(status, el){
   ovwStatusFilter = status;
-  document.querySelectorAll('.ovw-filter-pill').forEach(p=>p.classList.toggle('active', p.dataset.status===status));
+  document.querySelectorAll('.ovw-tab').forEach(p=>p.classList.toggle('active', p.dataset.status===status));
   ovwSelected.clear(); ovwUpdateBulkBar(); ovwRender();
 };
 
@@ -30426,7 +30917,15 @@ function ovwUpdateBulkBar(){
   actionBtn.disabled = false;
   actionBtn.style.opacity = '1';
 
-  if(stage === 'ready'){
+  if(stage === 'assigned'){
+    label.textContent = 'Accept Site(s)';
+    subtext.textContent = 'Vendor accepts assigned site & types — moves to In Progress';
+    rejectBtn.style.display = 'none';
+  } else if(stage === 'in_progress'){
+    label.textContent = 'End Work';
+    subtext.textContent = 'Marks work complete — moves to Ready to Submit';
+    rejectBtn.style.display = 'none';
+  } else if(stage === 'ready'){
     label.textContent = 'Submit for L1 Review';
     subtext.textContent = 'Sends to PM for first-level approval';
     rejectBtn.style.display = 'none';
@@ -30465,11 +30964,17 @@ window.ovwBulkAction = function(){
     const site = vendor?.sites.find(s=>s.site_id===sid);
     if(site){
       site.status = next;
+      // When work ends → mark all activities as completed
+      if(next === 'ready' && Array.isArray(site.activities)){
+        site.activities.forEach(a=>{ a.status = 'completed'; });
+      }
       if(next === 'billed') billCount++;
     }
   });
 
   const messages = {
+    in_progress:  ovwSelected.size + ' site(s) accepted by vendor — work now In Progress.',
+    ready:        ovwSelected.size + ' site(s) ended — Ready to Submit for L1 review.',
     review:       ovwSelected.size + ' item(s) submitted for L1 review.',
     l1_approved:  ovwSelected.size + ' item(s) approved at L1 — moved to L2 queue.',
     accepted:     ovwSelected.size + ' item(s) submitted for L2 acceptance.',
@@ -30506,7 +31011,7 @@ function ovwGetFiltered(){
     const filteredSites = vendor.sites.filter(site=>{
       // Status filter
       if(ovwStatusFilter !== 'all'){
-        const map = {ready:'ready', review:'review', l1:'l1_approved', accepted:'accepted', billed:'billed'};
+        const map = {assigned:'assigned', in_progress:'in_progress', ready:'ready', review:'review', l1:'l1_approved', accepted:'accepted', billed:'billed'};
         if(site.status !== map[ovwStatusFilter]) return false;
       }
       // Billed/unbilled filter
@@ -30546,16 +31051,19 @@ window.ovwRender = function(){
   const data = ovwGetFiltered();
 
   // Update summary stats
-  let totalValue=0, readyCount=0, l1Count=0, l2Count=0, billedCount=0, billedValue=0;
+  let totalValue=0, assignedCount=0, progressCount=0, readyCount=0, l1Count=0, l2Count=0, billedCount=0, billedValue=0;
   OVW_DATA.forEach(v=>v.sites.forEach(s=>{
     const amt = s.activities.reduce((a,b)=>a+b.amount,0);
     totalValue += amt;
-    if(s.status==='ready') readyCount++;
+    if(s.status==='assigned') assignedCount++;
+    else if(s.status==='in_progress') progressCount++;
+    else if(s.status==='ready') readyCount++;
     else if(s.status==='review') l1Count++;
     else if(s.status==='l1_approved'||s.status==='accepted') l2Count++;
     if(s.status==='billed'){ billedCount++; billedValue += amt; }
   }));
-  const $tv=document.getElementById('ovwTotalValue');    if($tv) $tv.textContent='₹'+(totalValue/100000).toFixed(1)+'L';
+  const $ac=document.getElementById('ovwAssignedCount'); if($ac) $ac.textContent=assignedCount;
+  const $pc=document.getElementById('ovwProgressCount'); if($pc) $pc.textContent=progressCount;
   const $rc=document.getElementById('ovwReadyCount');    if($rc) $rc.textContent=readyCount;
   const $l1=document.getElementById('ovwL1Count');       if($l1) $l1.textContent=l1Count;
   const $l2=document.getElementById('ovwL2Count');       if($l2) $l2.textContent=l2Count;
@@ -30586,7 +31094,23 @@ window.ovwRender = function(){
     const canSel = row.status !== 'billed';
     const st = OVW_STATUS_INFO[row.status]||{label:row.status,class:'ovw-st-ready'};
 
-    const actBlock = isExp ? `<div class="ovw-act-wrap"><div class="ovw-act-row" style="color:var(--gray-400);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.4px;padding-bottom:2px;border-bottom:1px solid var(--gray-200);margin-bottom:4px;"><div>Activity</div><div style="text-align:center;">Qty × Unit</div><div style="text-align:right;">Amount</div><div style="text-align:right;">Status</div></div>${row.activities.map(a=>`<div class="ovw-act-row"><div class="ovw-act-name">${a.name}</div><div class="ovw-act-qty">${a.qty} × ${a.unit}</div><div class="ovw-act-amt">₹${a.amount.toLocaleString('en-IN')}</div><div class="ovw-act-st" style="color:var(--success);font-weight:700;">✓ Done</div></div>`).join('')}</div>` : '';
+    const actBlock = isExp ? `<div class="ovw-act-wrap"><div class="ovw-act-row" style="color:var(--gray-400);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.4px;padding-bottom:2px;border-bottom:1px solid var(--gray-200);margin-bottom:4px;"><div>Activity</div><div style="text-align:center;">Qty × Unit</div><div style="text-align:right;">Amount</div><div style="text-align:right;">Status</div></div>${row.activities.map(a=>{
+      const isPending = a.status === 'pending';
+      const stColor = isPending ? 'var(--gray-400)' : 'var(--success)';
+      const stLabel = isPending ? '○ Pending' : '✓ Done';
+      return `<div class="ovw-act-row"><div class="ovw-act-name">${a.name}</div><div class="ovw-act-qty">${a.qty} × ${a.unit}</div><div class="ovw-act-amt">₹${a.amount.toLocaleString('en-IN')}</div><div class="ovw-act-st" style="color:${stColor};font-weight:700;">${stLabel}</div></div>`;
+    }).join('')}</div>` : '';
+
+    let inlineActionBtn = '';
+    if(row.status === 'assigned'){
+      inlineActionBtn = `<button class="icon-btn" title="Accept site" onclick="ovwQuickSubmit('${key}')" style="color:#92400e;"><svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></button>`;
+    } else if(row.status === 'in_progress'){
+      inlineActionBtn = `<button class="icon-btn" title="End work" onclick="ovwQuickSubmit('${key}')" style="color:#1e40af;"><svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="6" y="6" width="12" height="12" rx="1"/></svg></button>`;
+    } else if(row.status === 'ready'){
+      inlineActionBtn = `<button class="icon-btn" title="Quick submit" onclick="ovwQuickSubmit('${key}')" style="color:var(--primary);"><svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></button>`;
+    } else if(row.status === 'billed'){
+      inlineActionBtn = `<button class="icon-btn" title="View bill" onclick="showToast('Opening bill…','info')" style="color:var(--primary);"><svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button>`;
+    }
 
     return `<div class="ovw-site-row${isSel?' selected':''}">
       <div>${canSel?`<input type="checkbox" ${isSel?'checked':''} onchange="ovwToggleSel('${key}',this.checked)">`:'<span style="opacity:0.3;">—</span>'}</div>
@@ -30601,7 +31125,7 @@ window.ovwRender = function(){
       <div style="font-size:10px;color:var(--gray-500);">${row.activities.length} act.</div>
       <div class="ovw-site-amt">₹${siteAmt.toLocaleString('en-IN')}</div>
       <div><span class="ovw-status ${st.class}">${st.label}</span></div>
-      <div style="text-align:center;">${row.status==='ready'?`<button class="icon-btn" title="Quick submit" onclick="ovwQuickSubmit('${key}')" style="color:var(--primary);"><svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></button>`:''}${row.status==='billed'?`<button class="icon-btn" title="View bill" onclick="showToast('Opening bill…','info')" style="color:var(--primary);"><svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button>`:''}</div>
+      <div style="text-align:center;">${inlineActionBtn}</div>
       ${actBlock}
     </div>`;
   }).join('');
@@ -30617,6 +31141,13 @@ window.ovwQuickSubmit = function(key){
 
 
 /* ─── API MODE TOGGLE ────────────────────────────── */
+window.vndApiToggleClick=function(){
+  const cb=document.getElementById('vndApiMode'); if(!cb) return;
+  cb.checked=!cb.checked;
+  const pill=document.getElementById('vndApiToggle');
+  if(pill) pill.classList.toggle('on', cb.checked);
+  vndToggleApiMode(cb.checked);
+};
 window.vndToggleApiMode=function(enabled){
   const addBtn=document.getElementById('vndAddBtn');
   const addLbl=document.getElementById('vndAddLabel');
@@ -30758,11 +31289,17 @@ let matSearchQ='';
 /* ─── INV TAB SWITCH ─────────────────────────────── */
 window.invSwitchTab=function(tab,el){
   invTab=tab;
-  if(el) el.closest('.tab-list').querySelectorAll('.tab-item').forEach(t=>t.classList.toggle('active',t.dataset.tab===tab));
+  if(el) el.closest('.ovw-status-tabs')?.querySelectorAll('.ovw-tab').forEach(t=>t.classList.toggle('active',t.dataset.tab===tab));
   ['stock','log','alerts'].forEach(p=>{ const panel=document.getElementById('inv-panel-'+p); if(panel) panel.style.display=p===tab?'':'none'; });
   if(tab==='stock') invRenderStock();
   else if(tab==='log') invRenderLog();
   else if(tab==='alerts') invRenderAlerts();
+};
+// Alias used by filter dropdowns — re-renders the active panel
+window.invRender = function(){
+  if(invTab==='log') invRenderLog();
+  else if(invTab==='alerts') invRenderAlerts();
+  else invRenderStock();
 };
 window.invHandleSearch=function(q){ invSearchQ=q; invTab==='stock'?invRenderStock():invTab==='log'?invRenderLog():null; };
 window.invSortBy=function(f){ invSortField===f?invSortDir=invSortDir==='asc'?'desc':'asc':(invSortField=f,invSortDir='asc'); invRenderStock(); };
@@ -30889,10 +31426,14 @@ function invRenderStock(){
     const s=stockStatusClass(item);
     const pct=item.max?Math.min(item.qty/item.max*100,100):50;
     const value=(item.qty*item.cost).toLocaleString('en-IN');
+    const sites = item.sites || [];
+    const sitesCell = sites.length === 0
+      ? '<span style="font-size:11px;color:var(--gray-300);">—</span>'
+      : `<div style="display:inline-flex;align-items:center;gap:6px;white-space:nowrap;"><span style="font-size:10.5px;padding:2px 7px;background:var(--gray-100);border-radius:4px;font-weight:600;color:var(--gray-700);font-family:'Courier New',monospace;letter-spacing:0.2px;">${sites[0]}</span>${sites.length>1?`<span style="font-size:10.5px;color:var(--gray-500);font-weight:600;">+${sites.length-1} more</span>`:''}</div>`;
     return `<tr class="site-row">
       <td><span class="employee-id">${item.sku}</span></td>
       <td><span style="font-weight:600;color:var(--gray-800);font-size:13px;">${item.name}</span></td>
-      <td><span style="font-size:11px;font-weight:700;padding:2px 8px;border-radius:5px;background:${catBg[item.cat]||'#f3f4f6'};color:${catColor[item.cat]||'#374151'};">${item.cat}</span></td>
+      <td><span class="inv-cat-chip" style="background:${catBg[item.cat]||'#f3f4f6'};color:${catColor[item.cat]||'#374151'};">${item.cat}</span></td>
       <td style="font-size:12px;color:var(--gray-500);">${item.unit}</td>
       <td style="text-align:right;">
         <div class="stock-bar-wrap ${s.barCls}">
@@ -30905,15 +31446,15 @@ function invRenderStock(){
       <td style="text-align:right;font-weight:600;font-variant-numeric:tabular-nums;color:var(--primary);">₹${value}</td>
       <td style="font-size:11px;color:var(--gray-500);">${item.last_in}</td>
       <td>
-        <div style="font-size:11px;color:var(--gray-600);font-weight:500;">${item.project}</div>
-        <div style="display:flex;flex-wrap:wrap;gap:2px;margin-top:2px;">${(item.sites||[]).slice(0,2).map(s=>`<span style="font-size:10px;padding:1px 5px;background:var(--gray-100);border-radius:3px;font-weight:600;">${s}</span>`).join('')}</div>
+        <div style="font-size:11px;color:var(--gray-700);font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:140px;" title="${item.project}">${item.project}</div>
+        <div style="margin-top:3px;">${sitesCell}</div>
       </td>
       <td>${item.zoho_synced?'<span class="zoho-chip synced">✓</span>':'<span class="zoho-chip local">Local</span>'}</td>
       <td><span class="stock-status ${s.cls}">${s.lbl}</span></td>
-      <td style="text-align:center;">
-        <div style="display:flex;gap:3px;justify-content:center;">
-          <button class="icon-btn" title="Stock IN" onclick="quickStockMove(${item.id},'in')" style="color:var(--success);"><svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg></button>
-          <button class="icon-btn" title="Stock OUT" onclick="quickStockMove(${item.id},'out')" style="color:var(--danger);"><svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 19 5 12"/></svg></button>
+      <td>
+        <div class="bill-actions">
+          <button class="bill-action-btn" title="Stock IN" data-tone="success" onclick="quickStockMove(${item.id},'in')"><svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg></button>
+          <button class="bill-action-btn" title="Stock OUT" data-tone="danger" onclick="quickStockMove(${item.id},'out')"><svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 19 5 12"/></svg></button>
         </div>
       </td>
     </tr>`;
