@@ -13823,7 +13823,6 @@
                         <div class="ovw-tab" data-status="assigned" onclick="ovwFilterStatus('assigned',this)">Pending Acceptance</div>
                         <div class="ovw-tab" data-status="in_progress" onclick="ovwFilterStatus('in_progress',this)">In Progress</div>
                         <div class="ovw-tab" data-status="ready" onclick="ovwFilterStatus('ready',this)">Ready</div>
-                        <div class="ovw-tab" data-status="review" onclick="ovwFilterStatus('review',this)">In Review</div>
                         <div class="ovw-tab" data-status="l1" onclick="ovwFilterStatus('l1',this)">L1 Approved</div>
                         <div class="ovw-tab" data-status="accepted" onclick="ovwFilterStatus('accepted',this)">L2 Accepted</div>
                         <div class="ovw-tab" data-status="billed" onclick="ovwFilterStatus('billed',this)">Billed</div>
@@ -14857,24 +14856,6 @@
                             <div class="vdp-meta" id="vdpMeta"></div>
                         </div>
                         <div class="vdp-actions">
-                            <button class="vdp-btn-primary" onclick="openBillModal(vndCurrentDrawerId)">
-                                <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-                                New Bill
-                            </button>
-                            <div style="position:relative;">
-                                <button class="vdp-btn-secondary" onclick="toggleVdpMenu('newTxMenu')">
-                                    New Transaction ▾
-                                </button>
-                                <div class="vdp-dropdown" id="newTxMenu">
-                                    <div class="vdp-dropdown-item" onclick="showToast('Opening new Bill…','info');toggleVdpMenu('newTxMenu')"><svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg> Bill</div>
-                                    <div class="vdp-dropdown-item" onclick="showToast('Opening Expense…','info');toggleVdpMenu('newTxMenu')"><svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg> Expense</div>
-                                    <div class="vdp-dropdown-item" onclick="showToast('Opening Purchase Order…','info');toggleVdpMenu('newTxMenu')"><svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/></svg> Purchase Order</div>
-                                    <div class="vdp-dropdown-item" onclick="showToast('Opening Vendor Credit…','info');toggleVdpMenu('newTxMenu')"><svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="23 7 13.5 15.5 8.5 10.5 1 17"/></svg> Vendor Credit</div>
-                                    <div class="vdp-dropdown-item" onclick="openRecordPaymentModal();toggleVdpMenu('newTxMenu')"><svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg> Pay Bills</div>
-                                    <div class="vdp-dropdown-sep"></div>
-                                    <div class="vdp-dropdown-item" onclick="showToast('Opening Time Activity…','info');toggleVdpMenu('newTxMenu')"><svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> Time Activity</div>
-                                </div>
-                            </div>
                             <div style="position:relative;">
                                 <button class="vdp-menu-btn" onclick="toggleVdpMenu('vdpMoreMenu')" title="More options">
                                     <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="5" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="12" cy="19" r="1"/></svg>
@@ -30115,11 +30096,11 @@ function vndRender(){
       <td style="font-size:11px;color:var(--gray-600);">${v.email||'—'}</td>
       <td style="font-family:'Courier New',monospace;font-size:10px;color:var(--gray-600);">${v.gst||'—'}</td>
       <td>${(v.sites||[]).length===0?`<span style="font-size:11px;color:var(--gray-300);">—</span>`:`<div style="display:inline-flex;align-items:center;gap:6px;white-space:nowrap;"><span style="font-size:10.5px;padding:2px 7px;background:var(--gray-100);border-radius:4px;font-weight:600;color:var(--gray-700);font-family:'Courier New',monospace;letter-spacing:0.2px;">${v.sites[0]}</span>${v.sites.length>1?`<span style="font-size:10.5px;color:var(--gray-500);font-weight:600;">+${v.sites.length-1} more</span>`:''}</div>`}</td>
-      <td><div class="task-mini"><div class="task-mini-bar"><div class="task-mini-fill" style="width:${pct}%;"></div></div><div class="task-mini-lbl"><span>${done}/${total}</span><span style="color:var(--warning);">${v.tasks.in_progress}▶</span></div></div></td>
+      <td><div class="task-mini"><div class="task-mini-bar"><div class="task-mini-fill" style="width:${pct}%;"></div></div><div class="task-mini-lbl"><span>${done}/${total}</span></div></div></td>
       <td>${bb}</td>
       <td>${zb}</td>
       <td>${sb}</td>
-      <td style="text-align:center;" onclick="event.stopPropagation()"><div style="display:flex;align-items:center;justify-content:center;gap:3px;">${mBtn}<button class="icon-btn" title="Bill" onclick="openBillModal(${v.id})" ${done===0?'disabled style="opacity:0.35;"':''}><svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></button><button class="icon-btn" title="Sync" onclick="vndSyncOne(${v.id})"><svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.2"/></svg></button></div></td>
+      <td style="text-align:center;" onclick="event.stopPropagation()"><div style="display:flex;align-items:center;justify-content:center;gap:3px;">${mBtn}<button class="icon-btn" title="Sync" onclick="vndSyncOne(${v.id})"><svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.2"/></svg></button></div></td>
     </tr>`;
   }).join('');
 }
@@ -31103,11 +31084,11 @@ window.ovwRender = function(){
 
     let inlineActionBtn = '';
     if(row.status === 'assigned'){
-      inlineActionBtn = `<button class="icon-btn" title="Accept site" onclick="ovwQuickSubmit('${key}')" style="color:#92400e;"><svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></button>`;
+      inlineActionBtn = `<button class="icon-btn" title="Accept site" onclick="ovwQuickSubmit('${key}')" style="color:#92400e;"><svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/></svg></button>`;
     } else if(row.status === 'in_progress'){
-      inlineActionBtn = `<button class="icon-btn" title="End work" onclick="ovwQuickSubmit('${key}')" style="color:#1e40af;"><svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="6" y="6" width="12" height="12" rx="1"/></svg></button>`;
+      inlineActionBtn = `<button class="icon-btn" title="End work" onclick="ovwQuickSubmit('${key}')" style="color:#1e40af;"><svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg></button>`;
     } else if(row.status === 'ready'){
-      inlineActionBtn = `<button class="icon-btn" title="Quick submit" onclick="ovwQuickSubmit('${key}')" style="color:var(--primary);"><svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></button>`;
+      inlineActionBtn = `<button class="icon-btn" title="Submit for L1" onclick="ovwQuickSubmit('${key}')" style="color:var(--primary);"><svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg></button>`;
     } else if(row.status === 'billed'){
       inlineActionBtn = `<button class="icon-btn" title="View bill" onclick="showToast('Opening bill…','info')" style="color:var(--primary);"><svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button>`;
     }
