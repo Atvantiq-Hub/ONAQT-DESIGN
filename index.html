@@ -11038,7 +11038,6 @@
         #page-vendor.page-section.active,
         #page-vendor-overview.page-section.active,
         #page-vendor-bills.page-section.active,
-        #page-vendor-payments.page-section.active,
         #page-vendor-mileage.page-section.active,
         #page-vendor-material.page-section.active,
         #page-inventory.page-section.active {
@@ -11050,7 +11049,6 @@
         /* Table card fills remaining space in flex column pages */
         #page-vendor .table-card,
         #page-vendor-bills .table-card,
-        #page-vendor-payments .table-card,
         #page-vendor-mileage .table-card,
         #page-vendor-material .table-card,
         #page-inventory .table-card {
@@ -11062,7 +11060,6 @@
         }
         #page-vendor .premium-table-wrapper,
         #page-vendor-bills .premium-table-wrapper,
-        #page-vendor-payments .premium-table-wrapper,
         #page-vendor-mileage .premium-table-wrapper,
         #page-vendor-material .premium-table-wrapper,
         #page-inventory .premium-table-wrapper {
@@ -11089,7 +11086,6 @@
         /* Control bar stays fixed height */
         #page-vendor .control-bar,
         #page-vendor-bills .control-bar,
-        #page-vendor-payments .control-bar,
         #page-vendor-mileage .control-bar,
         #page-vendor-material .control-bar,
         #page-inventory .control-bar {
@@ -11103,7 +11099,6 @@
 
         /* ══ UNIVERSAL TAB BAR CSS (applies to all vendor sub-pages) ══ */
         #page-vendor-bills .tab-list,
-        #page-vendor-payments .tab-list,
         #page-vendor-mileage .tab-list,
         #page-vendor-overview .tab-list {
             display: flex !important;
@@ -11112,7 +11107,6 @@
             gap: 2px;
         }
         #page-vendor-bills .tab-item,
-        #page-vendor-payments .tab-item,
         #page-vendor-mileage .tab-item,
         #page-vendor-overview .tab-item {
             position: relative;
@@ -11129,21 +11123,18 @@
             border-radius: 6px;
         }
         #page-vendor-bills .tab-item:hover,
-        #page-vendor-payments .tab-item:hover,
         #page-vendor-mileage .tab-item:hover,
         #page-vendor-overview .tab-item:hover {
             color: var(--gray-800);
             background: var(--gray-50);
         }
         #page-vendor-bills .tab-item.active,
-        #page-vendor-payments .tab-item.active,
         #page-vendor-mileage .tab-item.active,
         #page-vendor-overview .tab-item.active {
             background: var(--primary);
             color: #fff;
         }
         #page-vendor-bills .tab-badge,
-        #page-vendor-payments .tab-badge,
         #page-vendor-mileage .tab-badge,
         #page-vendor-overview .tab-badge {
             font-size: 10px;
@@ -11156,18 +11147,15 @@
             text-align: center;
         }
         #page-vendor-bills .tab-item.active .tab-badge,
-        #page-vendor-payments .tab-item.active .tab-badge,
         #page-vendor-mileage .tab-item.active .tab-badge,
         #page-vendor-overview .tab-item.active .tab-badge {
             background: rgba(255,255,255,0.25);
             color: #fff;
         }
         [data-dark="true"] #page-vendor-bills .tab-item:not(.active),
-        [data-dark="true"] #page-vendor-payments .tab-item:not(.active),
         [data-dark="true"] #page-vendor-mileage .tab-item:not(.active),
         [data-dark="true"] #page-vendor-overview .tab-item:not(.active) { color: #9ca3af !important; }
         [data-dark="true"] #page-vendor-bills .tab-badge,
-        [data-dark="true"] #page-vendor-payments .tab-badge,
         [data-dark="true"] #page-vendor-mileage .tab-badge,
         [data-dark="true"] #page-vendor-overview .tab-badge { background: #363b52 !important; color: #d1d5db !important; }
 
@@ -11322,8 +11310,6 @@
         #page-vendor .premium-table tbody td { vertical-align:middle; padding-top:8px; padding-bottom:8px; }
         #page-vendor-bills .premium-table tbody tr { height:48px; }
         #page-vendor-bills .premium-table tbody td { vertical-align:middle; padding-top:8px; padding-bottom:8px; }
-        #page-vendor-payments .premium-table tbody tr { height:48px; }
-        #page-vendor-payments .premium-table tbody td { vertical-align:middle; padding-top:8px; padding-bottom:8px; }
         #page-vendor-mileage .premium-table tbody tr { height:48px; }
         #page-vendor-mileage .premium-table tbody td { vertical-align:middle; padding-top:8px; padding-bottom:8px; }
         #page-inventory .premium-table tbody tr { height:54px; }
@@ -12877,7 +12863,6 @@
                             <a href="#" class="nav-submenu-link" onclick="showPage('vendor-overview','Overview');return false;">Overview</a>
                             <a href="#" class="nav-submenu-link" onclick="showPage('vendor','Vendors');return false;">Vendors</a>
                             <a href="#" class="nav-submenu-link" onclick="showPage('vendor-bills','Bills');return false;">Bills</a>
-                            <a href="#" class="nav-submenu-link" onclick="showPage('vendor-payments','Bill Payments');return false;">Bill Payments</a>
                             <a href="#" class="nav-submenu-link" onclick="showPage('vendor-mileage','Mileage');return false;">Mileage</a>
                         </div>
                     </div>
@@ -14496,114 +14481,6 @@
                     </div>
                 </div><!-- /#page-vendor-bills -->
 
-                <!-- ══════════════════════════════════════ PAGE: BILL PAYMENTS ════════════════════════════════ -->
-                <div id="page-vendor-payments" class="page-section">
-
-                    <!-- Stats Banner -->
-                    <div class="vnd-stats" style="margin-bottom:14px;flex-shrink:0;">
-                        <div class="vnd-stat">
-                            <div class="vnd-stat-icon"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="17" height="17" style="flex-shrink:0"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg></div>
-                            <div class="vnd-stat-body"><div class="vnd-stat-lbl">Total Payable</div><div class="vnd-stat-val">₹8.4L</div><div class="vnd-stat-sub">Across all vendors</div></div>
-                        </div>
-                        <div class="vnd-stat">
-                            <div class="vnd-stat-icon"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="17" height="17" style="flex-shrink:0"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
-                            <div class="vnd-stat-body"><div class="vnd-stat-lbl">Due This Week</div><div class="vnd-stat-val">₹1.9L</div><div class="vnd-stat-sub">3 bills due</div></div>
-                        </div>
-                        <div class="vnd-stat">
-                            <div class="vnd-stat-icon"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="17" height="17" style="flex-shrink:0"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>
-                            <div class="vnd-stat-body"><div class="vnd-stat-lbl">Paid This Month</div><div class="vnd-stat-val">₹3.2L</div><div class="vnd-stat-sub">9 payments</div></div>
-                        </div>
-                        <div class="vnd-stat">
-                            <div class="vnd-stat-icon"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="17" height="17" style="flex-shrink:0"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
-                            <div class="vnd-stat-body"><div class="vnd-stat-lbl">Zoho Synced</div><div class="vnd-stat-val">11</div><div class="vnd-stat-sub">Payments recorded</div></div>
-                        </div>
-                    </div>
-
-                    <!-- Status tabs row -->
-                    <div class="ovw-status-tabs">
-                        <div class="ovw-tab active" data-tab="all" onclick="pmtSwitchTab('all',this)">All</div>
-                        <div class="ovw-tab" data-tab="cleared" onclick="pmtSwitchTab('cleared',this)">Cleared <span class="ovw-tab-count" id="pmt-badge-cleared">0</span></div>
-                        <div class="ovw-tab" data-tab="processing" onclick="pmtSwitchTab('processing',this)">Processing <span class="ovw-tab-count" id="pmt-badge-processing">0</span></div>
-                        <div class="ovw-tab" data-tab="scheduled" onclick="pmtSwitchTab('scheduled',this)">Scheduled <span class="ovw-tab-count" id="pmt-badge-scheduled">0</span></div>
-                    </div>
-
-                    <!-- Compact action bar -->
-                    <div class="ovw-filter-bar">
-                        <div class="vh-title-chip">
-                            <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="color:var(--primary);flex-shrink:0;"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
-                            <span class="vh-title-text">Bill Payments</span>
-                        </div>
-
-                        <select class="ovw-select" id="pmtVendorFilter" onchange="pmtRender()">
-                            <option value="">All Vendors</option>
-                            <option>Sharma Infra Pvt Ltd</option>
-                            <option>Punjab Express Transport</option>
-                            <option>Delhi Cab Services</option>
-                            <option>Raj Civil Contractors</option>
-                            <option>Jaipur Cab Rentals</option>
-                        </select>
-                        <select class="ovw-select" id="pmtDateFilter" onchange="pmtRender()">
-                            <option value="month">This Month</option>
-                            <option value="last_month">Last Month</option>
-                            <option value="quarter">This Quarter</option>
-                            <option value="all">All Time</option>
-                        </select>
-                        <select class="ovw-select" id="pmtModeFilter" onchange="pmtRender()">
-                            <option value="">All Modes</option>
-                            <option value="NEFT">NEFT / RTGS</option>
-                            <option value="UPI">UPI</option>
-                            <option value="Cheque">Cheque</option>
-                            <option value="Cash">Cash</option>
-                        </select>
-
-                        <div class="ovw-filter-spacer"></div>
-
-                        <div class="search-container ovw-search" style="width:220px;">
-                            <span class="search-icon"><svg width="13" height="13" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg></span>
-                            <input type="text" class="search-input" placeholder="Search payment, UTR…" oninput="pmtHandleSearch(this.value)">
-                        </div>
-                        <button class="ovw-export-btn" title="Export">
-                            <svg width="13" height="13" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
-                            Export
-                        </button>
-                        <button class="vh-btn-secondary" onclick="showToast('Payments synced with Zoho Books.','success')">
-                            <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.2"/></svg>
-                            Sync Zoho
-                        </button>
-                        <button class="vh-btn-primary" onclick="openRecordPaymentModal()">
-                            <svg width="13" height="13" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"/></svg>
-                            Record Payment
-                        </button>
-                    </div>
-
-                    <!-- Payments Table -->
-                    <div class="table-card">
-                        <div class="premium-table-wrapper">
-                            <table class="premium-table">
-                                <thead>
-                                    <tr>
-                                        <th>Payment Ref</th>
-                                        <th>Vendor</th>
-                                        <th>Against Bill #</th>
-                                        <th>Payment Date</th>
-                                        <th style="text-align:right;">Amount Paid</th>
-                                        <th>Mode</th>
-                                        <th>UTR / Cheque</th>
-                                        <th>Zoho</th>
-                                        <th>Status</th>
-                                        <th style="width:60px;"></th>
-                                    </tr>
-                                </thead>
-                                <tbody id="pmtTableBody"></tbody>
-                            </table>
-                        </div>
-                        <div class="table-footer">
-                            <div class="pagination-info" id="pmtPaginInfo"></div>
-                            <div class="pagination-controls" id="pmtPaginControls"></div>
-                        </div>
-                    </div>
-                </div><!-- /#page-vendor-payments -->
-
                 <!-- ══════════════════════════════════════ PAGE: MILEAGE / TRIPS ════════════════════════════════ -->
                 <div id="page-vendor-mileage" class="page-section">
 
@@ -15313,35 +15190,6 @@
                 </div>
 
                 <!-- Record Payment Modal -->
-                <div class="vnd-modal-overlay" id="vndPaymentModal">
-                    <div class="vnd-modal">
-                        <div class="vnd-modal-hd">
-                            <div><div class="vnd-modal-title">Record Payment</div><div class="vnd-modal-sub">Log a payment made against a vendor bill. Syncs to Zoho Books.</div></div>
-                            <button class="vnd-modal-close" onclick="closeVndModal('vndPaymentModal')">✕</button>
-                        </div>
-                        <div class="vnd-modal-body">
-                            <div class="vnd-form-grid">
-                                <div class="vnd-field"><label class="vnd-label">Vendor <span>*</span></label><select class="vnd-select" id="pmtFVendor"><option value="">Select vendor…</option><option>Sharma Infra Pvt Ltd</option><option>Punjab Express Transport</option><option>Delhi Cab Services</option><option>Raj Civil Contractors</option></select></div>
-                                <div class="vnd-field"><label class="vnd-label">Bill # <span>*</span></label><select class="vnd-select" id="pmtFBill"><option value="">Select bill…</option><option>VBILL-2026-001</option><option>VBILL-2026-002</option><option>VBILL-2026-003</option></select></div>
-                                <div class="vnd-field"><label class="vnd-label">Payment Date <span>*</span></label><input type="date" class="vnd-input" id="pmtFDate" value="2026-04-15"></div>
-                                <div class="vnd-field"><label class="vnd-label">Amount Paid (₹) <span>*</span></label><input type="number" class="vnd-input" id="pmtFAmount" placeholder="e.g. 85000"></div>
-                                <div class="vnd-field"><label class="vnd-label">Payment Mode</label><select class="vnd-select" id="pmtFMode"><option>NEFT</option><option>RTGS</option><option>IMPS</option><option>UPI</option><option>Cheque</option><option>Cash</option></select></div>
-                                <div class="vnd-field"><label class="vnd-label">UTR / Cheque No.</label><input type="text" class="vnd-input" id="pmtFRef" placeholder="Transaction reference"></div>
-                                <div class="vnd-field"><label class="vnd-label">Bank Account</label><input type="text" class="vnd-input" id="pmtFBank" placeholder="From account / bank"></div>
-                                <div class="vnd-field"><label class="vnd-label">Payment Terms</label><select class="vnd-select"><option>Full Payment</option><option>Partial Payment</option><option>Advance</option></select></div>
-                                <div class="vnd-field vnd-form-full"><label class="vnd-label">Notes</label><textarea class="vnd-textarea" placeholder="Optional payment notes…" style="min-height:50px;"></textarea></div>
-                            </div>
-                            <div class="vnd-toggle-wrap" style="margin-top:10px;">
-                                <div><label style="font-size:13px;font-weight:600;color:var(--gray-700);">Push to Zoho Books</label><small>Records payment against vendor bill in Zoho Books automatically</small></div>
-                                <label class="vnd-sw"><input type="checkbox" checked><span class="vnd-sw-slider"></span></label>
-                            </div>
-                        </div>
-                        <div class="vnd-modal-ft">
-                            <button class="btn-secondary" onclick="closeVndModal('vndPaymentModal')">Cancel</button>
-                            <button class="btn-primary-modal" onclick="savePayment()">Record &amp; Sync →</button>
-                        </div>
-                    </div>
-                </div>
 
                 <!-- Vendor Detail Panel (QuickBooks-style) -->
                 <div class="vnd-detail-overlay" id="vndDetailOverlay" onclick="closeVndDetail()"></div>
@@ -25754,7 +25602,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 'vendor':          function(){ if(typeof vndRender==='function') vndRender(); },
                 'vendor-overview': function(){ if(typeof ovwRender==='function') ovwRender(); },
                 'vendor-bills':    function(){ if(typeof billRender==='function') billRender(); },
-                'vendor-payments': function(){ if(typeof pmtRender==='function') pmtRender(); },
                 'vendor-mileage':  function(){ if(typeof mlgRender==='function') mlgRender(); },
                 'vendor-material': function(){ if(typeof matRender==='function') matRender(); },
                 'inventory':       function(){ if(typeof invRenderStock==='function'){ invRenderStock(); invRenderLog(); invRenderAlerts(); } },
@@ -30706,7 +30553,6 @@ const ZOHO_IMPORT_DATA = [
 /* ─── STATE ─────────────────────────────────────── */
 let vndSearchQ='', vndTypeFilter='all', vndSortField='code', vndSortDir='asc';
 let billTab='all', billSearchQ='';
-let pmtSearchQ='';
 let mlgSearchQ='', mlgSortField='date', mlgSortDir='desc', mlgSelected=new Set();
 let vndCurrentStep=1, vndSelectedType='', vndCurrentDrawerId=null;
 let tripVendorRate=0, tripVendorType='';
@@ -30813,8 +30659,6 @@ function billRender(){
       secondaryBtn = `<button class="bill-action-btn" title="Download Excel" onclick="billDownloadExcel(${b.id})"><svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg></button>`;
     } else if(b.stage==='l1_approved'){
       secondaryBtn = `<button class="bill-action-btn" title="Mark Synced" data-tone="primary" onclick="billMarkSynced(${b.id})"><svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.2"/></svg></button>`;
-    } else if(b.stage==='synced'){
-      secondaryBtn = `<button class="bill-action-btn" title="Mark Paid" data-tone="success" onclick="billMarkPaid(${b.id})"><svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></button>`;
     } else {
       // No secondary action available — render invisible placeholder so all rows align
       secondaryBtn = `<span class="bill-action-placeholder" aria-hidden="true"></span>`;
@@ -30843,62 +30687,8 @@ function billRender(){
 window.billApproveL1=function(id){ const b=BILL_DATA.find(x=>x.id===id); if(b){ b.stage='l1_approved'; billRender(); showToast(b.bill_no+' — L1 Approved. Download Excel to import into Zoho/QuickBooks.','success'); } };
 window.billDownloadExcel=function(id){ const b=BILL_DATA.find(x=>x.id===id); showToast('Downloading Excel for '+((b&&b.bill_no)||'bill')+'…','info'); };
 window.billMarkSynced=function(id){ const b=BILL_DATA.find(x=>x.id===id); if(b){ b.stage='synced'; billRender(); showToast(b.bill_no+' marked as Synced.','success'); } };
-window.billMarkPaid=function(id){ const b=BILL_DATA.find(x=>x.id===id); if(b){ b.stage='synced_paid'; billRender(); showToast(b.bill_no+' marked as Synced & Paid.','success'); } };
 window.billApprove=window.billApproveL1;
 window.openBillDetail=function(id){ showToast('Bill detail view — coming soon.','info'); };
-
-/* ─── PAYMENTS TABLE ────────────────────────────── */
-window.pmtHandleSearch=function(q){ pmtSearchQ=q; pmtRender(); };
-window.openRecordPaymentModal=function(){ document.getElementById('vndPaymentModal').classList.add('open'); };
-window.savePayment=function(){ showToast('Payment recorded and synced to Zoho Books.','success'); closeVndModal('vndPaymentModal'); };
-let pmtTab = 'all';
-
-window.pmtSwitchTab = function(tab, el){
-  pmtTab = tab;
-  if(el) el.closest('.ovw-status-tabs')?.querySelectorAll('.ovw-tab').forEach(t=>t.classList.toggle('active', t.dataset.tab===tab));
-  pmtRender();
-};
-
-function pmtRender(){
-  let list=[...PMT_DATA];
-  // Tab filter
-  if(pmtTab && pmtTab !== 'all') list = list.filter(p => p.status === pmtTab);
-  // Other filters
-  const vf=document.getElementById('pmtVendorFilter')?.value;
-  const mf=document.getElementById('pmtModeFilter')?.value;
-  if(vf) list=list.filter(p=>p.vendor===vf);
-  if(mf) list=list.filter(p=>(p.mode||'').toUpperCase().includes(mf.toUpperCase()));
-  if(pmtSearchQ){ const q=pmtSearchQ.toLowerCase(); list=list.filter(p=>p.vendor.toLowerCase().includes(q)||p.bill.toLowerCase().includes(q)||p.ref.toLowerCase().includes(q)); }
-
-  const body=document.getElementById('pmtTableBody');
-  const info=document.getElementById('pmtPaginInfo');
-  if(!body) return;
-  if(info) info.textContent=`Showing 1–${list.length} of ${list.length} record${list.length===1?'':'s'}`;
-
-  // Update tab counts (across full data set, not filtered)
-  const counts = { cleared:0, processing:0, scheduled:0 };
-  PMT_DATA.forEach(p => { if(counts[p.status] !== undefined) counts[p.status]++; });
-  const setCount = (id, n) => { const el = document.getElementById(id); if(el) el.textContent = n; };
-  setCount('pmt-badge-cleared',    counts.cleared);
-  setCount('pmt-badge-processing', counts.processing);
-  setCount('pmt-badge-scheduled',  counts.scheduled);
-
-  const statusLabel = { cleared:'Cleared', processing:'Processing', scheduled:'Scheduled', failed:'Failed' };
-  const statusClass = { cleared:'pmt-status-cleared', processing:'pmt-status-processing', scheduled:'pmt-status-scheduled', failed:'pmt-status-failed' };
-
-  body.innerHTML=list.map(p=>`<tr class="site-row">
-    <td><span class="employee-id" style="font-size:11px;">${p.ref}</span></td>
-    <td style="font-weight:600;color:var(--gray-800);font-size:12px;">${p.vendor}</td>
-    <td><span class="employee-id" style="font-size:10px;">${p.bill}</span></td>
-    <td style="font-size:12px;color:var(--gray-600);">${p.date}</td>
-    <td style="text-align:right;font-weight:700;font-family:'Fraunces',serif;color:var(--primary);font-variant-numeric:tabular-nums;">₹${p.amount.toLocaleString('en-IN')}</td>
-    <td><span class="pmt-mode">${p.mode}</span></td>
-    <td style="font-family:'Courier New',monospace;font-size:11px;color:var(--gray-600);">${p.utr}</td>
-    <td>${p.zoho_synced?'<span class="zoho-chip synced">✓ Synced</span>':'<span class="zoho-chip pending">Pending</span>'}</td>
-    <td><span class="pmt-status ${statusClass[p.status]||'pmt-status-cleared'}">${statusLabel[p.status]||p.status}</span></td>
-    <td><button class="bill-action-btn" title="View"><svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button></td>
-  </tr>`).join('');
-}
 
 /* ─── MILEAGE / TRIPS TABLE ─────────────────────── */
 window.mlgHandleSearch=function(q){ mlgSearchQ=q; mlgRender(); };
@@ -31863,7 +31653,7 @@ window.vndSaveTypes=function(id){
 
 /* ─── INIT ───────────────────────────────────────── */
 document.addEventListener('DOMContentLoaded',function(){
-  vndRender(); billRender(); pmtRender(); mlgRender();
+  vndRender(); billRender(); mlgRender();
   if(typeof invRenderStock==='function'){ invRenderStock(); invRenderLog(); invRenderAlerts(); }
   if(typeof matRender==='function') matRender();
   if(typeof ovwRender==='function') ovwRender();
