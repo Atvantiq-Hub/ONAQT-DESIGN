@@ -11469,7 +11469,7 @@
         .ovw-vstat-lbl { font-size:9px; color:var(--gray-500); text-transform:uppercase; letter-spacing:0.4px; }
 
         .ovw-work-list { padding: 0; }
-        .ovw-site-row { display:grid; grid-template-columns:28px 22px 130px 70px 90px 80px 80px 70px 70px 60px 90px 140px 36px; gap:8px; align-items:center; padding:7px 14px; border-bottom:1px solid var(--gray-100); transition:var(--transition); }
+        .ovw-site-row { display:grid; grid-template-columns:28px 22px 130px 70px 90px 80px 80px 70px 70px 60px 90px 140px; gap:8px; align-items:center; padding:7px 14px; border-bottom:1px solid var(--gray-100); transition:var(--transition); }
         .ovw-site-row:last-child { border-bottom:none; }
         .ovw-site-row:hover { background:var(--gray-50); }
         .ovw-site-row.selected { background:var(--primary-light); }
@@ -11522,7 +11522,7 @@
         .ovw-bulk-btn.danger:hover { background:rgba(255,100,90,0.4); }
 
         /* Header row in overview cards */
-        .ovw-list-head { display:grid; grid-template-columns:28px 22px 130px 70px 90px 80px 80px 70px 70px 60px 90px 140px 36px; gap:8px; padding:8px 14px; background:var(--gray-50); font-size:9.5px; font-weight:700; color:var(--gray-500); text-transform:uppercase; letter-spacing:0.5px; border-bottom:1px solid var(--gray-100); }
+        .ovw-list-head { display:grid; grid-template-columns:28px 22px 130px 70px 90px 80px 80px 70px 70px 60px 90px 140px; gap:8px; padding:8px 14px; background:var(--gray-50); font-size:9.5px; font-weight:700; color:var(--gray-500); text-transform:uppercase; letter-spacing:0.5px; border-bottom:1px solid var(--gray-100); }
         [data-dark="true"] .ovw-list-head { background:#252836 !important; border-color:#2d3145 !important; }
 
         /* Compact stats for overview */
@@ -12244,13 +12244,35 @@
         .bdg-sr-mini-btn:hover { background: var(--primary); color: #fff; border-color: var(--primary); }
 
         /* Per-month monitor modal */
-        .bdg-mm-overlay { position: fixed; inset: 0; background: rgba(0,0,0,.5); z-index: 9999; display: flex; align-items: center; justify-content: center; padding: 20px; }
-        .bdg-mm-card { background: var(--bdg-surface); color: var(--bdg-text); border-radius: 14px; max-width: 920px; width: 100%; max-height: 90vh; overflow: hidden; box-shadow: 0 20px 60px rgba(0,0,0,.3); display: flex; flex-direction: column; }
-        .bdg-mm-head { padding: 16px 22px; border-bottom: 1px solid var(--bdg-border); display: flex; align-items: center; justify-content: space-between; }
+        /* The modal is appended to document.body (outside #page-budgeting), so the --bdg-* tokens
+           are redefined here to keep the card fully opaque and themed. */
+        .bdg-mm-overlay {
+          position: fixed; inset: 0;
+          background: rgba(0,0,0,.5);
+          z-index: 9999;
+          display: flex; align-items: center; justify-content: center;
+          padding: 20px;
+          --bdg-text: var(--gray-900);
+          --bdg-sub: var(--gray-600);
+          --bdg-muted: var(--gray-400);
+          --bdg-surface: var(--white);
+          --bdg-border: rgba(45,40,32,.08);
+          --bdg-border-md: rgba(45,40,32,.14);
+        }
+        [data-dark="true"] .bdg-mm-overlay {
+          --bdg-text: #f3f4f6;
+          --bdg-sub: #c4c9d4;
+          --bdg-muted: #6b7280;
+          --bdg-surface: #1e2130;
+          --bdg-border: rgba(255,255,255,.06);
+          --bdg-border-md: rgba(255,255,255,.12);
+        }
+        .bdg-mm-card { background: var(--bdg-surface, #fff); color: var(--bdg-text); border-radius: 14px; max-width: 920px; width: 100%; max-height: 90vh; overflow: hidden; box-shadow: 0 20px 60px rgba(0,0,0,.3); display: flex; flex-direction: column; }
+        .bdg-mm-head { padding: 16px 22px; border-bottom: 1px solid var(--bdg-border); display: flex; align-items: center; justify-content: space-between; background: var(--bdg-surface, #fff); }
         .bdg-mm-title { font-family: Fraunces, serif; font-size: 17px; font-weight: 600; }
         .bdg-mm-close { background: transparent; border: none; cursor: pointer; color: var(--bdg-muted); width: 30px; height: 30px; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 20px; }
         .bdg-mm-close:hover { background: var(--gray-100); color: var(--bdg-text); }
-        .bdg-mm-body { padding: 18px 22px; overflow-y: auto; flex: 1; }
+        .bdg-mm-body { padding: 18px 22px; overflow-y: auto; flex: 1; background: var(--bdg-surface, #fff); }
 
         /* Month strip */
         .bdg-mm-strip { display: grid; grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: 8px; margin-bottom: 18px; }
@@ -12270,7 +12292,7 @@
         .bdg-mm-editor-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; flex-wrap: wrap; gap: 8px; }
         .bdg-mm-editor-title { font-size: 13px; font-weight: 600; }
         .bdg-mm-editor-actions { display: flex; gap: 6px; }
-        .bdg-mm-foot { padding: 12px 22px; border-top: 1px solid var(--bdg-border); display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+        .bdg-mm-foot { padding: 12px 22px; border-top: 1px solid var(--bdg-border); display: flex; justify-content: space-between; align-items: center; gap: 10px; background: var(--bdg-surface, #fff); }
         .bdg-mm-summary { font-size: 11px; color: var(--bdg-sub); }
         .bdg-mm-summary strong { color: var(--primary); font-family: 'DM Mono', monospace; font-size: 12px; }
 
@@ -14280,11 +14302,6 @@
                             <div class="ovw-summary-sub">Work ongoing</div>
                         </div>
                         <div class="ovw-summary-card">
-                            <div class="ovw-summary-lbl">Ready to Submit</div>
-                            <div class="ovw-summary-val" id="ovwReadyCount" style="color:var(--gray-700);">8</div>
-                            <div class="ovw-summary-sub">Completed sites</div>
-                        </div>
-                        <div class="ovw-summary-card">
                             <div class="ovw-summary-lbl">L1 Review</div>
                             <div class="ovw-summary-val" id="ovwL1Count" style="color:#92400e;">3</div>
                             <div class="ovw-summary-sub">PM pending</div>
@@ -14306,7 +14323,6 @@
                         <div class="ovw-tab active" data-status="all" onclick="ovwFilterStatus('all',this)">All</div>
                         <div class="ovw-tab" data-status="assigned" onclick="ovwFilterStatus('assigned',this)">Pending Acceptance</div>
                         <div class="ovw-tab" data-status="in_progress" onclick="ovwFilterStatus('in_progress',this)">In Progress</div>
-                        <div class="ovw-tab" data-status="ready" onclick="ovwFilterStatus('ready',this)">Ready</div>
                         <div class="ovw-tab" data-status="l1" onclick="ovwFilterStatus('l1',this)">L1 Approved</div>
                         <div class="ovw-tab" data-status="accepted" onclick="ovwFilterStatus('accepted',this)">L2 Accepted</div>
                         <div class="ovw-tab" data-status="billed" onclick="ovwFilterStatus('billed',this)">Billed</div>
@@ -14326,13 +14342,6 @@
                             <option value="quarter">This Quarter</option>
                             <option value="custom">Custom Range</option>
                             <option value="all">All Time</option>
-                        </select>
-
-                        <!-- Billed filter -->
-                        <select class="ovw-select" id="ovwBilledFilter" onchange="ovwRender()">
-                            <option value="all">All Work</option>
-                            <option value="unbilled">Unbilled Only</option>
-                            <option value="billed">Billed Only</option>
                         </select>
 
                         <!-- Vendor filter -->
@@ -14387,33 +14396,27 @@
                     <div class="vnd-stats" style="margin-bottom:14px;flex-shrink:0;">
                         <div class="vnd-stat">
                             <div class="vnd-stat-icon"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="17" height="17" style="flex-shrink:0"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div>
-                            <div class="vnd-stat-body"><div class="vnd-stat-lbl">Total Bills</div><div class="vnd-stat-val">14</div><div class="vnd-stat-sub">This month</div></div>
+                            <div class="vnd-stat-body"><div class="vnd-stat-lbl">Total Bills</div><div class="vnd-stat-val" id="billStatTotal">0</div><div class="vnd-stat-sub">This month</div></div>
                         </div>
                         <div class="vnd-stat">
-                            <div class="vnd-stat-icon"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="17" height="17" style="flex-shrink:0"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></div>
-                            <div class="vnd-stat-body"><div class="vnd-stat-lbl">Awaiting Approval</div><div class="vnd-stat-val">3</div><div class="vnd-stat-sub">PM review pending</div></div>
-                        </div>
-                        <div class="vnd-stat">
-                            <div class="vnd-stat-icon"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="17" height="17" style="flex-shrink:0"><polyline points="20 6 9 17 4 12"/></svg></div>
-                            <div class="vnd-stat-body"><div class="vnd-stat-lbl">Approved</div><div class="vnd-stat-val">₹5.1L</div><div class="vnd-stat-sub">Ready for payment</div></div>
+                            <div class="vnd-stat-icon"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="17" height="17" style="flex-shrink:0"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+                            <div class="vnd-stat-body"><div class="vnd-stat-lbl">Unpaid</div><div class="vnd-stat-val" id="billStatUnpaidAmt">₹0</div><div class="vnd-stat-sub"><span id="billStatUnpaidCount">0</span> bills pending</div></div>
                         </div>
                         <div class="vnd-stat">
                             <div class="vnd-stat-icon"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="17" height="17" style="flex-shrink:0"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
-                            <div class="vnd-stat-body"><div class="vnd-stat-lbl">Paid This Month</div><div class="vnd-stat-val">₹3.2L</div><div class="vnd-stat-sub">4 vendors</div></div>
+                            <div class="vnd-stat-body"><div class="vnd-stat-lbl">Paid</div><div class="vnd-stat-val" id="billStatPaidAmt">₹0</div><div class="vnd-stat-sub"><span id="billStatPaidCount">0</span> bills paid</div></div>
                         </div>
                         <div class="vnd-stat">
                             <div class="vnd-stat-icon"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="17" height="17" style="flex-shrink:0"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg></div>
-                            <div class="vnd-stat-body"><div class="vnd-stat-lbl">Overdue</div><div class="vnd-stat-val">₹0.8L</div><div class="vnd-stat-sub">2 bills past due</div></div>
+                            <div class="vnd-stat-body"><div class="vnd-stat-lbl">Overdue</div><div class="vnd-stat-val" id="billStatOverdueAmt">₹0</div><div class="vnd-stat-sub"><span id="billStatOverdueCount">0</span> past due</div></div>
                         </div>
                     </div>
 
                     <!-- Status tabs row -->
                     <div class="ovw-status-tabs">
-                        <div class="ovw-tab active" data-tab="all" onclick="billSwitchTab('all',this)">All</div>
-                        <div class="ovw-tab" data-tab="draft" onclick="billSwitchTab('draft',this)">Draft <span class="ovw-tab-count" id="bill-badge-draft">2</span></div>
-                        <div class="ovw-tab" data-tab="pending" onclick="billSwitchTab('pending',this)">Pending <span class="ovw-tab-count" id="bill-badge-pending">3</span></div>
-                        <div class="ovw-tab" data-tab="approved" onclick="billSwitchTab('approved',this)">Approved <span class="ovw-tab-count" id="bill-badge-approved">6</span></div>
-                        <div class="ovw-tab" data-tab="paid" onclick="billSwitchTab('paid',this)">Paid <span class="ovw-tab-count" id="bill-badge-paid">3</span></div>
+                        <div class="ovw-tab active" data-tab="all" onclick="billSwitchTab('all',this)">All <span class="ovw-tab-count" id="bill-badge-all">0</span></div>
+                        <div class="ovw-tab" data-tab="unpaid" onclick="billSwitchTab('unpaid',this)">Unpaid <span class="ovw-tab-count" id="bill-badge-unpaid">0</span></div>
+                        <div class="ovw-tab" data-tab="paid" onclick="billSwitchTab('paid',this)">Paid <span class="ovw-tab-count" id="bill-badge-paid">0</span></div>
                     </div>
 
                     <!-- Compact action bar -->
@@ -14468,7 +14471,7 @@
                                         <th style="text-align:right;">GST</th>
                                         <th style="text-align:right;">Grand Total</th>
                                         <th>Status</th>
-                                        <th style="width:90px;">Actions</th>
+                                        <th style="width:60px;text-align:center;">Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody id="billTableBody"></tbody>
@@ -15020,23 +15023,27 @@
                         <div class="vnd-modal-hd">
                             <div>
                                 <div class="vnd-modal-title" id="tripModalTitle">Add Trip Entry</div>
-                                <div class="vnd-modal-sub" id="tripModalSub">Recording a trip event. Fields adjust based on vendor type.</div>
+                                <div class="vnd-modal-sub" id="tripModalSub">Select a vendor to begin. Form adapts to vendor type.</div>
                             </div>
-                            <button class="vnd-modal-close" onclick="closeVndModal('vndTripModal')">✕</button>
+                            <button class="vnd-modal-close" onclick="closeVndModal('vndTripModal');tripResetForm();">✕</button>
                         </div>
                         <div class="vnd-modal-body">
 
-                            <!-- Vendor selector -->
-                            <div class="vnd-section-hd"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg> Select Vendor</div>
+                            <!-- Vendor & Trip basics (always visible) -->
+                            <div class="vnd-section-hd"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg> Trip Details</div>
                             <div class="vnd-form-grid" style="margin-bottom:16px;">
                                 <div class="vnd-field">
+                                    <label class="vnd-label">Trip Type <span>*</span></label>
+                                    <select class="vnd-select" id="tripTypeSel" onchange="tripTypeChanged(this)">
+                                        <option value="">— Select trip type —</option>
+                                        <option value="transport">Transporter</option>
+                                        <option value="cab">Monthly Cab</option>
+                                    </select>
+                                </div>
+                                <div class="vnd-field">
                                     <label class="vnd-label">Vendor <span>*</span></label>
-                                    <select class="vnd-select" id="tripVendorSel" onchange="tripVendorChanged(this)">
-                                        <option value="">— Select mileage vendor —</option>
-                                        <option value="2" data-type="transport" data-rate="18" data-vehicle="">Punjab Express Transport</option>
-                                        <option value="3" data-type="cab"       data-rate="12" data-vehicle="" data-monthly="38000" data-included="2500">Delhi Cab Services</option>
-                                        <option value="5" data-type="transport" data-rate="16" data-vehicle="">North India Movers</option>
-                                        <option value="7" data-type="cab"       data-rate="14" data-vehicle="" data-monthly="42000" data-included="3000">Jaipur Cab Rentals</option>
+                                    <select class="vnd-select" id="tripVendorSel" onchange="tripVendorChanged(this)" disabled>
+                                        <option value="">— Select trip type first —</option>
                                     </select>
                                 </div>
                                 <div class="vnd-field">
@@ -15053,38 +15060,54 @@
                                 </div>
                             </div>
 
-                            <!-- TRANSPORTER fields -->
-                            <div id="tripTransportFields" style="display:none;">
-                                <div class="vnd-section-hd"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="3" y1="12" x2="21" y2="12"/><polyline points="15 6 21 12 15 18"/></svg> Route (Start → Stops → End)</div>
-                                <p style="font-size:12px;color:var(--gray-500);margin-bottom:12px;">Add each waypoint with its Site ID. KMs are computed per leg. Attach delivery confirmation or odometer photos.</p>
+                            <!-- CAB ONLY: Monthly KM tracker banner -->
+                            <div id="tripMonthlyTracker" style="display:none;padding:12px 14px;border-radius:10px;background:linear-gradient(135deg,var(--primary-light),var(--white));border:1.5px solid color-mix(in srgb,var(--primary) 20%,transparent);margin-bottom:16px;">
+                                <div style="font-size:11px;font-weight:700;text-transform:uppercase;color:var(--gray-500);margin-bottom:6px;">Monthly KM Tracker — April 2026</div>
+                                <div style="display:flex;align-items:center;gap:12px;">
+                                    <div style="flex:1;">
+                                        <div style="height:8px;border-radius:4px;background:var(--gray-200);overflow:hidden;"><div id="tripMonthlyBar" style="height:100%;border-radius:4px;background:var(--primary);width:60%;transition:width 0.4s;"></div></div>
+                                    </div>
+                                    <div style="font-size:12px;font-weight:700;color:var(--gray-700);white-space:nowrap;"><span id="tripUsedKms">1,500</span> / <span id="tripIncludedKms">2,500</span> km</div>
+                                </div>
+                                <div style="font-size:11px;color:var(--gray-500);margin-top:4px;">Extra KMs beyond limit billed at ₹<span id="tripExtraRate">12</span>/km</div>
+                            </div>
+
+                            <!-- Route / Stops (shown for both, multi-stop button hidden for cab) -->
+                            <div id="tripRouteSection" style="display:none;">
+                                <div class="vnd-section-hd"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="3" y1="12" x2="21" y2="12"/><polyline points="15 6 21 12 15 18"/></svg> <span id="tripRouteLabel">Route</span></div>
+                                <p id="tripRouteHelp" style="font-size:12px;color:var(--gray-500);margin-bottom:12px;">Enter the start and end of the trip with odometer readings.</p>
 
                                 <div id="tripRouteStops">
                                     <div class="trip-stop-row" data-idx="0">
                                         <div class="trip-stop-connector start"></div>
                                         <div class="trip-stop-body">
                                             <div class="vnd-form-grid cols3">
-                                                <div class="vnd-field"><label class="vnd-label">From Location <span>*</span></label><input type="text" class="vnd-input" placeholder="Origin / depot"></div>
+                                                <div class="vnd-field"><label class="vnd-label">From Location <span>*</span></label><input type="text" class="vnd-input" placeholder="Origin / pickup point"></div>
                                                 <div class="vnd-field"><label class="vnd-label">Site ID</label><input type="text" class="vnd-input" placeholder="e.g. HR-001"></div>
-                                                <div class="vnd-field"><label class="vnd-label">Odometer (start)</label><input type="number" class="vnd-input trip-odo-start" placeholder="KM reading" oninput="tripCalcKms()"></div>
+                                                <div class="vnd-field"><label class="vnd-label">Odometer (start) <span>*</span></label><input type="number" class="vnd-input trip-odo-start" placeholder="KM reading" oninput="tripCalcKms()"></div>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="trip-stop-row" data-idx="1">
-                                        <div class="trip-stop-connector mid"></div>
+                                        <div class="trip-stop-connector end"></div>
                                         <div class="trip-stop-body">
                                             <div class="vnd-form-grid cols3">
-                                                <div class="vnd-field"><label class="vnd-label">To Location <span>*</span></label><input type="text" class="vnd-input" placeholder="Destination"></div>
+                                                <div class="vnd-field"><label class="vnd-label">To Location <span>*</span></label><input type="text" class="vnd-input" placeholder="Destination / drop point"></div>
                                                 <div class="vnd-field"><label class="vnd-label">Site ID</label><input type="text" class="vnd-input" placeholder="e.g. PB-030"></div>
-                                                <div class="vnd-field"><label class="vnd-label">Odometer (end)</label><input type="number" class="vnd-input trip-odo-end" placeholder="KM reading" oninput="tripCalcKms()"></div>
+                                                <div class="vnd-field"><label class="vnd-label">Odometer (end) <span>*</span></label><input type="number" class="vnd-input trip-odo-end" placeholder="KM reading" oninput="tripCalcKms()"></div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="vnd-add-stop" onclick="addTripStop()" style="margin-bottom:14px;">
+                                <div id="tripAddStopBtn" class="vnd-add-stop" onclick="addTripStop()" style="display:none;margin-bottom:14px;">
                                     <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
                                     Add another stop (multi-drop)
                                 </div>
-                                <div class="vnd-form-grid" style="margin-bottom:10px;">
+                            </div>
+
+                            <!-- TRANSPORT ONLY: Load & weight -->
+                            <div id="tripLoadFields" style="display:none;">
+                                <div class="vnd-form-grid" style="margin-bottom:14px;">
                                     <div class="vnd-field">
                                         <label class="vnd-label">Load / Cargo Details</label>
                                         <input type="text" class="vnd-input" id="tripLoad" placeholder="e.g. Tower components, cables">
@@ -15096,66 +15119,29 @@
                                 </div>
                             </div>
 
-                            <!-- CAB / MONTHLY fields -->
-                            <div id="tripCabFields" style="display:none;">
-                                <div class="vnd-section-hd"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg> Daily KM Log</div>
-                                <p style="font-size:12px;color:var(--gray-500);margin-bottom:12px;">Record start and end odometer each day. Upload a photo of the odometer as proof. Monthly included KMs are tracked automatically.</p>
-
-                                <!-- Monthly KM tracker -->
-                                <div id="tripMonthlyTracker" style="padding:12px 14px;border-radius:10px;background:linear-gradient(135deg,var(--primary-light),var(--white));border:1.5px solid color-mix(in srgb,var(--primary) 20%,transparent);margin-bottom:14px;">
-                                    <div style="font-size:11px;font-weight:700;text-transform:uppercase;color:var(--gray-500);margin-bottom:6px;">Monthly KM Tracker — April 2026</div>
-                                    <div style="display:flex;align-items:center;gap:12px;">
-                                        <div style="flex:1;">
-                                            <div style="height:8px;border-radius:4px;background:var(--gray-200);overflow:hidden;"><div id="tripMonthlyBar" style="height:100%;border-radius:4px;background:var(--primary);width:60%;transition:width 0.4s;"></div></div>
-                                        </div>
-                                        <div style="font-size:12px;font-weight:700;color:var(--gray-700);white-space:nowrap;"><span id="tripUsedKms">1,500</span> / <span id="tripIncludedKms">2,500</span> km</div>
-                                    </div>
-                                    <div style="font-size:11px;color:var(--gray-500);margin-top:4px;">Extra KMs beyond limit billed at ₹<span id="tripExtraRate">12</span>/km</div>
+                            <!-- Odometer photos (optional, both types) -->
+                            <div id="tripOdoPhotos" style="display:none;margin-bottom:14px;">
+                                <div class="vnd-section-hd" style="margin-bottom:8px;">
+                                    <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+                                    Odometer Photos
+                                    <span style="margin-left:auto;font-size:10px;font-weight:600;color:var(--gray-400);text-transform:none;letter-spacing:0;padding:2px 8px;background:var(--gray-100);border-radius:99px;">Optional</span>
                                 </div>
-
-                                <div class="vnd-form-grid">
-                                    <div class="vnd-field">
-                                        <label class="vnd-label">Start Location</label>
-                                        <input type="text" class="vnd-input" id="cabStartLoc" placeholder="Pickup point / Office">
-                                    </div>
-                                    <div class="vnd-field">
-                                        <label class="vnd-label">End Location</label>
-                                        <input type="text" class="vnd-input" id="cabEndLoc" placeholder="Drop point">
-                                    </div>
-                                    <div class="vnd-field">
-                                        <label class="vnd-label">Start Odometer (km) <span>*</span></label>
-                                        <input type="number" class="vnd-input" id="cabStartKm" placeholder="e.g. 45820" oninput="cabCalcKms()">
-                                    </div>
-                                    <div class="vnd-field">
-                                        <label class="vnd-label">End Odometer (km) <span>*</span></label>
-                                        <input type="number" class="vnd-input" id="cabEndKm" placeholder="e.g. 45968" oninput="cabCalcKms()">
-                                    </div>
-                                    <div class="vnd-field">
-                                        <label class="vnd-label">Site ID Visited</label>
-                                        <input type="text" class="vnd-input" id="cabSiteId" placeholder="e.g. DL-005, DL-008">
-                                    </div>
-                                    <div class="vnd-field">
-                                        <label class="vnd-label">Purpose / Remarks</label>
-                                        <input type="text" class="vnd-input" id="cabRemarks" placeholder="e.g. Site visit + material drop">
-                                    </div>
-                                </div>
-
-                                <!-- Odometer photo upload -->
-                                <div style="display:flex;gap:10px;margin-top:12px;">
-                                    <div class="bill-upload-zone" style="flex:1;padding:16px;" onclick="document.getElementById('cabOdoStart').click()">
+                                <p style="font-size:11px;color:var(--gray-500);margin-bottom:10px;">Attach odometer photos as proof. Both photos are optional but recommended for verification.</p>
+                                <div style="display:flex;gap:10px;">
+                                    <div class="bill-upload-zone" id="tripOdoStartZone" style="flex:1;padding:16px;" onclick="document.getElementById('tripOdoStart').click()">
                                         <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
-                                        <div class="upload-title" style="font-size:11px;">Start Odometer Photo</div>
-                                        <input type="file" id="cabOdoStart" accept="image/*" style="display:none;" onchange="cabPhotoUploaded('start')">
+                                        <div class="upload-title" id="tripOdoStartLbl" style="font-size:11px;">Start Odometer Photo</div>
+                                        <input type="file" id="tripOdoStart" accept="image/*" style="display:none;" onchange="tripPhotoUploaded('start',this)">
                                     </div>
-                                    <div class="bill-upload-zone" style="flex:1;padding:16px;" onclick="document.getElementById('cabOdoEnd').click()">
+                                    <div class="bill-upload-zone" id="tripOdoEndZone" style="flex:1;padding:16px;" onclick="document.getElementById('tripOdoEnd').click()">
                                         <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
-                                        <div class="upload-title" style="font-size:11px;">End Odometer Photo</div>
-                                        <input type="file" id="cabOdoEnd" accept="image/*" style="display:none;" onchange="cabPhotoUploaded('end')">
+                                        <div class="upload-title" id="tripOdoEndLbl" style="font-size:11px;">End Odometer Photo</div>
+                                        <input type="file" id="tripOdoEnd" accept="image/*" style="display:none;" onchange="tripPhotoUploaded('end',this)">
                                     </div>
                                 </div>
                             </div>
 
-                            <!-- Shared bottom section -->
+                            <!-- Shared bottom: summary + remarks -->
                             <div id="tripSharedSection" style="display:none;margin-top:4px;">
                                 <!-- Auto-computed summary -->
                                 <div style="display:flex;gap:10px;margin-bottom:14px;">
@@ -15182,7 +15168,7 @@
 
                         </div>
                         <div class="vnd-modal-ft">
-                            <button class="btn-secondary" onclick="closeVndModal('vndTripModal')">Cancel</button>
+                            <button class="btn-secondary" onclick="closeVndModal('vndTripModal');tripResetForm();">Cancel</button>
                             <button class="btn-secondary" id="tripSaveDraft" onclick="saveTrip('draft')" style="display:none;">Save as Draft</button>
                             <button class="btn-primary-modal" id="tripSaveSubmit" onclick="saveTrip('submitted')" style="display:none;">Submit Trip →</button>
                         </div>
@@ -16754,16 +16740,16 @@
                         <div class="rp-page-meta">Budget targets (from Budgeting) vs Actual performance (from Work Done &amp; Tasks) &nbsp;·&nbsp; FY 2025</div>
                       </div>
                       <div class="rp-controls">
-                        <button class="rp-btn-export" onclick="paExportCSV()">↓ Export CSV</button>
+                        <button class="rp-btn-export" onclick="rpExportCSV()">↓ Export CSV</button>
                       </div>
                     </div>
                     <!-- KPI Row -->
-                    <div class="rp-kpi-row" id="paKpiRow"></div>
+                    <div class="rp-kpi-row" id="rpKpiRow"></div>
                     <!-- Filter strip (above table) -->
                     <div class="rp-filter-strip">
-                      <div class="rp-month-nav" id="paMonthNav"></div>
+                      <div class="rp-month-nav" id="rpMonthNav"></div>
                       <div class="rp-filter-strip-selects">
-                        <select class="rp-select" id="paDeptFilter" onchange="paApplyFilter()">
+                        <select class="rp-select" id="rpDeptFilter" onchange="rpApplyFilter()">
                           <option value="all">All LOB</option>
                           <option value="Civil">Civil Engineering</option>
                           <option value="Structural">Structural</option>
@@ -16773,10 +16759,10 @@
                           <option value="Operations">Operations</option>
                           <option value="Electrical">Electrical</option>
                         </select>
-                        <select class="rp-select" id="paProjectFilter" onchange="paApplyFilter()">
+                        <select class="rp-select" id="rpProjectFilter" onchange="rpApplyFilter()">
                           <option value="all">All Projects</option>
                         </select>
-                        <select class="rp-select" id="paStatusFilter" onchange="paApplyFilter()">
+                        <select class="rp-select" id="rpStatusFilter" onchange="rpApplyFilter()">
                           <option value="all">All Status</option>
                           <option value="Over">Over allocated</option>
                           <option value="On Track">On track</option>
@@ -16785,60 +16771,60 @@
                       </div>
                     </div>
                     <!-- Toolbar with view toggle -->
-                    <div class="rp-tbl-wrap" id="paTblOuter">
+                    <div class="rp-tbl-wrap" id="rpTblOuter">
                       <div class="rp-toolbar">
                         <div class="rp-toolbar-left">
                           <span class="rp-toolbar-title">Employee Detail</span>
-                          <input class="rp-search" id="paSearchBox" placeholder="Search employee or project…" oninput="paApplyFilter()" />
-                          <button class="rp-filter-btn over" id="paFilterOver" onclick="paToggleFilter('over')">Over allocated</button>
-                          <button class="rp-filter-btn low" id="paFilterLow" onclick="paToggleFilter('low')">Under allocated</button>
+                          <input class="rp-search" id="rpSearchBox" placeholder="Search employee or project…" oninput="rpApplyFilter()" />
+                          <button class="rp-filter-btn over" id="rpFilterOver" onclick="rpToggleFilter('over')">Over allocated</button>
+                          <button class="rp-filter-btn low" id="rpFilterLow" onclick="rpToggleFilter('low')">Under allocated</button>
                         </div>
                         <div style="display:flex;align-items:center;gap:10px;">
-                          <span class="rp-row-count" id="paRowCount"></span>
+                          <span class="rp-row-count" id="rpRowCount"></span>
                           <!-- Group-by toggle -->
                           <div class="rp-group-toggle">
                             <span class="rp-group-lbl">Group:</span>
-                            <button class="rp-group-btn active" id="paGroupNone" onclick="paSwitchGroup('none')">None</button>
-                            <button class="rp-group-btn" id="paGroupLOB" onclick="paSwitchGroup('lob')">LOB</button>
-                            <button class="rp-group-btn" id="paGroupProj" onclick="paSwitchGroup('project')">Project</button>
+                            <button class="rp-group-btn active" id="rpGroupNone" onclick="rpSwitchGroup('none')">None</button>
+                            <button class="rp-group-btn" id="rpGroupLOB" onclick="rpSwitchGroup('lob')">LOB</button>
+                            <button class="rp-group-btn" id="rpGroupProj" onclick="rpSwitchGroup('project')">Project</button>
                           </div>
                           <div class="rp-view-toggle">
-                            <button class="rp-view-btn active" id="paViewList" onclick="paSwitchView('list')" title="List View">
+                            <button class="rp-view-btn active" id="rpViewList" onclick="rpSwitchView('list')" title="List View">
                               <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16"/></svg>
                             </button>
-                            <button class="rp-view-btn" id="paViewTile" onclick="paSwitchView('tile')" title="Tile View">
+                            <button class="rp-view-btn" id="rpViewTile" onclick="rpSwitchView('tile')" title="Tile View">
                               <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 5a1 1 0 011-1h4a1 1 0 011 1v4a1 1 0 01-1 1H5a1 1 0 01-1-1V5zm10 0a1 1 0 011-1h4a1 1 0 011 1v4a1 1 0 01-1 1h-4a1 1 0 01-1-1V5zM4 15a1 1 0 011-1h4a1 1 0 011 1v4a1 1 0 01-1 1H5a1 1 0 01-1-1v-4zm10 0a1 1 0 011-1h4a1 1 0 011 1v4a1 1 0 01-1 1h-4a1 1 0 01-1-1v-4z"/></svg>
                             </button>
                           </div>
                         </div>
                       </div>
                       <!-- LIST VIEW (default) -->
-                      <div class="rp-tbl-scroll" id="paListViewWrap">
-                        <table id="paMainTable">
+                      <div class="rp-tbl-scroll" id="rpListViewWrap">
+                        <table id="rpMainTable">
                           <thead><tr>
-                            <th onclick="paSortTable('name')" id="pa-th-name">Name</th>
-                            <th onclick="paSortTable('dept')" id="pa-th-dept">LOB</th>
-                            <th onclick="paSortTable('primaryProject')" id="pa-th-primaryProject">Project</th>
-                            <th onclick="paSortTable('level')" id="pa-th-level">Level</th>
-                            <th onclick="paSortTable('pm')" id="pa-th-pm">PM</th>
-                            <th onclick="paSortTable('circle')" id="pa-th-circle">Circle</th>
-                            <th onclick="paSortTable('targetRev')" id="pa-th-targetRev">Target Rev</th>
-                            <th onclick="paSortTable('actualRev')" id="pa-th-actualRev">Achieved Rev</th>
-                            <th onclick="paSortTable('revVar')" id="pa-th-revVar">Var Rev</th>
-                            <th onclick="paSortTable('revAchPct')" id="pa-th-revAchPct">Achievement %</th>
-                            <th onclick="paSortTable('sitesDone')" id="pa-th-sitesDone">Sites</th>
-                            <th onclick="paSortTable('activeDays')" id="pa-th-activeDays">Active Days</th>
-                            <th onclick="paSortTable('avgDays')" id="pa-th-avgDays">Avg D/Site</th>
-                            <th onclick="paSortTable('efficiency')" id="pa-th-efficiency">Efficiency %</th>
-                            <th onclick="paSortTable('planHrs')" id="pa-th-planHrs">Plan Hrs</th>
-                            <th onclick="paSortTable('actHrs')" id="pa-th-actHrs">Actual Hrs</th>
+                            <th onclick="rpSortTable('name')" id="rp-th-name">Name</th>
+                            <th onclick="rpSortTable('dept')" id="rp-th-dept">LOB</th>
+                            <th onclick="rpSortTable('primaryProject')" id="rp-th-primaryProject">Project</th>
+                            <th onclick="rpSortTable('level')" id="rp-th-level">Level</th>
+                            <th onclick="rpSortTable('pm')" id="rp-th-pm">PM</th>
+                            <th onclick="rpSortTable('circle')" id="rp-th-circle">Circle</th>
+                            <th onclick="rpSortTable('targetRev')" id="rp-th-targetRev">Target Rev</th>
+                            <th onclick="rpSortTable('actualRev')" id="rp-th-actualRev">Achieved Rev</th>
+                            <th onclick="rpSortTable('revVar')" id="rp-th-revVar">Var Rev</th>
+                            <th onclick="rpSortTable('revAchPct')" id="rp-th-revAchPct">Achievement %</th>
+                            <th onclick="rpSortTable('sitesDone')" id="rp-th-sitesDone">Sites</th>
+                            <th onclick="rpSortTable('activeDays')" id="rp-th-activeDays">Active Days</th>
+                            <th onclick="rpSortTable('avgDays')" id="rp-th-avgDays">Avg D/Site</th>
+                            <th onclick="rpSortTable('efficiency')" id="rp-th-efficiency">Efficiency %</th>
+                            <th onclick="rpSortTable('planHrs')" id="rp-th-planHrs">Plan Hrs</th>
+                            <th onclick="rpSortTable('actHrs')" id="rp-th-actHrs">Actual Hrs</th>
                           </tr></thead>
-                          <tbody id="paTblBody"></tbody>
+                          <tbody id="rpTblBody"></tbody>
                         </table>
                       </div>
                       <!-- TILE VIEW (hidden by default) -->
-                      <div class="rp-tile-grid" id="paTileViewWrap" style="display:none;"></div>
-                      <div class="rp-tbl-footer" id="paTblFooter"></div>
+                      <div class="rp-tile-grid" id="rpTileViewWrap" style="display:none;"></div>
+                      <div class="rp-tbl-footer" id="rpTblFooter"></div>
                     </div>
                   </div><!-- /rp-scroll -->
                 </div><!-- /#page-plan-actual -->
@@ -25606,7 +25592,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 'vendor-material': function(){ if(typeof matRender==='function') matRender(); },
                 'inventory':       function(){ if(typeof invRenderStock==='function'){ invRenderStock(); invRenderLog(); invRenderAlerts(); } },
                 'budgeting':       function(){ if(typeof bdgRender==='function') bdgRender(); },
-                'plan-actual':     function(){ if(typeof paRenderMonths==='function'){ try{paRenderMonths();}catch(e){} } if(typeof paApplyFilter==='function') paApplyFilter(); }
+                'plan-actual':     function(){ if(typeof rpRenderMonths==='function'){ try{rpRenderMonths();}catch(e){} } if(typeof rpApplyFilter==='function') rpApplyFilter(); }
             };
             if (renderMap[pageId]) renderMap[pageId]();
         }
@@ -30587,7 +30573,6 @@ function vndRender(){
   if(badge) badge.textContent=list.length+' record'+(list.length===1?'':'s');
   const TL={service:'Service',subcon:'Service',transport:'Transporter',cab:'Monthly Cab',procurement:'Procurement',material:'Procurement',time_activity:'Time Activity'};
   const TC={service:'vtype-subcon',subcon:'vtype-subcon',transport:'vtype-transport',cab:'vtype-cab',procurement:'vtype-material',material:'vtype-material',time_activity:'vtype-time'};
-  const isMileage=v=>v.type==='transport'||v.type==='cab';
   if(!list.length){ body.innerHTML=`<tr><td colspan="11" style="text-align:center;padding:32px;color:var(--gray-400);">No vendors found</td></tr>`; return; }
   body.innerHTML=list.map(v=>{
     const total=v.tasks.assigned, done=v.tasks.completed;
@@ -30595,7 +30580,6 @@ function vndRender(){
     const sb=v.status==='active'?`<span class="status-badge status-active">Active</span>`:v.status==='pending'?`<span class="status-badge status-warning">Pending</span>`:`<span class="status-badge status-inactive">Inactive</span>`;
     const zb=v.zoho_synced?`<span class="zoho-chip synced">✓</span>`:v.zoho_id?`<span class="zoho-chip pending">!</span>`:`<span class="zoho-chip local">—</span>`;
     const bb=v.pending_bill>0?`<span style="font-size:11px;font-weight:700;color:var(--warning);">₹${(v.pending_bill/1000).toFixed(0)}K</span>`:`<span style="font-size:11px;color:var(--gray-300);">—</span>`;
-    const mBtn=isMileage(v)?`<button class="btn-add-trip" onclick="event.stopPropagation();openAddTripModalForVendor(${v.id})" style="font-size:10px;padding:2px 7px;">+Trip</button>`:' ';
     return `<tr class="site-row" style="cursor:pointer;" onclick="openVndDetail(${v.id})">
       <td onclick="event.stopPropagation()"><span class="employee-id">${v.code}</span></td>
       <td><div style="font-weight:700;color:var(--primary);font-size:12px;">${v.name}</div><div style="font-size:10px;color:var(--gray-400);">${v.contact} · ${v.phone}</div></td>
@@ -30613,56 +30597,74 @@ function vndRender(){
       <td>${bb}</td>
       <td>${zb}</td>
       <td>${sb}</td>
-      <td style="text-align:center;" onclick="event.stopPropagation()"><div style="display:flex;align-items:center;justify-content:center;gap:3px;">${mBtn}<button class="icon-btn" title="Sync" onclick="vndSyncOne(${v.id})"><svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.2"/></svg></button></div></td>
+      <td style="text-align:center;" onclick="event.stopPropagation()"><div style="display:flex;align-items:center;justify-content:center;gap:3px;"><button class="icon-btn" title="Sync" onclick="vndSyncOne(${v.id})"><svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.2"/></svg></button></div></td>
     </tr>`;
   }).join('');
 }
 
 /* ─── BILLS TABLE ───────────────────────────────── */
+// Bill stages collapse to paid/unpaid for this listing.
+// 'synced_paid' = paid; everything else = unpaid (regardless of internal workflow stage).
+function billPaidStatus(b){ return b.stage==='synced_paid' ? 'paid' : 'unpaid'; }
+
 window.billSwitchTab=function(tab,el){
   billTab=tab;
   if(el) el.closest('.ovw-status-tabs')?.querySelectorAll('.ovw-tab').forEach(t=>t.classList.toggle('active',t.dataset.tab===tab));
   billRender();
 };
 window.billHandleSearch=function(q){ billSearchQ=q; billRender(); };
-window.billStatusFilterChanged=function(){
-  const sel=document.getElementById('billStatusFilter');
-  billTab=sel?sel.value:'all';
-  billRender();
-};
+
 function billRender(){
-  const stageMap={all:null,draft:['draft'],pending:['pending'],submitted_l1:['submitted_l1'],l1_approved:['l1_approved'],synced:['synced'],synced_paid:['synced_paid']};
   let list=[...BILL_DATA];
-  const allowed=stageMap[billTab];
-  if(allowed) list=list.filter(b=>allowed.includes(b.stage));
+  // Vendor filter
+  const vSel=document.getElementById('billVendorFilter')?.value||'';
+  if(vSel) list=list.filter(b=>b.vendor===vSel);
+  // Search
   if(billSearchQ){ const q=billSearchQ.toLowerCase(); list=list.filter(b=>b.bill_no.toLowerCase().includes(q)||b.vendor.toLowerCase().includes(q)||b.period.toLowerCase().includes(q)); }
+  // Tab filter (paid/unpaid)
+  if(billTab==='paid')        list=list.filter(b=>billPaidStatus(b)==='paid');
+  else if(billTab==='unpaid') list=list.filter(b=>billPaidStatus(b)==='unpaid');
+
+  // Stat banner — derived from the FULL BILL_DATA, not the filtered list
+  const all=BILL_DATA;
+  const paid=all.filter(b=>billPaidStatus(b)==='paid');
+  const unpaid=all.filter(b=>billPaidStatus(b)==='unpaid');
+  const fmtL=(n)=>'₹'+(n>=100000?(n/100000).toFixed(1)+'L':(n/1000).toFixed(0)+'K');
+  const setText=(id,v)=>{ const el=document.getElementById(id); if(el) el.textContent=v; };
+  setText('billStatTotal', all.length);
+  setText('billStatPaidAmt',   fmtL(paid.reduce((s,b)=>s+b.total,0)));
+  setText('billStatPaidCount', paid.length);
+  setText('billStatUnpaidAmt', fmtL(unpaid.reduce((s,b)=>s+b.total,0)));
+  setText('billStatUnpaidCount', unpaid.length);
+  // Overdue = unpaid with period in March or earlier (rough heuristic for the demo)
+  const overdue=unpaid.filter(b=>/Mar|March|Feb/.test(b.period));
+  setText('billStatOverdueAmt', fmtL(overdue.reduce((s,b)=>s+b.total,0)));
+  setText('billStatOverdueCount', overdue.length);
+  // Tab badges
+  setText('bill-badge-all',    all.length);
+  setText('bill-badge-paid',   paid.length);
+  setText('bill-badge-unpaid', unpaid.length);
+
   const body=document.getElementById('billTableBody');
   const info=document.getElementById('billPaginInfo');
   if(!body) return;
   if(info) info.textContent=`Showing 1–${list.length} of ${list.length} record${list.length===1?'':'s'}`;
 
-  const statusLabel={pending:'Pending',draft:'Draft',submitted_l1:'Submitted to L1',l1_approved:'L1 Approved',synced:'Synced',synced_paid:'Synced & Paid'};
-  const statusClass={pending:'bill-stage-pending',draft:'bill-stage-draft',submitted_l1:'bill-stage-pending',l1_approved:'bill-stage-pm',synced:'bill-stage-approved',synced_paid:'bill-stage-paid'};
   const typeClass={subcon:'vtype-subcon',service:'vtype-subcon',transport:'vtype-transport',cab:'vtype-cab',procurement:'vtype-material',time_activity:'vtype-time'};
   const typeLabel={subcon:'Service',service:'Service',transport:'Transporter',cab:'Monthly Cab',procurement:'Procurement',time_activity:'Time Activity'};
-  const isApi=document.getElementById('vndApiMode')?.checked||false;
+
+  if(!list.length){ body.innerHTML=`<tr><td colspan="9" style="text-align:center;padding:32px;color:var(--gray-400);">No bills found</td></tr>`; return; }
 
   body.innerHTML=list.map(b=>{
-    const sl=statusLabel[b.stage]||b.stage;
-    const sc=statusClass[b.stage]||'bill-stage-draft';
+    const paidStatus=billPaidStatus(b);
+    const sl = paidStatus==='paid' ? 'Paid' : 'Unpaid';
+    const sc = paidStatus==='paid' ? 'bill-stage-paid' : 'bill-stage-pending';
+    const zohoTitle = b.zoho_synced ? 'Already synced — click to re-sync' : 'Sync this bill with Zoho Books';
 
-    // Build secondary action — exactly one slot reserved per row for symmetry
-    let secondaryBtn = '';
-    if(b.stage==='submitted_l1'){
-      secondaryBtn = `<button class="bill-action-btn" title="Approve L1" data-tone="success" onclick="billApproveL1(${b.id})"><svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></button>`;
-    } else if(b.stage==='l1_approved' && isApi){
-      secondaryBtn = `<button class="bill-action-btn" title="Download Excel" onclick="billDownloadExcel(${b.id})"><svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg></button>`;
-    } else if(b.stage==='l1_approved'){
-      secondaryBtn = `<button class="bill-action-btn" title="Mark Synced" data-tone="primary" onclick="billMarkSynced(${b.id})"><svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.2"/></svg></button>`;
-    } else {
-      // No secondary action available — render invisible placeholder so all rows align
-      secondaryBtn = `<span class="bill-action-placeholder" aria-hidden="true"></span>`;
-    }
+    // Toggle entry for the 3-dot menu (only show the relevant transition)
+    const togglePaidItem = paidStatus==='paid'
+      ? `<button class="action-menu-item" onclick="billMarkUnpaid(${b.id})"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>Mark as Unpaid</button>`
+      : `<button class="action-menu-item" onclick="billMarkPaid(${b.id})"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>Mark as Paid</button>`;
 
     return `<tr class="site-row">
     <td><span class="employee-id" style="font-size:11px;">${b.bill_no}</span></td>
@@ -30673,10 +30675,23 @@ function billRender(){
     <td style="text-align:right;font-variant-numeric:tabular-nums;color:var(--gray-500);font-size:12px;">₹${b.gst.toLocaleString('en-IN')}</td>
     <td style="text-align:right;font-weight:700;font-family:'Fraunces',serif;color:var(--primary);font-size:12px;">₹${b.total.toLocaleString('en-IN')}</td>
     <td><span class="bill-stage ${sc}">${sl}</span></td>
-    <td>
-      <div class="bill-actions">
-        <button class="bill-action-btn" title="View" onclick="openBillDetail(${b.id})"><svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button>
-        ${secondaryBtn}
+    <td onclick="event.stopPropagation()">
+      <div class="bill-actions" style="justify-content:center;">
+        <div class="action-dropdown" id="billdd-${b.id}" style="display:inline-block;">
+          <button class="bill-action-btn" title="Actions" onclick="billToggleMenu(event,'billdd-${b.id}')">
+            <svg width="13" height="13" fill="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="5" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="12" cy="19" r="1.6"/></svg>
+          </button>
+          <div class="action-menu">
+            <button class="action-menu-item" onclick="openBillDetail(${b.id})"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3" stroke-width="2"/></svg>View</button>
+            <button class="action-menu-item" onclick="billSyncZoho(${b.id})" title="${zohoTitle}"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.2"/></svg>${b.zoho_synced ? 'Re-sync with Zoho' : 'Sync with Zoho'}</button>
+            <div class="action-menu-divider"></div>
+            ${togglePaidItem}
+            <button class="action-menu-item" onclick="billDownloadPdf(${b.id})"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>Download PDF</button>
+            <button class="action-menu-item" onclick="billDownloadExcel(${b.id})"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-6h13M9 11V5a2 2 0 012-2h7a2 2 0 012 2v6M5 21h14a2 2 0 002-2v-6H3v6a2 2 0 002 2z"/></svg>Export to Excel</button>
+            <div class="action-menu-divider"></div>
+            <button class="action-menu-item danger" onclick="billDelete(${b.id})"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>Delete</button>
+          </div>
+        </div>
       </div>
     </td>
   </tr>`;
@@ -30684,11 +30699,46 @@ function billRender(){
 }
 
 /* ─── BILL ACTIONS ───────────────────────────────── */
-window.billApproveL1=function(id){ const b=BILL_DATA.find(x=>x.id===id); if(b){ b.stage='l1_approved'; billRender(); showToast(b.bill_no+' — L1 Approved. Download Excel to import into Zoho/QuickBooks.','success'); } };
-window.billDownloadExcel=function(id){ const b=BILL_DATA.find(x=>x.id===id); showToast('Downloading Excel for '+((b&&b.bill_no)||'bill')+'…','info'); };
-window.billMarkSynced=function(id){ const b=BILL_DATA.find(x=>x.id===id); if(b){ b.stage='synced'; billRender(); showToast(b.bill_no+' marked as Synced.','success'); } };
-window.billApprove=window.billApproveL1;
+window.billToggleMenu=function(event,id){
+  event.stopPropagation();
+  const dd=document.getElementById(id); if(!dd) return;
+  const willOpen=!dd.classList.contains('active');
+  document.querySelectorAll('.action-dropdown').forEach(x=>x.classList.remove('active'));
+  if(willOpen) dd.classList.add('active');
+};
+window.billSyncZoho=function(id){
+  const b=BILL_DATA.find(x=>x.id===id); if(!b) return;
+  b.zoho_synced=true;
+  showToast(b.bill_no+' — synced with Zoho Books.','success');
+  billRender();
+};
+window.billMarkPaid=function(id){
+  const b=BILL_DATA.find(x=>x.id===id); if(!b) return;
+  b.stage='synced_paid';
+  showToast(b.bill_no+' — marked as Paid.','success');
+  billRender();
+};
+window.billMarkUnpaid=function(id){
+  const b=BILL_DATA.find(x=>x.id===id); if(!b) return;
+  b.stage='synced';
+  showToast(b.bill_no+' — marked as Unpaid.','info');
+  billRender();
+};
+window.billDownloadPdf=function(id){ const b=BILL_DATA.find(x=>x.id===id); showToast('Downloading PDF for '+((b&&b.bill_no)||'bill')+'…','info'); };
+window.billDownloadExcel=function(id){ const b=BILL_DATA.find(x=>x.id===id); showToast('Exporting '+((b&&b.bill_no)||'bill')+' to Excel…','info'); };
+window.billDelete=function(id){
+  const b=BILL_DATA.find(x=>x.id===id); if(!b) return;
+  if(!confirm('Delete '+b.bill_no+'? This cannot be undone.')) return;
+  const i=BILL_DATA.findIndex(x=>x.id===id);
+  if(i>=0) BILL_DATA.splice(i,1);
+  showToast(b.bill_no+' deleted.','info');
+  billRender();
+};
 window.openBillDetail=function(id){ showToast('Bill detail view — coming soon.','info'); };
+// Legacy aliases kept for any stale callers (e.g. Vendor Detail panel)
+window.billApproveL1=window.billMarkPaid;
+window.billApprove=window.billMarkPaid;
+window.billMarkSynced=window.billSyncZoho;
 
 /* ─── MILEAGE / TRIPS TABLE ─────────────────────── */
 window.mlgHandleSearch=function(q){ mlgSearchQ=q; mlgRender(); };
@@ -30776,64 +30826,271 @@ function mlgRender(){
 window.mlgApprove=function(id){ const t=TRIP_DATA.find(x=>x.id===id); if(t&&t.status!=='billed'){ t.status='approved'; mlgRender(); showToast(`Trip ${t.trip_id} approved.`,'success'); } };
 
 /* ─── ADD TRIP MODAL ────────────────────────────── */
-window.openAddTripModal=function(){ document.getElementById('vndTripModal').classList.add('open'); };
+// Vendor catalog (single source of truth for the trip modal)
+const MILEAGE_VENDORS = [
+  { id:2, name:'Punjab Express Transport', type:'transport', rate:18 },
+  { id:5, name:'North India Movers',       type:'transport', rate:16 },
+  { id:3, name:'Delhi Cab Services',       type:'cab',       rate:12, monthly:38000, included:2500 },
+  { id:7, name:'Jaipur Cab Rentals',       type:'cab',       rate:14, monthly:42000, included:3000 },
+];
+
+window.openAddTripModal=function(){ tripResetForm(); document.getElementById('vndTripModal').classList.add('open'); };
 window.openAddTripModalForVendor=function(id){
-  const sel=document.getElementById('tripVendorSel');
-  if(sel){ sel.value=id; tripVendorChanged(sel); }
+  tripResetForm();
+  const v=MILEAGE_VENDORS.find(x=>x.id===id); if(!v){ document.getElementById('vndTripModal').classList.add('open'); return; }
+  // Auto-set the trip type, then populate vendors and select this one
+  const typeSel=document.getElementById('tripTypeSel');
+  if(typeSel){ typeSel.value=v.type; tripTypeChanged(typeSel); }
+  const vSel=document.getElementById('tripVendorSel');
+  if(vSel){ vSel.value=id; tripVendorChanged(vSel); }
   document.getElementById('vndTripModal').classList.add('open');
 };
-window.tripVendorChanged=function(sel){
-  const opt=sel.options[sel.selectedIndex];
-  const type=opt?.dataset?.type||'';
-  const rate=parseFloat(opt?.dataset?.rate||0);
-  const monthly=opt?.dataset?.monthly||'';
-  const included=opt?.dataset?.included||'';
-  tripVendorType=type; tripVendorRate=rate;
-  document.getElementById('tripTransportFields').style.display=type==='transport'?'':'none';
-  document.getElementById('tripCabFields').style.display=type==='cab'?'':'none';
-  document.getElementById('tripSharedSection').style.display=type?'':'none';
-  document.getElementById('tripSaveDraft').style.display=type?'':'none';
-  document.getElementById('tripSaveSubmit').style.display=type?'':'none';
-  if(type==='cab'&&monthly){
-    document.getElementById('tripIncludedKms').textContent=parseInt(included).toLocaleString();
-    document.getElementById('tripExtraRate').textContent=rate;
+
+window.tripTypeChanged=function(sel){
+  const type=sel.value||'';
+  tripVendorType=type; tripVendorRate=0;
+
+  // Populate vendor dropdown filtered by type
+  const vSel=document.getElementById('tripVendorSel');
+  if(vSel){
+    vSel.innerHTML='';
+    if(!type){
+      vSel.innerHTML='<option value="">— Select trip type first —</option>';
+      vSel.disabled=true;
+    } else {
+      const filtered=MILEAGE_VENDORS.filter(v=>v.type===type);
+      vSel.innerHTML=`<option value="">— Select ${type==='transport'?'transporter':'cab vendor'} —</option>`+
+        filtered.map(v=>`<option value="${v.id}">${v.name}</option>`).join('');
+      vSel.disabled=false;
+      vSel.value='';
+    }
   }
-  document.getElementById('tripRateDisplay').textContent=type==='transport'?`₹${rate}/km`:type==='cab'?`₹${rate}/km`:'—';
+
+  // Remove inserted middle stops (keep Start + End rows)
+  const stops=document.getElementById('tripRouteStops');
+  if(stops){ const rows=stops.querySelectorAll('.trip-stop-row'); for(let i=rows.length-2;i>=1;i--) rows[i].remove(); }
+
+  // Section visibility — driven by trip type
+  document.getElementById('tripMonthlyTracker').style.display = type==='cab'?'':'none';
+  document.getElementById('tripRouteSection').style.display   = type?'':'none';
+  document.getElementById('tripAddStopBtn').style.display     = type==='transport'?'':'none';
+  document.getElementById('tripLoadFields').style.display     = type==='transport'?'':'none';
+  document.getElementById('tripOdoPhotos').style.display      = type?'':'none';
+  document.getElementById('tripSharedSection').style.display  = type?'':'none';
+  document.getElementById('tripSaveDraft').style.display      = type?'':'none';
+  document.getElementById('tripSaveSubmit').style.display     = type?'':'none';
+
+  // Reset photo upload zones whenever type changes
+  ['Start','End'].forEach(side=>{
+    const zone=document.getElementById('tripOdo'+side+'Zone');
+    const lblEl=document.getElementById('tripOdo'+side+'Lbl');
+    const inp=document.getElementById('tripOdo'+side);
+    if(zone){ zone.style.borderColor=''; zone.style.background=''; }
+    if(lblEl){ lblEl.textContent=side+' Odometer Photo'; lblEl.style.color=''; }
+    if(inp) inp.value='';
+  });
+
+  // Section labels adapt to type
+  const lbl=document.getElementById('tripRouteLabel');
+  const help=document.getElementById('tripRouteHelp');
+  if(type==='transport'){
+    if(lbl) lbl.textContent='Route (Start → Stops → End)';
+    if(help) help.textContent='Add each waypoint with its Site ID. KMs are computed per leg.';
+  } else if(type==='cab'){
+    if(lbl) lbl.textContent='Daily KM Log';
+    if(help) help.textContent='Record start and end odometer for the day. Upload odometer photos as proof.';
+  }
+
+  // Reset summary while waiting for vendor pick
+  document.getElementById('tripRateDisplay').textContent='—';
   document.getElementById('tripTotalKms').textContent='—';
   document.getElementById('tripAmountDisplay').textContent='—';
-  const title=type==='transport'?'Add Transport Trip (Route-based)':type==='cab'?'Add Daily KM Log (Monthly Cab)':'Add Trip';
+
+  const title = type==='transport' ? 'Add Transport Trip' : type==='cab' ? 'Add Cab Trip' : 'Add Trip Entry';
   document.getElementById('tripModalTitle').textContent=title;
+};
+
+window.tripVendorChanged=function(sel){
+  const id=parseInt(sel.value||0);
+  const v=MILEAGE_VENDORS.find(x=>x.id===id);
+  if(!v){
+    tripVendorRate=0;
+    document.getElementById('tripRateDisplay').textContent='—';
+    document.getElementById('tripAmountDisplay').textContent='—';
+    return;
+  }
+  tripVendorRate=v.rate;
+  document.getElementById('tripRateDisplay').textContent=`₹${v.rate}/km`;
+  // Cab monthly tracker values
+  if(v.type==='cab'){
+    document.getElementById('tripIncludedKms').textContent=v.included.toLocaleString();
+    document.getElementById('tripExtraRate').textContent=v.rate;
+  }
+  // Recompute amount if odometer values are already filled
+  tripCalcKms();
 };
 
 window.tripCalcKms=function(){
   const starts=document.querySelectorAll('.trip-odo-start');
   const ends=document.querySelectorAll('.trip-odo-end');
-  let start=parseFloat(starts[0]?.value||0), end=parseFloat(ends[ends.length-1]?.value||0);
-  if(start&&end&&end>start){ const kms=Math.round(end-start); const amt=Math.round(kms*tripVendorRate); document.getElementById('tripTotalKms').textContent=kms.toLocaleString()+' km'; document.getElementById('tripAmountDisplay').textContent='₹'+amt.toLocaleString('en-IN'); }
+  const start=parseFloat(starts[0]?.value||0);
+  const end=parseFloat(ends[ends.length-1]?.value||0);
+  if(start&&end&&end>start){
+    const kms=Math.round(end-start);
+    const amt=Math.round(kms*tripVendorRate);
+    document.getElementById('tripTotalKms').textContent=kms.toLocaleString()+' km';
+    document.getElementById('tripAmountDisplay').textContent='₹'+amt.toLocaleString('en-IN');
+    // Update monthly tracker bar for cab vendors
+    if(tripVendorType==='cab'){
+      const bar=document.getElementById('tripMonthlyBar');
+      const usedEl=document.getElementById('tripUsedKms');
+      if(bar&&usedEl){
+        const used=1500+kms;
+        const included=parseInt((document.getElementById('tripIncludedKms')?.textContent||'2500').replace(/,/g,''));
+        bar.style.width=Math.min(used/included*100,100)+'%';
+        usedEl.textContent=used.toLocaleString();
+      }
+    }
+  }
 };
-window.cabCalcKms=function(){
-  const s=parseFloat(document.getElementById('cabStartKm')?.value||0);
-  const e=parseFloat(document.getElementById('cabEndKm')?.value||0);
-  if(s&&e&&e>s){ const kms=Math.round(e-s); const amt=Math.round(kms*tripVendorRate); document.getElementById('tripTotalKms').textContent=kms.toLocaleString()+' km'; document.getElementById('tripAmountDisplay').textContent='₹'+amt.toLocaleString('en-IN'); const bar=document.getElementById('tripMonthlyBar'); const usedEl=document.getElementById('tripUsedKms'); if(bar&&usedEl){ const used=1500+kms; const included=parseInt(document.getElementById('tripIncludedKms')?.textContent?.replace(',','')||2500); bar.style.width=Math.min(used/included*100,100)+'%'; usedEl.textContent=used.toLocaleString(); } }
+window.tripPhotoUploaded=function(side,inp){
+  if(!inp||!inp.files||!inp.files[0]) return;
+  const file=inp.files[0];
+  const cap=side.charAt(0).toUpperCase()+side.slice(1);
+  const zone=document.getElementById('tripOdo'+cap+'Zone');
+  const lblEl=document.getElementById('tripOdo'+cap+'Lbl');
+  const fileName=file.name.length>22 ? file.name.substring(0,19)+'…' : file.name;
+  if(zone){ zone.style.borderColor='var(--success)'; zone.style.background='color-mix(in srgb,var(--success) 8%,transparent)'; }
+  if(lblEl){ lblEl.textContent='✓ '+fileName; lblEl.style.color='var(--success)'; }
+  showToast(cap+' odometer photo attached.','success');
 };
-window.cabPhotoUploaded=function(side){ showToast(`Odometer ${side} photo captured.`,'success'); };
 window.addTripStop=function(){
   const builder=document.getElementById('tripRouteStops');
-  const count=builder.querySelectorAll('.trip-stop-row').length;
+  const rows=builder.querySelectorAll('.trip-stop-row');
+  const endRow=rows[rows.length-1]; // last row is always the End
+  const count=rows.length-1; // number of stops added beyond Start
   const letters='ABCDEFGHIJKLMNOPQRSTUVWXYZ';
   const div=document.createElement('div');
   div.className='trip-stop-row';
-  div.innerHTML=`<div class="trip-stop-connector mid"></div><div class="trip-stop-body"><div class="vnd-form-grid cols3"><div class="vnd-field"><label class="vnd-label">Stop ${letters[count]||count}</label><input type="text" class="vnd-input" placeholder="Stop location / Site ID"></div><div class="vnd-field"><label class="vnd-label">Site ID</label><input type="text" class="vnd-input" placeholder="e.g. HR-010"></div><div class="vnd-field"><label class="vnd-label">Odometer</label><input type="number" class="vnd-input" placeholder="KM reading" oninput="tripCalcKms()"></div></div></div>`;
-  builder.appendChild(div);
+  div.innerHTML=`<div class="trip-stop-connector mid"></div><div class="trip-stop-body"><div class="vnd-form-grid cols3"><div class="vnd-field"><label class="vnd-label">Stop ${letters[count-1]||count}</label><input type="text" class="vnd-input" placeholder="Stop location"></div><div class="vnd-field"><label class="vnd-label">Site ID</label><input type="text" class="vnd-input" placeholder="e.g. HR-010"></div><div class="vnd-field"><label class="vnd-label">Odometer</label><input type="number" class="vnd-input" placeholder="KM reading" oninput="tripCalcKms()"></div></div></div>`;
+  builder.insertBefore(div, endRow);
 };
 window.saveTrip=function(status){
-  const v=document.getElementById('tripVendorSel')?.value;
+  const typeSel=document.getElementById('tripTypeSel');
+  if(!typeSel?.value){ showToast('Please select a trip type.','warn'); return; }
+  const sel=document.getElementById('tripVendorSel');
+  const v=sel?.value;
   if(!v){ showToast('Please select a vendor.','warn'); return; }
-  const newId=TRIP_DATA.length+1;
-  const vendorName=document.getElementById('tripVendorSel')?.options[document.getElementById('tripVendorSel').selectedIndex]?.text||'';
-  TRIP_DATA.unshift({id:newId,trip_id:'TRP-0'+String(newId).padStart(2,'0'),vendor_id:parseInt(v),vendor:vendorName,type:tripVendorType,date:document.getElementById('tripDate')?.value||new Date().toISOString().split('T')[0],route:'New trip entry',sites:[],kms:0,rate:tripVendorRate,amount:0,load:'',attachment:false,status});
+
+  // Validate route — first From and last To required
+  const stops=document.querySelectorAll('#tripRouteStops .trip-stop-row');
+  const firstRow=stops[0], lastRow=stops[stops.length-1];
+  const fromLoc=firstRow?.querySelector('input[type="text"]')?.value?.trim()||'';
+  const toLoc =lastRow?.querySelector('input[type="text"]')?.value?.trim()||'';
+  if(!fromLoc||!toLoc){ showToast('Please enter From and To locations.','warn'); return; }
+
+  // Validate odometer — start < end and total > 0
+  const odoStartEl=document.querySelector('.trip-odo-start');
+  const odoEndEls=document.querySelectorAll('.trip-odo-end');
+  const odoStart=parseFloat(odoStartEl?.value||0);
+  const odoEnd=parseFloat(odoEndEls[odoEndEls.length-1]?.value||0);
+  if(!odoStart||!odoEnd){ showToast('Please enter start and end odometer readings.','warn'); return; }
+  if(odoEnd<=odoStart){ showToast('End odometer must be greater than start odometer.','warn'); return; }
+  const kms=Math.round(odoEnd-odoStart);
+
+  // Collect site IDs from each row's middle (Site ID) input
+  const sites=[];
+  stops.forEach(row=>{
+    const inputs=row.querySelectorAll('input[type="text"]');
+    const siteId=inputs[1]?.value?.trim();
+    if(siteId) sites.push(siteId);
+  });
+
+  // Build human-readable route string
+  const routeParts=[fromLoc];
+  for(let i=1;i<stops.length-1;i++){ const v=stops[i].querySelectorAll('input[type="text"]')[0]?.value?.trim(); if(v) routeParts.push(v); }
+  routeParts.push(toLoc);
+  const routeStr=routeParts.join(' → ');
+
+  // Type-specific fields
+  const load=tripVendorType==='transport'?(document.getElementById('tripLoad')?.value?.trim()||''):'';
+  const weight=tripVendorType==='transport'?(document.getElementById('tripWeight')?.value||''):'';
+  const loadField=load && weight ? `${load} (${weight}kg)` : load || '';
+
+  // Attachments — true if either photo was selected
+  const photoStart=document.getElementById('tripOdoStart')?.files?.[0];
+  const photoEnd=document.getElementById('tripOdoEnd')?.files?.[0];
+  const hasAttachment=!!(photoStart||photoEnd);
+
+  const amount=Math.round(kms*tripVendorRate);
+  const newId=Math.max(0,...TRIP_DATA.map(t=>t.id))+1;
+  const vendorObj=MILEAGE_VENDORS.find(x=>x.id===parseInt(v));
+  const vendorName=vendorObj?.name||sel.options[sel.selectedIndex]?.text||'';
+
+  TRIP_DATA.unshift({
+    id:newId,
+    trip_id:'TRP-'+String(newId).padStart(3,'0'),
+    vendor_id:parseInt(v),
+    vendor:vendorName,
+    type:tripVendorType,
+    date:document.getElementById('tripDate')?.value||new Date().toISOString().split('T')[0],
+    route:routeStr,
+    sites:sites,
+    kms:kms,
+    rate:tripVendorRate,
+    amount:amount,
+    load:loadField,
+    attachment:hasAttachment,
+    status:status
+  });
+
   showToast(`Trip ${status==='draft'?'saved as draft':'submitted'} successfully.`,'success');
-  closeVndModal('vndTripModal'); mlgRender();
+  closeVndModal('vndTripModal');
+  tripResetForm();
+  mlgRender();
+};
+
+// Reset all trip-form fields back to a clean state
+window.tripResetForm=function(){
+  const typeSel=document.getElementById('tripTypeSel'); if(typeSel) typeSel.value='';
+  const sel=document.getElementById('tripVendorSel');
+  if(sel){
+    sel.innerHTML='<option value="">— Select trip type first —</option>';
+    sel.value='';
+    sel.disabled=true;
+  }
+  const dt=document.getElementById('tripDate'); if(dt) dt.value='2026-04-15';
+  ['tripVehicle','tripDriver','tripLoad','tripWeight','tripRemarks'].forEach(id=>{
+    const el=document.getElementById(id); if(el) el.value='';
+  });
+  // Remove inserted middle stops (keep first=Start and last=End rows), then clear inputs
+  const builder=document.getElementById('tripRouteStops');
+  if(builder){
+    const rows=builder.querySelectorAll('.trip-stop-row');
+    // Remove rows from index 1 up to (but not including) the last — these are inserted mid stops
+    for(let i=rows.length-2;i>=1;i--) rows[i].remove();
+    builder.querySelectorAll('input').forEach(i=>i.value='');
+  }
+  // Reset photo zones + clear file inputs
+  ['Start','End'].forEach(side=>{
+    const zone=document.getElementById('tripOdo'+side+'Zone');
+    const lblEl=document.getElementById('tripOdo'+side+'Lbl');
+    const inp=document.getElementById('tripOdo'+side);
+    if(zone){ zone.style.borderColor=''; zone.style.background=''; }
+    if(lblEl){ lblEl.textContent=side+' Odometer Photo'; lblEl.style.color=''; }
+    if(inp) inp.value='';
+  });
+  // Hide all conditional sections
+  ['tripMonthlyTracker','tripRouteSection','tripAddStopBtn','tripLoadFields','tripOdoPhotos','tripSharedSection'].forEach(id=>{
+    const el=document.getElementById(id); if(el) el.style.display='none';
+  });
+  document.getElementById('tripSaveDraft').style.display='none';
+  document.getElementById('tripSaveSubmit').style.display='none';
+  document.getElementById('tripModalTitle').textContent='Add Trip Entry';
+  document.getElementById('tripTotalKms').textContent='—';
+  document.getElementById('tripRateDisplay').textContent='—';
+  document.getElementById('tripAmountDisplay').textContent='—';
+  tripVendorType=''; tripVendorRate=0;
 };
 
 /* ─── VENDOR DETAIL PANEL (QuickBooks-style) ───────── */
@@ -31202,7 +31459,7 @@ const OVW_DATA = [
           {name:'Equipment Mounting', unit:'Per Site', qty:1, rate:18000, amount:18000, status:'pending'}
         ]
       },
-      { site_id:'HR-001', project:'Voult Project', circle:'Haryana', pm:'Rajan Sharma', start_date:'2026-04-01', end_date:'2026-04-14', desc:'New Tower Install', date:'2026-04-14', status:'ready',
+      { site_id:'HR-001', project:'Voult Project', circle:'Haryana', pm:'Rajan Sharma', start_date:'2026-04-01', end_date:'2026-04-14', desc:'New Tower Install', date:'2026-04-14', status:'review',
         activities:[
           {name:'New Tower Installation', unit:'Per Site', qty:1, rate:32000, amount:32000, status:'completed'},
           {name:'Equipment Mounting',      unit:'Per Site', qty:1, rate:18000, amount:18000, status:'completed'},
@@ -31255,7 +31512,7 @@ const OVW_DATA = [
   },
   { vendor_id:8, vendor_name:'Infra First Ltd', vendor_code:'VND-008', avatar:'IF',
     sites:[
-      { site_id:'BR-001', project:'Telecom Infra', circle:'Bihar', pm:'Deepak Singh', start_date:'2026-04-08', end_date:'2026-04-15', desc:'Tower Install', date:'2026-04-15', status:'ready',
+      { site_id:'BR-001', project:'Telecom Infra', circle:'Bihar', pm:'Deepak Singh', start_date:'2026-04-08', end_date:'2026-04-15', desc:'Tower Install', date:'2026-04-15', status:'review',
         activities:[
           {name:'New Tower Installation', unit:'Per Site', qty:1, rate:30000, amount:30000, status:'completed'},
           {name:'Tower Maintenance',      unit:'Per Visit', qty:2, rate:7500, amount:15000, status:'completed'}
@@ -31271,7 +31528,7 @@ const OVW_DATA = [
   },
   { vendor_id:6, vendor_name:'TechBuild Solutions', vendor_code:'VND-006', avatar:'TB',
     sites:[
-      { site_id:'MH-001', project:'Voult Project', circle:'Maharashtra', pm:'Anil Verma', start_date:'2026-04-02', end_date:'2026-04-09', desc:'Cable Install', date:'2026-04-09', status:'ready',
+      { site_id:'MH-001', project:'Voult Project', circle:'Maharashtra', pm:'Anil Verma', start_date:'2026-04-02', end_date:'2026-04-09', desc:'Cable Install', date:'2026-04-09', status:'review',
         activities:[
           {name:'Cable Laying', unit:'Per Meter', qty:200, rate:175, amount:35000, status:'completed'}
         ]
@@ -31288,11 +31545,10 @@ let ovwExpanded = new Set();   // same key pattern for activity expansion
 
 const OVW_STATUS_INFO = {
   assigned:    {label:'Pending Acceptance', class:'ovw-st-assigned', next:'in_progress'},
-  in_progress: {label:'In Progress',        class:'ovw-st-progress', next:'ready'},
-  ready:       {label:'Ready to Submit',  class:'ovw-st-ready',    next:'review'},
+  in_progress: {label:'In Progress',        class:'ovw-st-progress', next:'review'},
   review:      {label:'L1 Review (PM)',   class:'ovw-st-review',   next:'l1_approved'},
   l1_approved: {label:'L1 Approved',      class:'ovw-st-l1',       next:'accepted'},
-  l1_rejected: {label:'L1 Rejected',      class:'ovw-st-l1-rej',   next:'ready'},
+  l1_rejected: {label:'L1 Rejected',      class:'ovw-st-l1-rej',   next:'in_progress'},
   accepted:    {label:'L2 Accepted',      class:'ovw-st-accepted', next:'billed'},
   billed:      {label:'Billed',           class:'ovw-st-billed',   next:null}
 };
@@ -31360,12 +31616,8 @@ function ovwUpdateBulkBar(){
     subtext.textContent = 'Vendor accepts assigned site & types — moves to In Progress';
     rejectBtn.style.display = 'none';
   } else if(stage === 'in_progress'){
-    label.textContent = 'End Work';
-    subtext.textContent = 'Marks work complete — moves to Ready to Submit';
-    rejectBtn.style.display = 'none';
-  } else if(stage === 'ready'){
-    label.textContent = 'Submit for L1 Review';
-    subtext.textContent = 'Sends to PM for first-level approval';
+    label.textContent = 'End Work & Submit for L1';
+    subtext.textContent = 'Marks work complete & submits for PM L1 approval';
     rejectBtn.style.display = 'none';
   } else if(stage === 'review'){
     label.textContent = 'Approve (L1)';
@@ -31402,8 +31654,8 @@ window.ovwBulkAction = function(){
     const site = vendor?.sites.find(s=>s.site_id===sid);
     if(site){
       site.status = next;
-      // When work ends → mark all activities as completed
-      if(next === 'ready' && Array.isArray(site.activities)){
+      // When work ends (in_progress → review), mark all activities as completed
+      if(stage === 'in_progress' && next === 'review' && Array.isArray(site.activities)){
         site.activities.forEach(a=>{ a.status = 'completed'; });
       }
       if(next === 'billed') billCount++;
@@ -31412,8 +31664,7 @@ window.ovwBulkAction = function(){
 
   const messages = {
     in_progress:  ovwSelected.size + ' site(s) accepted by vendor — work now In Progress.',
-    ready:        ovwSelected.size + ' site(s) ended — Ready to Submit for L1 review.',
-    review:       ovwSelected.size + ' item(s) submitted for L1 review.',
+    review:       ovwSelected.size + ' site(s) submitted for L1 review.',
     l1_approved:  ovwSelected.size + ' item(s) approved at L1 — moved to L2 queue.',
     accepted:     ovwSelected.size + ' item(s) submitted for L2 acceptance.',
     billed:       billCount + ' bill(s) generated — check Bills page.'
@@ -31429,9 +31680,9 @@ window.ovwBulkReject = function(){
     const [vid, sid] = key.split(':');
     const vendor = OVW_DATA.find(v=>v.vendor_id===parseInt(vid));
     const site = vendor?.sites.find(s=>s.site_id===sid);
-    if(site) site.status = 'ready';   // back to overview/ready
+    if(site) site.status = 'in_progress';   // back to vendor for rework
   });
-  showToast(ovwSelected.size + ' item(s) rejected — returned to Ready state.', 'warn');
+  showToast(ovwSelected.size + ' item(s) rejected — returned to vendor for rework.', 'warn');
   ovwSelected.clear();
   ovwUpdateBulkBar();
   ovwRender();
@@ -31439,7 +31690,6 @@ window.ovwBulkReject = function(){
 
 /* ─── GET FILTERED DATA ──────────────────────────── */
 function ovwGetFiltered(){
-  const billedFilter = document.getElementById('ovwBilledFilter')?.value || 'all';
   const vendorFilter = document.getElementById('ovwVendorFilter')?.value || '';
   const q = (ovwSearchQ || '').toLowerCase();
 
@@ -31449,12 +31699,9 @@ function ovwGetFiltered(){
     const filteredSites = vendor.sites.filter(site=>{
       // Status filter
       if(ovwStatusFilter !== 'all'){
-        const map = {assigned:'assigned', in_progress:'in_progress', ready:'ready', review:'review', l1:'l1_approved', accepted:'accepted', billed:'billed'};
+        const map = {assigned:'assigned', in_progress:'in_progress', review:'review', l1:'l1_approved', accepted:'accepted', billed:'billed'};
         if(site.status !== map[ovwStatusFilter]) return false;
       }
-      // Billed/unbilled filter
-      if(billedFilter === 'billed' && site.status !== 'billed') return false;
-      if(billedFilter === 'unbilled' && site.status === 'billed') return false;
       // Search
       if(q){
         const match = site.site_id.toLowerCase().includes(q) ||
@@ -31489,20 +31736,18 @@ window.ovwRender = function(){
   const data = ovwGetFiltered();
 
   // Update summary stats
-  let totalValue=0, assignedCount=0, progressCount=0, readyCount=0, l1Count=0, l2Count=0, billedCount=0, billedValue=0;
+  let totalValue=0, assignedCount=0, progressCount=0, l1Count=0, l2Count=0, billedCount=0, billedValue=0;
   OVW_DATA.forEach(v=>v.sites.forEach(s=>{
     const amt = s.activities.reduce((a,b)=>a+b.amount,0);
     totalValue += amt;
     if(s.status==='assigned') assignedCount++;
     else if(s.status==='in_progress') progressCount++;
-    else if(s.status==='ready') readyCount++;
     else if(s.status==='review') l1Count++;
     else if(s.status==='l1_approved'||s.status==='accepted') l2Count++;
     if(s.status==='billed'){ billedCount++; billedValue += amt; }
   }));
   const $ac=document.getElementById('ovwAssignedCount'); if($ac) $ac.textContent=assignedCount;
   const $pc=document.getElementById('ovwProgressCount'); if($pc) $pc.textContent=progressCount;
-  const $rc=document.getElementById('ovwReadyCount');    if($rc) $rc.textContent=readyCount;
   const $l1=document.getElementById('ovwL1Count');       if($l1) $l1.textContent=l1Count;
   const $l2=document.getElementById('ovwL2Count');       if($l2) $l2.textContent=l2Count;
   const $bc=document.getElementById('ovwBilledCount');   if($bc){ $bc.textContent=billedCount; const sub=$bc.nextElementSibling; if(sub) sub.textContent='₹'+(billedValue/100000).toFixed(1)+'L billed'; }
@@ -31521,7 +31766,7 @@ window.ovwRender = function(){
   }
 
   // Header row
-  let out = `<div class="ovw-list-head"><div></div><div></div><div>Vendor</div><div>Site ID</div><div>Project</div><div>Circle</div><div>PM</div><div>Start</div><div>End</div><div>Activities</div><div style="text-align:right;">Amount</div><div>Status</div><div></div></div>`;
+  let out = `<div class="ovw-list-head"><div></div><div></div><div>Vendor</div><div>Site ID</div><div>Project</div><div>Circle</div><div>PM</div><div>Start</div><div>End</div><div>Activities</div><div style="text-align:right;">Amount</div><div>Status</div></div>`;
 
   // Data rows
   out += flatRows.map(row=>{
@@ -31530,7 +31775,7 @@ window.ovwRender = function(){
     const isExp = ovwExpanded.has(key);
     const isSel = ovwSelected.has(key);
     const canSel = row.status !== 'billed';
-    const st = OVW_STATUS_INFO[row.status]||{label:row.status,class:'ovw-st-ready'};
+    const st = OVW_STATUS_INFO[row.status]||{label:row.status,class:'ovw-st-progress'};
 
     const actBlock = isExp ? `<div class="ovw-act-wrap"><div class="ovw-act-row" style="color:var(--gray-400);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.4px;padding-bottom:2px;border-bottom:1px solid var(--gray-200);margin-bottom:4px;"><div>Activity</div><div style="text-align:center;">Qty × Unit</div><div style="text-align:right;">Amount</div><div style="text-align:right;">Status</div></div>${row.activities.map(a=>{
       const isPending = a.status === 'pending';
@@ -31538,17 +31783,6 @@ window.ovwRender = function(){
       const stLabel = isPending ? '○ Pending' : '✓ Done';
       return `<div class="ovw-act-row"><div class="ovw-act-name">${a.name}</div><div class="ovw-act-qty">${a.qty} × ${a.unit}</div><div class="ovw-act-amt">₹${a.amount.toLocaleString('en-IN')}</div><div class="ovw-act-st" style="color:${stColor};font-weight:700;">${stLabel}</div></div>`;
     }).join('')}</div>` : '';
-
-    let inlineActionBtn = '';
-    if(row.status === 'assigned'){
-      inlineActionBtn = `<button class="icon-btn" title="Accept site" onclick="ovwQuickSubmit('${key}')" style="color:#92400e;"><svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/></svg></button>`;
-    } else if(row.status === 'in_progress'){
-      inlineActionBtn = `<button class="icon-btn" title="End work" onclick="ovwQuickSubmit('${key}')" style="color:#1e40af;"><svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg></button>`;
-    } else if(row.status === 'ready'){
-      inlineActionBtn = `<button class="icon-btn" title="Submit for L1" onclick="ovwQuickSubmit('${key}')" style="color:var(--primary);"><svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg></button>`;
-    } else if(row.status === 'billed'){
-      inlineActionBtn = `<button class="icon-btn" title="View bill" onclick="showToast('Opening bill…','info')" style="color:var(--primary);"><svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button>`;
-    }
 
     return `<div class="ovw-site-row${isSel?' selected':''}">
       <div>${canSel?`<input type="checkbox" ${isSel?'checked':''} onchange="ovwToggleSel('${key}',this.checked)">`:'<span style="opacity:0.3;">—</span>'}</div>
@@ -31563,18 +31797,11 @@ window.ovwRender = function(){
       <div style="font-size:10px;color:var(--gray-500);">${row.activities.length} act.</div>
       <div class="ovw-site-amt">₹${siteAmt.toLocaleString('en-IN')}</div>
       <div><span class="ovw-status ${st.class}">${st.label}</span></div>
-      <div style="text-align:center;">${inlineActionBtn}</div>
       ${actBlock}
     </div>`;
   }).join('');
 
   grid.innerHTML = out;
-};
-
-window.ovwQuickSubmit = function(key){
-  ovwSelected.clear();
-  ovwSelected.add(key);
-  ovwBulkAction();
 };
 
 
@@ -32212,21 +32439,21 @@ document.addEventListener('DOMContentLoaded',function(){
 </script>
 
 
-<!-- ══════════ RESOURCE ANALYTICS (Plan vs Actual) MODULE ══════════ -->
+<!-- ══ RESOURCE PLANNING JS ══ -->
 <script>
 (function(){
-  var PA_MONTHS=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-  var paActiveMonth=2;
-  var paActiveFilters={over:false,low:false};
-  var paSortKey='name',paSortDir=1;
-  var paDeptChartInst=null;
-  var PA_AVATAR_COLORS=[
+  var RP_MONTHS=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  var rpActiveMonth=2;
+  var rpActiveFilters={over:false,low:false};
+  var rpSortKey='name',rpSortDir=1;
+  var rpDeptChartInst=null;
+  var RP_AVATAR_COLORS=[
     ['#DBEAFE','#1E40AF'],['#EDE9FE','#5B21B6'],['#D1FAE5','#065F46'],
     ['#FEF3C7','#92400E'],['#FCE7F3','#9D174D'],['#CFFAFE','#155E75'],
     ['#ECFCCB','#365314'],['#E0E7FF','#3730A3'],['#FEE2E2','#991B1B'],
     ['#CCFBF1','#134E4A'],['#FEF9C3','#713F12'],['#F3F4F6','#374151']
   ];
-  var paEmployees=[
+  var rpEmployees=[
     {id:1,name:'Rajesh Kumar',role:'Sr. Civil Eng.',dept:'Civil',level:'Senior',projects:['Voult','Airtel 5G'],primaryProject:'Voult',pm:'Priya Sharma',circle:'Chandigarh',planHrs:176,actHrs:188,planCost:352000,actCost:376000,targetSites:20,sitesDone:18,activeDays:22,totalDays:25,attendance:22,daysPerSite:1.3,targetRev:450000,actualRev:412000},
     {id:2,name:'Priya Sharma',role:'Civil Engineer',dept:'Civil',level:'Mid',projects:['Voult','jio4g'],primaryProject:'Voult',pm:'Priya Sharma',circle:'Chandigarh',planHrs:160,actHrs:145,planCost:240000,actCost:217500,targetSites:12,sitesDone:13,activeDays:24,totalDays:25,attendance:24,daysPerSite:1.0,targetRev:280000,actualRev:310000},
     {id:3,name:'Amit Verma',role:'Structural Lead',dept:'Structural',level:'Lead',projects:['Airtel 5G','BSNL Rural'],primaryProject:'Airtel 5G',pm:'Ravi Tiwari',circle:'Punjab',planHrs:168,actHrs:195,planCost:420000,actCost:487500,targetSites:18,sitesDone:16,activeDays:21,totalDays:25,attendance:21,daysPerSite:1.4,targetRev:200000,actualRev:185000},
@@ -32244,17 +32471,17 @@ document.addEventListener('DOMContentLoaded',function(){
     {id:15,name:'Deepak Nath',role:'Geotech Sr. Eng.',dept:'Geotechnical',level:'Senior',projects:['Voult','BSNL Rural'],primaryProject:'BSNL Rural',pm:'Vikram Singh',circle:'Pune',planHrs:176,actHrs:170,planCost:308000,actCost:297500,targetSites:12,sitesDone:10,activeDays:19,totalDays:25,attendance:19,daysPerSite:1.5,targetRev:170000,actualRev:155000}
   ];
 
-  function paStatus(u){return u>110?'Over':u<85?'Under':'On Track';}
-  function paBarColor(u){return u>110?'#b85c52':u<85?'#A09890':'#4a7c59';}
-  function paFmt(n){return Number(n).toLocaleString('en-IN');}
-  function paFmtK(n){return '\u20b9'+(n/1000).toFixed(0)+'K';}
-  function paBadge(s){
+  function rpStatus(u){return u>110?'Over':u<85?'Under':'On Track';}
+  function rpBarColor(u){return u>110?'#b85c52':u<85?'#A09890':'#4a7c59';}
+  function rpFmt(n){return Number(n).toLocaleString('en-IN');}
+  function rpFmtK(n){return '\u20b9'+(n/1000).toFixed(0)+'K';}
+  function rpBadge(s){
     if(s==='Over') return '<span class="rp-badge rp-badge-over">Over allocated</span>';
     if(s==='Under') return '<span class="rp-badge rp-badge-low">Under allocated</span>';
     return '<span class="rp-badge rp-badge-ok">On track</span>';
   }
-  function paEnriched(){
-    return paEmployees.map(function(e,i){
+  function rpEnriched(){
+    return rpEmployees.map(function(e,i){
       var util=Math.round(e.actHrs/e.planHrs*100);
       var siteEff = e.targetSites ? Math.round(e.sitesDone/e.targetSites*100) : 0;
       var revEff = e.targetRev ? Math.round(e.actualRev/e.targetRev*100) : 0;
@@ -32267,7 +32494,7 @@ document.addEventListener('DOMContentLoaded',function(){
         revAchPct: revEff,
         avgDays:e.daysPerSite,
         efficiency:efficiency,
-        status:paStatus(util),
+        status:rpStatus(util),
         avatarIdx:i
       });
     });
@@ -32275,19 +32502,19 @@ document.addEventListener('DOMContentLoaded',function(){
 
 
   /* Merge state */
-  var paView = 'list'; // 'list' | 'tile'
-  var paGroupBy = 'none'; // 'none' | 'lob' | 'project'
+  var rpView = 'list'; // 'list' | 'tile'
+  var rpGroupBy = 'none'; // 'none' | 'lob' | 'project'
 
-  window.paSwitchGroup = function(mode){
-    paGroupBy = mode;
-    document.getElementById('paGroupNone').classList.toggle('active', mode==='none');
-    document.getElementById('paGroupLOB').classList.toggle('active', mode==='lob');
-    document.getElementById('paGroupProj').classList.toggle('active', mode==='project');
-    paApplyFilter();
+  window.rpSwitchGroup = function(mode){
+    rpGroupBy = mode;
+    document.getElementById('rpGroupNone').classList.toggle('active', mode==='none');
+    document.getElementById('rpGroupLOB').classList.toggle('active', mode==='lob');
+    document.getElementById('rpGroupProj').classList.toggle('active', mode==='project');
+    rpApplyFilter();
   };
 
-  function paRenderKPI(data){
-    var el=document.getElementById('paKpiRow'); if(!el) return;
+  function rpRenderKPI(data){
+    var el=document.getElementById('rpKpiRow'); if(!el) return;
     var tP=data.reduce(function(a,e){return a+e.planHrs;},0);
     var tA=data.reduce(function(a,e){return a+e.actHrs;},0);
     var avg=tP?Math.round(tA/tP*100):0;
@@ -32300,68 +32527,68 @@ document.addEventListener('DOMContentLoaded',function(){
     var revVar=totalRevAct-totalRevPlan;
     var avgEff=data.length?Math.round(data.reduce(function(a,e){return a+(e.efficiency||0);},0)/data.length):0;
     var kpis=[
-      {lbl:'Total plan hrs',val:paFmt(tP),delta:'Budgeted hours · '+data.length+' employees',cls:'',card:''},
-      {lbl:'Total actual hrs',val:paFmt(tA),delta:(tA>tP?'+':'')+paFmt(tA-tP)+' vs plan',cls:tA>tP?'neg':'pos',card:tA>tP?'rp-warn':'rp-ok'},
+      {lbl:'Total plan hrs',val:rpFmt(tP),delta:'Budgeted hours · '+data.length+' employees',cls:'',card:''},
+      {lbl:'Total actual hrs',val:rpFmt(tA),delta:(tA>tP?'+':'')+rpFmt(tA-tP)+' vs plan',cls:tA>tP?'neg':'pos',card:tA>tP?'rp-warn':'rp-ok'},
       {lbl:'Avg utilization',val:avg+'%',delta:avg>100?'Over capacity':avg<85?'Under capacity':'On track',cls:avg>100?'neg':avg<85?'neg':'pos',card:avg>100?'rp-warn':'rp-ok'},
       {lbl:'Over / Under',val:over+' / '+under,delta:over+' over · '+under+' under',cls:over>0?'neg':'pos',card:over>0?'rp-warn':''},
-      {lbl:'Sites done',val:paFmt(totalSitesDone)+' / '+paFmt(totalSitesPlan),delta:'Revenue: '+paFmtK(totalRevAct)+' (' +(revVar>=0?'+':'')+paFmtK(revVar)+')',cls:revVar>=0?'pos':'neg',card:revVar>=0?'rp-ok':'rp-warn'}
+      {lbl:'Sites done',val:rpFmt(totalSitesDone)+' / '+rpFmt(totalSitesPlan),delta:'Revenue: '+rpFmtK(totalRevAct)+' (' +(revVar>=0?'+':'')+rpFmtK(revVar)+')',cls:revVar>=0?'pos':'neg',card:revVar>=0?'rp-ok':'rp-warn'}
     ];
     el.innerHTML=kpis.map(function(k){
       return '<div class="rp-kpi '+k.card+'"><div class="rp-kpi-label">'+k.lbl+'</div><div class="rp-kpi-val '+k.cls+'">'+k.val+'</div><div class="rp-kpi-delta '+k.cls+'">'+k.delta+'</div></div>';
     }).join('');
   }
 
-  function paRenderCharts(data){ /* charts removed */ }
+  function rpRenderCharts(data){ /* charts removed */ }
 
-  window.paSwitchView = function(mode){
-    paView = mode;
-    document.getElementById('paViewList').classList.toggle('active', mode==='list');
-    document.getElementById('paViewTile').classList.toggle('active', mode==='tile');
-    document.getElementById('paListViewWrap').style.display = mode==='list' ? '' : 'none';
-    document.getElementById('paTileViewWrap').style.display = mode==='tile' ? '' : 'none';
-    paApplyFilter();
+  window.rpSwitchView = function(mode){
+    rpView = mode;
+    document.getElementById('rpViewList').classList.toggle('active', mode==='list');
+    document.getElementById('rpViewTile').classList.toggle('active', mode==='tile');
+    document.getElementById('rpListViewWrap').style.display = mode==='list' ? '' : 'none';
+    document.getElementById('rpTileViewWrap').style.display = mode==='tile' ? '' : 'none';
+    rpApplyFilter();
   };
 
-  function paRowHTML(e){
-    var col=PA_AVATAR_COLORS[e.avatarIdx%PA_AVATAR_COLORS.length];
+  function rpRowHTML(e){
+    var col=RP_AVATAR_COLORS[e.avatarIdx%RP_AVATAR_COLORS.length];
     var ini=e.name.split(' ').map(function(x){return x[0];}).join('').slice(0,2);
     var effColor = e.efficiency>=90?'var(--success)':e.efficiency>=70?'var(--warning)':'var(--danger)';
     var revColor=e.actualRev>=e.targetRev?'var(--success)':'var(--danger)';
     var sitesColor=e.sitesDone>=e.targetSites?'var(--success)':'var(--rp-text)';
     var revAchColor = e.revAchPct>=100?'var(--success)':e.revAchPct>=80?'var(--warning)':'var(--danger)';
-    var vRs=(e.revVar>0?'+':e.revVar<0?'-':'')+paFmtK(Math.abs(e.revVar));
+    var vRs=(e.revVar>0?'+':e.revVar<0?'-':'')+rpFmtK(Math.abs(e.revVar));
     var vRcls=e.revVar>0?'rp-pos':e.revVar<0?'rp-neg':'rp-zero';
     var safeName = e.name.replace(/\'/g,'');
-    return '<tr style="cursor:pointer;" onclick="paDrillDown(\''+safeName+'\')" title="Click row for breakdown">'
-      +'<td><div class="rp-emp-cell" onclick="event.stopPropagation();paOpenDailyView(\''+safeName+'\')" title="Click name for 30-day detail"><div class="rp-avatar" style="background:'+col[0]+';color:'+col[1]+';">'+ini+'</div><div><div class="rp-emp-name" style="color:var(--primary);text-decoration:underline;text-underline-offset:2px;">'+e.name+'</div><div class="rp-emp-role">'+e.role+'</div></div></div></td>'
+    return '<tr style="cursor:pointer;" onclick="rpDrillDown(\''+safeName+'\')" title="Click row for breakdown">'
+      +'<td><div class="rp-emp-cell" onclick="event.stopPropagation();rpOpenDailyView(\''+safeName+'\')" title="Click name for 30-day detail"><div class="rp-avatar" style="background:'+col[0]+';color:'+col[1]+';">'+ini+'</div><div><div class="rp-emp-name" style="color:var(--primary);text-decoration:underline;text-underline-offset:2px;">'+e.name+'</div><div class="rp-emp-role">'+e.role+'</div></div></div></td>'
       +'<td><span style="font-size:11px;color:#5C5650;">'+e.dept+'</span></td>'
       +'<td><span class="rp-proj-tag">'+e.primaryProject+'</span></td>'
       +'<td><span style="font-size:11px;color:#5C5650;">'+e.level+'</span></td>'
       +'<td><span style="font-size:11px;color:#5C5650;">'+e.pm+'</span></td>'
       +'<td><span style="font-size:11px;color:#5C5650;">'+e.circle+'</span></td>'
-      +'<td class="rp-num">'+paFmtK(e.targetRev)+'</td>'
-      +'<td class="rp-num" style="color:'+revColor+';font-weight:600;">'+paFmtK(e.actualRev)+'</td>'
+      +'<td class="rp-num">'+rpFmtK(e.targetRev)+'</td>'
+      +'<td class="rp-num" style="color:'+revColor+';font-weight:600;">'+rpFmtK(e.actualRev)+'</td>'
       +'<td class="'+vRcls+'">'+vRs+'</td>'
       +'<td><div class="rp-util-wrap"><div class="rp-util-bar"><div class="rp-util-fill" style="width:'+Math.min(e.revAchPct,130)+'%;background:'+revAchColor+';"></div></div><span class="rp-util-pct" style="color:'+revAchColor+';">'+e.revAchPct+'%</span></div></td>'
       +'<td class="rp-num" style="color:'+sitesColor+';">'+e.targetSites+' / <strong>'+e.sitesDone+'</strong></td>'
       +'<td class="rp-num">'+e.activeDays+' / '+e.totalDays+'</td>'
       +'<td class="rp-num">'+e.avgDays+'</td>'
       +'<td><div class="rp-util-wrap"><div class="rp-util-bar"><div class="rp-util-fill" style="width:'+Math.min(e.efficiency,130)+'%;background:'+effColor+';"></div></div><span class="rp-util-pct" style="color:'+effColor+';">'+e.efficiency+'%</span></div></td>'
-      +'<td class="rp-num">'+paFmt(e.planHrs)+'</td>'
-      +'<td class="rp-num">'+paFmt(e.actHrs)+'</td>'
+      +'<td class="rp-num">'+rpFmt(e.planHrs)+'</td>'
+      +'<td class="rp-num">'+rpFmt(e.actHrs)+'</td>'
       +'</tr>';
   }
 
-  function paRenderTable(data){
-    var body=document.getElementById('paTblBody'); if(!body) return;
+  function rpRenderTable(data){
+    var body=document.getElementById('rpTblBody'); if(!body) return;
     var rows='', vis=0;
     var COLSPAN = 16;
 
-    if(paGroupBy==='none'){
-      data.forEach(function(e){ vis++; rows+=paRowHTML(e); });
+    if(rpGroupBy==='none'){
+      data.forEach(function(e){ vis++; rows+=rpRowHTML(e); });
     } else {
-      var keyFn = paGroupBy==='lob' ? function(e){return e.dept;} : function(e){return e.primaryProject;};
-      var labelFn = paGroupBy==='lob' ? function(k){return k+' (LOB)';} : function(k){return k+' (Project)';};
+      var keyFn = rpGroupBy==='lob' ? function(e){return e.dept;} : function(e){return e.primaryProject;};
+      var labelFn = rpGroupBy==='lob' ? function(k){return k+' (LOB)';} : function(k){return k+' (Project)';};
       var groups = {};
       data.forEach(function(e){
         var k = keyFn(e);
@@ -32377,12 +32604,12 @@ document.addEventListener('DOMContentLoaded',function(){
         var dSD=dd.reduce(function(a,e){return a+(e.sitesDone||0);},0);
         var dRP=dd.reduce(function(a,e){return a+(e.targetRev||0);},0);
         var dRA=dd.reduce(function(a,e){return a+(e.actualRev||0);},0);
-        rows+='<tr class="rp-dept-row"><td colspan="'+COLSPAN+'">'+labelFn(k)+'<span class="rp-dept-chip">'+dd.length+' employees · Sites: '+dSD+'/'+dSP+' · Rev: '+paFmtK(dRA)+'/'+paFmtK(dRP)+' · Hrs: '+paFmt(dA)+'/'+paFmt(dP)+'</span></td></tr>';
-        dd.forEach(function(e){ vis++; rows+=paRowHTML(e); });
+        rows+='<tr class="rp-dept-row"><td colspan="'+COLSPAN+'">'+labelFn(k)+'<span class="rp-dept-chip">'+dd.length+' employees · Sites: '+dSD+'/'+dSP+' · Rev: '+rpFmtK(dRA)+'/'+rpFmtK(dRP)+' · Hrs: '+rpFmt(dA)+'/'+rpFmt(dP)+'</span></td></tr>';
+        dd.forEach(function(e){ vis++; rows+=rpRowHTML(e); });
       });
     }
     body.innerHTML=rows;
-    var rc=document.getElementById('paRowCount'); if(rc) rc.textContent=vis+' employees';
+    var rc=document.getElementById('rpRowCount'); if(rc) rc.textContent=vis+' employees';
     var tP=data.reduce(function(a,e){return a+e.planHrs;},0);
     var tA=data.reduce(function(a,e){return a+e.actHrs;},0);
     var tSP=data.reduce(function(a,e){return a+(e.targetSites||0);},0);
@@ -32390,28 +32617,28 @@ document.addEventListener('DOMContentLoaded',function(){
     var tRP=data.reduce(function(a,e){return a+(e.targetRev||0);},0);
     var tRA=data.reduce(function(a,e){return a+(e.actualRev||0);},0);
     var tRV=tRA-tRP;
-    var tf=document.getElementById('paTblFooter');
-    if(tf) tf.innerHTML='<span><span class="lbl">Totals —</span></span><span><span class="lbl">Plan hrs:</span> <span class="val">'+paFmt(tP)+'</span></span><span><span class="lbl">Actual:</span> <span class="val">'+paFmt(tA)+'</span></span><span><span class="lbl">Sites T/A:</span> <span class="val">'+tSP+'/'+tSD+'</span></span><span><span class="lbl">Plan Rev:</span> <span class="val">'+paFmtK(tRP)+'</span></span><span><span class="lbl">Achieved:</span> <span class="val">'+paFmtK(tRA)+'</span></span><span><span class="lbl">Rev Var:</span> <span class="val '+(tRV>=0?'pos':'neg')+'">'+(tRV>=0?'+':'')+paFmtK(tRV)+'</span></span>';
+    var tf=document.getElementById('rpTblFooter');
+    if(tf) tf.innerHTML='<span><span class="lbl">Totals —</span></span><span><span class="lbl">Plan hrs:</span> <span class="val">'+rpFmt(tP)+'</span></span><span><span class="lbl">Actual:</span> <span class="val">'+rpFmt(tA)+'</span></span><span><span class="lbl">Sites T/A:</span> <span class="val">'+tSP+'/'+tSD+'</span></span><span><span class="lbl">Plan Rev:</span> <span class="val">'+rpFmtK(tRP)+'</span></span><span><span class="lbl">Achieved:</span> <span class="val">'+rpFmtK(tRA)+'</span></span><span><span class="lbl">Rev Var:</span> <span class="val '+(tRV>=0?'pos':'neg')+'">'+(tRV>=0?'+':'')+rpFmtK(tRV)+'</span></span>';
   }
 
-  function paRenderTiles(data){
-    var grid=document.getElementById('paTileViewWrap'); if(!grid) return;
+  function rpRenderTiles(data){
+    var grid=document.getElementById('rpTileViewWrap'); if(!grid) return;
     grid.innerHTML=data.map(function(e){
-      var col=PA_AVATAR_COLORS[e.avatarIdx%PA_AVATAR_COLORS.length];
+      var col=RP_AVATAR_COLORS[e.avatarIdx%RP_AVATAR_COLORS.length];
       var ini=e.name.split(' ').map(function(x){return x[0];}).join('').slice(0,2);
       var effCls=e.efficiency>=90?'high':e.efficiency>=70?'mid':'low';
       var utilColor=e.util>110?'var(--danger)':e.util<85?'var(--warning)':'var(--success)';
       var effColor=e.efficiency>=90?'var(--success)':e.efficiency>=70?'var(--warning)':'var(--danger)';
       var revColor=e.actualRev>=e.targetRev?'var(--success)':'var(--danger)';
-      return '<div class="rp-tile-card" onclick="paOpenDailyView(\''+e.name.replace(/\'/g,'')+'\')">'
+      return '<div class="rp-tile-card" onclick="rpOpenDailyView(\''+e.name.replace(/\'/g,'')+'\')">'
         +'<div class="rp-tile-top">'
         +'<div class="rp-tile-av" style="background:'+col[0]+';color:'+col[1]+';">'+ini+'</div>'
         +'<div class="rp-tile-info"><div class="rp-tile-name">'+e.name+'</div><div class="rp-tile-role">'+e.role+' · '+e.dept+'</div></div>'
         +'<div class="rp-tile-eff '+effCls+'">'+e.efficiency+'%</div></div>'
         +'<div class="rp-tile-body">'
         +'<div class="rp-tile-stats">'
-        +'<div><div class="rp-tile-stat-lbl">Target Rev</div><div class="rp-tile-stat-val">'+paFmtK(e.targetRev)+'</div></div>'
-        +'<div><div class="rp-tile-stat-lbl">Achieved</div><div class="rp-tile-stat-val" style="color:'+revColor+';">'+paFmtK(e.actualRev)+'</div></div>'
+        +'<div><div class="rp-tile-stat-lbl">Target Rev</div><div class="rp-tile-stat-val">'+rpFmtK(e.targetRev)+'</div></div>'
+        +'<div><div class="rp-tile-stat-lbl">Achieved</div><div class="rp-tile-stat-val" style="color:'+revColor+';">'+rpFmtK(e.actualRev)+'</div></div>'
         +'<div><div class="rp-tile-stat-lbl">Sites T/A</div><div class="rp-tile-stat-val">'+e.targetSites+' / '+e.sitesDone+'</div></div>'
         +'</div>'
         +'<div class="rp-tile-stats">'
@@ -32433,75 +32660,75 @@ document.addEventListener('DOMContentLoaded',function(){
     }).join('');
   }
 
-  window.paRenderMonths = function paRenderMonths(){
-    var el=document.getElementById('paMonthNav'); if(!el) return;
-    el.innerHTML=PA_MONTHS.map(function(m,i){return '<button class="rp-mth-btn'+(i===paActiveMonth?' active':'')+'" onclick="paSetMonth('+i+')">'+m+'</button>';}).join('');
+  window.rpRenderMonths = function rpRenderMonths(){
+    var el=document.getElementById('rpMonthNav'); if(!el) return;
+    el.innerHTML=RP_MONTHS.map(function(m,i){return '<button class="rp-mth-btn'+(i===rpActiveMonth?' active':'')+'" onclick="rpSetMonth('+i+')">'+m+'</button>';}).join('');
   }
 
-  window.paSetMonth=function(i){paActiveMonth=i;paRenderMonths();paApplyFilter();};
+  window.rpSetMonth=function(i){rpActiveMonth=i;rpRenderMonths();rpApplyFilter();};
 
-  function paPopulateProjectFilter(){
-    var sel=document.getElementById('paProjectFilter'); if(!sel) return;
+  function rpPopulateProjectFilter(){
+    var sel=document.getElementById('rpProjectFilter'); if(!sel) return;
     if(sel.options.length>1) return;
     var projs=[];
-    paEmployees.forEach(function(e){e.projects.forEach(function(p){if(projs.indexOf(p)<0) projs.push(p);});});
+    rpEmployees.forEach(function(e){e.projects.forEach(function(p){if(projs.indexOf(p)<0) projs.push(p);});});
     projs.sort();
     projs.forEach(function(p){sel.innerHTML+='<option value="'+p+'">'+p+'</option>';});
   }
 
-  window.paApplyFilter=function(){
-    paPopulateProjectFilter();
-    var data=paEnriched();
-    var dEl=document.getElementById('paDeptFilter');
-    var pEl=document.getElementById('paProjectFilter');
-    var sEl=document.getElementById('paStatusFilter');
-    var qEl=document.getElementById('paSearchBox');
+  window.rpApplyFilter=function(){
+    rpPopulateProjectFilter();
+    var data=rpEnriched();
+    var dEl=document.getElementById('rpDeptFilter');
+    var pEl=document.getElementById('rpProjectFilter');
+    var sEl=document.getElementById('rpStatusFilter');
+    var qEl=document.getElementById('rpSearchBox');
     if(dEl&&dEl.value!=='all') data=data.filter(function(e){return e.dept===dEl.value;});
     if(pEl&&pEl.value!=='all') data=data.filter(function(e){return e.projects.indexOf(pEl.value)>=0;});
     if(sEl&&sEl.value!=='all') data=data.filter(function(e){return e.status===sEl.value;});
     if(qEl&&qEl.value){var q=qEl.value.toLowerCase();data=data.filter(function(e){return e.name.toLowerCase().includes(q)||e.projects.some(function(p){return p.toLowerCase().includes(q);})||e.role.toLowerCase().includes(q);});}
-    if(paActiveFilters.over) data=data.filter(function(e){return e.status==='Over';});
-    if(paActiveFilters.low)  data=data.filter(function(e){return e.status==='Under';});
-    data.sort(function(a,b){var av=a[paSortKey],bv=b[paSortKey];if(typeof av==='string')return paSortDir*av.localeCompare(bv);return paSortDir*((av||0)-(bv||0));});
-    paRenderKPI(data); paRenderCharts(data);
-    if(paView==='list') paRenderTable(data); else paRenderTiles(data);
-    paUpdateSort();
+    if(rpActiveFilters.over) data=data.filter(function(e){return e.status==='Over';});
+    if(rpActiveFilters.low)  data=data.filter(function(e){return e.status==='Under';});
+    data.sort(function(a,b){var av=a[rpSortKey],bv=b[rpSortKey];if(typeof av==='string')return rpSortDir*av.localeCompare(bv);return rpSortDir*((av||0)-(bv||0));});
+    rpRenderKPI(data); rpRenderCharts(data);
+    if(rpView==='list') rpRenderTable(data); else rpRenderTiles(data);
+    rpUpdateSort();
   };
 
-  window.paToggleFilter=function(f){
-    paActiveFilters[f]=!paActiveFilters[f];
-    var btn=document.getElementById(f==='over'?'paFilterOver':'paFilterLow');
-    if(btn) btn.classList.toggle('active',paActiveFilters[f]);
-    paApplyFilter();
+  window.rpToggleFilter=function(f){
+    rpActiveFilters[f]=!rpActiveFilters[f];
+    var btn=document.getElementById(f==='over'?'rpFilterOver':'rpFilterLow');
+    if(btn) btn.classList.toggle('active',rpActiveFilters[f]);
+    rpApplyFilter();
   };
 
-  window.paSortTable=function(key){
-    if(paSortKey===key) paSortDir*=-1; else{paSortKey=key;paSortDir=1;}
-    paApplyFilter();
+  window.rpSortTable=function(key){
+    if(rpSortKey===key) rpSortDir*=-1; else{rpSortKey=key;rpSortDir=1;}
+    rpApplyFilter();
   };
 
-  function paUpdateSort(){
-    document.querySelectorAll('#paMainTable thead th').forEach(function(th){th.classList.remove('rp-sorted');});
-    var el=document.getElementById('pa-th-'+paSortKey);
+  function rpUpdateSort(){
+    document.querySelectorAll('#rpMainTable thead th').forEach(function(th){th.classList.remove('rp-sorted');});
+    var el=document.getElementById('rp-th-'+rpSortKey);
     if(el) el.classList.add('rp-sorted');
   }
 
-  window.paExportCSV=function(){
-    var data=paEnriched();
+  window.rpExportCSV=function(){
+    var data=rpEnriched();
     var h=['Name','Role','LOB','Project','Level','PM','Circle','Target Rev','Achieved Rev','Target Sites','Sites Done','Active Days','Avg Days/Site','Attendance','Efficiency %','Plan Hrs','Actual Hrs','Status','Projects'];
     var rows=data.map(function(e){return[e.name,e.role,e.dept,e.primaryProject,e.level,e.pm,e.circle,e.targetRev,e.actualRev,e.targetSites,e.sitesDone,e.activeDays,e.avgDays,e.attendance,e.efficiency,e.planHrs,e.actHrs,e.status,e.projects.join(';')].join(',');});
     var csv=[h.join(',')].concat(rows).join('\n');
     var a=document.createElement('a');
     a.href='data:text/csv;charset=utf-8,'+encodeURIComponent(csv);
-    a.download='plan-vs-actual-'+PA_MONTHS[paActiveMonth]+'-2025.csv';
+    a.download='plan-vs-actual-'+RP_MONTHS[rpActiveMonth]+'-2025.csv';
     a.click();
   };
 
   /* ─── DAILY DETAIL VIEW (full page replacement) ─── */
-  window.paOpenDailyView = function(empName){
-    var emp=paEmployees.find(function(e){return e.name.replace(/\'/g,'')===empName;});
+  window.rpOpenDailyView = function(empName){
+    var emp=rpEmployees.find(function(e){return e.name.replace(/\'/g,'')===empName;});
     if(!emp) return;
-    paDailyEmp = emp;
+    rpDailyEmp = emp;
     var pageMain = document.getElementById('page-plan-actual');
     var dailyPage = document.getElementById('page-emp-daily');
     if(!dailyPage){
@@ -32510,27 +32737,27 @@ document.addEventListener('DOMContentLoaded',function(){
       dailyPage.id='page-emp-daily';
       dailyPage.className='page-section active';
       dailyPage.style.cssText='display:flex;flex-direction:column;height:100%;overflow:hidden;';
-      dailyPage.innerHTML='<div class="rp-scroll" id="paDailyScroll"></div>';
+      dailyPage.innerHTML='<div class="rp-scroll" id="rpDailyScroll"></div>';
       pageMain.parentNode.appendChild(dailyPage);
     }
     pageMain.style.display='none';
     dailyPage.style.display='flex';
-    paRenderDailyView(emp);
+    rpRenderDailyView(emp);
   };
 
-  window.paCloseDailyView = function(){
+  window.rpCloseDailyView = function(){
     var pageMain = document.getElementById('page-plan-actual');
     var dailyPage = document.getElementById('page-emp-daily');
     if(dailyPage) dailyPage.style.display='none';
     if(pageMain) pageMain.style.display='';
-    paDailyEmp = null;
+    rpDailyEmp = null;
   };
 
-  var paDailyEmp = null;
+  var rpDailyEmp = null;
 
-  function paGenerateDailyEntries(emp){
+  function rpGenerateDailyEntries(emp){
     // Generate 30 days of synthetic but consistent entries
-    var month = PA_MONTHS[paActiveMonth] || 'Apr';
+    var month = RP_MONTHS[rpActiveMonth] || 'Apr';
     var entries = [];
     var siteIdx = 1;
     var totalActHrs = emp.actHrs;
@@ -32540,7 +32767,7 @@ document.addEventListener('DOMContentLoaded',function(){
     // Pick activeDays random working days within first 30 days
     var workingDays = [];
     for(var d=1; d<=30; d++){
-      var wd = new Date('2025-'+String(paActiveMonth+1).padStart(2,'0')+'-'+String(d).padStart(2,'0')).getDay();
+      var wd = new Date('2025-'+String(rpActiveMonth+1).padStart(2,'0')+'-'+String(d).padStart(2,'0')).getDay();
       if(wd!==0) workingDays.push(d); // Mon-Sat
     }
     // Distribute active days across working days roughly
@@ -32559,7 +32786,7 @@ document.addEventListener('DOMContentLoaded',function(){
     var sitesDoneRunning = 0;
 
     for(var day=1; day<=30; day++){
-      var date = new Date('2025-'+String(paActiveMonth+1).padStart(2,'0')+'-'+String(day).padStart(2,'0'));
+      var date = new Date('2025-'+String(rpActiveMonth+1).padStart(2,'0')+'-'+String(day).padStart(2,'0'));
       var weekday = date.toLocaleDateString('en-US',{weekday:'short'});
       var isWeekend = date.getDay()===0;
       if(activeMap[day]){
@@ -32587,15 +32814,15 @@ document.addEventListener('DOMContentLoaded',function(){
     return entries;
   }
 
-  function paRenderDailyView(emp){
-    var scroll = document.getElementById('paDailyScroll'); if(!scroll) return;
-    var entries = paGenerateDailyEntries(emp);
-    var col=PA_AVATAR_COLORS[(emp.id-1)%PA_AVATAR_COLORS.length];
+  function rpRenderDailyView(emp){
+    var scroll = document.getElementById('rpDailyScroll'); if(!scroll) return;
+    var entries = rpGenerateDailyEntries(emp);
+    var col=RP_AVATAR_COLORS[(emp.id-1)%RP_AVATAR_COLORS.length];
     var ini=emp.name.split(' ').map(function(x){return x[0];}).join('').slice(0,2);
     var effColor=emp.efficiency>=90?'var(--success)':emp.efficiency>=70?'var(--warning)':'var(--danger)';
     var revColor=emp.actualRev>=emp.targetRev?'var(--success)':'var(--danger)';
     var sitesColor=emp.sitesDone>=emp.targetSites?'var(--success)':'var(--danger)';
-    var monthName = PA_MONTHS[paActiveMonth] + ' 2025';
+    var monthName = RP_MONTHS[rpActiveMonth] + ' 2025';
 
     var rowsHTML = entries.map(function(en){
       var statusBg = en.status==='full'?'rgba(16,185,129,.1)':en.status==='partial'?'rgba(245,158,11,.1)':en.status==='low'?'rgba(239,68,68,.1)':'';
@@ -32614,7 +32841,7 @@ document.addEventListener('DOMContentLoaded',function(){
     scroll.innerHTML='<!-- Header bar -->'
       +'<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--rp-border);">'
         +'<div style="display:flex;align-items:center;gap:12px;">'
-          +'<button class="rp-btn-export" onclick="paCloseDailyView()" style="padding:6px 14px;">← Back to Resource Analytics</button>'
+          +'<button class="rp-btn-export" onclick="rpCloseDailyView()" style="padding:6px 14px;">← Back to Resource Analytics</button>'
           +'<span style="font-size:13px;color:var(--rp-sub);">/ '+emp.name+' · Daily Detail</span>'
         +'</div>'
         +'<div style="font-size:12px;color:var(--rp-muted);">Month: <strong>'+monthName+'</strong></div>'
@@ -32633,8 +32860,8 @@ document.addEventListener('DOMContentLoaded',function(){
       +'</div>'
       +'<!-- KPI tiles -->'
       +'<div class="rp-kpi-row" style="margin-bottom:16px;">'
-        +'<div class="rp-kpi"><div class="rp-kpi-label">Target Revenue</div><div class="rp-kpi-val">'+paFmtK(emp.targetRev)+'</div><div class="rp-kpi-delta">Plan from Budgeting</div></div>'
-        +'<div class="rp-kpi '+(emp.actualRev>=emp.targetRev?'rp-ok':'rp-warn')+'"><div class="rp-kpi-label">Achieved Revenue</div><div class="rp-kpi-val" style="color:'+revColor+';">'+paFmtK(emp.actualRev)+'</div><div class="rp-kpi-delta '+(emp.actualRev>=emp.targetRev?'pos':'neg')+'">'+(emp.actualRev>=emp.targetRev?'+':'')+paFmtK(emp.actualRev-emp.targetRev)+' vs target</div></div>'
+        +'<div class="rp-kpi"><div class="rp-kpi-label">Target Revenue</div><div class="rp-kpi-val">'+rpFmtK(emp.targetRev)+'</div><div class="rp-kpi-delta">Plan from Budgeting</div></div>'
+        +'<div class="rp-kpi '+(emp.actualRev>=emp.targetRev?'rp-ok':'rp-warn')+'"><div class="rp-kpi-label">Achieved Revenue</div><div class="rp-kpi-val" style="color:'+revColor+';">'+rpFmtK(emp.actualRev)+'</div><div class="rp-kpi-delta '+(emp.actualRev>=emp.targetRev?'pos':'neg')+'">'+(emp.actualRev>=emp.targetRev?'+':'')+rpFmtK(emp.actualRev-emp.targetRev)+' vs target</div></div>'
         +'<div class="rp-kpi '+(emp.sitesDone>=emp.targetSites?'rp-ok':'rp-warn')+'"><div class="rp-kpi-label">Sites (T/A)</div><div class="rp-kpi-val">'+emp.targetSites+' / <span style="color:'+sitesColor+';">'+emp.sitesDone+'</span></div><div class="rp-kpi-delta">Active days: '+emp.activeDays+'/'+emp.totalDays+'</div></div>'
         +'<div class="rp-kpi"><div class="rp-kpi-label">Avg Days/Site</div><div class="rp-kpi-val">'+emp.avgDays+'</div><div class="rp-kpi-delta">Attendance: '+emp.attendance+' days</div></div>'
         +'<div class="rp-kpi"><div class="rp-kpi-label">Plan / Act Hrs</div><div class="rp-kpi-val">'+emp.planHrs+' / '+emp.actHrs+'</div><div class="rp-kpi-delta">Util: '+emp.util+'%</div></div>'
@@ -32666,23 +32893,23 @@ document.addEventListener('DOMContentLoaded',function(){
 
 
   /* ─── BREAKDOWN MODAL (click row) ─── */
-  window.paDrillDown = function(empName){
-    var emp = paEnriched().find(function(e){return e.name.replace(/\'/g,'')===empName;});
+  window.rpDrillDown = function(empName){
+    var emp = rpEnriched().find(function(e){return e.name.replace(/\'/g,'')===empName;});
     if(!emp) return;
     var revVar = emp.actualRev - emp.targetRev;
     var safeName = emp.name.replace(/\'/g,'');
     var msg='<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;border-bottom:1px solid var(--rp-border);padding-bottom:12px;">'
         +'<div><div style="font-family:Fraunces,serif;font-size:17px;font-weight:600;color:var(--rp-text);">'+emp.name+'</div>'
         +'<div style="font-size:11px;color:var(--rp-sub);margin-top:2px;">'+emp.role+' · '+emp.dept+' · '+emp.level+' · '+emp.circle+'</div></div>'
-        +'<button class="rp-btn-export" onclick="paOpenDailyView(\''+safeName+'\');document.getElementById(\'paDrillModal\').remove();" style="padding:5px 12px;font-size:11px;">View 30-day Detail →</button>'
+        +'<button class="rp-btn-export" onclick="rpOpenDailyView(\''+safeName+'\');document.getElementById(\'rpDrillModal\').remove();" style="padding:5px 12px;font-size:11px;">View 30-day Detail →</button>'
       +'</div>'
       +'<div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">'
         +'<div>'
         +'<div style="font-size:10px;font-weight:700;color:var(--primary);text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px;">Revenue (Plan vs Achieved)</div>'
         +'<table style="width:100%;font-size:12px;border-collapse:collapse;margin-bottom:14px;">'
-        +'<tr style="border-bottom:1px solid var(--rp-border);"><td style="padding:6px 0;color:var(--rp-sub);">Target Revenue</td><td style="text-align:right;padding:6px 0;font-weight:600;">'+paFmtK(emp.targetRev)+'</td></tr>'
-        +'<tr style="border-bottom:1px solid var(--rp-border);"><td style="padding:6px 0;color:var(--rp-sub);">Achieved Revenue</td><td style="text-align:right;padding:6px 0;font-weight:600;color:'+(emp.actualRev>=emp.targetRev?'var(--success)':'var(--danger)')+';">'+paFmtK(emp.actualRev)+'</td></tr>'
-        +'<tr style="border-bottom:1px solid var(--rp-border);"><td style="padding:6px 0;color:var(--rp-sub);">Variance (Var Rev)</td><td style="text-align:right;padding:6px 0;font-weight:600;color:'+(revVar>=0?'var(--success)':'var(--danger)')+';">'+(revVar>=0?'+':'')+paFmtK(revVar)+'</td></tr>'
+        +'<tr style="border-bottom:1px solid var(--rp-border);"><td style="padding:6px 0;color:var(--rp-sub);">Target Revenue</td><td style="text-align:right;padding:6px 0;font-weight:600;">'+rpFmtK(emp.targetRev)+'</td></tr>'
+        +'<tr style="border-bottom:1px solid var(--rp-border);"><td style="padding:6px 0;color:var(--rp-sub);">Achieved Revenue</td><td style="text-align:right;padding:6px 0;font-weight:600;color:'+(emp.actualRev>=emp.targetRev?'var(--success)':'var(--danger)')+';">'+rpFmtK(emp.actualRev)+'</td></tr>'
+        +'<tr style="border-bottom:1px solid var(--rp-border);"><td style="padding:6px 0;color:var(--rp-sub);">Variance (Var Rev)</td><td style="text-align:right;padding:6px 0;font-weight:600;color:'+(revVar>=0?'var(--success)':'var(--danger)')+';">'+(revVar>=0?'+':'')+rpFmtK(revVar)+'</td></tr>'
         +'<tr><td style="padding:6px 0;color:var(--rp-sub);">Achievement %</td><td style="text-align:right;padding:6px 0;font-weight:600;color:'+(emp.revAchPct>=100?'var(--success)':emp.revAchPct>=80?'var(--warning)':'var(--danger)')+';">'+emp.revAchPct+'%</td></tr></table>'
         +'<div style="font-size:10px;font-weight:700;color:var(--primary);text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px;">Tasks &amp; Sites</div>'
         +'<table style="width:100%;font-size:12px;border-collapse:collapse;">'
@@ -32693,8 +32920,8 @@ document.addEventListener('DOMContentLoaded',function(){
         +'<div>'
         +'<div style="font-size:10px;font-weight:700;color:var(--primary);text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px;">Hours (Hourly billing · 5%)</div>'
         +'<table style="width:100%;font-size:12px;border-collapse:collapse;margin-bottom:14px;">'
-        +'<tr style="border-bottom:1px solid var(--rp-border);"><td style="padding:6px 0;color:var(--rp-sub);">Plan Hours</td><td style="text-align:right;padding:6px 0;font-weight:600;">'+paFmt(emp.planHrs)+' h</td></tr>'
-        +'<tr style="border-bottom:1px solid var(--rp-border);"><td style="padding:6px 0;color:var(--rp-sub);">Actual Hours</td><td style="text-align:right;padding:6px 0;font-weight:600;">'+paFmt(emp.actHrs)+' h</td></tr>'
+        +'<tr style="border-bottom:1px solid var(--rp-border);"><td style="padding:6px 0;color:var(--rp-sub);">Plan Hours</td><td style="text-align:right;padding:6px 0;font-weight:600;">'+rpFmt(emp.planHrs)+' h</td></tr>'
+        +'<tr style="border-bottom:1px solid var(--rp-border);"><td style="padding:6px 0;color:var(--rp-sub);">Actual Hours</td><td style="text-align:right;padding:6px 0;font-weight:600;">'+rpFmt(emp.actHrs)+' h</td></tr>'
         +'<tr><td style="padding:6px 0;color:var(--rp-sub);">Utilization</td><td style="text-align:right;padding:6px 0;font-weight:600;color:'+(emp.util>110?'var(--danger)':emp.util<85?'var(--warning)':'var(--success)')+';">'+emp.util+'%</td></tr></table>'
         +'<div style="font-size:10px;font-weight:700;color:var(--primary);text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px;">Composite Efficiency</div>'
         +'<div style="background:var(--bg);border-radius:8px;padding:12px;text-align:center;">'
@@ -32706,19 +32933,19 @@ document.addEventListener('DOMContentLoaded',function(){
         +'</div>'
       +'</div>';
     var overlay=document.createElement('div');
-    overlay.id='paDrillModal';
+    overlay.id='rpDrillModal';
     overlay.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:9999;display:flex;align-items:center;justify-content:center;';
     overlay.onclick=function(e){if(e.target===overlay)overlay.remove();};
     var card=document.createElement('div');
     card.style.cssText='background:var(--rp-surface);border-radius:14px;padding:20px 22px;max-width:680px;width:92%;max-height:88vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.25);color:var(--rp-text);';
-    card.innerHTML=msg+'<div style="text-align:right;margin-top:14px;border-top:1px solid var(--rp-border);padding-top:12px;"><button onclick="document.getElementById(\'paDrillModal\').remove()" style="padding:7px 18px;border-radius:6px;background:var(--primary);color:#fff;border:none;cursor:pointer;font-size:12px;font-weight:600;">Close</button></div>';
+    card.innerHTML=msg+'<div style="text-align:right;margin-top:14px;border-top:1px solid var(--rp-border);padding-top:12px;"><button onclick="document.getElementById(\'rpDrillModal\').remove()" style="padding:7px 18px;border-radius:6px;background:var(--primary);color:#fff;border:none;cursor:pointer;font-size:12px;font-weight:600;">Close</button></div>';
     overlay.appendChild(card);
     document.body.appendChild(overlay);
   };
 
   document.addEventListener('DOMContentLoaded',function(){
-    if(typeof paRenderMonths==='function') paRenderMonths();
-    if(typeof paApplyFilter==='function') paApplyFilter();
+    if(typeof rpRenderMonths==='function') rpRenderMonths();
+    if(typeof rpApplyFilter==='function') rpApplyFilter();
   });
 })();
 </script>
