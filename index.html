@@ -1437,6 +1437,39 @@
         .s3-site-id{font-size:11.5px;font-weight:700;color:var(--gray-800);flex-shrink:0;min-width:52px;}
         .s3-site-row.on .s3-site-id{color:var(--primary);}
         .s3-site-name{font-size:11px;color:var(--gray-400);flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+
+        /* ── Step 3: Assignment-mode switcher + Team card ── */
+        .s3-mode-bar{display:flex;align-items:center;gap:10px;padding:7px 10px;margin-bottom:8px;background:linear-gradient(180deg,color-mix(in srgb,var(--primary) 5%,transparent),color-mix(in srgb,var(--primary) 2%,transparent));border:1.5px solid color-mix(in srgb,var(--primary) 16%,transparent);border-radius:10px;flex-shrink:0;}
+        .s3-mode-pillgroup{display:inline-flex;padding:2.5px;background:var(--white);border:1px solid var(--gray-200);border-radius:8px;gap:2px;flex-shrink:0;}
+        .s3-mode-pill{display:inline-flex;align-items:center;gap:5px;padding:5px 11px;border-radius:6px;font-size:11.5px;font-weight:700;color:var(--gray-500);cursor:pointer;border:none;background:transparent;transition:all .18s;letter-spacing:.1px;}
+        .s3-mode-pill svg{width:12px;height:12px;stroke:currentColor;stroke-width:2;fill:none;}
+        .s3-mode-pill:hover{color:var(--gray-800);}
+        .s3-mode-pill.active{background:var(--primary);color:#fff;box-shadow:0 1px 4px color-mix(in srgb,var(--primary) 30%,transparent);}
+        .s3-mode-pill.active:hover{color:#fff;}
+        .s3-mode-explainer{flex:1;display:flex;flex-direction:column;gap:1px;min-width:0;}
+        .s3-mode-explainer-title{display:inline-flex;align-items:center;gap:5px;font-size:11.5px;font-weight:700;color:var(--gray-900);font-family:'Fraunces',serif;}
+        .s3-mode-explainer-title svg{width:12px;height:12px;stroke:var(--primary);stroke-width:2.2;fill:none;flex-shrink:0;}
+        .s3-mode-explainer-sub{font-size:10.5px;color:var(--gray-600);line-height:1.4;}
+        .s3-mode-explainer-sub b{color:var(--primary);font-weight:700;}
+
+        /* ── Team card (right pane in team mode) ── */
+        .s3-team-card{border:1.5px solid color-mix(in srgb,var(--primary) 22%,transparent);border-radius:11px;background:var(--white);overflow:hidden;box-shadow:0 3px 14px color-mix(in srgb,var(--primary) 6%,transparent);display:flex;flex-direction:column;}
+        .s3-team-body{padding:10px 12px;display:flex;flex-direction:column;gap:9px;}
+        .s3-team-section-lbl{display:flex;align-items:center;justify-content:space-between;font-size:9.5px;font-weight:700;text-transform:uppercase;letter-spacing:.7px;color:var(--gray-400);margin-bottom:3px;}
+        .s3-team-section-lbl .s3-team-count-pill{text-transform:none;letter-spacing:0;background:var(--primary);color:#fff;padding:1.5px 7px;border-radius:20px;font-size:9.5px;font-weight:700;}
+        .s3-team-section-lbl .s3-team-count-pill.zero{background:var(--gray-200);color:var(--gray-500);}
+        .s3-team-members{display:flex;flex-wrap:wrap;gap:5px;min-height:24px;align-items:center;}
+        .s3-team-member-chip{display:inline-flex;align-items:center;gap:6px;padding:3px 8px 3px 3px;background:var(--white);border:1px solid var(--gray-200);border-radius:20px;font-size:11px;font-weight:600;color:var(--gray-800);}
+        .s3-team-member-chip-av{width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:8.5px;font-weight:700;flex-shrink:0;}
+        .s3-team-member-chip-vendor{border-radius:5px;}
+        .s3-team-member-chip-x{display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;border-radius:50%;background:var(--gray-100);color:var(--gray-500);cursor:pointer;transition:all .14s;margin-left:1px;}
+        .s3-team-member-chip-x:hover{background:var(--danger);color:#fff;}
+        .s3-team-member-chip-x svg{width:7px;height:7px;stroke:currentColor;stroke-width:3;fill:none;}
+        .s3-team-empty-hint{font-size:11px;color:var(--gray-400);font-style:italic;padding:4px 0;}
+        .s3-team-divider{height:1px;background:linear-gradient(90deg,transparent,var(--gray-200),transparent);margin:1px 0;}
+
+        /* In team mode, hide the left-pane Vendor tab? No — vendors can still be team members. */
+        /* Strikethrough disabled state for already-in-other-mode rows is unnecessary; we reset on toggle. */
         /* Step 4 — Review */
         .rev-summary-strip{display:grid;grid-template-columns:1fr auto 1fr auto 1fr auto 1fr;align-items:center;padding:7px 14px;background:var(--white);border:1.5px solid var(--gray-200);border-radius:10px;}
         .rev-summary-item{text-align:center;padding:2px 6px;}
@@ -1492,6 +1525,10 @@
         [data-dark="true"] .s3-tab.active{background:var(--gray-50)!important;}
         [data-dark="true"] .s3-empty-focus{background:var(--gray-50)!important;border-color:var(--gray-200)!important;}
         [data-dark="true"] .rev-emp-card,[data-dark="true"] .rev-summary-strip{background:var(--gray-50)!important;border-color:var(--gray-200)!important;}
+        [data-dark="true"] .s3-mode-bar{background:linear-gradient(180deg,color-mix(in srgb,var(--primary) 10%,var(--gray-50)),var(--gray-50))!important;border-color:color-mix(in srgb,var(--primary) 22%,var(--gray-200))!important;}
+        [data-dark="true"] .s3-mode-pillgroup{background:var(--gray-100)!important;border-color:var(--gray-200)!important;}
+        [data-dark="true"] .s3-team-card{background:var(--gray-50)!important;border-color:color-mix(in srgb,var(--primary) 28%,var(--gray-200))!important;}
+        [data-dark="true"] .s3-team-member-chip{background:var(--gray-100)!important;border-color:var(--gray-200)!important;color:var(--gray-900)!important;}
         [data-dark="true"] .exp-chip{background:#252836!important;border-color:#363b52!important;color:#d1d5db!important;}
         [data-dark="true"] #atWizOverlay .action-menu{background:#1e2130!important;border-color:#363b52!important;}
         /* AT page table specific */
@@ -18119,6 +18156,28 @@
           <!-- STEP 3 -->
           <div class="wiz-panel" id="atWp3">
             <div class="wiz-ctx-bar" id="atStep3InfoBar"></div>
+            <!-- Assignment mode switcher: Individual vs Team -->
+            <div class="s3-mode-bar">
+              <div class="s3-mode-pillgroup" role="tablist" aria-label="Assignment mode">
+                <button type="button" class="s3-mode-pill active" id="atModePillInd" onclick="atSetAssignMode('individual')" role="tab" aria-selected="true">
+                  <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+                  Individual
+                </button>
+                <button type="button" class="s3-mode-pill" id="atModePillTeam" onclick="atSetAssignMode('team')" role="tab" aria-selected="false">
+                  <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
+                  Team
+                </button>
+              </div>
+              <div class="s3-mode-explainer" id="atModeExplainer">
+                <div class="s3-mode-explainer-title">
+                  <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                  <span id="atModeExplainerTitle">Individual assignment</span>
+                </div>
+                <div class="s3-mode-explainer-sub" id="atModeExplainerSub">
+                  Each person gets their own copy of the task. <b>1 task × N people = N billable units.</b>
+                </div>
+              </div>
+            </div>
             <div class="emp-site-layout" style="flex:1;min-height:0;height:0;flex-grow:1;">
               <!-- LEFT: Employee / Vendor -->
               <div class="emp-col">
@@ -24049,6 +24108,11 @@ document.addEventListener('DOMContentLoaded', () => {
     };
     var AT_WIZ_activeType='t1', AT_WIZ_empTypeOverrides={};
     var AT_S3_TAB='emp', AT_S3_FOCUS_ID=null;
+    /* ── Assignment mode: 'individual' (per-person billing) | 'team' (one billable unit for the whole crew) ── */
+    var AT_ASSIGN_MODE='individual';
+    /* In team mode, all chosen people share the same Types + Sites, paid once. */
+    var AT_TEAM={members:[],sites:[],excludedTypes:[]};
+    var AT_TEAM_SITES_EXPANDED=false;
 
     function atOpenWiz(){atResetWiz();document.getElementById('atWizOverlay').classList.add('open');}
     function atCloseWiz(){document.getElementById('atWizOverlay').classList.remove('open');}
@@ -24070,6 +24134,11 @@ document.addEventListener('DOMContentLoaded', () => {
       AT_WIZ_activeType='t1'; atRenderActList();
       var sb=document.getElementById('atSelActsBar');if(sb)sb.innerHTML='<span class="sel-types-empty">No types selected yet — check types on the left</span>';
       AT_S3_FOCUS_ID=null; AT_S3_TAB='emp'; atSwitchS3Tab('emp');
+      /* Reset assignment mode back to Individual */
+      AT_ASSIGN_MODE='individual';
+      AT_TEAM={members:[],sites:[],excludedTypes:[]};
+      AT_TEAM_SITES_EXPANDED=false;
+      atApplyModePillsUI();
       atGoWizStep(1);
     }
 
@@ -24091,7 +24160,7 @@ document.addEventListener('DOMContentLoaded', () => {
       var sub=document.getElementById('atWizSubmitBtn');if(sub)sub.style.display=n===4?'':'none';
       var h=document.getElementById('atWizHint');if(h)h.textContent='Step '+n+' of 4';
       if(n===2)atBuildInfoBar('atStep2InfoBar');
-      if(n===3){atBuildInfoBar('atStep3InfoBar');atRenderSiteAssign();}
+      if(n===3){atBuildInfoBar('atStep3InfoBar');atApplyModePillsUI();atRenderSiteAssign();}
       if(n===4)atBuildReview();
       atUpdateWizNext();
     }
@@ -24102,7 +24171,15 @@ document.addEventListener('DOMContentLoaded', () => {
       var ok=false;
       if(AT_WIZ.step===1)ok=!!(AT_WIZ.client&&AT_WIZ.project&&AT_WIZ.circle&&AT_WIZ.po);
       if(AT_WIZ.step===2)ok=document.querySelectorAll('#atWizOverlay .type-row.selected').length>0;
-      if(AT_WIZ.step===3)ok=AT_WIZ.employees.length>0&&AT_WIZ.employees.every(function(e){return(AT_WIZ.empSites[e.id]||[]).length>0;});
+      if(AT_WIZ.step===3){
+        if(AT_ASSIGN_MODE==='team'){
+          /* Team mode: need ≥2 members AND ≥1 site assigned to the team */
+          ok=AT_TEAM.members.length>=2 && AT_TEAM.sites.length>0;
+        }else{
+          /* Individual mode: each person must have ≥1 site */
+          ok=AT_WIZ.employees.length>0&&AT_WIZ.employees.every(function(e){return(AT_WIZ.empSites[e.id]||[]).length>0;});
+        }
+      }
       if(AT_WIZ.step===4)ok=true;
       var nb=document.getElementById('atWizNextBtn');if(nb)nb.disabled=!ok;
     }
@@ -24246,13 +24323,32 @@ document.addEventListener('DOMContentLoaded', () => {
       document.getElementById('atS3VenPane').style.display=tab==='vendor'?'flex':'none';
     }
     function atToggleEmpRow(el,id,name,ini,color,code){
+      var isVendor=(S3_isVendorRow(el));
+      if(AT_ASSIGN_MODE==='team'){
+        /* Team mode: this row toggles team membership */
+        el.classList.toggle('selected');
+        var tIdx=AT_TEAM.members.findIndex(function(m){return m.id===id;});
+        if(tIdx>-1)AT_TEAM.members.splice(tIdx,1);
+        else AT_TEAM.members.push({id:id,name:name,ini:ini,color:color,code:code,kind:isVendor?'vendor':'employee'});
+        atRenderTeamPanel(); atUpdateWizNext();
+        return;
+      }
+      /* Individual mode (existing behavior) */
       el.classList.toggle('selected');
       var idx=AT_WIZ.employees.findIndex(function(e){return e.id===id;});
       if(idx>-1){AT_WIZ.employees.splice(idx,1);delete AT_WIZ.empSites[id];delete AT_WIZ_empTypeOverrides[id];delete AT_S3_expandedSites[id];if(AT_S3_FOCUS_ID===id)AT_S3_FOCUS_ID=null;}
       else{AT_WIZ.employees.push({id:id,name:name,ini:ini,color:color,code:code});AT_WIZ.empSites[id]=[];AT_S3_FOCUS_ID=id;}
       atRenderFocusPanel(); atUpdateWizNext();
     }
-    function atRenderSiteAssign(){AT_S3_FOCUS_ID=null;atRenderFocusPanel();}
+    /* Detect whether a row in the left list belongs to the Vendor pane (square avatar) */
+    function S3_isVendorRow(el){
+      try{ return !!(el && el.closest && el.closest('#atS3VenPane')); }catch(e){ return false; }
+    }
+    function atRenderSiteAssign(){
+      AT_S3_FOCUS_ID=null;
+      if(AT_ASSIGN_MODE==='team')atRenderTeamPanel();
+      else atRenderFocusPanel();
+    }
     var AT_S3_expandedSites={};
     function atToggleSiteExpand(empId){
       AT_S3_expandedSites[empId]=!AT_S3_expandedSites[empId];
@@ -24349,6 +24445,162 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     function atToggleEmpTypeInPanel(empId,typeId){atToggleEmpType(empId,typeId);atRenderFocusPanel();}
 
+    /* ═════════════════ TEAM MODE: switcher + renderer + actions ═════════════════ */
+    /* Confirm-reset when toggling mode while selections exist. */
+    function atSetAssignMode(mode){
+      if(mode===AT_ASSIGN_MODE)return;
+      var hasIndSel=AT_WIZ.employees.length>0;
+      var hasTeamSel=AT_TEAM.members.length>0||AT_TEAM.sites.length>0;
+      var willClear=(mode==='team'?hasIndSel:hasTeamSel);
+      if(willClear && !confirm('Switching mode will clear your current selections on this step. Continue?'))return;
+      AT_ASSIGN_MODE=mode;
+      /* clear opposite-mode state to avoid stale data */
+      if(mode==='team'){
+        AT_WIZ.employees=[]; AT_WIZ.empSites={}; AT_WIZ_empTypeOverrides={}; AT_S3_expandedSites={}; AT_S3_FOCUS_ID=null;
+      }else{
+        AT_TEAM={members:[],sites:[],excludedTypes:[]}; AT_TEAM_SITES_EXPANDED=false;
+      }
+      /* clear visual ✓ marks on the left-pane rows */
+      document.querySelectorAll('#atWizOverlay .emp-list-scroll .wiz-row.selected').forEach(function(r){r.classList.remove('selected');});
+      atApplyModePillsUI();
+      atRenderSiteAssign();
+      atUpdateWizNext();
+    }
+    function atApplyModePillsUI(){
+      var pi=document.getElementById('atModePillInd'), pt=document.getElementById('atModePillTeam');
+      if(pi){pi.classList.toggle('active',AT_ASSIGN_MODE==='individual'); pi.setAttribute('aria-selected',AT_ASSIGN_MODE==='individual');}
+      if(pt){pt.classList.toggle('active',AT_ASSIGN_MODE==='team'); pt.setAttribute('aria-selected',AT_ASSIGN_MODE==='team');}
+      var t=document.getElementById('atModeExplainerTitle'), s=document.getElementById('atModeExplainerSub');
+      if(AT_ASSIGN_MODE==='team'){
+        if(t)t.textContent='Team assignment';
+        if(s)s.innerHTML='Group works together on the same Types &amp; Sites. <b>One shared task</b> &mdash; combined work-done is calculated for the team at end of day.';
+      }else{
+        if(t)t.textContent='Individual assignment';
+        if(s)s.innerHTML='Each person gets their own copy of the task. <b>Work-done is tracked per person.</b>';
+      }
+    }
+    /* Render the right pane for TEAM mode */
+    function atRenderTeamPanel(){
+      var panel=document.getElementById('atS3FocusPanel'); if(!panel)return;
+      panel.className='s3-focus-panel';
+      /* Empty state */
+      if(AT_TEAM.members.length===0){
+        panel.innerHTML='<div class="s3-empty-focus">'
+          +'<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/></svg>'
+          +'<div class="s3-empty-focus-txt">Build your team</div>'
+          +'<div class="s3-empty-focus-sub">Pick 2 or more people from the left — they\'ll work together as one team on shared sites.</div>'
+          +'</div>';
+        return;
+      }
+      /* sites + types context */
+      var sites=[];
+      var client=AT_WIZ_DATA.clients[AT_WIZ.client];
+      if(client){var proj=client.projects.find(function(p){return p.id===AT_WIZ.project;}); if(proj)sites=proj.sites;}
+      var allSelTypes=[];
+      document.querySelectorAll('#atWizOverlay .type-row.selected').forEach(function(r){var tid=r.getAttribute('data-type-id'); if(tid&&AT_WIZ_DATA.types[tid])allSelTypes.push({id:tid,name:AT_WIZ_DATA.types[tid].name});});
+      var excluded=AT_TEAM.excludedTypes||[];
+
+      /* Member chips */
+      var memberChipsHtml=AT_TEAM.members.map(function(m){
+        var avCls='s3-team-member-chip-av'+(m.kind==='vendor'?' s3-team-member-chip-vendor':'');
+        return '<span class="s3-team-member-chip">'
+          +'<span class="'+avCls+'" style="background:'+m.color+'">'+atEsc(m.ini)+'</span>'
+          +atEsc(m.name)
+          +'<span class="s3-team-member-chip-x" onclick="atTeamRemoveMember(\''+m.id+'\')" title="Remove from team">'
+          +'<svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg></span></span>';
+      }).join('');
+
+      /* Types chips */
+      var typesHtml='';
+      if(allSelTypes.length){
+        typesHtml='<div class="s3-team-section-lbl"><span>Tasks for this team</span></div>'
+          +'<div class="esc-types-row">'
+          +allSelTypes.map(function(t){
+            var isOff=excluded.indexOf(t.id)>-1;
+            return '<span class="esc-type-chip '+(isOff?'off':'on')+'" onclick="atTeamToggleType(\''+t.id+'\')">'+atEsc(t.name)
+              +'<span class="esc-type-x"><svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="'+(isOff?'M12 4v16m-8-8h16':'M6 18L18 6M6 6l12 12')+'"/></svg></span></span>';
+          }).join('')
+          +'</div>';
+      }
+
+      /* Sites (assigned chips + expandable picker) */
+      var assigned=AT_TEAM.sites||[];
+      var hasSites=assigned.length>0;
+      var siteChipsHtml=(hasSites
+        ? assigned.map(function(s){
+            return '<span class="esc-site-chip">'+atEsc(s.siteId)
+              +'<span class="esc-site-chip-x" onclick="atTeamToggleSite(\''+s.id+'\',\''+atEsc(s.siteId)+'\',\''+atEsc(s.name)+'\');event.stopPropagation();">'
+              +'<svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg></span></span>';
+          }).join('')
+        : '<span class="esc-no-site-hint">No sites assigned to this team yet</span>');
+
+      var isExpanded=!!AT_TEAM_SITES_EXPANDED;
+      var expandBtn='<button class="esc-expand-btn'+(isExpanded?' open':'')+'" onclick="atTeamToggleSitesExpand()">'
+        +'<svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>'
+        +(isExpanded?'Hide site list':'Select sites for the team')
+        +'</button>';
+
+      var siteRowsHtml=sites.map(function(s){
+        var on=assigned.some(function(a){return a.id===s.id;});
+        return '<div class="s3-site-row'+(on?' on':'')+'" onclick="atTeamToggleSite(\''+s.id+'\',\''+atEsc(s.siteId)+'\',\''+atEsc(s.name)+'\')">'
+          +'<div class="s3-site-toggle"><svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg></div>'
+          +'<div class="s3-site-id">'+atEsc(s.siteId)+'</div><div class="s3-site-name">'+atEsc(s.name)+'</div></div>';
+      }).join('')||'<div style="padding:12px;text-align:center;font-size:11.5px;color:var(--gray-400);">No sites available</div>';
+
+      var siteSelectArea='<div class="esc-site-select-area'+(isExpanded?' open':'')+'">'
+        +'<div class="esc-srch-wrap"><svg class="esc-srch-ico" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>'
+        +'<input class="esc-srch" placeholder="Search sites..." oninput="atFilterEmpSites(this,\'atTeamSiteList\')" autocomplete="off"/></div>'
+        +'<div class="site-list-wrap" id="atTeamSiteList">'+siteRowsHtml+'</div>'
+        +'</div>';
+
+      var memberCount=AT_TEAM.members.length;
+
+      panel.innerHTML=''
+        +'<div class="s3-team-card">'
+        +'<div class="s3-team-body">'
+        +  '<div>'
+        +    '<div class="s3-team-section-lbl"><span>Members</span><span class="s3-team-count-pill'+(memberCount===0?' zero':'')+'">'+memberCount+'</span></div>'
+        +    '<div class="s3-team-members">'+(memberCount?memberChipsHtml:'<span class="s3-team-empty-hint">Pick people from the left — at least 2 to form a team</span>')+'</div>'
+        +  '</div>'
+        +  (typesHtml?'<div class="s3-team-divider"></div><div>'+typesHtml+'</div>':'')
+        +  '<div class="s3-team-divider"></div>'
+        +  '<div>'
+        +    '<div class="s3-team-section-lbl"><span>Sites</span><span class="s3-team-count-pill'+(hasSites?'':' zero')+'">'+assigned.length+'</span></div>'
+        +    '<div class="esc-site-chips-row">'+siteChipsHtml+'</div>'
+        +    expandBtn
+        +    siteSelectArea
+        +  '</div>'
+        +'</div>'
+        +'</div>';
+    }
+    function atTeamRemoveMember(id){
+      var idx=AT_TEAM.members.findIndex(function(m){return m.id===id;});
+      if(idx>-1)AT_TEAM.members.splice(idx,1);
+      /* uncheck row in left list */
+      var rows=document.querySelectorAll('#atWizOverlay .emp-list-scroll .wiz-row.selected');
+      rows.forEach(function(r){
+        if((r.getAttribute('onclick')||'').indexOf("'"+id+"'")>-1)r.classList.remove('selected');
+      });
+      atRenderTeamPanel(); atUpdateWizNext();
+    }
+    function atTeamToggleType(typeId){
+      var arr=AT_TEAM.excludedTypes;
+      var i=arr.indexOf(typeId);
+      if(i>-1)arr.splice(i,1); else arr.push(typeId);
+      atRenderTeamPanel();
+    }
+    function atTeamToggleSite(siteId,siteSiteId,siteName){
+      var i=AT_TEAM.sites.findIndex(function(s){return s.id===siteId;});
+      if(i>-1)AT_TEAM.sites.splice(i,1);
+      else AT_TEAM.sites.push({id:siteId,siteId:siteSiteId,name:siteName});
+      atRenderTeamPanel(); atUpdateWizNext();
+    }
+    function atTeamToggleSitesExpand(){
+      AT_TEAM_SITES_EXPANDED=!AT_TEAM_SITES_EXPANDED;
+      atRenderTeamPanel();
+    }
+    /* ═════════════════ /TEAM MODE ═════════════════ */
+
     function atBuildInfoBar(id){
       var el=document.getElementById(id); if(!el)return;
       el.innerHTML='<span class="wiz-ctx-item"><span class="wiz-ctx-label">Client</span><span class="wiz-ctx-sep">:</span><span class="wiz-ctx-val">'+atEsc(AT_WIZ.clientName)+'</span></span>'
@@ -24376,30 +24628,56 @@ document.addEventListener('DOMContentLoaded', () => {
         html+='<div class="rev-section"><div class="rev-section-head"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"/></svg><span class="rev-section-title">Types</span><span class="rev-section-count">'+selTypes.length+'</span></div>'
           +'<div class="rev-section-body"><div class="rev-tags-wrap">'+selTypes.map(function(t){return '<span class="rev-type-tag">'+atEsc(t.name)+'</span>';}).join('')+'</div></div></div>';
       }
-      html+='<div class="rev-section"><div class="rev-section-head"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/></svg><span class="rev-section-title">Team &amp; Sites</span><span class="rev-section-count">'+AT_WIZ.employees.length+'</span></div>'
-        +'<div class="rev-team-grid">';
-      AT_WIZ.employees.forEach(function(emp){
-        var sites=AT_WIZ.empSites[emp.id]||[];
-        var excluded=AT_WIZ_empTypeOverrides[emp.id]||[];
-        var empTypes=selTypes.filter(function(t){return excluded.indexOf(t.id)===-1;});
-        html+='<div class="rev-emp-card"><div class="rev-emp-card-hdr"><div class="rev-emp-card-av" style="background:'+emp.color+'">'+emp.ini+'</div>'
-          +'<div class="rev-emp-card-info"><div class="rev-emp-card-name">'+atEsc(emp.name)+'</div><div class="rev-emp-card-sub">'+atEsc(emp.code||'')+'</div></div>'
-          +'<div class="rev-emp-card-badges"><span class="rev-emp-badge-sites">'+sites.length+' site'+(sites.length===1?'':'s')+'</span><span class="rev-emp-badge-types">'+empTypes.length+' type'+(empTypes.length===1?'':'s')+'</span></div></div>'
-          +(empTypes.length?'<div class="rev-emp-card-section"><div class="rev-emp-card-lbl">Types</div><div class="rev-tags-wrap">'+empTypes.map(function(t){return '<span class="rev-type-tag">'+atEsc(t.name)+'</span>';}).join('')+'</div></div>':'')
-          +'<div class="rev-emp-card-section"><div class="rev-emp-card-lbl">Sites</div>'
-          +(sites.length?'<div class="rev-tags-wrap">'+sites.map(function(s){return '<span class="rev-site-tag">'+atEsc(s.siteId)+'</span>';}).join('')+'</div>'
-            :'<span style="font-size:11px;color:var(--gray-400);font-style:italic;">No sites assigned</span>')
-          +'</div></div>';
-      });
-      html+='</div></div>';
+
+      if(AT_ASSIGN_MODE==='team'){
+        /* ── Team mode review ── */
+        var excluded=AT_TEAM.excludedTypes||[];
+        var teamTypes=selTypes.filter(function(t){return excluded.indexOf(t.id)===-1;});
+        var members=AT_TEAM.members||[], sites=AT_TEAM.sites||[];
+
+        html+='<div class="rev-section"><div class="rev-section-head">'
+          +'<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/></svg>'
+          +'<span class="rev-section-title">Team Assignment</span>'
+          +'<span class="rev-section-count">'+members.length+'</span>'
+          +'</div>'
+          +'<div class="rev-team-grid"><div class="rev-emp-card" style="border-color:color-mix(in srgb,var(--primary) 24%,transparent);">'
+          +  '<div class="rev-emp-card-section"><div class="rev-emp-card-lbl">Members</div>'
+          +    '<div class="rev-tags-wrap">'+members.map(function(m){return '<span class="rev-type-tag" style="background:color-mix(in srgb,'+m.color+' 12%,transparent);color:'+m.color+';border-color:color-mix(in srgb,'+m.color+' 28%,transparent);">'+atEsc(m.name)+(m.kind==='vendor'?' · Vendor':'')+'</span>';}).join('')+'</div></div>'
+          +  (teamTypes.length?'<div class="rev-emp-card-section"><div class="rev-emp-card-lbl">Types</div><div class="rev-tags-wrap">'+teamTypes.map(function(t){return '<span class="rev-type-tag">'+atEsc(t.name)+'</span>';}).join('')+'</div></div>':'')
+          +  '<div class="rev-emp-card-section"><div class="rev-emp-card-lbl">Sites</div>'
+          +    (sites.length?'<div class="rev-tags-wrap">'+sites.map(function(s){return '<span class="rev-site-tag">'+atEsc(s.siteId)+'</span>';}).join('')+'</div>':'<span style="font-size:11px;color:var(--gray-400);font-style:italic;">No sites assigned</span>')
+          +  '</div>'
+          +'</div></div></div>';
+      }else{
+        /* ── Individual mode review (existing) ── */
+        html+='<div class="rev-section"><div class="rev-section-head"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/></svg><span class="rev-section-title">Team &amp; Sites</span><span class="rev-section-count">'+AT_WIZ.employees.length+'</span></div>'
+          +'<div class="rev-team-grid">';
+        AT_WIZ.employees.forEach(function(emp){
+          var sites=AT_WIZ.empSites[emp.id]||[];
+          var excluded=AT_WIZ_empTypeOverrides[emp.id]||[];
+          var empTypes=selTypes.filter(function(t){return excluded.indexOf(t.id)===-1;});
+          html+='<div class="rev-emp-card"><div class="rev-emp-card-hdr"><div class="rev-emp-card-av" style="background:'+emp.color+'">'+emp.ini+'</div>'
+            +'<div class="rev-emp-card-info"><div class="rev-emp-card-name">'+atEsc(emp.name)+'</div><div class="rev-emp-card-sub">'+atEsc(emp.code||'')+'</div></div>'
+            +'<div class="rev-emp-card-badges"><span class="rev-emp-badge-sites">'+sites.length+' site'+(sites.length===1?'':'s')+'</span><span class="rev-emp-badge-types">'+empTypes.length+' type'+(empTypes.length===1?'':'s')+'</span></div></div>'
+            +(empTypes.length?'<div class="rev-emp-card-section"><div class="rev-emp-card-lbl">Types</div><div class="rev-tags-wrap">'+empTypes.map(function(t){return '<span class="rev-type-tag">'+atEsc(t.name)+'</span>';}).join('')+'</div></div>':'')
+            +'<div class="rev-emp-card-section"><div class="rev-emp-card-lbl">Sites</div>'
+            +(sites.length?'<div class="rev-tags-wrap">'+sites.map(function(s){return '<span class="rev-site-tag">'+atEsc(s.siteId)+'</span>';}).join('')+'</div>'
+              :'<span style="font-size:11px;color:var(--gray-400);font-style:italic;">No sites assigned</span>')
+            +'</div></div>';
+        });
+        html+='</div></div>';
+      }
       var rg=document.getElementById('atReviewGrid'); if(rg)rg.innerHTML=html;
     }
 
     function atWizSubmit(){
+      var msg=AT_ASSIGN_MODE==='team'
+        ? 'Team task assigned to '+AT_TEAM.members.length+' members'
+        : 'Task assigned successfully!';
       atCloseWiz();
       var toast=document.createElement('div');
       toast.style.cssText='position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(8px);background:var(--success);color:#fff;padding:10px 22px;border-radius:50px;font-size:13px;font-weight:600;box-shadow:0 4px 20px rgba(0,0,0,.18);z-index:9999;opacity:0;transition:all .28s ease;display:flex;align-items:center;gap:7px;white-space:nowrap;';
-      toast.innerHTML='<svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg> Task assigned successfully!';
+      toast.innerHTML='<svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg> '+msg;
       document.body.appendChild(toast);
       setTimeout(function(){toast.style.opacity='1';toast.style.transform='translateX(-50%) translateY(0)';},30);
       setTimeout(function(){toast.style.opacity='0';toast.style.transform='translateX(-50%) translateY(8px)';setTimeout(function(){toast.remove();},300);},2800);
