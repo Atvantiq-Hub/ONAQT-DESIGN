@@ -11336,6 +11336,62 @@
             flex-shrink:0;
         }
         .ovw-export-btn:hover { border-color:var(--primary); color:var(--primary); background:color-mix(in srgb,var(--primary) 5%,transparent); }
+
+        /* ── Vendor Insights inline view-switcher (sits inside .ovw-filter-bar, right of date) ── */
+        .vi-view-switch{position:relative;flex-shrink:0;}
+        .vi-view-switch-trigger{
+            display:inline-flex;align-items:center;gap:7px;
+            padding:5px 9px 5px 10px;border-radius:7px;
+            background:color-mix(in srgb,var(--primary) 8%,transparent);
+            border:1px solid color-mix(in srgb,var(--primary) 24%,transparent);
+            color:var(--primary);
+            font-size:11.5px;font-weight:700;font-family:'DM Sans',sans-serif;letter-spacing:.1px;
+            cursor:pointer;transition:all .15s;line-height:1.2;height:26px;
+        }
+        .vi-view-switch-trigger:hover{background:color-mix(in srgb,var(--primary) 14%,transparent);border-color:color-mix(in srgb,var(--primary) 38%,transparent);}
+        .vi-view-switch-trigger.open{background:var(--primary);color:#fff;border-color:var(--primary);box-shadow:0 2px 8px color-mix(in srgb,var(--primary) 28%,transparent);}
+        .vi-view-switch-trigger-ico{width:13px;height:13px;stroke:currentColor;stroke-width:2;fill:none;flex-shrink:0;}
+        .vi-view-switch-trigger-caret{width:11px;height:11px;stroke:currentColor;stroke-width:2.4;fill:none;flex-shrink:0;transition:transform .2s;margin-left:1px;opacity:.85;}
+        .vi-view-switch-trigger.open .vi-view-switch-trigger-caret{transform:rotate(180deg);opacity:1;}
+        .vi-view-switch-trigger-label{white-space:nowrap;}
+        .vi-view-switch-menu{
+            position:absolute;top:calc(100% + 5px);left:0;
+            min-width:280px;background:var(--white);
+            border:1px solid var(--gray-200);border-radius:10px;
+            box-shadow:0 8px 26px rgba(0,0,0,.13);
+            padding:5px;z-index:50;
+            opacity:0;visibility:hidden;transform:translateY(-4px);
+            transition:opacity .15s,transform .15s,visibility .15s;
+        }
+        .vi-view-switch-menu.open{opacity:1;visibility:visible;transform:translateY(0);}
+        .vi-view-switch-item{
+            display:flex;align-items:flex-start;gap:9px;
+            padding:8px 9px;border-radius:7px;cursor:pointer;transition:background .12s;
+        }
+        .vi-view-switch-item:hover{background:color-mix(in srgb,var(--primary) 6%,transparent);}
+        .vi-view-switch-item.active{background:color-mix(in srgb,var(--primary) 9%,transparent);}
+        .vi-view-switch-item-ico{
+            width:28px;height:28px;border-radius:7px;flex-shrink:0;
+            display:flex;align-items:center;justify-content:center;
+            background:color-mix(in srgb,var(--primary) 11%,transparent);color:var(--primary);
+        }
+        .vi-view-switch-item.active .vi-view-switch-item-ico{background:var(--primary);color:#fff;}
+        .vi-view-switch-item-ico svg{width:14px;height:14px;stroke:currentColor;stroke-width:2;fill:none;}
+        .vi-view-switch-item-body{flex:1;min-width:0;display:flex;flex-direction:column;gap:1px;}
+        .vi-view-switch-item-title{font-size:12px;font-weight:700;color:var(--gray-900);letter-spacing:-.1px;}
+        .vi-view-switch-item-sub{font-size:10.5px;color:var(--gray-500);line-height:1.35;}
+        .vi-view-switch-item-check{
+            width:16px;height:16px;border-radius:50%;flex-shrink:0;align-self:center;
+            display:flex;align-items:center;justify-content:center;
+            background:var(--primary);color:#fff;opacity:0;transition:opacity .15s;
+        }
+        .vi-view-switch-item.active .vi-view-switch-item-check{opacity:1;}
+        .vi-view-switch-item-check svg{width:9px;height:9px;stroke:currentColor;stroke-width:3.5;fill:none;}
+        [data-dark="true"] .vi-view-switch-menu{background:var(--gray-50)!important;border-color:var(--gray-200)!important;}
+        [data-dark="true"] .vi-view-switch-item-title{color:var(--gray-900)!important;}
+        [data-dark="true"] .vi-view-switch-item:hover{background:color-mix(in srgb,var(--primary) 14%,var(--gray-100))!important;}
+        [data-dark="true"] .vi-view-switch-item.active{background:color-mix(in srgb,var(--primary) 18%,var(--gray-100))!important;}
+
         [data-dark="true"] .ovw-filter-bar { background:#1e2130 !important; border-color:#2d3145 !important; }
         [data-dark="true"] .ovw-filter-label { color:#9ca3af !important; border-color:#363b52 !important; }
         [data-dark="true"] .ovw-select { background-color:#252836 !important; border-color:#363b52 !important; color:#d1d5db !important; }
@@ -12919,10 +12975,9 @@
                             </svg>
                         </button>
                         <div class="nav-submenu">
-                            <a href="#" class="nav-submenu-link" onclick="showPage('vendor-overview','Overview');return false;">Overview</a>
-                            <a href="#" class="nav-submenu-link" onclick="showPage('vendor','Vendors');return false;">Vendors</a>
+                            <a href="#" class="nav-submenu-link" id="nav-vendor-insights" onclick="viShow('overview');return false;">Vendor Insights</a>
                             <a href="#" class="nav-submenu-link" onclick="showPage('vendor-bills','Bills');return false;">Bills</a>
-                            <a href="#" class="nav-submenu-link" onclick="showPage('vendor-mileage','Mileage');return false;">Mileage</a>
+                            <a href="#" class="nav-submenu-link" onclick="showPage('vendor','Vendors');return false;">Vendors</a>
                         </div>
                     </div>
 
@@ -14381,10 +14436,32 @@
                             <option value="all">All Time</option>
                         </select>
 
-                        <!-- Vendor filter -->
-                        <select class="ovw-select" id="ovwVendorFilter" onchange="ovwRender()">
-                            <option value="">All Vendors</option>
-                        </select>
+                        <!-- Vendor Insights view switcher (Work Status ↔ Mileage & Trips) -->
+                        <div class="vi-view-switch">
+                            <button type="button" class="vi-view-switch-trigger" id="viDdTrigger_ovw" onclick="viToggleDd(event,'viDdMenu_ovw','viDdTrigger_ovw')" aria-haspopup="listbox" aria-expanded="false" title="Switch view">
+                                <svg class="vi-view-switch-trigger-ico" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+                                <span class="vi-view-switch-trigger-label">Work Status</span>
+                                <svg class="vi-view-switch-trigger-caret" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+                            </button>
+                            <div class="vi-view-switch-menu" id="viDdMenu_ovw" role="listbox" onclick="event.stopPropagation()">
+                                <div class="vi-view-switch-item active" role="option" onclick="viShow('overview')">
+                                    <div class="vi-view-switch-item-ico"><svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg></div>
+                                    <div class="vi-view-switch-item-body">
+                                        <span class="vi-view-switch-item-title">Work Status</span>
+                                        <span class="vi-view-switch-item-sub">Vendor work items across approval stages</span>
+                                    </div>
+                                    <div class="vi-view-switch-item-check"><svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg></div>
+                                </div>
+                                <div class="vi-view-switch-item" role="option" onclick="viShow('mileage')">
+                                    <div class="vi-view-switch-item-ico"><svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M1 6v16l7-4 8 4 7-4V2l-7 4-8-4-7 4z"/><line x1="8" y1="2" x2="8" y2="18" stroke-linecap="round"/><line x1="16" y1="6" x2="16" y2="22" stroke-linecap="round"/></svg></div>
+                                    <div class="vi-view-switch-item-body">
+                                        <span class="vi-view-switch-item-title">Mileage &amp; Trips</span>
+                                        <span class="vi-view-switch-item-sub">Transporter &amp; cab logs, billable kilometres</span>
+                                    </div>
+                                    <div class="vi-view-switch-item-check"><svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg></div>
+                                </div>
+                            </div>
+                        </div>
 
                         <div class="ovw-filter-spacer"></div>
 
@@ -14564,13 +14641,6 @@
                             <span class="vh-title-text">Mileage &amp; Trip Log</span>
                         </div>
 
-                        <select class="ovw-select" id="mlgVendorFilter" onchange="mlgRender()">
-                            <option value="">All Vendors</option>
-                            <option value="2">Punjab Express Transport</option>
-                            <option value="3">Delhi Cab Services</option>
-                            <option value="5">North India Movers</option>
-                            <option value="7">Jaipur Cab Rentals</option>
-                        </select>
                         <select class="ovw-select" id="mlgTypeFilter" onchange="mlgRender()">
                             <option value="">All Types</option>
                             <option value="transport">Transporter</option>
@@ -14582,6 +14652,33 @@
                             <option value="quarter">This Quarter</option>
                             <option value="all">All Time</option>
                         </select>
+
+                        <!-- Vendor Insights view switcher (Work Status ↔ Mileage & Trips) -->
+                        <div class="vi-view-switch">
+                            <button type="button" class="vi-view-switch-trigger" id="viDdTrigger_mlg" onclick="viToggleDd(event,'viDdMenu_mlg','viDdTrigger_mlg')" aria-haspopup="listbox" aria-expanded="false" title="Switch view">
+                                <svg class="vi-view-switch-trigger-ico" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M1 6v16l7-4 8 4 7-4V2l-7 4-8-4-7 4z"/><line x1="8" y1="2" x2="8" y2="18" stroke-linecap="round"/><line x1="16" y1="6" x2="16" y2="22" stroke-linecap="round"/></svg>
+                                <span class="vi-view-switch-trigger-label">Mileage &amp; Trips</span>
+                                <svg class="vi-view-switch-trigger-caret" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+                            </button>
+                            <div class="vi-view-switch-menu" id="viDdMenu_mlg" role="listbox" onclick="event.stopPropagation()">
+                                <div class="vi-view-switch-item" role="option" onclick="viShow('overview')">
+                                    <div class="vi-view-switch-item-ico"><svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg></div>
+                                    <div class="vi-view-switch-item-body">
+                                        <span class="vi-view-switch-item-title">Work Status</span>
+                                        <span class="vi-view-switch-item-sub">Vendor work items across approval stages</span>
+                                    </div>
+                                    <div class="vi-view-switch-item-check"><svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg></div>
+                                </div>
+                                <div class="vi-view-switch-item active" role="option" onclick="viShow('mileage')">
+                                    <div class="vi-view-switch-item-ico"><svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M1 6v16l7-4 8 4 7-4V2l-7 4-8-4-7 4z"/><line x1="8" y1="2" x2="8" y2="18" stroke-linecap="round"/><line x1="16" y1="6" x2="16" y2="22" stroke-linecap="round"/></svg></div>
+                                    <div class="vi-view-switch-item-body">
+                                        <span class="vi-view-switch-item-title">Mileage &amp; Trips</span>
+                                        <span class="vi-view-switch-item-sub">Transporter &amp; cab logs, billable kilometres</span>
+                                    </div>
+                                    <div class="vi-view-switch-item-check"><svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg></div>
+                                </div>
+                            </div>
+                        </div>
 
                         <div class="ovw-filter-spacer"></div>
 
@@ -25874,6 +25971,46 @@ document.addEventListener('DOMContentLoaded', () => {
             };
             if (renderMap[pageId]) renderMap[pageId]();
         }
+
+        /* ══════════════════════════════════════════
+           VENDOR INSIGHTS — view switcher (Work Status ↔ Mileage & Trips)
+           Both #page-vendor-overview and #page-vendor-mileage live under the same sidebar entry.
+           viShow(view) swaps which one is visible and keeps the sidebar link highlighted.
+        ══════════════════════════════════════════ */
+        function viShow(view){
+            var pageId = (view==='mileage') ? 'vendor-mileage' : 'vendor-overview';
+            showPage(pageId, 'Vendor Insights');
+            // Keep the Vendor Insights submenu link active regardless of sub-view
+            var link = document.getElementById('nav-vendor-insights');
+            if (link) link.classList.add('active');
+            // Make sure the Vendor Hub collapsible is expanded
+            var coll = document.getElementById('nav-vendor-collapsible');
+            if (coll && !coll.classList.contains('active')) coll.classList.add('active');
+            viCloseAllDd();
+        }
+        function viToggleDd(ev, menuId, triggerId){
+            if(ev){ev.stopPropagation();}
+            var menu = document.getElementById(menuId);
+            var trig = document.getElementById(triggerId);
+            if(!menu || !trig) return;
+            var willOpen = !menu.classList.contains('open');
+            viCloseAllDd();
+            if(willOpen){
+                menu.classList.add('open');
+                trig.classList.add('open');
+                trig.setAttribute('aria-expanded','true');
+            }
+        }
+        function viCloseAllDd(){
+            document.querySelectorAll('.vi-view-switch-menu.open').forEach(function(m){m.classList.remove('open');});
+            document.querySelectorAll('.vi-view-switch-trigger.open').forEach(function(t){t.classList.remove('open');t.setAttribute('aria-expanded','false');});
+        }
+        document.addEventListener('click', function(e){
+            if(!e.target.closest || !e.target.closest('.vi-view-switch')) viCloseAllDd();
+        });
+        document.addEventListener('keydown', function(e){
+            if(e.key==='Escape') viCloseAllDd();
+        });
     </script>
 
     <script>
