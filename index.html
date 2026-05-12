@@ -12252,9 +12252,48 @@
         .bdg-scroll::-webkit-scrollbar { width: 6px; }
         .bdg-scroll::-webkit-scrollbar-thumb { background: var(--gray-200); border-radius: 6px; }
 
-        .bdg-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
+        .bdg-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; gap: 14px; flex-wrap: wrap; }
+        .bdg-header-actions { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+        .bdg-header-count { font-size: 11px; font-weight: 600; color: var(--bdg-muted); padding: 3px 9px; border-radius: 20px; background: color-mix(in srgb,var(--primary) 8%,transparent); border: 1px solid color-mix(in srgb,var(--primary) 18%,transparent); white-space: nowrap; }
+        .bdg-filter-lbl { display: inline-flex; align-items: center; gap: 6px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; color: var(--bdg-muted); padding-right: 8px; border-right: 1px solid var(--bdg-border-md); margin-right: 2px; }
+        .bdg-filter-lbl svg { color: var(--bdg-muted); flex-shrink: 0; }
+        [data-dark="true"] .bdg-header-count { background: color-mix(in srgb,var(--primary) 18%,#252836); border-color: color-mix(in srgb,var(--primary) 30%,#363b52); color: var(--bdg-sub); }
         .bdg-page-title { font-family: 'Fraunces', serif; font-size: 20px; font-weight: 600; color: var(--bdg-text); }
         .bdg-page-meta { font-size: 11px; color: var(--bdg-muted); margin-top: 2px; }
+
+        /* ── Filter strip right group: search + view toggle ── */
+        .bdg-filter-strip-right { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+        .bdg-cb-count {
+            font-size: 11px; font-weight: 600;
+            background: color-mix(in srgb, var(--primary) 12%, transparent);
+            color: var(--primary);
+            border: 1px solid color-mix(in srgb, var(--primary) 22%, transparent);
+            border-radius: 5px; padding: 2px 7px; white-space: nowrap;
+        }
+        [data-dark="true"] .bdg-cb-count {
+            background: color-mix(in srgb, var(--primary) 22%, #252836);
+            border-color: color-mix(in srgb, var(--primary) 35%, #363b52);
+        }
+        .bdg-cb-search { position: relative; width: 260px; max-width: 100%; }
+        .bdg-cb-search-icon {
+            position: absolute; left: 10px; top: 50%; transform: translateY(-50%);
+            color: var(--bdg-muted); pointer-events: none; display: inline-flex;
+        }
+        .bdg-cb-search-input {
+            width: 100%; height: 32px; padding: 6px 10px 6px 30px;
+            border: 1px solid var(--bdg-border-md); border-radius: 8px;
+            font-size: 12px; font-family: 'DM Sans', sans-serif;
+            background: var(--bdg-surface); color: var(--bdg-text);
+            transition: all .15s;
+        }
+        .bdg-cb-search-input::placeholder { color: var(--bdg-muted); }
+        .bdg-cb-search-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px color-mix(in srgb, var(--primary) 12%, transparent);
+        }
+        [data-dark="true"] .bdg-cb-search-input { background: #252836; border-color: #363b52; color: #d1d5db; }
+        [data-dark="true"] .bdg-cb-search-input:focus { border-color: var(--primary); }
 
         /* Stepper */
         .bdg-stepper { display: flex; align-items: center; gap: 0; margin-bottom: 24px; background: var(--bdg-surface); border-radius: 12px; padding: 12px 16px; box-shadow: var(--shadow-sm); border: 1px solid var(--bdg-border); overflow-x: auto; }
@@ -12288,6 +12327,15 @@
         .bdg-proj-option-title { font-size: 13px; font-weight: 600; color: var(--bdg-text); }
         .bdg-proj-option-desc { font-size: 11px; color: var(--bdg-muted); margin-top: 4px; }
 
+        /* Subtle "Don't see your project?" hint with link to Project page */
+        .bdg-create-hint { display: flex; align-items: center; gap: 7px; margin-top: 16px; padding: 10px 12px; border-radius: 8px; background: color-mix(in srgb,var(--primary) 5%,transparent); border: 1px dashed color-mix(in srgb,var(--primary) 30%,transparent); font-size: 12px; color: var(--bdg-sub); }
+        .bdg-create-hint > svg:first-child { color: var(--primary); flex-shrink: 0; }
+        .bdg-create-link { display: inline-flex; align-items: center; gap: 5px; padding: 0; margin-left: auto; background: transparent; border: none; color: var(--primary); font-size: 12px; font-weight: 700; font-family: inherit; cursor: pointer; text-decoration: none; transition: color .15s, gap .15s; }
+        .bdg-create-link:hover { color: color-mix(in srgb,var(--primary) 80%, #000); gap: 8px; }
+        .bdg-create-link svg { transition: transform .15s; }
+        .bdg-create-link:hover svg { transform: translateX(2px); }
+        [data-dark="true"] .bdg-create-hint { background: color-mix(in srgb,var(--primary) 14%, #1e2130); border-color: color-mix(in srgb,var(--primary) 40%, #363b52); color: var(--bdg-sub); }
+
         /* Selector Lists */
         .bdg-sel-row { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 8px; cursor: pointer; transition: background .15s; border: 1px solid transparent; }
         .bdg-sel-row:hover { background: var(--gray-50); }
@@ -12306,7 +12354,22 @@
         [data-dark="true"] .bdg-hier-level { background: #252836; }
         .bdg-hier-level-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
         .bdg-hier-level-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; color: var(--primary); }
-        .bdg-hier-count-input { width: 48px; height: 28px; border-radius: 6px; border: 1px solid var(--bdg-border-md); text-align: center; font-size: 12px; font-weight: 600; background: var(--bdg-surface); color: var(--bdg-text); }
+        .bdg-hier-count-input { width: 64px; height: 28px; border-radius: 6px; border: 1px solid var(--bdg-border-md); text-align: center; font-size: 12px; font-weight: 600; background: var(--bdg-surface); color: var(--bdg-text); }
+
+        /* Utilization % field — stacked just below the Count input in the level header */
+        .bdg-hier-head-fields { display: flex; flex-direction: column; align-items: flex-end; gap: 6px; }
+        .bdg-hier-field { display: flex; align-items: center; gap: 7px; }
+        .bdg-hier-field-lbl { font-size: 10px; color: var(--bdg-muted); font-weight: 600; text-transform: uppercase; letter-spacing: .04em; white-space: nowrap; min-width: 92px; text-align: right; }
+        .bdg-hier-field-opt { font-weight: 400; text-transform: none; letter-spacing: 0; color: var(--bdg-muted); opacity: .75; margin-left: 2px; }
+        .bdg-hier-util-wrap { position: relative; display: inline-flex; align-items: center; }
+        .bdg-hier-util-input { width: 64px; height: 28px; border-radius: 6px; border: 1px solid var(--bdg-border-md); text-align: center; font-size: 12px; font-weight: 600; background: var(--bdg-surface); color: var(--bdg-text); padding-right: 18px; font-family: inherit; outline: none; transition: border-color .15s, box-shadow .15s; }
+        .bdg-hier-util-input:focus { border-color: var(--primary); box-shadow: 0 0 0 3px color-mix(in srgb, var(--primary) 12%, transparent); }
+        .bdg-hier-util-input::placeholder { color: var(--bdg-muted); opacity: .6; font-weight: 500; }
+        .bdg-hier-util-suffix { position: absolute; right: 7px; top: 50%; transform: translateY(-50%); font-size: 11px; font-weight: 600; color: var(--bdg-muted); pointer-events: none; }
+        .bdg-hier-util-input::-webkit-inner-spin-button,
+        .bdg-hier-util-input::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+        .bdg-hier-util-input { -moz-appearance: textfield; }
+        @media (max-width: 700px) { .bdg-hier-field-lbl { min-width: 0; } }
         .bdg-hier-slots { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 6px; }
         .bdg-hier-slot { min-width: 180px; background: var(--bdg-surface); border: 1px dashed var(--bdg-border-md); border-radius: 8px; padding: 8px 10px; display: flex; align-items: center; gap: 8px; transition: all .2s; cursor: pointer; }
         .bdg-hier-slot.filled { min-width: 220px; cursor: default; border-style: solid; border-color: var(--primary); background: var(--primary-light); }
@@ -12604,7 +12667,57 @@
         .bdg-status-pill { display: inline-block; padding: 2px 8px; border-radius: 10px; font-size: 10px; font-weight: 600; }
         .bdg-status-pill.approved { background: rgba(16,185,129,.12); color: var(--success); }
         .bdg-status-pill.submitted { background: rgba(59,130,246,.12); color: var(--info); }
+        .bdg-status-pill.l1approved { background: rgba(168,85,247,.14); color: #7c3aed; }
         .bdg-status-pill.draft { background: rgba(245,158,11,.12); color: var(--warning); }
+        .bdg-status-pill.rejected { background: rgba(239,68,68,.14); color: var(--danger); }
+
+        /* ── Approval workflow: timeline, action bar, reject modal ── */
+        /* Approval timeline (detail view) */
+        .bdgd-timeline{display:flex;flex-direction:column;gap:0;position:relative;padding-left:8px;}
+        .bdgd-tl-row{display:flex;gap:12px;padding:7px 0 7px 14px;position:relative;}
+        .bdgd-tl-row:not(:last-child)::after{content:'';position:absolute;left:5px;top:18px;bottom:-7px;width:1.5px;background:var(--bdg-border-md);}
+        .bdgd-tl-dot{position:absolute;left:0;top:9px;width:11px;height:11px;border-radius:50%;border:2px solid var(--bdg-surface);box-shadow:0 0 0 1.5px var(--bdg-border-md);background:var(--bdg-border-md);z-index:1;}
+        .bdgd-tl-dot.created{background:var(--bdg-muted);box-shadow:0 0 0 1.5px var(--bdg-muted);}
+        .bdgd-tl-dot.submitted{background:#3b82f6;box-shadow:0 0 0 1.5px #3b82f6;}
+        .bdgd-tl-dot.l1approved{background:#7c3aed;box-shadow:0 0 0 1.5px #7c3aed;}
+        .bdgd-tl-dot.approved{background:var(--success);box-shadow:0 0 0 1.5px var(--success);}
+        .bdgd-tl-dot.rejected{background:var(--danger);box-shadow:0 0 0 1.5px var(--danger);}
+        .bdgd-tl-dot.pending{background:var(--bdg-surface);box-shadow:0 0 0 1.5px var(--bdg-border-md);}
+        .bdgd-tl-body{flex:1;min-width:0;}
+        .bdgd-tl-head{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap;}
+        .bdgd-tl-stage{font-size:11.5px;font-weight:700;color:var(--bdg-text);letter-spacing:.1px;}
+        .bdgd-tl-actor{font-size:11px;color:var(--bdg-sub);}
+        .bdgd-tl-actor .role{font-weight:700;color:var(--primary);text-transform:uppercase;font-size:9.5px;letter-spacing:.06em;background:color-mix(in srgb,var(--primary) 10%,transparent);padding:1px 6px;border-radius:10px;margin-left:4px;}
+        .bdgd-tl-date{font-size:10.5px;color:var(--bdg-muted);margin-left:auto;font-family:DM Mono,monospace;}
+        .bdgd-tl-remarks{margin-top:3px;font-size:11px;color:var(--bdg-sub);font-style:italic;background:color-mix(in srgb,var(--bdg-border) 40%,transparent);padding:5px 9px;border-radius:6px;border-left:2.5px solid var(--bdg-border-md);}
+        .bdgd-tl-row.pending .bdgd-tl-stage{color:var(--bdg-muted);font-style:italic;}
+        .bdgd-tl-row.pending .bdgd-tl-actor{color:var(--bdg-muted);}
+
+        /* Approval action bar (sticky bottom of detail page) */
+        .bdgd-action-bar{position:sticky;bottom:0;background:var(--bdg-surface);border:1px solid var(--bdg-border);border-radius:12px;padding:11px 14px;display:flex;align-items:center;gap:10px;box-shadow:0 -4px 14px rgba(0,0,0,.06);margin-top:14px;flex-wrap:wrap;}
+        .bdgd-action-bar-info{flex:1;min-width:180px;font-size:11.5px;color:var(--bdg-sub);}
+        .bdgd-action-bar-info b{color:var(--bdg-text);font-weight:700;}
+        .bdgd-btn{appearance:none;border:none;font-family:inherit;font-size:12px;font-weight:700;padding:8px 14px;border-radius:7px;cursor:pointer;display:inline-flex;align-items:center;gap:6px;transition:all .15s;letter-spacing:.1px;}
+        .bdgd-btn svg{width:13px;height:13px;stroke:currentColor;stroke-width:2.2;fill:none;}
+        .bdgd-btn.primary{background:var(--primary);color:#fff;}
+        .bdgd-btn.primary:hover{filter:brightness(1.08);}
+        .bdgd-btn.success{background:var(--success);color:#fff;}
+        .bdgd-btn.success:hover{filter:brightness(1.08);}
+        .bdgd-btn.danger{background:var(--danger);color:#fff;}
+        .bdgd-btn.danger:hover{filter:brightness(1.08);}
+        .bdgd-btn.ghost{background:transparent;color:var(--bdg-sub);border:1px solid var(--bdg-border-md);}
+        .bdgd-btn.ghost:hover{color:var(--primary);border-color:var(--primary);background:color-mix(in srgb,var(--primary) 6%,transparent);}
+        .bdgd-noaction-note{font-size:11.5px;color:var(--bdg-muted);font-style:italic;}
+
+        /* Reject reason modal */
+        .bdgd-modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);display:none;align-items:center;justify-content:center;z-index:9000;}
+        .bdgd-modal-overlay.open{display:flex;}
+        .bdgd-modal{background:var(--bdg-surface);border-radius:14px;width:min(440px,92vw);padding:20px 22px;box-shadow:0 20px 60px rgba(0,0,0,.3);}
+        .bdgd-modal-title{font-family:Fraunces,serif;font-size:17px;font-weight:600;color:var(--bdg-text);margin-bottom:6px;}
+        .bdgd-modal-sub{font-size:12px;color:var(--bdg-sub);margin-bottom:14px;}
+        .bdgd-modal-textarea{width:100%;min-height:90px;border:1px solid var(--bdg-border-md);border-radius:8px;padding:10px 12px;font-family:inherit;font-size:12.5px;color:var(--bdg-text);background:var(--bdg-surface);outline:none;resize:vertical;transition:border-color .15s,box-shadow .15s;}
+        .bdgd-modal-textarea:focus{border-color:var(--primary);box-shadow:0 0 0 3px color-mix(in srgb,var(--primary) 12%,transparent);}
+        .bdgd-modal-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:14px;}
 
         .bdg-list-action { width: 22px; height: 22px; display: inline-flex; align-items: center; justify-content: center; border-radius: 4px; cursor: pointer; color: var(--bdg-muted); transition: all .12s; }
         .bdg-list-action:hover { background: var(--gray-100); color: var(--primary); }
@@ -12659,8 +12772,8 @@
         .bdg-view-btn.active { background: var(--primary); color: #fff; }
         [data-dark="true"] .bdg-view-btn { background: #252836; }
 
-        /* PvA-style Project Table — same look as #rpMainTable */
-        .bdg-list-tbl-wrap { background: var(--bdg-surface); border-radius: 0 0 12px 12px; border: 1px solid var(--bdg-border); border-top: none; box-shadow: var(--shadow-sm); margin-bottom: 8px; margin-top: 0; }
+        /* Project Table — full-bordered card now that the toolbar above is removed */
+        .bdg-list-tbl-wrap { background: var(--bdg-surface); border-radius: 12px; border: 1px solid var(--bdg-border); box-shadow: var(--shadow-sm); margin-bottom: 8px; margin-top: 0; overflow: hidden; }
         .bdg-list-tbl-scroll { overflow-x: auto; }
         .bdg-pva-tbl { width: 100%; border-collapse: collapse; font-size: 12px; }
         .bdg-pva-tbl thead th { padding: 10px 10px; text-align: right; font-size: 10px; text-transform: uppercase; letter-spacing: .05em; color: var(--bdg-muted); font-weight: 600; border-bottom: 1px solid var(--bdg-border-md); background: var(--bg); cursor: pointer; user-select: none; white-space: nowrap; transition: color .12s; }
@@ -12682,12 +12795,17 @@
         .bdg-pva-proj-name { font-size: 12.5px; font-weight: 600; color: var(--primary); text-decoration: underline; text-underline-offset: 2px; }
         .bdg-pva-proj-sub { font-size: 10px; color: var(--bdg-muted); }
 
-        .bdg-list-tbl-footer { padding: 10px 14px; border-top: 1px solid var(--bdg-border); background: var(--bg); border-radius: 0 0 12px 12px; display: flex; gap: 16px; flex-wrap: wrap; font-size: 11px; color: var(--bdg-muted); }
+        .bdg-list-tbl-footer { padding: 10px 14px; border-top: 1px solid var(--bdg-border); background: var(--bg); display: flex; gap: 16px; flex-wrap: wrap; font-size: 11px; color: var(--bdg-muted); }
+        .bdg-list-tbl-footer:empty { display: none; }
         [data-dark="true"] .bdg-list-tbl-footer { background: #1e2130; }
         .bdg-list-tbl-footer .lbl { font-weight: 500; }
         .bdg-list-tbl-footer .val { font-weight: 700; color: var(--bdg-text); margin-left: 4px; }
         .bdg-list-tbl-footer .val.pos { color: var(--success); }
         .bdg-list-tbl-footer .val.neg { color: var(--danger); }
+        /* Pagination footer inside budgeting card — round its bottom corners to match the 12px wrap. */
+        #page-budgeting .bdg-list-tbl-wrap > .table-footer { border-radius: 0 0 12px 12px; }
+        /* Pagination footer rendered below tile view (no parent card) — give it its own rounded surface. */
+        #page-budgeting .bdg-tile-pagin-footer { border: 1px solid var(--bdg-border); border-radius: 12px; margin-top: 10px; }
 
         /* Tile grid for projects */
         .bdg-tile-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 14px; }
@@ -16966,74 +17084,54 @@
                 <div id="page-budgeting" class="page-section">
                   <div class="bdg-scroll" id="bdgScrollArea">
 
-                    <!-- Header -->
+                    <!-- Title row — title + record-count on the left, primary CTA on the right -->
                     <div class="bdg-header">
-                      <div>
-                        <div class="bdg-page-title">Project Budgeting</div>
-                        <div class="bdg-page-meta" id="bdgPageMeta">Create &amp; manage project budgets — Revenue vs Cost planning</div>
+                      <div style="display:flex;align-items:flex-start;gap:12px;">
+                        <div>
+                          <div style="display:flex;align-items:center;gap:8px;">
+                            <div class="bdg-page-title">Project Budgeting</div>
+                            <span class="bdg-cb-count" id="bdgListRowCount">0 budgets</span>
+                          </div>
+                          <div class="bdg-page-meta" id="bdgPageMeta">Create new budgets and browse your saved budgets</div>
+                        </div>
                       </div>
-                      <div style="display:flex;gap:8px;align-items:center;">
-                        <input class="bdg-search" id="bdgListSearch" placeholder="Search project / client…" oninput="bdgRenderList()" />
-                        <button class="bdg-btn bdg-btn-next" id="bdgNewBtn" onclick="bdgStartNew()">+ New Budget</button>
+                      <div class="bdg-header-actions">
+                        <button class="bdg-btn bdg-btn-next" id="bdgNewBtn" onclick="bdgStartNew()">
+                          <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="vertical-align:-2px;margin-right:4px;"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"/></svg>New Budget
+                        </button>
                       </div>
                     </div>
 
                     <!-- Saved Budgets List (default view) -->
                     <div id="bdgListView">
-                      <!-- KPI tiles (PvA style) -->
-                      <div class="bdg-list-kpi-row" id="bdgListKpiRow"></div>
-                      <!-- Charts (PvA style) -->
-                      <div class="bdg-list-chart-row">
-                        <div class="bdg-list-chart-box">
-                          <div class="bdg-list-chart-header">
-                            <span class="bdg-list-chart-title" id="bdgChartBarTitle">Plan vs Actual Revenue by LOB</span>
-                            <div class="bdg-list-chart-toggle">
-                              <button class="bdg-list-chart-btn active" id="bdgChartLOB" onclick="bdgSwitchChart('lob')">LOB</button>
-                              <button class="bdg-list-chart-btn" id="bdgChartProj" onclick="bdgSwitchChart('project')">Project</button>
-                            </div>
-                          </div>
-                          <div style="position:relative;height:190px;"><canvas id="bdgChartBar"></canvas></div>
-                        </div>
-                        <div class="bdg-list-chart-box">
-                          <div class="bdg-list-chart-header">
-                            <span class="bdg-list-chart-title">Monthly Margin Trend</span>
-                            <div class="bdg-list-chart-legend"><div class="bdg-list-chart-dot" style="background:#2D4A35;border-radius:50%;"></div>Margin %</div>
-                          </div>
-                          <div style="position:relative;height:190px;"><canvas id="bdgChartTrend"></canvas></div>
-                        </div>
-                      </div>
-                      <!-- Filter strip (single line: month bar + Year + LOB + Status) -->
+                      <!-- Consolidated filter strip: Filter selects (left) + Search + View toggle (right) -->
                       <div class="bdg-filter-strip">
-                        <div class="bdg-month-bar" id="bdgMonthNav"></div>
                         <div class="bdg-filter-strip-selects">
-                          <select class="bdg-select" id="bdgListYearSel" onchange="bdgRenderList()">
-                            <option value="2026">FY 2026</option>
-                            <option value="2025" selected>FY 2025</option>
-                            <option value="2024">FY 2024</option>
+                          <span class="bdg-filter-lbl">
+                            <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"/></svg>
+                            Filter by
+                          </span>
+                          <select class="bdg-select" id="bdgListDateSel" onchange="bdgRenderListFromFilter()" title="Date range">
+                            <option value="all" selected>All Time</option>
+                            <option value="this_month">This Month</option>
+                            <option value="last_month">Last Month</option>
+                            <option value="this_quarter">This Quarter</option>
+                            <option value="this_year">This Year</option>
+                            <option value="last_year">Last Year</option>
                           </select>
-                          <select class="bdg-select" id="bdgListLOBSel" onchange="bdgRenderList()">
-                            <option value="all">All LOB</option>
-                          </select>
-                          <select class="bdg-select" id="bdgListStatusSel" onchange="bdgRenderList()">
+                          <select class="bdg-select" id="bdgListStatusSel" onchange="bdgRenderListFromFilter()" title="Status">
                             <option value="all">All Status</option>
-                            <option value="Approved">Approved</option>
-                            <option value="Submitted">Submitted</option>
                             <option value="Draft">Draft</option>
+                            <option value="Submitted">Submitted</option>
+                            <option value="L1 Approved">L1 Approved</option>
+                            <option value="Approved">Approved</option>
+                            <option value="Rejected">Rejected</option>
                           </select>
                         </div>
-                      </div>
-                      <!-- Toolbar -->
-                      <div class="bdg-list-toolbar">
-                        <div style="display:flex;gap:8px;align-items:center;">
-                          <span class="bdg-list-toolbar-title">Project Dashboard — Plan vs Actual</span>
-                          <span class="bdg-list-row-count" id="bdgListRowCount"></span>
-                        </div>
-                        <div style="display:flex;align-items:center;gap:10px;">
-                          <div class="bdg-group-toggle">
-                            <span class="bdg-group-lbl">Group:</span>
-                            <button class="bdg-group-btn active" id="bdgGroupNone" onclick="bdgSwitchGroup('none')">None</button>
-                            <button class="bdg-group-btn" id="bdgGroupLOB" onclick="bdgSwitchGroup('lob')">LOB</button>
-                            <button class="bdg-group-btn" id="bdgGroupClient" onclick="bdgSwitchGroup('client')">Client</button>
+                        <div class="bdg-filter-strip-right">
+                          <div class="bdg-cb-search">
+                            <span class="bdg-cb-search-icon"><svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg></span>
+                            <input type="text" class="bdg-cb-search-input" id="bdgListSearch" placeholder="Search project, client, PM, LOB…" oninput="bdgRenderListFromFilter()">
                           </div>
                           <div class="bdg-view-toggle">
                             <button class="bdg-view-btn active" id="bdgViewList" onclick="bdgSwitchView('list')" title="List View">
@@ -17045,7 +17143,7 @@
                           </div>
                         </div>
                       </div>
-                      <!-- Project rows table (PvA style) -->
+                      <!-- Project rows table -->
                       <div class="bdg-list-tbl-wrap" id="bdgListTblWrap">
                         <div class="bdg-list-tbl-scroll">
                           <table class="bdg-pva-tbl" id="bdgListTable">
@@ -17058,13 +17156,6 @@
                                 <th onclick="bdgSortList('submittedBy')" id="bdg-th-pm" style="text-align:left;">PM</th>
                                 <th onclick="bdgSortList('targetSites')" id="bdg-th-tsites" style="text-align:right;">Sites</th>
                                 <th onclick="bdgSortList('avgDaysSite')" id="bdg-th-avg" style="text-align:right;">Avg D/Site</th>
-                                <th onclick="bdgSortList('revenue')" id="bdg-th-tgtrev" style="text-align:right;">Plan Rev</th>
-                                <th onclick="bdgSortList('actualRev')" id="bdg-th-actrev" style="text-align:right;">Actual Rev</th>
-                                <th onclick="bdgSortList('revVar')" id="bdg-th-revvar" style="text-align:right;">Var Rev</th>
-                                <th onclick="bdgSortList('revAchPct')" id="bdg-th-revach" style="text-align:right;">Achievement %</th>
-                                <th onclick="bdgSortList('totalCost')" id="bdg-th-cost" style="text-align:right;">Plan Cost</th>
-                                <th onclick="bdgSortList('actualCost')" id="bdg-th-acost" style="text-align:right;">Actual Cost</th>
-                                <th onclick="bdgSortList('marginPct')" id="bdg-th-mar" style="text-align:right;">Margin %</th>
                                 <th onclick="bdgSortList('status')" id="bdg-th-status" style="text-align:center;">Status</th>
                               </tr>
                             </thead>
@@ -17072,9 +17163,39 @@
                           </table>
                         </div>
                         <div class="bdg-list-tbl-footer" id="bdgListTblFooter"></div>
+                        <!-- Pagination footer (canonical theme) -->
+                        <div class="table-footer" id="bdgPaginFooter">
+                          <div class="pagination-info" id="bdgPaginInfo">Showing 1–0 of 0 records</div>
+                          <div class="pagination-controls" id="bdgPaginControls">
+                            <button class="page-btn" disabled><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg></button>
+                            <button class="page-btn active">1</button>
+                            <button class="page-btn" disabled><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg></button>
+                          </div>
+                          <div class="page-limit-selector">
+                              <span class="page-limit-label">Rows per page:</span>
+                              <select class="page-limit-select" id="bdgPageLimit" onchange="bdgChangePageSize(this.value)">
+                                  <option value="10">10</option><option value="20" selected>20</option><option value="50">50</option><option value="100">100</option>
+                              </select>
+                          </div>
+                        </div>
                       </div>
                       <!-- Tile view -->
                       <div class="bdg-tile-grid" id="bdgTileViewWrap" style="display:none;"></div>
+                      <!-- Pagination footer for tile view -->
+                      <div class="table-footer bdg-tile-pagin-footer" id="bdgTilePaginFooter" style="display:none;">
+                        <div class="pagination-info" id="bdgTilePaginInfo">Showing 1–0 of 0 records</div>
+                        <div class="pagination-controls" id="bdgTilePaginControls">
+                          <button class="page-btn" disabled><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg></button>
+                          <button class="page-btn active">1</button>
+                          <button class="page-btn" disabled><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg></button>
+                        </div>
+                        <div class="page-limit-selector">
+                            <span class="page-limit-label">Tiles per page:</span>
+                            <select class="page-limit-select" id="bdgTilePageLimit" onchange="bdgChangePageSize(this.value)">
+                                <option value="10">10</option><option value="20" selected>20</option><option value="50">50</option><option value="100">100</option>
+                            </select>
+                        </div>
+                      </div>
                     </div>
 
                     <!-- Wizard View (hidden by default) -->
@@ -17086,19 +17207,8 @@
                       <!-- Step 1: Project Selection -->
                       <div class="bdg-panel active" id="bdgStep1">
                         <div class="bdg-card">
-                          <div class="bdg-card-title"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg> Select or Create Project</div>
-                          <div class="bdg-proj-grid" style="margin-bottom:16px;">
-                            <div class="bdg-proj-option selected" id="bdgOptExisting" onclick="bdgToggleProjMode('existing')">
-                              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16"/></svg>
-                              <div class="bdg-proj-option-title">Select Existing Project</div>
-                              <div class="bdg-proj-option-desc">Choose from your active projects</div>
-                            </div>
-                            <div class="bdg-proj-option" id="bdgOptNew" onclick="bdgToggleProjMode('new')">
-                              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
-                              <div class="bdg-proj-option-title">Create New Project</div>
-                              <div class="bdg-proj-option-desc">Budget for an upcoming project</div>
-                            </div>
-                          </div>
+                          <div class="bdg-card-title"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg> Select Project</div>
+                          <div class="bdg-page-meta" style="margin-bottom:14px;">Pick the client, project and circle this budget belongs to.</div>
 
                           <!-- Existing project selectors -->
                           <div id="bdgExistingPanel">
@@ -17116,15 +17226,14 @@
                                 <select class="bdg-select" id="bdgCircleSel" style="width:100%;" disabled><option value="">— Select Circle —</option></select>
                               </div>
                             </div>
-                          </div>
-
-                          <!-- New project form -->
-                          <div id="bdgNewProjPanel" style="display:none;">
-                            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
-                              <div><label style="font-size:11px;font-weight:600;color:var(--bdg-muted);text-transform:uppercase;letter-spacing:.04em;display:block;margin-bottom:6px;">Client Name</label><input class="bdg-text-input" id="bdgNewClient" style="width:100%;" placeholder="e.g. Airtel Networks"></div>
-                              <div><label style="font-size:11px;font-weight:600;color:var(--bdg-muted);text-transform:uppercase;letter-spacing:.04em;display:block;margin-bottom:6px;">Project Name</label><input class="bdg-text-input" id="bdgNewProject" style="width:100%;" placeholder="e.g. 5G Rollout Phase-2"></div>
-                              <div><label style="font-size:11px;font-weight:600;color:var(--bdg-muted);text-transform:uppercase;letter-spacing:.04em;display:block;margin-bottom:6px;">Circle / Region</label><input class="bdg-text-input" id="bdgNewCircle" style="width:100%;" placeholder="e.g. Punjab"></div>
-                              <div><label style="font-size:11px;font-weight:600;color:var(--bdg-muted);text-transform:uppercase;letter-spacing:.04em;display:block;margin-bottom:6px;">Duration (months)</label><input class="bdg-text-input" id="bdgNewDuration" type="number" style="width:100%;" placeholder="6" value="6"></div>
+                            <!-- Subtle link to navigate to the Project page for creating new projects -->
+                            <div class="bdg-create-hint">
+                              <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                              <span>Don't see your project?</span>
+                              <button type="button" class="bdg-create-link" onclick="bdgGoToProjects()">
+                                Create it in Projects
+                                <svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.4" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+                              </button>
                             </div>
                           </div>
                         </div>
@@ -17297,6 +17406,22 @@
                     <div>
                       <button class="bdg-btn bdg-btn-next" id="bdgNextBtn" onclick="bdgNextStep()">Next →</button>
                       <button class="bdg-btn bdg-btn-submit" id="bdgSubmitBtn" onclick="bdgSubmit()" style="display:none;">Submit Budget</button>
+                    </div>
+                  </div>
+
+                  <!-- Reject reason modal -->
+                  <div class="bdgd-modal-overlay" id="bdgRejectModal" onclick="if(event.target===this)bdgCloseRejectModal()">
+                    <div class="bdgd-modal">
+                      <div class="bdgd-modal-title">Reject this budget</div>
+                      <div class="bdgd-modal-sub">Please explain why so the PM can revise and resubmit.</div>
+                      <textarea class="bdgd-modal-textarea" id="bdgRejectReason" placeholder="e.g. Manpower assumptions look low for this circle..." autocomplete="off"></textarea>
+                      <div class="bdgd-modal-actions">
+                        <button class="bdgd-btn ghost" onclick="bdgCloseRejectModal()">Cancel</button>
+                        <button class="bdgd-btn danger" onclick="bdgConfirmReject()">
+                          <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+                          Reject Budget
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </div><!-- /#page-budgeting -->
@@ -33365,7 +33490,6 @@ document.addEventListener('DOMContentLoaded',function(){
 })();
 </script>
 
-<!-- ══════════ BUDGETING MODULE ══════════ -->
 <!-- ═══════════════════════════════════════════════════════════════════
      BUDGETING MODULE JS
      ═══════════════════════════════════════════════════════════════════ -->
@@ -33447,21 +33571,82 @@ var bdgPickerTarget = null;
 /* ─── DEMO SAVED BUDGETS ─── */
 bdgSavedBudgets = [
   // Jan 2025
-  {id:1,client:'Voult Inc',project:'Voult',circle:'Chandigarh',lob:'Civil',date:'2025-01-08',status:'Approved',submittedBy:'Priya Sharma',manpowerCost:1860000,vendorCost:384000,materialCost:126500,miscCost:45000,revenue:3200000,sites:18,actualSites:16,actualRev:2840000,actualCost:2280000,activeDays:135,avgDaysSite:1.3},
-  {id:2,client:'Airtel Networks',project:'Airtel 5G',circle:'Punjab',lob:'MEP',date:'2025-01-15',status:'Approved',submittedBy:'Ravi Tiwari',manpowerCost:2340000,vendorCost:520000,materialCost:89000,miscCost:30000,revenue:4100000,sites:22,actualSites:19,actualRev:3540000,actualCost:2820000,activeDays:152,avgDaysSite:1.4},
+  {id:1,client:'Voult Inc',project:'Voult',circle:'Chandigarh',lob:'Civil',date:'2025-01-08',status:'Approved',submittedBy:'Priya Sharma',manpowerCost:1860000,vendorCost:384000,materialCost:126500,miscCost:45000,revenue:3200000,sites:18,actualSites:16,actualRev:2840000,actualCost:2280000,activeDays:135,avgDaysSite:1.3,
+    approval_logs:[
+      {stage:'Created',  actor:'Priya Sharma',   role:'PM',    date:'2025-01-08', remarks:'Initial budget draft.'},
+      {stage:'Submitted',actor:'Priya Sharma',   role:'PM',    date:'2025-01-09', remarks:'Submitted for review.'},
+      {stage:'L1 Approved',actor:'Rakesh Verma',role:'Ops',   date:'2025-01-10', remarks:'Cost assumptions verified.'},
+      {stage:'Approved', actor:'Anish Kumar',    role:'Admin', date:'2025-01-12', remarks:'Approved for execution.'}
+    ]},
+  {id:2,client:'Airtel Networks',project:'Airtel 5G',circle:'Punjab',lob:'MEP',date:'2025-01-15',status:'Approved',submittedBy:'Ravi Tiwari',manpowerCost:2340000,vendorCost:520000,materialCost:89000,miscCost:30000,revenue:4100000,sites:22,actualSites:19,actualRev:3540000,actualCost:2820000,activeDays:152,avgDaysSite:1.4,
+    approval_logs:[
+      {stage:'Created',  actor:'Ravi Tiwari',  role:'PM',    date:'2025-01-15'},
+      {stage:'Submitted',actor:'Ravi Tiwari',  role:'PM',    date:'2025-01-16'},
+      {stage:'L1 Approved',actor:'Rakesh Verma',role:'Ops', date:'2025-01-17'},
+      {stage:'Approved', actor:'Anish Kumar',   role:'Admin',date:'2025-01-19', remarks:'Approved.'}
+    ]},
   // Feb 2025
-  {id:3,client:'Jio Telecom',project:'jio4g',circle:'Chandigarh',lob:'Structural',date:'2025-02-12',status:'Approved',submittedBy:'Rajesh Mehta',manpowerCost:1420000,vendorCost:256000,materialCost:72000,miscCost:15000,revenue:2600000,sites:14,actualSites:14,actualRev:2620000,actualCost:1690000,activeDays:108,avgDaysSite:1.2},
-  {id:4,client:'Voult Inc',project:'Voult Phase-2',circle:'Ludhiana',lob:'Civil',date:'2025-02-22',status:'Submitted',submittedBy:'Suresh Iyer',manpowerCost:1680000,vendorCost:340000,materialCost:98000,miscCost:25000,revenue:2900000,sites:16,actualSites:15,actualRev:2780000,actualCost:2050000,activeDays:124,avgDaysSite:1.3},
+  {id:3,client:'Jio Telecom',project:'jio4g',circle:'Chandigarh',lob:'Structural',date:'2025-02-12',status:'Approved',submittedBy:'Rajesh Mehta',manpowerCost:1420000,vendorCost:256000,materialCost:72000,miscCost:15000,revenue:2600000,sites:14,actualSites:14,actualRev:2620000,actualCost:1690000,activeDays:108,avgDaysSite:1.2,
+    approval_logs:[
+      {stage:'Created',  actor:'Rajesh Mehta',  role:'PM',    date:'2025-02-12'},
+      {stage:'Submitted',actor:'Rajesh Mehta',  role:'PM',    date:'2025-02-13'},
+      {stage:'L1 Approved',actor:'Rakesh Verma',role:'Ops',  date:'2025-02-14'},
+      {stage:'Approved', actor:'Anish Kumar',   role:'Admin', date:'2025-02-15'}
+    ]},
+  {id:4,client:'Voult Inc',project:'Voult Phase-2',circle:'Ludhiana',lob:'Civil',date:'2025-02-22',status:'Submitted',submittedBy:'Suresh Iyer',manpowerCost:1680000,vendorCost:340000,materialCost:98000,miscCost:25000,revenue:2900000,sites:16,actualSites:15,actualRev:2780000,actualCost:2050000,activeDays:124,avgDaysSite:1.3,
+    approval_logs:[
+      {stage:'Created',  actor:'Suresh Iyer', role:'PM', date:'2025-02-22'},
+      {stage:'Submitted',actor:'Suresh Iyer', role:'PM', date:'2025-02-23', remarks:'Awaiting Ops review.'}
+    ]},
   // Mar 2025
-  {id:5,client:'BSNL Maharashtra',project:'BSNL Rural',circle:'Pune',lob:'Geotechnical',date:'2025-03-05',status:'Approved',submittedBy:'Vikram Singh',manpowerCost:1180000,vendorCost:280000,materialCost:64000,miscCost:18000,revenue:2200000,sites:12,actualSites:10,actualRev:1820000,actualCost:1480000,activeDays:96,avgDaysSite:1.5},
-  {id:6,client:'Airtel Networks',project:'Airtel 5G',circle:'Delhi',lob:'MEP',date:'2025-03-18',status:'Submitted',submittedBy:'Rahul Joshi',manpowerCost:1920000,vendorCost:420000,materialCost:88000,miscCost:32000,revenue:3500000,sites:19,actualSites:18,actualRev:3380000,actualCost:2380000,activeDays:140,avgDaysSite:1.2},
+  {id:5,client:'BSNL Maharashtra',project:'BSNL Rural',circle:'Pune',lob:'Geotechnical',date:'2025-03-05',status:'Approved',submittedBy:'Vikram Singh',manpowerCost:1180000,vendorCost:280000,materialCost:64000,miscCost:18000,revenue:2200000,sites:12,actualSites:10,actualRev:1820000,actualCost:1480000,activeDays:96,avgDaysSite:1.5,
+    approval_logs:[
+      {stage:'Created',    actor:'Vikram Singh',  role:'PM',    date:'2025-03-05'},
+      {stage:'Submitted',  actor:'Vikram Singh',  role:'PM',    date:'2025-03-06'},
+      {stage:'L1 Approved',actor:'Rakesh Verma',  role:'Ops',   date:'2025-03-07'},
+      {stage:'Approved',   actor:'Anish Kumar',   role:'Admin', date:'2025-03-08'}
+    ]},
+  {id:6,client:'Airtel Networks',project:'Airtel 5G',circle:'Delhi',lob:'MEP',date:'2025-03-18',status:'L1 Approved',submittedBy:'Rahul Joshi',manpowerCost:1920000,vendorCost:420000,materialCost:88000,miscCost:32000,revenue:3500000,sites:19,actualSites:18,actualRev:3380000,actualCost:2380000,activeDays:140,avgDaysSite:1.2,
+    approval_logs:[
+      {stage:'Created',    actor:'Rahul Joshi',  role:'PM',  date:'2025-03-18'},
+      {stage:'Submitted',  actor:'Rahul Joshi',  role:'PM',  date:'2025-03-19'},
+      {stage:'L1 Approved',actor:'Rakesh Verma', role:'Ops', date:'2025-03-20', remarks:'Margins look healthy.'}
+    ]},
   // Apr 2025
-  {id:7,client:'Jio Telecom',project:'jio4g',circle:'Chandigarh',lob:'Operations',date:'2025-04-10',status:'Submitted',submittedBy:'Priya Sharma',manpowerCost:1340000,vendorCost:240000,materialCost:54000,miscCost:18000,revenue:2400000,sites:13,actualSites:12,actualRev:2280000,actualCost:1620000,activeDays:102,avgDaysSite:1.1},
-  {id:8,client:'Voult Inc',project:'Voult',circle:'Amritsar',lob:'Civil',date:'2025-04-25',status:'Draft',submittedBy:'Ravi Tiwari',manpowerCost:1560000,vendorCost:320000,materialCost:88000,miscCost:22000,revenue:2750000,sites:15,actualSites:0,actualRev:0,actualCost:0,activeDays:0,avgDaysSite:0},
+  {id:7,client:'Jio Telecom',project:'jio4g',circle:'Chandigarh',lob:'Operations',date:'2025-04-10',status:'Submitted',submittedBy:'Priya Sharma',manpowerCost:1340000,vendorCost:240000,materialCost:54000,miscCost:18000,revenue:2400000,sites:13,actualSites:12,actualRev:2280000,actualCost:1620000,activeDays:102,avgDaysSite:1.1,
+    approval_logs:[
+      {stage:'Created',  actor:'Priya Sharma', role:'PM', date:'2025-04-10'},
+      {stage:'Submitted',actor:'Priya Sharma', role:'PM', date:'2025-04-11'}
+    ]},
+  {id:8,client:'Voult Inc',project:'Voult',circle:'Amritsar',lob:'Civil',date:'2025-04-25',status:'Draft',submittedBy:'Ravi Tiwari',manpowerCost:1560000,vendorCost:320000,materialCost:88000,miscCost:22000,revenue:2750000,sites:15,actualSites:0,actualRev:0,actualCost:0,activeDays:0,avgDaysSite:0,
+    approval_logs:[
+      {stage:'Created', actor:'Ravi Tiwari', role:'PM', date:'2025-04-25', remarks:'Work in progress.'}
+    ]},
   // May 2025
-  {id:9,client:'TestClient',project:'TestP',circle:'Delhi',lob:'PM',date:'2025-05-08',status:'Draft',submittedBy:'Kavitha Reddy',manpowerCost:980000,vendorCost:180000,materialCost:42000,miscCost:12000,revenue:1700000,sites:9,actualSites:0,actualRev:0,actualCost:0,activeDays:0,avgDaysSite:0},
-  {id:10,client:'Airtel Networks',project:'Airtel 5G Phase-3',circle:'Punjab',lob:'Electrical',date:'2025-05-20',status:'Submitted',submittedBy:'Vikram Patel',manpowerCost:1740000,vendorCost:380000,materialCost:96000,miscCost:28000,revenue:3100000,sites:17,actualSites:14,actualRev:2520000,actualCost:1980000,activeDays:118,avgDaysSite:1.4}
+  {id:9,client:'TestClient',project:'TestP',circle:'Delhi',lob:'PM',date:'2025-05-08',status:'Rejected',submittedBy:'Kavitha Reddy',manpowerCost:980000,vendorCost:180000,materialCost:42000,miscCost:12000,revenue:1700000,sites:9,actualSites:0,actualRev:0,actualCost:0,activeDays:0,avgDaysSite:0,
+    approval_logs:[
+      {stage:'Created',  actor:'Kavitha Reddy', role:'PM',  date:'2025-05-08'},
+      {stage:'Submitted',actor:'Kavitha Reddy', role:'PM',  date:'2025-05-09'},
+      {stage:'Rejected', actor:'Rakesh Verma',  role:'Ops', date:'2025-05-10', remarks:'Manpower cost looks under-estimated. Please revise headcount and CTC.'}
+    ]},
+  {id:10,client:'Airtel Networks',project:'Airtel 5G Phase-3',circle:'Punjab',lob:'Electrical',date:'2025-05-20',status:'Submitted',submittedBy:'Vikram Patel',manpowerCost:1740000,vendorCost:380000,materialCost:96000,miscCost:28000,revenue:3100000,sites:17,actualSites:14,actualRev:2520000,actualCost:1980000,activeDays:118,avgDaysSite:1.4,
+    approval_logs:[
+      {stage:'Created',  actor:'Vikram Patel', role:'PM', date:'2025-05-20'},
+      {stage:'Submitted',actor:'Vikram Patel', role:'PM', date:'2025-05-21'}
+    ]}
 ];
+
+/* ── Approval workflow helpers ──
+   Statuses: Draft → Submitted → L1 Approved → Approved (terminal)
+                                ↘ Rejected (returned to PM for revision)
+   Ops and Admin act on the detail page; PM submits via the wizard. */
+function bdgStatusClass(s){
+  s = (s||'').toLowerCase();
+  if(s==='l1 approved') return 'l1approved';
+  return s.replace(/\s+/g,'');
+}
+function bdgFormatStatus(s){ return s||'Draft'; }
+function bdgEnsureLogs(b){ if(!b.approval_logs) b.approval_logs=[]; return b.approval_logs; }
 
 function bdgFmt(n){ return '₹'+Number(n||0).toLocaleString('en-IN'); }
 function bdgFmtK(n){ var v=Number(n||0); return v>=100000?'₹'+(v/100000).toFixed(1)+'L':v>=1000?'₹'+(v/1000).toFixed(0)+'K':'₹'+v; }
@@ -33476,6 +33661,9 @@ var bdgListSortDir = 1;
 var bdgChartBarInst = null;
 var bdgChartTrendInst = null;
 var BDG_MONTH_LABELS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+/* Pagination state — matches the canonical theme used on other listing pages. */
+var bdgCurrentPage = 1;
+var bdgPageSize = 20;
 
 window.bdgRender = function(){
   bdgPopulateClients();
@@ -33513,28 +33701,33 @@ window.bdgSwitchView = function(mode){
   document.getElementById('bdgViewTile').classList.toggle('active', mode==='tile');
   document.getElementById('bdgListTblWrap').style.display = mode==='list' ? '' : 'none';
   document.getElementById('bdgTileViewWrap').style.display = mode==='tile' ? '' : 'none';
+  bdgCurrentPage = 1;
   bdgRenderList();
 };
 
 window.bdgSwitchGroup = function(mode){
   bdgGroupBy = mode;
-  document.getElementById('bdgGroupNone').classList.toggle('active', mode==='none');
-  document.getElementById('bdgGroupLOB').classList.toggle('active', mode==='lob');
-  document.getElementById('bdgGroupClient').classList.toggle('active', mode==='client');
+  /* Group-by buttons removed from the toolbar — guard against missing elements. */
+  var n=document.getElementById('bdgGroupNone');   if(n) n.classList.toggle('active', mode==='none');
+  var l=document.getElementById('bdgGroupLOB');    if(l) l.classList.toggle('active', mode==='lob');
+  var c=document.getElementById('bdgGroupClient'); if(c) c.classList.toggle('active', mode==='client');
+  bdgCurrentPage = 1;
   bdgRenderList();
 };
 
 window.bdgSwitchChart = function(mode){
   bdgChartMode = mode;
-  document.getElementById('bdgChartLOB').classList.toggle('active', mode==='lob');
-  document.getElementById('bdgChartProj').classList.toggle('active', mode==='project');
-  document.getElementById('bdgChartBarTitle').textContent = mode==='project' ? 'Plan vs Actual Revenue by Project' : 'Plan vs Actual Revenue by LOB';
+  /* Charts removed from the listing — guard against missing elements. */
+  var l = document.getElementById('bdgChartLOB');     if(l) l.classList.toggle('active', mode==='lob');
+  var p = document.getElementById('bdgChartProj');    if(p) p.classList.toggle('active', mode==='project');
+  var t = document.getElementById('bdgChartBarTitle');if(t) t.textContent = mode==='project' ? 'Plan vs Actual Revenue by Project' : 'Plan vs Actual Revenue by LOB';
   bdgRenderList();
 };
 
 window.bdgSortList = function(key){
   if(bdgListSortKey===key) bdgListSortDir *= -1;
   else { bdgListSortKey = key; bdgListSortDir = 1; }
+  bdgCurrentPage = 1;
   bdgRenderList();
 };
 
@@ -33571,19 +33764,33 @@ function bdgEnrich(b){
 }
 
 window.bdgRenderList = function(){
-  var year=(document.getElementById('bdgListYearSel')||{}).value||'2025';
-  var lobSel=(document.getElementById('bdgListLOBSel')||{}).value||'all';
+  var dateSel=(document.getElementById('bdgListDateSel')||{}).value||'all';
   var statusSel=(document.getElementById('bdgListStatusSel')||{}).value||'all';
   var q=((document.getElementById('bdgListSearch')||{}).value||'').toLowerCase();
 
-  // Filter
+  /* Resolve date filter into a (year, month, [endYear, endMonth]) range — month is 0-indexed */
+  var today = new Date();
+  var ty = today.getFullYear(), tm = today.getMonth();
+  var range = null; /* null = no date filter */
+  if(dateSel==='this_month')      range = {sy:ty,    sm:tm,    ey:ty,    em:tm};
+  else if(dateSel==='last_month'){var lm=tm-1, ly=ty; if(lm<0){lm=11; ly=ty-1;} range={sy:ly,sm:lm,ey:ly,em:lm};}
+  else if(dateSel==='this_quarter'){var qs=Math.floor(tm/3)*3; range={sy:ty,sm:qs,ey:ty,em:qs+2};}
+  else if(dateSel==='this_year')  range = {sy:ty,    sm:0,     ey:ty,    em:11};
+  else if(dateSel==='last_year')  range = {sy:ty-1,  sm:0,     ey:ty-1,  em:11};
+  /* 'all' → range stays null */
+
+  function passDate(b){
+    if(!range) return true;
+    var y = parseInt(b.date.slice(0,4),10);
+    var m = parseInt(b.date.slice(5,7),10) - 1;
+    var ord  = y*12 + m;
+    var sord = range.sy*12 + range.sm;
+    var eord = range.ey*12 + range.em;
+    return ord >= sord && ord <= eord;
+  }
+
   var filtered = bdgSavedBudgets.filter(function(b){
-    if(b.date.slice(0,4)!==year) return false;
-    if(bdgActiveMonth>=0){
-      var mIdx = parseInt(b.date.slice(5,7))-1;
-      if(mIdx !== bdgActiveMonth) return false;
-    }
-    if(lobSel!=='all' && b.lob!==lobSel) return false;
+    if(!passDate(b)) return false;
     if(statusSel!=='all' && b.status!==statusSel) return false;
     if(q && !(b.client+' '+b.project+' '+b.circle+' '+b.submittedBy+' '+b.lob).toLowerCase().includes(q)) return false;
     return true;
@@ -33607,25 +33814,31 @@ window.bdgRenderList = function(){
 function bdgRenderListTable(items){
   var body=document.getElementById('bdgListBody'); if(!body) return;
   var rc = document.getElementById('bdgListRowCount');
-  if(rc) rc.textContent = items.length+' projects';
-  var COLSPAN = 15;
+  if(rc) rc.textContent = items.length+(items.length===1?' budget':' budgets');
+  var COLSPAN = 8;
 
   if(!items.length){
     body.innerHTML='<tr><td colspan="'+COLSPAN+'" style="text-align:center;padding:40px;color:var(--bdg-muted);font-size:13px;">No budgets match the current filters.</td></tr>';
-    document.getElementById('bdgListTblFooter').innerHTML='';
+    var footEmpty = document.getElementById('bdgListTblFooter');
+    if(footEmpty) footEmpty.innerHTML='';
+    bdgRenderPagination(0);
     return;
   }
 
+  /* Clamp current page if a filter shrank the dataset below the previous page. */
+  var maxPage = Math.max(1, Math.ceil(items.length / bdgPageSize));
+  if(bdgCurrentPage > maxPage) bdgCurrentPage = maxPage;
+  if(bdgCurrentPage < 1) bdgCurrentPage = 1;
+
+  /* Slice to the active page. When grouping is on, slice the flat list first
+     then group within the page — keeps the page-size contract honest. */
+  var startIdx = (bdgCurrentPage - 1) * bdgPageSize;
+  var pageItems = items.slice(startIdx, startIdx + bdgPageSize);
+
   function bdgRowHTML(b){
-    var statusCls = b.status.toLowerCase();
+    var statusCls = bdgStatusClass(b.status);
     var ini = b.project.split(' ').map(function(x){return x[0];}).join('').slice(0,2).toUpperCase();
-    var revColor = b.actualRev >= b.revenue ? 'var(--success)' : (b.actualRev>0?'var(--danger)':'var(--bdg-muted)');
     var sitesColor = b.actualSites >= b.targetSites ? 'var(--success)' : 'var(--bdg-text)';
-    var costColor = b.actualCost <= b.totalCost ? 'var(--success)' : 'var(--danger)';
-    var marginColor = b.marginPct>=20 ? 'var(--success)' : b.marginPct>=10 ? 'var(--warning)' : 'var(--danger)';
-    var revVarCls = b.revVar>0 ? 'pos' : b.revVar<0 ? 'neg' : 'zero';
-    var revVarColor = b.revVar>0?'var(--success)':b.revVar<0?'var(--danger)':'var(--bdg-muted)';
-    var revAchColor = b.revAchPct>=100 ? 'var(--success)' : b.revAchPct>=80 ? 'var(--warning)' : 'var(--danger)';
     return '<tr onclick="bdgViewBudget('+b.id+')" style="cursor:pointer;">'
       +'<td style="text-align:left;"><div class="bdg-pva-proj-cell">'
         +'<div class="bdg-pva-proj-icon">'+ini+'</div>'
@@ -33637,89 +33850,69 @@ function bdgRenderListTable(items){
       +'<td style="text-align:left;font-size:11px;color:var(--bdg-sub);">'+b.submittedBy+'</td>'
       +'<td style="color:'+sitesColor+';">'+b.targetSites+' / <strong>'+b.actualSites+'</strong></td>'
       +'<td>'+(b.avgDaysSite>0?b.avgDaysSite:'<span style="color:var(--bdg-muted);">—</span>')+'</td>'
-      +'<td>'+bdgFmtK(b.revenue)+'</td>'
-      +'<td style="color:'+revColor+';font-weight:600;">'+(b.actualRev?bdgFmtK(b.actualRev):'<span style="color:var(--bdg-muted);font-weight:400;">—</span>')+'</td>'
-      +'<td style="color:'+revVarColor+';font-weight:600;">'+(b.actualRev?(b.revVar>=0?'+':'')+bdgFmtK(b.revVar):'<span style="color:var(--bdg-muted);font-weight:400;">—</span>')+'</td>'
-      +'<td style="color:'+revAchColor+';font-weight:700;">'+(b.actualRev?b.revAchPct+'%':'<span style="color:var(--bdg-muted);font-weight:400;">—</span>')+'</td>'
-      +'<td>'+bdgFmtK(b.totalCost)+'</td>'
-      +'<td style="color:'+costColor+';">'+(b.actualCost?bdgFmtK(b.actualCost):'<span style="color:var(--bdg-muted);">—</span>')+'</td>'
-      +'<td style="color:'+marginColor+';font-weight:700;">'+b.marginPct+'%</td>'
       +'<td style="text-align:center;"><span class="bdg-status-pill '+statusCls+'">'+b.status+'</span></td>'
       +'</tr>';
   }
 
   var html='';
   if(bdgGroupBy==='none'){
-    html = items.map(bdgRowHTML).join('');
+    html = pageItems.map(bdgRowHTML).join('');
   } else {
     var keyFn = bdgGroupBy==='lob' ? function(b){return b.lob;} : function(b){return b.client;};
     var labelFn = bdgGroupBy==='lob' ? function(k){return k+' (LOB)';} : function(k){return k+' (Client)';};
     var groups = {};
-    items.forEach(function(b){
+    pageItems.forEach(function(b){
       var k = keyFn(b);
       if(!groups[k]) groups[k]=[];
       groups[k].push(b);
     });
     Object.keys(groups).sort().forEach(function(k){
       var gItems = groups[k];
-      var gRev = gItems.reduce(function(a,b){return a+b.revenue;},0);
-      var gAct = gItems.reduce(function(a,b){return a+(b.actualRev||0);},0);
-      var gCost = gItems.reduce(function(a,b){return a+b.totalCost;},0);
-      var gMargin = gAct ? Math.round((gAct-gItems.reduce(function(a,b){return a+(b.actualCost||0);},0))/gAct*100) : 0;
-      html += '<tr class="bdg-group-row"><td colspan="'+COLSPAN+'">'+labelFn(k)+' <span class="bdg-group-chip">'+gItems.length+' projects · Plan Rev: '+bdgFmtK(gRev)+' · Actual: '+bdgFmtK(gAct)+' · Margin: '+gMargin+'%</span></td></tr>';
+      html += '<tr class="bdg-group-row"><td colspan="'+COLSPAN+'">'+labelFn(k)+' <span class="bdg-group-chip">'+gItems.length+' budget'+(gItems.length===1?'':'s')+'</span></td></tr>';
       gItems.forEach(function(b){ html += bdgRowHTML(b); });
     });
   }
   body.innerHTML = html;
 
+  /* Footer totals removed — no longer showing Plan/Actual financials in the listing */
   var tF = document.getElementById('bdgListTblFooter');
-  if(tF){
-    var tPR = items.reduce(function(a,b){return a+b.revenue;},0);
-    var tAR = items.reduce(function(a,b){return a+(b.actualRev||0);},0);
-    var tPC = items.reduce(function(a,b){return a+b.totalCost;},0);
-    var tAC = items.reduce(function(a,b){return a+(b.actualCost||0);},0);
-    var tPM = tPR - tPC;
-    var tAM = tAR - tAC;
-    tF.innerHTML='<span><span class="lbl">Totals —</span></span>'
-      +'<span><span class="lbl">Plan Rev:</span><span class="val">'+bdgFmtK(tPR)+'</span></span>'
-      +'<span><span class="lbl">Actual Rev:</span><span class="val '+(tAR>=tPR?'pos':'neg')+'">'+bdgFmtK(tAR)+'</span></span>'
-      +'<span><span class="lbl">Plan Cost:</span><span class="val">'+bdgFmtK(tPC)+'</span></span>'
-      +'<span><span class="lbl">Actual Cost:</span><span class="val '+(tAC<=tPC?'pos':'neg')+'">'+bdgFmtK(tAC)+'</span></span>'
-      +'<span><span class="lbl">Plan Margin:</span><span class="val '+(tPM>=0?'pos':'neg')+'">'+(tPM>=0?'+':'')+bdgFmtK(tPM)+'</span></span>'
-      +'<span><span class="lbl">Actual Margin:</span><span class="val '+(tAM>=0?'pos':'neg')+'">'+(tAM>=0?'+':'')+bdgFmtK(tAM)+'</span></span>';
-  }
+  if(tF) tF.innerHTML='';
+
+  bdgRenderPagination(items.length);
 }
 
 function bdgRenderTiles(items){
   var grid = document.getElementById('bdgTileViewWrap'); if(!grid) return;
   var rc = document.getElementById('bdgListRowCount');
-  if(rc) rc.textContent = items.length+' projects';
+  if(rc) rc.textContent = items.length+(items.length===1?' budget':' budgets');
 
   if(!items.length){
     grid.innerHTML='<div style="text-align:center;padding:40px;color:var(--bdg-muted);font-size:13px;grid-column:1/-1;">No budgets match the current filters.</div>';
+    bdgRenderPagination(0);
     return;
   }
 
-  grid.innerHTML = items.map(function(b){
-    var statusCls = b.status.toLowerCase();
+  /* Clamp current page if a filter shrank the dataset below the previous page. */
+  var maxPage = Math.max(1, Math.ceil(items.length / bdgPageSize));
+  if(bdgCurrentPage > maxPage) bdgCurrentPage = maxPage;
+  if(bdgCurrentPage < 1) bdgCurrentPage = 1;
+
+  var startIdx = (bdgCurrentPage - 1) * bdgPageSize;
+  var pageItems = items.slice(startIdx, startIdx + bdgPageSize);
+
+  grid.innerHTML = pageItems.map(function(b){
+    var statusCls = bdgStatusClass(b.status);
     var ini = b.project.split(' ').map(function(x){return x[0];}).join('').slice(0,2).toUpperCase();
-    var marginCls = b.marginPct>=15 ? 'pos' : 'neg';
     return '<div class="bdg-tile-card" onclick="bdgViewBudget('+b.id+')">'
       +'<div class="bdg-tile-card-top">'
         +'<div class="bdg-tile-card-icon">'+ini+'</div>'
         +'<div class="bdg-tile-card-info"><div class="bdg-tile-card-name">'+b.project+'</div>'
         +'<div class="bdg-tile-card-sub">'+b.client+' · '+b.circle+' · '+b.lob+'</div></div>'
-        +'<div class="bdg-tile-card-margin '+marginCls+'">'+b.marginPct+'%</div>'
       +'</div>'
       +'<div class="bdg-tile-card-body">'
         +'<div class="bdg-tile-card-stats">'
-          +'<div><div class="bdg-tile-card-stat-lbl">Plan Rev</div><div class="bdg-tile-card-stat-val">'+bdgFmtK(b.revenue)+'</div></div>'
-          +'<div><div class="bdg-tile-card-stat-lbl">Actual Rev</div><div class="bdg-tile-card-stat-val" style="color:'+(b.actualRev>=b.revenue?'var(--success)':b.actualRev>0?'var(--danger)':'var(--bdg-muted)')+';">'+(b.actualRev?bdgFmtK(b.actualRev):'—')+'</div></div>'
           +'<div><div class="bdg-tile-card-stat-lbl">Sites T/A</div><div class="bdg-tile-card-stat-val">'+b.targetSites+' / '+b.actualSites+'</div></div>'
-        +'</div>'
-        +'<div class="bdg-tile-card-stats">'
-          +'<div><div class="bdg-tile-card-stat-lbl">Plan Cost</div><div class="bdg-tile-card-stat-val">'+bdgFmtK(b.totalCost)+'</div></div>'
-          +'<div><div class="bdg-tile-card-stat-lbl">Actual Cost</div><div class="bdg-tile-card-stat-val">'+(b.actualCost?bdgFmtK(b.actualCost):'—')+'</div></div>'
+          +'<div><div class="bdg-tile-card-stat-lbl">Avg D/Site</div><div class="bdg-tile-card-stat-val">'+(b.avgDaysSite>0?b.avgDaysSite:'—')+'</div></div>'
           +'<div><div class="bdg-tile-card-stat-lbl">PM</div><div class="bdg-tile-card-stat-val" style="font-size:11px;">'+b.submittedBy+'</div></div>'
         +'</div>'
         +'<div style="display:flex;align-items:center;justify-content:space-between;margin-top:8px;padding-top:10px;border-top:1px solid var(--bdg-border);">'
@@ -33729,7 +33922,97 @@ function bdgRenderTiles(items){
       +'</div>'
       +'</div>';
   }).join('');
+
+  bdgRenderPagination(items.length);
 }
+
+/* ─── PAGINATION (matches canonical .table-footer theme used on every other listing page) ─── */
+function bdgRenderPagination(total){
+  var pageSize = bdgPageSize;
+  var pages    = Math.max(1, Math.ceil(total / pageSize));
+  if(bdgCurrentPage > pages) bdgCurrentPage = pages;
+  if(bdgCurrentPage < 1)     bdgCurrentPage = 1;
+  var start = total ? (bdgCurrentPage - 1) * pageSize + 1 : 0;
+  var end   = Math.min(bdgCurrentPage * pageSize, total);
+
+  /* Pick the correct footer based on which view is active. */
+  var listFoot = document.getElementById('bdgPaginFooter');
+  var tileFoot = document.getElementById('bdgTilePaginFooter');
+  var isList = bdgListView === 'list';
+  if(listFoot) listFoot.style.display = isList ? '' : 'none';
+  if(tileFoot) tileFoot.style.display = isList ? 'none' : '';
+
+  var infoId     = isList ? 'bdgPaginInfo'     : 'bdgTilePaginInfo';
+  var controlsId = isList ? 'bdgPaginControls' : 'bdgTilePaginControls';
+  var pi = document.getElementById(infoId);
+  var pc = document.getElementById(controlsId);
+
+  if(pi) pi.innerHTML = 'Showing <strong>'+start+'–'+end+'</strong> of <strong>'+total+'</strong> records';
+  if(!pc) return;
+
+  /* Build a 5-page window centered on current page, with prev/next arrows. */
+  var html = '<button class="page-btn" onclick="bdgGoPage('+(bdgCurrentPage-1)+')" '+(bdgCurrentPage<=1?'disabled':'')+'>'
+           + '<svg width="13" height="13" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg></button>';
+  var s = Math.max(1, bdgCurrentPage - 2), e = Math.min(pages, s + 4);
+  s = Math.max(1, e - 4);
+  for(var i = s; i <= e; i++){
+    html += '<button class="page-btn '+(i===bdgCurrentPage?'active':'')+'" onclick="bdgGoPage('+i+')">'+i+'</button>';
+  }
+  html += '<button class="page-btn" onclick="bdgGoPage('+(bdgCurrentPage+1)+')" '+(bdgCurrentPage>=pages?'disabled':'')+'>'
+        + '<svg width="13" height="13" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg></button>';
+  pc.innerHTML = html;
+}
+
+window.bdgGoPage = function(p){
+  var totalItems = bdgGetFilteredCount();
+  var pages = Math.max(1, Math.ceil(totalItems / bdgPageSize));
+  if(p < 1 || p > pages) return;
+  bdgCurrentPage = p;
+  bdgRenderList();
+};
+
+window.bdgChangePageSize = function(v){
+  var n = parseInt(v, 10);
+  if(!n || n < 1) return;
+  bdgPageSize = n;
+  bdgCurrentPage = 1;
+  /* Keep both page-size selects in sync regardless of which one fired. */
+  var a = document.getElementById('bdgPageLimit');     if(a) a.value = String(n);
+  var b = document.getElementById('bdgTilePageLimit'); if(b) b.value = String(n);
+  bdgRenderList();
+};
+
+/* Lightweight filtered-count helper used by bdgGoPage to clamp page bounds.
+   Mirrors the filter logic in bdgRenderList without re-running renderers. */
+function bdgGetFilteredCount(){
+  var dateSel   = (document.getElementById('bdgListDateSel')  ||{}).value || 'all';
+  var statusSel = (document.getElementById('bdgListStatusSel')||{}).value || 'all';
+  var q         = ((document.getElementById('bdgListSearch') ||{}).value || '').toLowerCase();
+  var today = new Date(), ty = today.getFullYear(), tm = today.getMonth();
+  var range = null;
+  if(dateSel==='this_month')      range = {sy:ty,sm:tm,ey:ty,em:tm};
+  else if(dateSel==='last_month'){var lm=tm-1, ly=ty; if(lm<0){lm=11; ly=ty-1;} range={sy:ly,sm:lm,ey:ly,em:lm};}
+  else if(dateSel==='this_quarter'){var qs=Math.floor(tm/3)*3; range={sy:ty,sm:qs,ey:ty,em:qs+2};}
+  else if(dateSel==='this_year')  range = {sy:ty,sm:0,ey:ty,em:11};
+  else if(dateSel==='last_year')  range = {sy:ty-1,sm:0,ey:ty-1,em:11};
+  return bdgSavedBudgets.filter(function(b){
+    if(range){
+      var y = parseInt(b.date.slice(0,4),10);
+      var m = parseInt(b.date.slice(5,7),10) - 1;
+      var ord = y*12 + m, sord = range.sy*12 + range.sm, eord = range.ey*12 + range.em;
+      if(ord < sord || ord > eord) return false;
+    }
+    if(statusSel!=='all' && b.status!==statusSel) return false;
+    if(q && !(b.client+' '+b.project+' '+b.circle+' '+b.submittedBy+' '+b.lob).toLowerCase().includes(q)) return false;
+    return true;
+  }).length;
+}
+
+/* Wrapper used by search/filter inputs — resets to page 1 before re-rendering. */
+window.bdgRenderListFromFilter = function(){
+  bdgCurrentPage = 1;
+  bdgRenderList();
+};
 
 function bdgRenderCharts(items){
   var bc = document.getElementById('bdgChartBar');
@@ -33832,89 +34115,67 @@ window.bdgFilterList = function(){ bdgRenderList(); };
 window.bdgViewBudget = function(id){
   var b=bdgSavedBudgets.find(function(x){return x.id===id;});
   if(!b) return;
-  var pageMain = document.getElementById('page-budgeting');
+  /* Mount the detail INSIDE the page's scroll container, not as a sibling of it,
+     so the parent's flex/overflow rules apply and nothing bleeds through. */
+  var scrollArea = document.getElementById('bdgScrollArea');
   var detail = document.getElementById('bdgDetailPage');
   if(!detail){
     detail = document.createElement('div');
     detail.id='bdgDetailPage';
-    detail.style.cssText='display:flex;flex-direction:column;height:100%;overflow-y:auto;padding:20px 24px;background:var(--bg);';
-    pageMain.appendChild(detail);
+    scrollArea.appendChild(detail);
+  } else if(detail.parentElement !== scrollArea){
+    /* Re-parent if previously created as a sibling of bdgScrollArea */
+    scrollArea.appendChild(detail);
   }
-  // Hide list/wizard, show detail
+  detail.setAttribute('data-bdg-id', String(id));
+  // Hide everything else inside the scroll area + the page header bar
+  var hdr = scrollArea.querySelector('.bdg-header');
+  if(hdr) hdr.style.display='none';
   document.getElementById('bdgListView').style.display='none';
   document.getElementById('bdgWizView').style.display='none';
   document.getElementById('bdgFooter').style.display='none';
-  document.getElementById('bdgNewBtn').style.display='none';
-  detail.style.display='flex';
+  detail.style.display='block';
+  /* Scroll the page to top so the detail header is visible */
+  scrollArea.scrollTop = 0;
   bdgRenderDetailPage(b, detail);
 };
 
 window.bdgCloseDetailPage = function(){
+  var scrollArea = document.getElementById('bdgScrollArea');
   var detail = document.getElementById('bdgDetailPage');
   if(detail) detail.style.display='none';
+  var hdr = scrollArea ? scrollArea.querySelector('.bdg-header') : null;
+  if(hdr) hdr.style.display='';
   document.getElementById('bdgListView').style.display='';
   document.getElementById('bdgNewBtn').style.display='';
+  if(scrollArea) scrollArea.scrollTop = 0;
   bdgRenderList();
 };
 
 function bdgRenderDetailPage(b, container){
   var planCost = b.manpowerCost + b.vendorCost + b.materialCost + b.miscCost;
-  var actCost = b.actualCost || 0;
-  var actRev = b.actualRev || 0;
   var planMargin = b.revenue - planCost;
-  var actMargin = actRev - actCost;
   var planMpct = b.revenue ? Math.round(planMargin/b.revenue*100) : 0;
-  var actMpct = actRev ? Math.round(actMargin/actRev*100) : 0;
-  var revVar = actRev - b.revenue;
-  var costVar = actCost - planCost;
-  var siteAchPct = b.sites ? Math.round((b.actualSites||0)/b.sites*100) : 0;
   var ini = b.project.split(' ').map(function(x){return x[0];}).join('').slice(0,2).toUpperCase();
-  var statusCls = b.status.toLowerCase();
+  var statusCls = bdgStatusClass(b.status);
 
-  // Generate synthetic monthly progress data (last 6 months)
-  var monthsBack = 6;
-  var monthLabels = [];
-  var planRevTrend = [];
-  var actRevTrend = [];
-  var startD = new Date(b.date);
-  for(var i=0; i<monthsBack; i++){
-    var d = new Date(startD); d.setMonth(d.getMonth()+i);
-    monthLabels.push(BDG_MONTH_LABELS[d.getMonth()]);
-    var prog = (i+1)/monthsBack;
-    planRevTrend.push(Math.round(b.revenue * prog));
-    actRevTrend.push(Math.round(actRev * Math.min(prog * (0.85 + Math.random()*0.3), 1)));
-  }
-
-  // Build org chart from budget hierarchy snapshot
-  // Distribute project sites across the team:
-  //   employees do the field work, leads supervise smaller share, PM/CH less, Head is roll-up of all below
+  // Build org chart from budget hierarchy snapshot.
+  // Distribute project sites across the team (planned only, no actuals).
   var totSitesT = b.sites||0;
-  var totSitesA = b.actualSites||0;
-  var empCount = Math.max(2, Math.round(totSitesT/4));
+  var empCount  = Math.max(2, Math.round(totSitesT/4));
   var leadCount = 2;
-
-  // Per-employee target/actual = total / count (employees own most of the field work)
-  var empT = empCount ? Math.round(totSitesT / empCount) : 0;
-  var empA = empCount ? Math.round(totSitesA / empCount) : 0;
-  // Leads supervise ~half the sites each
+  var empT  = empCount  ? Math.round(totSitesT / empCount)        : 0;
   var leadT = leadCount ? Math.round(totSitesT * 0.6 / leadCount) : 0;
-  var leadA = leadCount ? Math.round(totSitesA * 0.6 / leadCount) : 0;
-  // PM owns the project = total sites
-  var pmT = totSitesT;
-  var pmA = totSitesA;
-  // Circle Head — rolls up multiple PMs (we have 1 here) but historically owns more
-  var chT = Math.round(totSitesT * 1.2);
-  var chA = Math.round(totSitesA * 1.2);
-  // Head — roll-up of ALL projects in their span, multiplied factor since this is one project
+  var pmT   = totSitesT;
+  var chT   = Math.round(totSitesT * 1.2);
   var headT = Math.round(totSitesT * 1.5);
-  var headA = Math.round(totSitesA * 1.5);
 
   var orgRoles = [
-    {key:'head', label:'Head', count:1, name:'Anish Kumar', sitesT:headT, sitesA:headA, isRollup:true},
-    {key:'circle_head', label:'Circle Head', count:1, name:b.circle+' Head', sitesT:chT, sitesA:chA, isRollup:true},
-    {key:'pm', label:'PM', count:1, name:b.submittedBy, sitesT:pmT, sitesA:pmA, isRollup:false},
-    {key:'lead', label:'Lead', count:leadCount, sitesT:leadT, sitesA:leadA, isRollup:false},
-    {key:'employee', label:'Employee', count:empCount, sitesT:empT, sitesA:empA, isRollup:false}
+    {key:'head',        label:'Head',        count:1,         name:'Anish Kumar',  sitesT:headT, isRollup:true},
+    {key:'circle_head', label:'Circle Head', count:1,         name:b.circle+' Head', sitesT:chT,  isRollup:true},
+    {key:'pm',          label:'PM',          count:1,         name:b.submittedBy,  sitesT:pmT,   isRollup:false},
+    {key:'lead',        label:'Lead',        count:leadCount, sitesT:leadT, isRollup:false},
+    {key:'employee',    label:'Employee',    count:empCount,  sitesT:empT,  isRollup:false}
   ];
 
   container.innerHTML = '<style>'
@@ -33923,33 +34184,15 @@ function bdgRenderDetailPage(b, container){
     +'.bdgd-hero{background:var(--bdg-surface);border:1px solid var(--bdg-border);border-radius:14px;padding:18px 22px;margin-bottom:14px;box-shadow:var(--shadow-sm);}'
     +'.bdgd-kpi-row{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:14px;}'
     +'@media(max-width:900px){.bdgd-kpi-row{grid-template-columns:repeat(2,1fr);}}'
-    +'.bdgd-kpi{background:var(--bdg-surface);border:1px solid var(--bdg-border);border-radius:10px;padding:12px 14px;box-shadow:var(--shadow-sm);}'
-    +'.bdgd-kpi.ok{border-left:3px solid var(--success);}'
-    +'.bdgd-kpi.warn{border-left:3px solid var(--danger);}'
+    +'.bdgd-kpi{background:var(--bdg-surface);border:1px solid var(--bdg-border);border-radius:10px;padding:12px 14px;box-shadow:var(--shadow-sm);border-left:3px solid var(--primary);}'
     +'.bdgd-kpi-lbl{font-size:10px;color:var(--bdg-muted);text-transform:uppercase;letter-spacing:.05em;}'
     +'.bdgd-kpi-val{font-size:20px;font-weight:700;font-family:Fraunces,serif;color:var(--bdg-text);margin-top:2px;}'
     +'.bdgd-kpi-sub{font-size:10px;color:var(--bdg-muted);margin-top:2px;}'
-    +'.bdgd-kpi-sub.pos{color:var(--success);}'
-    +'.bdgd-kpi-sub.neg{color:var(--danger);}'
     +'.bdgd-grid{display:grid;grid-template-columns:1.4fr 1fr;gap:14px;margin-bottom:14px;}'
     +'@media(max-width:900px){.bdgd-grid{grid-template-columns:1fr;}}'
     +'.bdgd-card{background:var(--bdg-surface);border:1px solid var(--bdg-border);border-radius:12px;padding:16px 18px;box-shadow:var(--shadow-sm);}'
     +'.bdgd-card-title{font-size:11px;font-weight:700;color:var(--primary);text-transform:uppercase;letter-spacing:.06em;margin-bottom:14px;display:flex;align-items:center;justify-content:space-between;}'
-    +'.bdgd-pill{display:inline-block;padding:2px 10px;border-radius:20px;font-size:10px;font-weight:700;letter-spacing:.04em;}'
-    +'.bdgd-pill.pos{background:rgba(16,185,129,.12);color:var(--success);}'
-    +'.bdgd-pill.neg{background:rgba(239,68,68,.12);color:var(--danger);}'
-    +'.bdgd-pill.warn{background:rgba(245,158,11,.12);color:var(--warning);}'
-    +'.bdgd-bar-row{margin-bottom:14px;}'
-    +'.bdgd-bar-row:last-child{margin-bottom:0;}'
-    +'.bdgd-bar-head{display:flex;justify-content:space-between;align-items:baseline;font-size:11px;margin-bottom:5px;}'
-    +'.bdgd-bar-head .lbl{color:var(--bdg-sub);font-weight:600;}'
-    +'.bdgd-bar-head .vals{color:var(--bdg-text);font-family:DM Mono,monospace;}'
-    +'.bdgd-bar-track{position:relative;height:14px;background:var(--bg);border-radius:7px;overflow:hidden;}'
-    +'.bdgd-bar-plan{position:absolute;top:0;bottom:0;background:linear-gradient(90deg,#a8c4ae,#a8c4ae);border-radius:7px;}'
-    +'.bdgd-bar-act{position:absolute;top:0;bottom:0;background:var(--primary);border-radius:7px;}'
-    +'.bdgd-bar-act.over{background:var(--success);}'
-    +'.bdgd-bar-act.under{background:var(--danger);}'
-    +'.bdgd-bar-marker{position:absolute;top:-2px;bottom:-2px;width:2px;background:var(--bdg-text);}'
+    +'.bdgd-pill{display:inline-block;padding:2px 10px;border-radius:20px;font-size:10px;font-weight:700;letter-spacing:.04em;background:color-mix(in srgb,var(--primary) 12%,transparent);color:var(--primary);}'
     +'/* org chart */'
     +'.bdgd-orgchart{padding:8px 0 4px;}'
     +'.bdgd-org-level{display:flex;justify-content:center;align-items:center;flex-wrap:wrap;gap:8px;position:relative;margin-bottom:24px;}'
@@ -33967,33 +34210,28 @@ function bdgRenderDetailPage(b, container){
     +'.bdgd-org-node .lbl{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;opacity:.85;}'
     +'.bdgd-org-node .nm{font-size:11px;font-weight:600;color:var(--bdg-text);margin-top:2px;}'
     +'.bdgd-org-node .meta{font-size:9px;color:var(--bdg-muted);margin-top:1px;}'
-    +'/* treemap-style cost breakdown */'
-    +'.bdgd-treemap{display:grid;grid-template-columns:repeat(8,1fr);grid-template-rows:repeat(4,40px);gap:3px;margin-top:8px;}'
-    +'.bdgd-tm{border-radius:5px;padding:6px 8px;display:flex;flex-direction:column;justify-content:space-between;color:#fff;cursor:default;overflow:hidden;}'
-    +'.bdgd-tm .nm{font-size:10px;font-weight:700;line-height:1.1;}'
-    +'.bdgd-tm .vl{font-size:11px;font-family:DM Mono,monospace;font-weight:700;}'
-    +'/* sankey-ish flow */'
-    +'.bdgd-flow{display:flex;align-items:stretch;gap:0;height:140px;margin-top:10px;border:1px solid var(--bdg-border);border-radius:10px;overflow:hidden;background:var(--bg);}'
-    +'.bdgd-flow-col{display:flex;flex-direction:column;flex:1;}'
-    +'.bdgd-flow-bar{flex:var(--w,1);background:var(--c,#888);color:#fff;padding:6px 10px;font-size:10px;display:flex;flex-direction:column;justify-content:center;line-height:1.15;border-right:1px solid rgba(255,255,255,.15);}'
-    +'.bdgd-flow-bar .nm{font-weight:700;}'
-    +'.bdgd-flow-bar .vl{font-family:DM Mono,monospace;font-size:11px;font-weight:700;margin-top:2px;}'
-    +'.bdgd-flow-arrow{align-self:center;color:var(--bdg-muted);font-size:14px;padding:0 4px;flex-shrink:0;}'
+    +'/* simple cost-share bar visual (replaces sankey flow) */'
+    +'.bdgd-cost-bar{display:flex;height:14px;border-radius:7px;overflow:hidden;margin-top:6px;background:var(--bg);border:1px solid var(--bdg-border);}'
+    +'.bdgd-cost-bar-seg{height:100%;transition:flex .2s;}'
+    +'.bdgd-cost-legend{display:flex;flex-wrap:wrap;gap:8px 14px;margin-top:9px;font-size:10.5px;}'
+    +'.bdgd-cost-legend-item{display:flex;align-items:center;gap:5px;color:var(--bdg-sub);}'
+    +'.bdgd-cost-legend-dot{width:9px;height:9px;border-radius:2px;flex-shrink:0;}'
     +'.bdgd-attr{display:grid;grid-template-columns:auto 1fr;gap:6px 14px;font-size:11.5px;}'
     +'.bdgd-attr dt{color:var(--bdg-sub);font-weight:600;}'
-    +'.bdgd-attr dd{color:var(--bdg-text);margin:0;}'
+    +'.bdgd-attr dd{color:var(--bdg-text);margin:0;font-family:DM Mono,monospace;font-weight:600;}'
+    +'.bdgd-attr dd .pct{color:var(--bdg-muted);font-weight:500;margin-left:4px;}'
     +'</style>'
 
     // Header bar
     +'<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">'
       +'<div style="display:flex;align-items:center;gap:14px;">'
-        +'<button class="bdgd-back" onclick="bdgCloseDetailPage()">← Back to Project Dashboard</button>'
-        +'<span style="font-size:12px;color:var(--bdg-sub);">/ '+b.project+' / Plan vs Achieved</span>'
+        +'<button class="bdgd-back" onclick="bdgCloseDetailPage()">← Back to Budgets</button>'
+        +'<span style="font-size:12px;color:var(--bdg-sub);">/ '+b.project+' / Budget Details</span>'
       +'</div>'
       +'<span class="bdg-status-pill '+statusCls+'" style="padding:5px 14px;font-size:11px;">'+b.status+'</span>'
     +'</div>'
 
-    // Hero card
+    // Hero card — planned margin only
     +'<div class="bdgd-hero">'
       +'<div style="display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:14px;">'
         +'<div style="display:flex;align-items:center;gap:14px;min-width:0;">'
@@ -34004,124 +34242,256 @@ function bdgRenderDetailPage(b, container){
           +'</div>'
         +'</div>'
         +'<div style="text-align:right;">'
-          +'<div style="font-size:10px;color:var(--bdg-muted);text-transform:uppercase;letter-spacing:.06em;font-weight:600;">Achieved Margin</div>'
-          +'<div style="font-family:Fraunces,serif;font-size:30px;font-weight:700;color:'+(actMpct>=15?'var(--success)':actMpct>=5?'var(--warning)':'var(--danger)')+';line-height:1;">'+actMpct+'%</div>'
-          +'<div style="font-size:11px;color:var(--bdg-sub);margin-top:3px;">Plan: '+planMpct+'% · '+(actMpct-planMpct>=0?'+':'')+(actMpct-planMpct)+' pts</div>'
+          +'<div style="font-size:10px;color:var(--bdg-muted);text-transform:uppercase;letter-spacing:.06em;font-weight:600;">Planned Margin</div>'
+          +'<div style="font-family:Fraunces,serif;font-size:30px;font-weight:700;color:'+(planMpct>=15?'var(--success)':planMpct>=5?'var(--warning)':'var(--danger)')+';line-height:1;">'+planMpct+'%</div>'
+          +'<div style="font-size:11px;color:var(--bdg-sub);margin-top:3px;">'+bdgFmtK(planMargin)+' on '+bdgFmtK(b.revenue)+'</div>'
         +'</div>'
       +'</div>'
     +'</div>'
 
-    // 5 KPI tiles
+    // 5 KPI tiles — planned values only
     +'<div class="bdgd-kpi-row">'
-      +'<div class="bdgd-kpi '+(actRev>=b.revenue?'ok':'warn')+'"><div class="bdgd-kpi-lbl">Revenue</div><div class="bdgd-kpi-val">'+bdgFmtK(actRev)+'</div><div class="bdgd-kpi-sub '+(revVar>=0?'pos':'neg')+'">Plan: '+bdgFmtK(b.revenue)+' · '+(revVar>=0?'+':'')+bdgFmtK(revVar)+'</div></div>'
-      +'<div class="bdgd-kpi '+(actCost<=planCost?'ok':'warn')+'"><div class="bdgd-kpi-lbl">Cost</div><div class="bdgd-kpi-val">'+bdgFmtK(actCost)+'</div><div class="bdgd-kpi-sub '+(costVar<=0?'pos':'neg')+'">Plan: '+bdgFmtK(planCost)+' · '+(costVar>=0?'+':'')+bdgFmtK(costVar)+'</div></div>'
-      +'<div class="bdgd-kpi '+(actMargin>=planMargin?'ok':'warn')+'"><div class="bdgd-kpi-lbl">Margin</div><div class="bdgd-kpi-val">'+bdgFmtK(actMargin)+'</div><div class="bdgd-kpi-sub '+(actMargin>=planMargin?'pos':'neg')+'">Plan: '+bdgFmtK(planMargin)+'</div></div>'
-      +'<div class="bdgd-kpi '+(siteAchPct>=100?'ok':'warn')+'"><div class="bdgd-kpi-lbl">Sites (T/A)</div><div class="bdgd-kpi-val">'+b.sites+' / '+(b.actualSites||0)+'</div><div class="bdgd-kpi-sub">'+siteAchPct+'% achievement</div></div>'
-      +'<div class="bdgd-kpi"><div class="bdgd-kpi-lbl">Active Days</div><div class="bdgd-kpi-val">'+(b.activeDays||0)+'</div><div class="bdgd-kpi-sub">Avg D/Site: '+(b.avgDaysSite||'—')+'</div></div>'
+      +'<div class="bdgd-kpi"><div class="bdgd-kpi-lbl">Planned Revenue</div><div class="bdgd-kpi-val">'+bdgFmtK(b.revenue)+'</div><div class="bdgd-kpi-sub">Total target</div></div>'
+      +'<div class="bdgd-kpi"><div class="bdgd-kpi-lbl">Planned Cost</div><div class="bdgd-kpi-val">'+bdgFmtK(planCost)+'</div><div class="bdgd-kpi-sub">All categories</div></div>'
+      +'<div class="bdgd-kpi"><div class="bdgd-kpi-lbl">Planned Margin</div><div class="bdgd-kpi-val">'+bdgFmtK(planMargin)+'</div><div class="bdgd-kpi-sub">'+planMpct+'% of revenue</div></div>'
+      +'<div class="bdgd-kpi"><div class="bdgd-kpi-lbl">Sites Planned</div><div class="bdgd-kpi-val">'+b.sites+'</div><div class="bdgd-kpi-sub">Avg D/Site: '+(b.avgDaysSite||'—')+'</div></div>'
+      +'<div class="bdgd-kpi"><div class="bdgd-kpi-lbl">Project Duration</div><div class="bdgd-kpi-val">'+(b.duration||'—')+'</div><div class="bdgd-kpi-sub">'+((b.duration||0)===1?'month':'months')+'</div></div>'
     +'</div>'
 
-    // Plan vs Actual bars
-    +'<div class="bdgd-card" style="margin-bottom:14px;">'
-      +'<div class="bdgd-card-title"><span>Plan vs Achieved — At a Glance</span><span class="bdgd-pill '+(actMpct>=planMpct?'pos':'neg')+'">'+(actMpct>=planMpct?'On / Above plan':'Below plan')+'</span></div>'
-      + bdgBar('Revenue', b.revenue, actRev, true)
-      + bdgBar('Cost', planCost, actCost, false)
-      + bdgBar('Sites Completed', b.sites, b.actualSites||0, true)
-    +'</div>'
-
-    // Two-column: org chart + cost flow
+    // Two-column: org chart + cost breakdown
     +'<div class="bdgd-grid">'
-      // Project organization chart
+      // Project organization chart — planned headcount only, no T/A
       +'<div class="bdgd-card">'
-        +'<div class="bdgd-card-title"><span>Project Organization</span><span style="font-size:10px;color:var(--bdg-muted);font-weight:500;text-transform:none;letter-spacing:0;">Hierarchy snapshot from budget</span></div>'
+        +'<div class="bdgd-card-title"><span>Project Organization</span><span style="font-size:10px;color:var(--bdg-muted);font-weight:500;text-transform:none;letter-spacing:0;">Planned team structure</span></div>'
         +'<div class="bdgd-orgchart">'
           + bdgOrgLevel('head', orgRoles[0], 1)
-          + bdgOrgLevel('ch', orgRoles[1], 1)
-          + bdgOrgLevel('pm', orgRoles[2], 1)
+          + bdgOrgLevel('ch',   orgRoles[1], 1)
+          + bdgOrgLevel('pm',   orgRoles[2], 1)
           + bdgOrgLevel('lead', orgRoles[3], orgRoles[3].count)
-          + bdgOrgLevel('emp', orgRoles[4], Math.min(orgRoles[4].count, 6))
+          + bdgOrgLevel('emp',  orgRoles[4], Math.min(orgRoles[4].count, 6))
         +'</div>'
       +'</div>'
-      // Cost flow / breakdown
+      // Cost breakdown — pure planned, no plan-vs-actual
       +'<div class="bdgd-card">'
-        +'<div class="bdgd-card-title"><span>Where the Money Goes</span><span class="bdgd-pill '+(actCost<=planCost?'pos':'neg')+'">Total: '+bdgFmtK(actCost||planCost)+'</span></div>'
-        +'<dl class="bdgd-attr" style="margin-bottom:10px;">'
-          +'<dt>Manpower</dt><dd>'+bdgFmtK(b.manpowerCost)+' <span style="color:var(--bdg-muted);">('+Math.round(b.manpowerCost/planCost*100)+'%)</span></dd>'
-          +'<dt>Vendor / Partner</dt><dd>'+bdgFmtK(b.vendorCost)+' <span style="color:var(--bdg-muted);">('+Math.round(b.vendorCost/planCost*100)+'%)</span></dd>'
-          +'<dt>Material</dt><dd>'+bdgFmtK(b.materialCost)+' <span style="color:var(--bdg-muted);">('+Math.round(b.materialCost/planCost*100)+'%)</span></dd>'
-          +'<dt>Misc</dt><dd>'+bdgFmtK(b.miscCost)+' <span style="color:var(--bdg-muted);">('+Math.round(b.miscCost/planCost*100)+'%)</span></dd>'
+        +'<div class="bdgd-card-title"><span>Cost Breakdown</span><span class="bdgd-pill">Total: '+bdgFmtK(planCost)+'</span></div>'
+        +'<dl class="bdgd-attr" style="margin-bottom:6px;">'
+          +'<dt>Manpower</dt><dd>'+bdgFmtK(b.manpowerCost)+'<span class="pct">('+(planCost?Math.round(b.manpowerCost/planCost*100):0)+'%)</span></dd>'
+          +'<dt>Vendor / Partner</dt><dd>'+bdgFmtK(b.vendorCost)+'<span class="pct">('+(planCost?Math.round(b.vendorCost/planCost*100):0)+'%)</span></dd>'
+          +'<dt>Material</dt><dd>'+bdgFmtK(b.materialCost)+'<span class="pct">('+(planCost?Math.round(b.materialCost/planCost*100):0)+'%)</span></dd>'
+          +'<dt>Misc</dt><dd>'+bdgFmtK(b.miscCost)+'<span class="pct">('+(planCost?Math.round(b.miscCost/planCost*100):0)+'%)</span></dd>'
         +'</dl>'
-        // Visual flow
-        +'<div class="bdgd-flow">'
-          +'<div class="bdgd-flow-col" style="flex:1.3;border-right:2px solid rgba(0,0,0,.05);">'
-            +'<div class="bdgd-flow-bar" style="--c:#2D4A35;flex:1;"><div class="nm">Plan Revenue</div><div class="vl">'+bdgFmtK(b.revenue)+'</div></div>'
-          +'</div>'
-          +'<div class="bdgd-flow-arrow">→</div>'
-          +'<div class="bdgd-flow-col" style="flex:1;">'
-            +'<div class="bdgd-flow-bar" style="--c:#3a5e44;--w:'+b.manpowerCost+';"><div class="nm">Manpower</div><div class="vl">'+bdgFmtK(b.manpowerCost)+'</div></div>'
-            +'<div class="bdgd-flow-bar" style="--c:#5a7c5f;--w:'+b.vendorCost+';"><div class="nm">Vendor</div><div class="vl">'+bdgFmtK(b.vendorCost)+'</div></div>'
-            +'<div class="bdgd-flow-bar" style="--c:#7a9b7e;--w:'+b.materialCost+';"><div class="nm">Material</div><div class="vl">'+bdgFmtK(b.materialCost)+'</div></div>'
-            +'<div class="bdgd-flow-bar" style="--c:#a8c4ae;--w:'+b.miscCost+';"><div class="nm">Misc</div><div class="vl">'+bdgFmtK(b.miscCost)+'</div></div>'
-            +'<div class="bdgd-flow-bar" style="--c:'+(planMargin>=0?'#10b981':'#ef4444')+';--w:'+Math.abs(planMargin)+';"><div class="nm">Margin</div><div class="vl">'+(planMargin>=0?'+':'')+bdgFmtK(planMargin)+'</div></div>'
-          +'</div>'
+        // Cost share bar (single horizontal stacked bar — no graph library required)
+        +'<div class="bdgd-cost-bar">'
+          +'<div class="bdgd-cost-bar-seg" style="background:#2D4A35;flex:'+(b.manpowerCost||0.001)+';" title="Manpower"></div>'
+          +'<div class="bdgd-cost-bar-seg" style="background:#5a7c5f;flex:'+(b.vendorCost||0.001)+';" title="Vendor"></div>'
+          +'<div class="bdgd-cost-bar-seg" style="background:#7a9b7e;flex:'+(b.materialCost||0.001)+';" title="Material"></div>'
+          +'<div class="bdgd-cost-bar-seg" style="background:#a8c4ae;flex:'+(b.miscCost||0.001)+';" title="Misc"></div>'
+        +'</div>'
+        +'<div class="bdgd-cost-legend">'
+          +'<span class="bdgd-cost-legend-item"><span class="bdgd-cost-legend-dot" style="background:#2D4A35;"></span>Manpower</span>'
+          +'<span class="bdgd-cost-legend-item"><span class="bdgd-cost-legend-dot" style="background:#5a7c5f;"></span>Vendor</span>'
+          +'<span class="bdgd-cost-legend-item"><span class="bdgd-cost-legend-dot" style="background:#7a9b7e;"></span>Material</span>'
+          +'<span class="bdgd-cost-legend-item"><span class="bdgd-cost-legend-dot" style="background:#a8c4ae;"></span>Misc</span>'
         +'</div>'
       +'</div>'
     +'</div>'
 
-    // Trend chart
-    +'<div class="bdgd-card">'
-      +'<div class="bdgd-card-title"><span>Cumulative Revenue — Plan vs Achieved</span><span style="font-size:10px;color:var(--bdg-muted);font-weight:500;text-transform:none;letter-spacing:0;">Last 6 months</span></div>'
-      +'<div style="position:relative;height:180px;"><canvas id="bdgDetailTrendChart"></canvas></div>'
-    +'</div>';
-
-  // Render trend chart after DOM is in place
-  setTimeout(function(){
-    var c = document.getElementById('bdgDetailTrendChart');
-    if(c && typeof Chart !== 'undefined'){
-      new Chart(c, {
-        type:'line',
-        data:{labels:monthLabels,datasets:[
-          {label:'Planned',data:planRevTrend,borderColor:'#a8c4ae',backgroundColor:'rgba(168,196,174,0.15)',fill:true,tension:0.3,borderWidth:2,pointRadius:3,pointBackgroundColor:'#a8c4ae'},
-          {label:'Achieved',data:actRevTrend,borderColor:'#2D4A35',backgroundColor:'rgba(45,74,53,0.1)',fill:true,tension:0.3,borderWidth:2.5,pointRadius:4,pointBackgroundColor:'#2D4A35'}
-        ]},
-        options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:true,position:'top',align:'end',labels:{font:{size:10},boxWidth:10,boxHeight:10}}},scales:{x:{ticks:{font:{size:10},color:'#5C5650'},grid:{display:false}},y:{ticks:{font:{size:9},color:'#A09890',callback:function(v){return v>=100000?'₹'+(v/100000).toFixed(0)+'L':'₹'+(v/1000).toFixed(0)+'K';}},grid:{color:'rgba(45,40,32,0.05)'}}}}
-      });
-    }
-  }, 50);
+    // Approval timeline + action bar
+    + bdgRenderApprovalTimeline(b)
+    + bdgRenderActionBar(b);
 }
 
-function bdgBar(label, plan, actual, higherIsBetter){
-  var pct = plan ? Math.round(actual/plan*100) : 0;
-  var actCls = pct>=100 ? (higherIsBetter?'over':'under') : (higherIsBetter?'under':'over');
-  if(label==='Cost'){ actCls = actual<=plan ? 'over' : 'under'; } // cost: lower is better
-  var maxW = Math.max(plan, actual) * 1.05;
-  var planPct = maxW ? Math.round(plan/maxW*100) : 0;
-  var actPct = maxW ? Math.round(actual/maxW*100) : 0;
-  var dispP, dispA;
-  if(label==='Sites Completed'){ dispP = plan; dispA = actual; }
-  else { dispP = bdgFmtK(plan); dispA = bdgFmtK(actual); }
-  return '<div class="bdgd-bar-row">'
-    +'<div class="bdgd-bar-head"><span class="lbl">'+label+'</span><span class="vals">Plan '+dispP+' · Actual <strong>'+dispA+'</strong> ('+pct+'%)</span></div>'
-    +'<div class="bdgd-bar-track">'
-      +'<div class="bdgd-bar-plan" style="width:'+planPct+'%;"></div>'
-      +'<div class="bdgd-bar-act '+actCls+'" style="width:'+actPct+'%;height:7px;top:50%;transform:translateY(-50%);border-radius:4px;"></div>'
-      +'<div class="bdgd-bar-marker" style="left:'+planPct+'%;"></div>'
+/* ── APPROVAL FLOW ─────────────────────────────────────────
+   Render the approval timeline (4 stages: Created → Submitted → L1 Approved → Approved).
+   A 'Rejected' log entry is shown inline at whatever stage it occurred. */
+function bdgRenderApprovalTimeline(b){
+  var logs = bdgEnsureLogs(b);
+  /* Build ordered stage entries — completed if a log exists, otherwise pending placeholder. */
+  var STAGES = [
+    {key:'Created',     fallbackActor:b.submittedBy, fallbackRole:'PM',    pendingLabel:'Awaiting creation'},
+    {key:'Submitted',   fallbackActor:b.submittedBy, fallbackRole:'PM',    pendingLabel:'Awaiting submission'},
+    {key:'L1 Approved', fallbackActor:'Ops Manager', fallbackRole:'Ops',   pendingLabel:'Awaiting Ops review'},
+    {key:'Approved',    fallbackActor:'Admin',       fallbackRole:'Admin', pendingLabel:'Awaiting Admin approval'}
+  ];
+  /* If the budget was rejected, show the actual rejection inline; remaining stages turn pending. */
+  var rejectLog = logs.find(function(l){return l.stage==='Rejected';});
+
+  var rows = [];
+  for(var i=0;i<STAGES.length;i++){
+    var st = STAGES[i];
+    var log = logs.find(function(l){return l.stage===st.key;});
+    if(log){
+      var cls = bdgStatusClass(log.stage);
+      rows.push('<div class="bdgd-tl-row">'
+        +'<div class="bdgd-tl-dot '+cls+'"></div>'
+        +'<div class="bdgd-tl-body">'
+        +  '<div class="bdgd-tl-head">'
+        +    '<span class="bdgd-tl-stage">'+log.stage+'</span>'
+        +    '<span class="bdgd-tl-actor">by <b>'+log.actor+'</b><span class="role">'+log.role+'</span></span>'
+        +    '<span class="bdgd-tl-date">'+log.date+'</span>'
+        +  '</div>'
+        +  (log.remarks?'<div class="bdgd-tl-remarks">"'+log.remarks+'"</div>':'')
+        +'</div>'
+      +'</div>');
+      /* If next stage(s) after this were rejected, stop here and show rejection */
+    } else {
+      /* Pending placeholder */
+      rows.push('<div class="bdgd-tl-row pending">'
+        +'<div class="bdgd-tl-dot pending"></div>'
+        +'<div class="bdgd-tl-body">'
+        +  '<div class="bdgd-tl-head">'
+        +    '<span class="bdgd-tl-stage">'+st.key+'</span>'
+        +    '<span class="bdgd-tl-actor">'+st.pendingLabel+'</span>'
+        +  '</div>'
+        +'</div>'
+      +'</div>');
+    }
+    /* If this budget was rejected at this stage, splice rejection row in after the last completed stage and stop appending future pending stages. */
+    if(rejectLog){
+      /* Determine which stage the rejection happened at: it's after the last completed Submitted/L1 Approved. */
+      var lastCompleted = logs.filter(function(l){return l.stage!=='Rejected';}).pop();
+      if(lastCompleted && lastCompleted.stage===st.key){
+        rows.push('<div class="bdgd-tl-row">'
+          +'<div class="bdgd-tl-dot rejected"></div>'
+          +'<div class="bdgd-tl-body">'
+          +  '<div class="bdgd-tl-head">'
+          +    '<span class="bdgd-tl-stage" style="color:var(--danger);">Rejected</span>'
+          +    '<span class="bdgd-tl-actor">by <b>'+rejectLog.actor+'</b><span class="role" style="background:rgba(239,68,68,.12);color:var(--danger);">'+rejectLog.role+'</span></span>'
+          +    '<span class="bdgd-tl-date">'+rejectLog.date+'</span>'
+          +  '</div>'
+          +  (rejectLog.remarks?'<div class="bdgd-tl-remarks" style="border-left-color:var(--danger);background:rgba(239,68,68,.06);">"'+rejectLog.remarks+'"</div>':'')
+          +'</div>'
+        +'</div>');
+        break;
+      }
+    }
+  }
+  return '<div class="bdgd-card" style="margin-top:14px;">'
+    +'<div class="bdgd-card-title"><span>Approval Timeline</span>'
+    +'<span class="bdg-status-pill '+bdgStatusClass(b.status)+'" style="font-size:10px;text-transform:none;letter-spacing:0;">'+b.status+'</span>'
     +'</div>'
+    +'<div class="bdgd-timeline">'+rows.join('')+'</div>'
   +'</div>';
 }
+
+/* Build the sticky action bar based on current budget status.
+   Authorized approvers (Ops / Admin) act through this bar — no role switching needed. */
+function bdgGetActionsFor(b){
+  var s = b.status;
+  /* L1 stage: Ops approves to advance to L1 Approved (or rejects back to PM) */
+  if(s==='Submitted') return [
+    {label:'Approve (L1 — Ops)', kind:'success', icon:'check',  onclick:'bdgApprovalAction('+b.id+",'l1approve')"},
+    {label:'Reject',              kind:'danger',  icon:'reject', onclick:'bdgOpenRejectModal('+b.id+")"}
+  ];
+  /* L2 stage: Admin gives final approval (or rejects back to PM) */
+  if(s==='L1 Approved') return [
+    {label:'Approve (Final — Admin)', kind:'success', icon:'check',  onclick:'bdgApprovalAction('+b.id+",'approve')"},
+    {label:'Reject',                   kind:'danger',  icon:'reject', onclick:'bdgOpenRejectModal('+b.id+")"}
+  ];
+  /* Approved / Rejected / Draft → no actions on detail page. Draft is finished from the wizard. */
+  return [];
+}
+function bdgRenderActionBar(b){
+  var actions = bdgGetActionsFor(b);
+  var info;
+  if(b.status==='Approved'){
+    info = '<b>This budget is fully approved.</b> Final sign-off complete.';
+  } else if(b.status==='Rejected'){
+    info = '<b>This budget was rejected.</b> Owner needs to revise and resubmit.';
+  } else if(b.status==='Draft'){
+    info = '<b>This budget is still in draft.</b> Owner needs to submit it for approval.';
+  } else if(b.status==='Submitted'){
+    info = 'Current status: <b>Submitted</b> · Awaiting L1 review by <b>Ops</b>.';
+  } else if(b.status==='L1 Approved'){
+    info = 'Current status: <b>L1 Approved</b> · Awaiting final sign-off by <b>Admin</b>.';
+  } else {
+    info = 'Current status: <b>'+b.status+'</b>';
+  }
+  var ICONS = {
+    check:  '<svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>',
+    reject: '<svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>'
+  };
+  var btns = actions.map(function(a){
+    return '<button class="bdgd-btn '+a.kind+'" onclick="'+a.onclick+'">'+(ICONS[a.icon]||'')+a.label+'</button>';
+  }).join('');
+  if(!btns){
+    btns = '<span class="bdgd-noaction-note">No approval actions available at this stage.</span>';
+  }
+  return '<div class="bdgd-action-bar">'
+    +'<div class="bdgd-action-bar-info">'+info+'</div>'
+    +btns
+  +'</div>';
+}
+
+/* ── Approval actions: mutate the budget, append a log entry, re-render ── */
+function bdgTodayISO(){ var d=new Date(); return d.toISOString().slice(0,10); }
+/* Demo actor names recorded in the approval log per stage. */
+var BDG_STAGE_ACTOR = { Ops:'Rakesh Verma', Admin:'Anish Kumar' };
+window.bdgApprovalAction = function(id, action){
+  var b = bdgSavedBudgets.find(function(x){return x.id===id;});
+  if(!b) return;
+  var logs = bdgEnsureLogs(b);
+  var today = bdgTodayISO();
+  if(action==='l1approve'){
+    b.status='L1 Approved';
+    logs.push({stage:'L1 Approved', actor:BDG_STAGE_ACTOR.Ops, role:'Ops', date:today, remarks:'Approved by Ops.'});
+  } else if(action==='approve'){
+    b.status='Approved';
+    logs.push({stage:'Approved', actor:BDG_STAGE_ACTOR.Admin, role:'Admin', date:today, remarks:'Approved for execution.'});
+  }
+  /* Re-render detail page if open, then refresh list */
+  var detail = document.getElementById('bdgDetailPage');
+  if(detail && detail.style.display!=='none'){ bdgRenderDetailPage(b, detail); }
+  bdgRenderList();
+  if(typeof showToast==='function') showToast(actionToastMsg(action), 'success');
+};
+function actionToastMsg(action){
+  return action==='l1approve' ? 'Budget approved at L1 (Ops)'
+       : action==='approve'   ? 'Budget approved'
+       : 'Budget updated';
+}
+
+/* Reject modal */
+var bdgRejectTargetId = null;
+window.bdgOpenRejectModal = function(id){
+  bdgRejectTargetId = id;
+  var m=document.getElementById('bdgRejectModal'); if(!m) return;
+  var ta=document.getElementById('bdgRejectReason'); if(ta) ta.value='';
+  m.classList.add('open');
+  setTimeout(function(){ if(ta) ta.focus(); }, 50);
+};
+window.bdgCloseRejectModal = function(){
+  bdgRejectTargetId = null;
+  var m=document.getElementById('bdgRejectModal'); if(m) m.classList.remove('open');
+};
+window.bdgConfirmReject = function(){
+  if(!bdgRejectTargetId) return;
+  var b = bdgSavedBudgets.find(function(x){return x.id===bdgRejectTargetId;});
+  if(!b){ bdgCloseRejectModal(); return; }
+  var reason = (document.getElementById('bdgRejectReason')||{}).value || 'No reason provided.';
+  var logs = bdgEnsureLogs(b);
+  /* Actor depends on which stage the budget is in — Submitted → Ops rejects; L1 Approved → Admin rejects. */
+  var actorRole = (b.status==='L1 Approved') ? 'Admin' : 'Ops';
+  var actorName = BDG_STAGE_ACTOR[actorRole] || actorRole;
+  b.status='Rejected';
+  logs.push({stage:'Rejected', actor:actorName, role:actorRole, date:bdgTodayISO(), remarks:reason});
+  bdgCloseRejectModal();
+  var detail = document.getElementById('bdgDetailPage');
+  if(detail && detail.style.display!=='none'){ bdgRenderDetailPage(b, detail); }
+  bdgRenderList();
+  if(typeof showToast==='function') showToast('Budget rejected — PM has been notified', 'warning');
+};
+
+/* end approval flow */
 
 function bdgOrgLevel(cls, role, count){
   var html='<div class="bdgd-org-level">';
   for(var i=0;i<count;i++){
     var name = (role.name && i===0) ? role.name : 'TBD';
-    var ach = role.sitesT>0 ? Math.round(role.sitesA/role.sitesT*100) : 0;
-    var achColor = ach>=100 ? '#10b981' : ach>=80 ? '#f59e0b' : '#ef4444';
     html += '<div class="bdgd-org-node '+cls+'">'
       +'<div class="lbl">'+role.label+(count>1?' #'+(i+1):'')+(role.isRollup?' <span style="font-size:8px;opacity:.85;">(roll-up)</span>':'')+'</div>'
       +'<div class="nm">'+name+'</div>'
-      +'<div class="meta" style="display:flex;align-items:center;justify-content:center;gap:4px;">'
-        +'<span>Sites: <strong style="font-family:DM Mono,monospace;">'+role.sitesT+'</strong> / <strong style="font-family:DM Mono,monospace;color:'+achColor+';">'+role.sitesA+'</strong></span>'
-        +'<span style="background:rgba(255,255,255,.2);color:'+(cls==='head'||cls==='ch'?'#fff':achColor)+';padding:1px 5px;border-radius:6px;font-size:9px;font-weight:700;font-family:DM Mono,monospace;">'+ach+'%</span>'
-      +'</div>'
+      +'<div class="meta">Sites: <strong style="font-family:DM Mono,monospace;color:'+(cls==='head'||cls==='ch'?'#fff':'var(--bdg-text)')+';">'+role.sitesT+'</strong></div>'
     +'</div>';
   }
   if(count < role.count){
@@ -34283,11 +34653,31 @@ function bdgPopulateClients(){
 }
 
 window.bdgToggleProjMode = function(mode){
-  bdgMode=mode;
-  document.getElementById('bdgOptExisting').classList.toggle('selected',mode==='existing');
-  document.getElementById('bdgOptNew').classList.toggle('selected',mode==='new');
-  document.getElementById('bdgExistingPanel').style.display=mode==='existing'?'':'none';
-  document.getElementById('bdgNewProjPanel').style.display=mode==='new'?'':'none';
+  /* Project mode tiles removed — wizard only handles existing projects now.
+     This function is kept (no-op) in case any stale caller invokes it. */
+  bdgMode = 'existing';
+  var ex=document.getElementById('bdgOptExisting');     if(ex) ex.classList.toggle('selected', true);
+  var nw=document.getElementById('bdgOptNew');          if(nw) nw.classList.toggle('selected', false);
+  var exP=document.getElementById('bdgExistingPanel');  if(exP) exP.style.display='';
+  var nwP=document.getElementById('bdgNewProjPanel');   if(nwP) nwP.style.display='none';
+};
+
+/* Navigate from the budget wizard to the Project page so the user can create a new project. */
+window.bdgGoToProjects = function(){
+  /* Close the wizard, restore the listing view, then jump to the Project page. */
+  try{
+    var listView = document.getElementById('bdgListView');
+    var wizView  = document.getElementById('bdgWizView');
+    var footer   = document.getElementById('bdgFooter');
+    var newBtn   = document.getElementById('bdgNewBtn');
+    var search   = document.getElementById('bdgListSearch');
+    if(wizView)  wizView.style.display  = 'none';
+    if(listView) listView.style.display = '';
+    if(footer)   footer.style.display   = 'none';
+    if(newBtn)   newBtn.style.display   = '';
+    if(search)   search.style.display   = '';
+  }catch(e){}
+  if(typeof showPage === 'function') showPage('project','Project');
 };
 
 window.bdgOnClientChange = function(){
@@ -34332,16 +34722,30 @@ function bdgRenderHierarchy(){
   var wrap=document.getElementById('bdgHierWrap'); if(!wrap) return;
   if(!bdgState.hierarchy||!Object.keys(bdgState.hierarchy).length){
     bdgState.hierarchy={};
-    BDG_HIER_LEVELS.forEach(function(l){ bdgState.hierarchy[l.key]={count:l.key==='employee'?3:1,slots:[]}; });
+    BDG_HIER_LEVELS.forEach(function(l){ bdgState.hierarchy[l.key]={count:l.key==='employee'?3:1,slots:[],utilization:100}; });
   }
+  /* Backfill utilization on hierarchies missing the field (e.g. previously-saved budgets) */
+  BDG_HIER_LEVELS.forEach(function(l){
+    var h=bdgState.hierarchy[l.key];
+    if(h && (h.utilization===undefined||h.utilization===null)) h.utilization=100;
+  });
   var html='';
   BDG_HIER_LEVELS.forEach(function(level){
     var h=bdgState.hierarchy[level.key];
     var defaultSites = level.key==='head'?60:level.key==='circle_head'?40:level.key==='pm'?25:level.key==='lead'?20:15;
+    var utilVal = (h.utilization===undefined||h.utilization===null||h.utilization===100) ? '' : h.utilization;
     html+='<div class="bdg-hier-level" style="border-left-color:'+level.color+';">'
       +'<div class="bdg-hier-level-head"><span class="bdg-hier-level-label" style="color:'+level.color+';">'+level.label+'</span>'
-      +'<div style="display:flex;align-items:center;gap:6px;"><span style="font-size:10px;color:var(--bdg-muted);">Count:</span>'
-      +'<input class="bdg-hier-count-input" type="number" min="0" max="20" value="'+h.count+'" onchange="bdgUpdateHierCount(\''+level.key+'\',this.value)">'
+      +'<div class="bdg-hier-head-fields">'
+      +  '<div class="bdg-hier-field"><span class="bdg-hier-field-lbl">Count</span>'
+      +    '<input class="bdg-hier-count-input" type="number" min="0" max="20" value="'+h.count+'" onchange="bdgUpdateHierCount(\''+level.key+'\',this.value)">'
+      +  '</div>'
+      +  '<div class="bdg-hier-field"><span class="bdg-hier-field-lbl">Utilisation <span class="bdg-hier-field-opt">(optional)</span></span>'
+      +    '<div class="bdg-hier-util-wrap">'
+      +      '<input class="bdg-hier-util-input" type="number" min="0" max="100" step="1" value="'+utilVal+'" placeholder="100" onchange="bdgUpdateHierUtilization(\''+level.key+'\',this.value)" oninput="bdgUpdateHierUtilization(\''+level.key+'\',this.value,true)" title="Percentage of time this resource is dedicated to this project. Leave blank for 100%.">'
+      +      '<span class="bdg-hier-util-suffix">%</span>'
+      +    '</div>'
+      +  '</div>'
       +'</div></div>'
       +'<div class="bdg-hier-slots" id="bdgSlots_'+level.key+'">';
     for(var i=0;i<h.count;i++){
@@ -34385,6 +34789,21 @@ window.bdgUpdateHierCount = function(key,val){
   // Trim slots if needed
   if(bdgState.hierarchy[key].slots.length>n) bdgState.hierarchy[key].slots=bdgState.hierarchy[key].slots.slice(0,n);
   bdgRenderHierarchy();
+};
+
+/* Update utilization % for a hierarchy level.
+   Blank input = 100% (full utilisation). Live mode just refreshes totals — no re-render so the input keeps focus while typing. */
+window.bdgUpdateHierUtilization = function(key,val,live){
+  if(!bdgState.hierarchy[key]) return;
+  if(val===''||val===null||val===undefined){
+    bdgState.hierarchy[key].utilization = 100;
+  } else {
+    var n = parseFloat(val);
+    if(isNaN(n)||n<0) n = 0;
+    if(n>100) n = 100;
+    bdgState.hierarchy[key].utilization = n;
+  }
+  bdgUpdateHierTotals();
 };
 
 window.bdgRemoveSlot = function(key,idx){
@@ -34468,10 +34887,12 @@ function bdgUpdateHierTotals(){
   var totalHC=0,totalMo=0;
   BDG_HIER_LEVELS.forEach(function(l){
     var h=bdgState.hierarchy[l.key];
+    var util = (h.utilization===undefined||h.utilization===null) ? 100 : h.utilization;
+    var utilFactor = util/100;
     for(var i=0;i<h.count;i++){
       var s=h.slots[i];
       totalHC++;
-      totalMo+=s?s.ctc:l.defaultCTC;
+      totalMo += (s?s.ctc:l.defaultCTC) * utilFactor;
     }
   });
   var dur=parseInt(bdgState.duration)||1;
@@ -34738,10 +35159,12 @@ function bdgSummariseTeam(hier){
   if(!hier) return {headcount:0, monthlyCost:0};
   BDG_HIER_LEVELS.forEach(function(l){
     var h = hier[l.key]; if(!h) return;
+    var util = (h.utilization===undefined||h.utilization===null) ? 100 : h.utilization;
+    var utilFactor = util/100;
     for(var i=0;i<h.count;i++){
       var s = h.slots[i];
       hc++;
-      cost += s ? s.ctc : l.defaultCTC;
+      cost += (s ? s.ctc : l.defaultCTC) * utilFactor;
     }
   });
   return {headcount:hc, monthlyCost:cost};
@@ -34772,10 +35195,12 @@ function bdgRenderMonthEditor(){
 
   BDG_HIER_LEVELS.forEach(function(l){
     var h = hier[l.key] || {count:0, slots:[]};
+    var util = (h.utilization===undefined||h.utilization===null) ? 100 : h.utilization;
+    var utilFactor = util/100;
     var subTotal = 0;
     for(var i=0;i<h.count;i++){
       var s=h.slots[i];
-      subTotal += s ? s.ctc : l.defaultCTC;
+      subTotal += (s ? s.ctc : l.defaultCTC) * utilFactor;
     }
     rows += '<div class="lbl">'+l.label+'</div>'
       +'<div class="ct"><input type="number" min="0" max="20" value="'+h.count+'" onchange="bdgMmUpdateCount(\''+l.key+'\',this.value)"></div>'
@@ -34812,7 +35237,11 @@ function bdgCloneHierarchy(h){
   var c = {};
   Object.keys(h||{}).forEach(function(k){
     var src = h[k];
-    c[k] = { count: src.count, slots: (src.slots||[]).map(function(s){ return s ? Object.assign({}, s) : null; }) };
+    c[k] = {
+      count: src.count,
+      utilization: (src.utilization===undefined||src.utilization===null) ? 100 : src.utilization,
+      slots: (src.slots||[]).map(function(s){ return s ? Object.assign({}, s) : null; })
+    };
   });
   return c;
 }
@@ -35255,7 +35684,55 @@ function bdgBuildSummary(){
 }
 
 window.bdgSubmit = function(){
-  if(typeof showToast==='function') showToast('Budget submitted successfully!','success');
+  /* Persist the newly-built budget from the wizard into bdgSavedBudgets with status='Submitted'.
+     Approval workflow takes over from here. */
+  try{
+    var totalManpower = 0;
+    BDG_HIER_LEVELS.forEach(function(l){
+      var h = bdgState.hierarchy[l.key]; if(!h) return;
+      var util = (h.utilization===undefined||h.utilization===null) ? 100 : h.utilization;
+      var f = util/100;
+      for(var i=0;i<h.count;i++){
+        var s=h.slots[i]; totalManpower += (s?s.ctc:l.defaultCTC) * f;
+      }
+    });
+    var dur = parseInt(bdgState.duration)||1;
+    totalManpower = Math.round(totalManpower * dur);
+    var vendorCost   = (bdgState.vendors||[]).reduce(function(a,v){return a+(parseFloat(v.amount)||0);},0);
+    var materialCost = (bdgState.materials||[]).reduce(function(a,m){return a+(parseFloat(m.amount)||0);},0);
+    var miscCost     = (bdgState.misc||[]).reduce(function(a,m){return a+(parseFloat(m.amount)||0);},0);
+    var revenue      = (bdgState.revenue||[]).reduce(function(a,r){return a+((parseFloat(r.perSite)||0)*(parseInt(bdgState.siteCount)||0));},0);
+
+    var actorName = 'PM (You)';
+    var today = bdgTodayISO();
+    var newId = (bdgSavedBudgets.reduce(function(m,b){return Math.max(m,b.id||0);},0))+1;
+
+    var newBudget = {
+      id: newId,
+      client: bdgState.clientName || 'Unknown',
+      project: bdgState.projectName || 'Untitled Project',
+      circle: bdgState.circle || '—',
+      lob: bdgState.lob || 'PM',
+      date: today,
+      status: 'Submitted',
+      submittedBy: actorName,
+      manpowerCost: Math.round(totalManpower),
+      vendorCost: Math.round(vendorCost),
+      materialCost: Math.round(materialCost),
+      miscCost: Math.round(miscCost),
+      revenue: Math.round(revenue),
+      sites: parseInt(bdgState.siteCount)||0,
+      actualSites: 0, actualRev: 0, actualCost: 0, activeDays: 0, avgDaysSite: 0,
+      duration: dur,
+      hierarchy: bdgCloneHierarchy(bdgState.hierarchy),
+      approval_logs: [
+        {stage:'Created',   actor:actorName, role:'PM', date:today, remarks:'Budget created via wizard.'},
+        {stage:'Submitted', actor:actorName, role:'PM', date:today, remarks:'Submitted for approval.'}
+      ]
+    };
+    bdgSavedBudgets.unshift(newBudget);
+  }catch(e){ /* fall through to toast even if save shape is off */ }
+  if(typeof showToast==='function') showToast('Budget submitted for approval','success');
   bdgBackToList();
 };
 
