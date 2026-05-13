@@ -17294,15 +17294,17 @@
                           <div class="bdg-sr-section-title" style="margin-top:18px;">Activities &amp; Revenue</div>
                           <div class="bdg-page-meta" style="margin-top:-6px;margin-bottom:10px;">List the activities done per site each month. Per-site subtotal × total project sites = total revenue.</div>
                           <div style="margin-bottom:10px;display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
-                            <label style="font-size:11px;font-weight:600;color:var(--bdg-muted);text-transform:uppercase;letter-spacing:.04em;">Revenue Source:</label>
-                            <select class="bdg-select" id="bdgRevSource" onchange="bdgOnRevSourceChange()" style="width:200px;">
-                              <option value="existing">From Existing PO</option>
-                              <option value="new">Create New PO / Manual</option>
-                            </select>
-                            <span id="bdgRevExistingPO" style="display:flex;align-items:center;gap:6px;">
-                              <label style="font-size:11px;font-weight:600;color:var(--bdg-muted);text-transform:uppercase;letter-spacing:.04em;">Select PO:</label>
-                              <select class="bdg-select" id="bdgRevPOSel" onchange="bdgLoadPOActivities()" style="width:200px;"><option value="">— Select PO —</option></select>
-                            </span>
+                            <label style="font-size:11px;font-weight:600;color:var(--bdg-muted);text-transform:uppercase;letter-spacing:.04em;">Select PO:</label>
+                            <select class="bdg-select" id="bdgRevPOSel" onchange="bdgLoadPOActivities()" style="width:240px;"><option value="">— Select PO —</option></select>
+                          </div>
+                          <!-- Subtle link to navigate to the PO Listing page for creating a new PO -->
+                          <div class="bdg-create-hint" style="margin-top:0;margin-bottom:12px;">
+                            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                            <span>Don't see your PO?</span>
+                            <button type="button" class="bdg-create-link" onclick="bdgGoToCreatePO()">
+                              Create it in PO Listing
+                              <svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.4" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+                            </button>
                           </div>
                           <table class="bdg-table">
                             <thead><tr><th>Activity</th><th style="text-align:center;">Qty / Site / Mo</th><th style="text-align:right;">Rate (₹)</th><th style="text-align:right;">Per-Site Subtotal</th><th style="width:36px;"></th></tr></thead>
@@ -34680,6 +34682,30 @@ window.bdgGoToProjects = function(){
   if(typeof showPage === 'function') showPage('project','Project');
 };
 
+/* Navigate from the budget wizard to the PO Listing page so the user can create a new PO. */
+window.bdgGoToCreatePO = function(){
+  /* Close the wizard, restore the listing view, then jump to the PO Listing page. */
+  try{
+    var listView = document.getElementById('bdgListView');
+    var wizView  = document.getElementById('bdgWizView');
+    var footer   = document.getElementById('bdgFooter');
+    var newBtn   = document.getElementById('bdgNewBtn');
+    var search   = document.getElementById('bdgListSearch');
+    if(wizView)  wizView.style.display  = 'none';
+    if(listView) listView.style.display = '';
+    if(footer)   footer.style.display   = 'none';
+    if(newBtn)   newBtn.style.display   = '';
+    if(search)   search.style.display   = '';
+  }catch(e){}
+  if(typeof showPage === 'function') showPage('po-listing','PO Listing');
+  /* Auto-open the Add PO modal so the user lands directly on the create flow. */
+  setTimeout(function(){
+    if(typeof poOpenAddModal === 'function'){
+      try{ poOpenAddModal(); }catch(e){}
+    }
+  }, 220);
+};
+
 window.bdgOnClientChange = function(){
   var sel=document.getElementById('bdgClientSel');
   var projSel=document.getElementById('bdgProjectSel');
@@ -34734,19 +34760,25 @@ function bdgRenderHierarchy(){
     var h=bdgState.hierarchy[level.key];
     var defaultSites = level.key==='head'?60:level.key==='circle_head'?40:level.key==='pm'?25:level.key==='lead'?20:15;
     var utilVal = (h.utilization===undefined||h.utilization===null||h.utilization===100) ? '' : h.utilization;
+    /* Head is a fixed leadership role — single seat, no count/utilisation controls. Force count=1 and utilisation=100 for head. */
+    var isHead = level.key==='head';
+    if(isHead){ h.count = 1; h.utilization = 100; }
     html+='<div class="bdg-hier-level" style="border-left-color:'+level.color+';">'
-      +'<div class="bdg-hier-level-head"><span class="bdg-hier-level-label" style="color:'+level.color+';">'+level.label+'</span>'
-      +'<div class="bdg-hier-head-fields">'
-      +  '<div class="bdg-hier-field"><span class="bdg-hier-field-lbl">Count</span>'
-      +    '<input class="bdg-hier-count-input" type="number" min="0" max="20" value="'+h.count+'" onchange="bdgUpdateHierCount(\''+level.key+'\',this.value)">'
-      +  '</div>'
-      +  '<div class="bdg-hier-field"><span class="bdg-hier-field-lbl">Utilisation <span class="bdg-hier-field-opt">(optional)</span></span>'
-      +    '<div class="bdg-hier-util-wrap">'
-      +      '<input class="bdg-hier-util-input" type="number" min="0" max="100" step="1" value="'+utilVal+'" placeholder="100" onchange="bdgUpdateHierUtilization(\''+level.key+'\',this.value)" oninput="bdgUpdateHierUtilization(\''+level.key+'\',this.value,true)" title="Percentage of time this resource is dedicated to this project. Leave blank for 100%.">'
-      +      '<span class="bdg-hier-util-suffix">%</span>'
-      +    '</div>'
-      +  '</div>'
-      +'</div></div>'
+      +'<div class="bdg-hier-level-head"><span class="bdg-hier-level-label" style="color:'+level.color+';">'+level.label+'</span>';
+    if(!isHead){
+      html+='<div class="bdg-hier-head-fields">'
+        +  '<div class="bdg-hier-field"><span class="bdg-hier-field-lbl">Count</span>'
+        +    '<input class="bdg-hier-count-input" type="number" min="0" max="20" value="'+h.count+'" onchange="bdgUpdateHierCount(\''+level.key+'\',this.value)">'
+        +  '</div>'
+        +  '<div class="bdg-hier-field"><span class="bdg-hier-field-lbl">Utilisation <span class="bdg-hier-field-opt">(optional)</span></span>'
+        +    '<div class="bdg-hier-util-wrap">'
+        +      '<input class="bdg-hier-util-input" type="number" min="0" max="100" step="1" value="'+utilVal+'" placeholder="100" onchange="bdgUpdateHierUtilization(\''+level.key+'\',this.value)" oninput="bdgUpdateHierUtilization(\''+level.key+'\',this.value,true)" title="Percentage of time this resource is dedicated to this project. Leave blank for 100%.">'
+        +      '<span class="bdg-hier-util-suffix">%</span>'
+        +    '</div>'
+        +  '</div>'
+        +'</div>';
+    }
+    html+='</div>'
       +'<div class="bdg-hier-slots" id="bdgSlots_'+level.key+'">';
     for(var i=0;i<h.count;i++){
       var slot=h.slots[i]||null;
@@ -35022,9 +35054,13 @@ window.bdgCalcMiscTotal = function(){
 };
 
 /* ─── STEP 6: Revenue ─── */
+/* Legacy handler — the Revenue Source dropdown was removed (only "From Existing PO" is supported now).
+   Kept as a no-op for back-compat with any saved budget restore flow that may still reference it. */
 window.bdgOnRevSourceChange = function(){
-  var v=document.getElementById('bdgRevSource').value;
-  document.getElementById('bdgRevExistingPO').style.display=v==='existing'?'':'none';
+  var srcEl = document.getElementById('bdgRevSource');
+  var poWrap = document.getElementById('bdgRevExistingPO');
+  if(!srcEl) return;
+  if(poWrap){ poWrap.style.display = srcEl.value==='existing' ? '' : 'none'; }
 };
 
 window.bdgLoadPOActivities = function(){
