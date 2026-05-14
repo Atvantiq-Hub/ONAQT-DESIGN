@@ -13025,24 +13025,26 @@
             </div>
 
             <nav class="nav-wrapper">
-                <!-- Main Navigation -->
+
+                <!-- Main / Home -->
                 <div class="nav-group">
                     <a href="#" class="nav-link" onclick="showPage('dashboard','Dashboard');return false;">
                         <div class="nav-link-content">
                             <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
                             </svg>
-                            Dashboard
+                            Home
                         </div>
                     </a>
                 </div>
 
-                <!-- Attendance Collapsible -->
-                <div class="nav-item-collapsible open">
+                <!-- Time -->
+                <div class="nav-section-label">Time</div>
+                <div class="nav-item-collapsible active">
                     <button class="nav-toggle" onclick="toggleNavItem(this)">
                         <div class="nav-link-content">
                             <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
                             </svg>
                             Attendance
                         </div>
@@ -13051,212 +13053,187 @@
                         </svg>
                     </button>
                     <div class="nav-submenu">
-                        <a href="#" class="nav-submenu-link active" id="nav-attendance" onclick="showPage('attendance','Attendance Records');return false;">Attendance Records</a>
+                        <a href="#" class="nav-submenu-link active" id="nav-attendance" onclick="showPage('attendance','Attendance');return false;">Attendance Records</a>
                         <a href="#" class="nav-submenu-link" onclick="showPage('attendance-summary','Attendance Summary');return false;">Summary</a>
                         <a href="#" class="nav-submenu-link" onclick="oodOpenModal();return false;">Out on Duty</a>
                         <a href="#" class="nav-submenu-link" onclick="leaveOpenModal();return false;">Apply Leave</a>
                     </div>
                 </div>
 
-                <!-- Reimbursements Collapsible -->
+                <!-- Expense -->
+                <div class="nav-section-label">Expense</div>
                 <div class="nav-item-collapsible">
                     <button class="nav-toggle" onclick="toggleNavItem(this)">
                         <div class="nav-link-content">
                             <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"/>
                             </svg>
-                            Reimbursements
+                            Expense
                         </div>
                         <svg class="nav-toggle-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
                         </svg>
                     </button>
                     <div class="nav-submenu">
-                        <a href="#" class="nav-submenu-link" onclick="showPage('reimbursements','Expense Records');return false;">Expense Records</a>
-                        <a href="#" class="nav-submenu-link" onclick="showPage('expense-summary','Expense Summary');return false;">Summary</a>
+                        <a href="#" class="nav-submenu-link" onclick="showPage('reimbursements','Expense Reports');return false;">Expense Reports</a>
+                        <a href="#" class="nav-submenu-link" onclick="showPage('expense-summary','Expense Summary');return false;">Summary by Employee</a>
                         <a href="#" class="nav-submenu-link" onclick="showPage('disbursement','Disbursement');return false;">Disbursement</a>
                     </div>
                 </div>
 
-                <div class="nav-group">
-                    <!-- Vendor Hub Collapsible -->
-                    <div class="nav-item-collapsible" id="nav-vendor-collapsible">
-                        <button class="nav-toggle" onclick="toggleNavItem(this);">
-                            <div class="nav-link-content">
-                                <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
-                                </svg>
-                                Vendor Hub
-                            </div>
-                            <svg class="nav-toggle-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
-                            </svg>
-                        </button>
-                        <div class="nav-submenu">
-                            <a href="#" class="nav-submenu-link" id="nav-vendor-insights" onclick="viShow('overview');return false;">Vendor Insights</a>
-                            <a href="#" class="nav-submenu-link" onclick="showPage('vendor-bills','Bills');return false;">Bills</a>
-                            <a href="#" class="nav-submenu-link" onclick="showPage('vendor','Vendors');return false;">Vendors</a>
-                        </div>
-                    </div>
-
-                    <a href="#" class="nav-link" onclick="showPage('inventory','Inventory');return false;">
-                        <div class="nav-link-content">
-                            <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/>
-                            </svg>
-                            Inventory
-                        </div>
-                    </a>
-                </div>
-
-                <div class="nav-section-label">Management</div>
-                
-                <!-- Roles & Users Collapsible -->
-                <div class="nav-item-collapsible">
+                <!-- Vendor Hub -->
+                <div class="nav-item-collapsible" id="nav-vendor-collapsible">
                     <button class="nav-toggle" onclick="toggleNavItem(this)">
                         <div class="nav-link-content">
                             <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
                             </svg>
-                            Roles & Users
+                            Vendor Hub
                         </div>
                         <svg class="nav-toggle-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
                         </svg>
                     </button>
                     <div class="nav-submenu">
-                        <a href="#" class="nav-submenu-link" onclick="showPage('roles','Roles');return false;">Roles</a>
-                        <a href="#" class="nav-submenu-link" onclick="showPage('users','Users');return false;">Users</a>
+                        <a href="#" class="nav-submenu-link" id="nav-vendor-insights" onclick="showPage('vendor-overview','Vendor Overview');return false;">Overview</a>
+                        <a href="#" class="nav-submenu-link" onclick="showPage('vendor','Vendors');return false;">Vendors</a>
+                        <a href="#" class="nav-submenu-link" onclick="showPage('vendor-bills','Bills');return false;">Bills</a>
+                        <a href="#" class="nav-submenu-link" onclick="showPage('vendor-mileage','Mileage');return false;">Mileage</a>
+                        <a href="#" class="nav-submenu-link" onclick="showPage('inventory','Inventory');return false;">Inventory</a>
                     </div>
                 </div>
 
-                <div class="nav-group">
-                    <a href="#" class="nav-link" onclick="showPage('assign-task','Assign Task');return false;">
+                <!-- Project Planning -->
+                <div class="nav-section-label">Project Planning</div>
+                <div class="nav-item-collapsible">
+                    <button class="nav-toggle" onclick="toggleNavItem(this)">
                         <div class="nav-link-content">
                             <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"/>
                             </svg>
-                            Assign Task
+                            Plans
                         </div>
-                    </a>
+                        <svg class="nav-toggle-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                        </svg>
+                    </button>
+                    <div class="nav-submenu">
+                        <a href="#" class="nav-submenu-link" onclick="showPage('budgeting','Project Plans');return false;">Plans &amp; WBS</a>
+                        <a href="#" class="nav-submenu-link" onclick="showPage('assign-task','Assign Task');return false;">Assign Task</a>
+                        <a href="#" class="nav-submenu-link" onclick="showPage('po-listing','SO Listing');return false;">SO Listing</a>
+                        <a href="#" class="nav-submenu-link" onclick="showPage('po-approvals','SO Approvals');return false;" style="display:flex;align-items:center;justify-content:space-between;">
+                            <span>SO Approvals</span>
+                            <span id="navApprovalsBadge" style="display:inline-flex;align-items:center;justify-content:center;min-width:18px;height:18px;padding:0 5px;background:var(--cta);color:#fff;border-radius:9px;font-size:10px;font-weight:700;">0</span>
+                        </a>
+                        <a href="#" class="nav-submenu-link" onclick="showPage('wcc','Sign-off');return false;">Sign-off &amp; Certification</a>
+                    </div>
                 </div>
 
-                <!-- PO Table Collapsible -->
+                <!-- Project Controls -->
+                <div class="nav-section-label">Project Controls</div>
+                <div class="nav-item-collapsible">
+                    <button class="nav-toggle" onclick="toggleNavItem(this)">
+                        <div class="nav-link-content">
+                            <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/>
+                            </svg>
+                            Controls
+                        </div>
+                        <svg class="nav-toggle-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                        </svg>
+                    </button>
+                    <div class="nav-submenu">
+                        <a href="#" class="nav-submenu-link" onclick="showPage('plan-actual','Plan vs Actual');return false;">Plan vs Actual</a>
+                        <a href="#" class="nav-submenu-link" onclick="showPage('reports','Reports');return false;">Reports</a>
+                        <a href="#" class="nav-submenu-link" onclick="showPage('billing-readiness','Billing Readiness');return false;">Billing Readiness</a>
+                        <a href="#" class="nav-submenu-link" onclick="showPage('invoice-tracking','Invoice Hub');return false;">Invoice Hub</a>
+                    </div>
+                </div>
+
+                <!-- Execution -->
+                <div class="nav-section-label">Execution</div>
+                <div class="nav-item-collapsible">
+                    <button class="nav-toggle" onclick="toggleNavItem(this)">
+                        <div class="nav-link-content">
+                            <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"/>
+                            </svg>
+                            Execution
+                        </div>
+                        <svg class="nav-toggle-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                        </svg>
+                    </button>
+                    <div class="nav-submenu">
+                        <a href="#" class="nav-submenu-link" onclick="showPage('work-done','Work Done');return false;">Work Done</a>
+                        <a href="#" class="nav-submenu-link" onclick="showPage('daily-logs','Daily Site Logs');return false;">Daily Site Logs</a>
+                        <a href="#" class="nav-submenu-link" onclick="showPage('site-performance','Site Performance');return false;">Site Performance</a>
+                        <a href="#" class="nav-submenu-link" onclick="showPage('alerts','Real-time Alerts');return false;">Real-time Alerts</a>
+                    </div>
+                </div>
+
+                <!-- Compliance -->
+                <div class="nav-section-label">Compliance</div>
+                <div class="nav-item-collapsible">
+                    <button class="nav-toggle" onclick="toggleNavItem(this)">
+                        <div class="nav-link-content">
+                            <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+                            </svg>
+                            Compliance
+                        </div>
+                        <svg class="nav-toggle-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                        </svg>
+                    </button>
+                    <div class="nav-submenu">
+                        <a href="#" class="nav-submenu-link" onclick="showPage('certifications','Certifications Register');return false;">Certifications Register</a>
+                        <a href="#" class="nav-submenu-link" onclick="showPage('safety-incidents','Safety Incidents');return false;">Safety Incidents</a>
+                        <a href="#" class="nav-submenu-link" onclick="showPage('audit-log','Audit Log');return false;">Audit Log</a>
+                    </div>
+                </div>
+
+                <!-- Setup & Integration -->
+                <div class="nav-section-label">Setup &amp; Integration</div>
                 <div class="nav-item-collapsible">
                     <button class="nav-toggle" onclick="toggleNavItem(this)">
                         <div class="nav-link-content">
                             <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/>
                             </svg>
-                            PO Table
+                            Operational Masters
                         </div>
                         <svg class="nav-toggle-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
                         </svg>
                     </button>
                     <div class="nav-submenu">
-                        <a href="#" class="nav-submenu-link" onclick="showPage('po-listing','PO Listing');return false;">PO Listing</a>
-                        <a href="#" class="nav-submenu-link" onclick="showPage('po-approvals','Approval Queue');return false;" style="display:flex;align-items:center;justify-content:space-between;">
-                            <span>Approvals</span>
-                            <span id="navApprovalsBadge" style="display:inline-flex;align-items:center;justify-content:center;min-width:18px;height:18px;padding:0 5px;background:var(--cta);color:#fff;border-radius:9px;font-size:10px;font-weight:700;">0</span>
-                        </a>
-                        <a href="#" class="nav-submenu-link" onclick="showPage('wcc','WCC');return false;">WCC</a>
+                        <a href="#" class="nav-submenu-link" onclick="showPage('users','Employees');return false;">Employees</a>
+                        <a href="#" class="nav-submenu-link" onclick="showPage('roles','Roles &amp; Access');return false;">Roles &amp; Access</a>
+                        <a href="#" class="nav-submenu-link" onclick="showPage('project','Projects');return false;">Projects</a>
+                        <a href="#" class="nav-submenu-link" onclick="showPage('site','Sites');return false;">Sites</a>
+                        <a href="#" class="nav-submenu-link" onclick="showPage('circle','Regions');return false;">Regions</a>
                     </div>
                 </div>
 
-                <div class="nav-group">
-                    <a href="#" class="nav-link" onclick="showPage('work-done','Work Done');return false;">
+                <div class="nav-item-collapsible">
+                    <button class="nav-toggle" onclick="toggleNavItem(this)">
                         <div class="nav-link-content">
                             <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"/>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4"/>
                             </svg>
-                            Work Done
+                            Mirrored from Finance
                         </div>
-                    </a>
-                </div>
-
-                <div class="nav-group">
-                    <a href="#" class="nav-link" onclick="showPage('invoice-tracking','Invoice Tracker');return false;">
-                        <div class="nav-link-content">
-                            <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
-                            </svg>
-                            Invoice Tracker
-                        </div>
-                    </a>
-                </div>
-
-                <div class="nav-section-label">Analytics</div>
-                <div class="nav-group">
-                    <div class="nav-item-collapsible">
-                        <button class="nav-toggle" onclick="toggleNavItem(this)">
-                            <div class="nav-link-content">
-                                <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
-                                </svg>
-                                Planning &amp; Performance
-                            </div>
-                            <svg class="nav-toggle-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
-                            </svg>
-                        </button>
-                        <div class="nav-submenu">
-                            <a href="#" class="nav-submenu-link" onclick="showPage('budgeting','Budgeting');return false;">Budgeting</a>
-                            <a href="#" class="nav-submenu-link" onclick="showPage('plan-actual','Resource Analytics');return false;">Resource Analytics</a>
-                        </div>
+                        <svg class="nav-toggle-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                        </svg>
+                    </button>
+                    <div class="nav-submenu">
+                        <a href="#" class="nav-submenu-link" onclick="showPage('client','Customers');return false;">Customers</a>
                     </div>
-
-                    <a href="#" class="nav-link" onclick="showPage('reports','Reports');return false;">
-                        <div class="nav-link-content">
-                            <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
-                            </svg>
-                            Reports
-                        </div>
-                    </a>
                 </div>
 
-                <div class="nav-section-label">Create</div>
-                <div class="nav-group">
-                    <a href="#" class="nav-link" onclick="showPage('client','Client');return false;">
-                        <div class="nav-link-content">
-                            <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
-                            </svg>
-                            Client
-                        </div>
-                    </a>
-
-                    <a href="#" class="nav-link" onclick="showPage('project','Project');return false;">
-                        <div class="nav-link-content">
-                            <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"/>
-                            </svg>
-                            Project
-                        </div>
-                    </a>
-
-                    <a href="#" class="nav-link" onclick="showPage('circle','Circle');return false;">
-                        <div class="nav-link-content">
-                            <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                            </svg>
-                            Circle
-                        </div>
-                    </a>
-
-                    <a href="#" class="nav-link" onclick="showPage('site','Site');return false;">
-                        <div class="nav-link-content">
-                            <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
-                            </svg>
-                            Site
-                        </div>
-                    </a>
-                </div>
-
-                <div class="nav-section-label">System</div>
                 <div class="nav-group">
                     <a href="#" class="nav-link" onclick="showPage('settings','Settings');return false;">
                         <div class="nav-link-content">
@@ -16044,14 +16021,14 @@
                 <div style="display:flex;align-items:center;gap:8px;flex-shrink:0;margin-right:8px;">
                     <span style="display:inline-flex;align-items:center;gap:7px;font-size:13px;font-weight:700;font-family:'Fraunces',serif;white-space:nowrap;background:linear-gradient(90deg,var(--primary),color-mix(in srgb,var(--primary) 60%,var(--cta)));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">
                         <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="-webkit-text-fill-color:initial;color:var(--primary);flex-shrink:0;"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
-                        Purchase Orders
+                        Sales Orders
                     </span>
                     <span id="poRecordCount" style="font-size:11px;font-weight:600;background:color-mix(in srgb,var(--primary) 12%,transparent);color:var(--primary);border:1px solid color-mix(in srgb,var(--primary) 22%,transparent);border-radius:5px;padding:2px 7px;white-space:nowrap;">24 records</span>
                 </div>
 
                 <div class="search-container">
                     <span class="search-icon"><svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg></span>
-                    <input type="text" class="search-input" id="poSearchInput" placeholder="Search by PO number, client, project…" oninput="poHandleSearch(this.value)">
+                    <input type="text" class="search-input" id="poSearchInput" placeholder="Search by SO number, client, project…" oninput="poHandleSearch(this.value)">
                 </div>
 
                 <button class="cb-icon-btn" id="poFilterPanelBtn" onclick="poOpenFilterPanel()" title="Filter"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"/></svg><span class="cb-badge" id="poFilterBadge" style="display:none;"></span></button>
@@ -16060,7 +16037,7 @@
                 <button class="cb-icon-btn" onclick="poOpenImportModal()" title="Import"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/></svg></button>
                 <button class="btn-add" onclick="poOpenAddModal()">
                     <svg width="15" height="15" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"/></svg>
-                    Add PO
+                    Add SO
                 </button>
             </div>
 
@@ -16080,7 +16057,7 @@
                     <table class="premium-table">
                         <thead>
                             <tr>
-                                <th class="sortable" onclick="poSortBy('po_number')">PO Number <span class="sort-icon" id="po-si-po_number"></span></th>
+                                <th class="sortable" onclick="poSortBy('po_number')">SO Number <span class="sort-icon" id="po-si-po_number"></span></th>
                                 <th class="sortable" onclick="poSortBy('client')">Client <span class="sort-icon" id="po-si-client"></span></th>
                                 <th class="sortable" onclick="poSortBy('project')">Project <span class="sort-icon" id="po-si-project"></span></th>
                                 <th>Circle</th>
@@ -16131,8 +16108,8 @@
     <div class="modal-box clone-modal-box">
         <div class="modal-header">
             <div>
-                <div class="modal-title">Clone Purchase Order</div>
-                <div class="modal-subtitle" id="poCloneModalSub">Duplicating PO details</div>
+                <div class="modal-title">Clone Sales Order</div>
+                <div class="modal-subtitle" id="poCloneModalSub">Duplicating SO details</div>
             </div>
             <button class="modal-close" onclick="poCloseModal('poCloneModal')">
                 <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
@@ -16141,8 +16118,8 @@
         <div class="modal-body">
             <div class="clone-preview" id="poClonePreview"></div>
             <div class="form-group">
-                <label class="form-label">New PO Number <span class="required">*</span></label>
-                <input type="text" class="form-input" id="poCloneNewPONumber" placeholder="e.g. PO-201">
+                <label class="form-label">New SO Number <span class="required">*</span></label>
+                <input type="text" class="form-input" id="poCloneNewPONumber" placeholder="e.g. SO-201">
             </div>
             <div class="form-grid">
                 <div class="form-group">
@@ -16159,7 +16136,7 @@
             <button class="btn-cancel" onclick="poCloseModal('poCloneModal')">Cancel</button>
             <button class="btn-clone-confirm" onclick="poSubmitClone()">
                 <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
-                Clone PO
+                Clone SO
             </button>
         </div>
     </div>
@@ -16173,17 +16150,17 @@
             <div class="po-create-header-left">
                 <button class="po-create-back" onclick="poCloseModal('poAddModal')">
                     <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
-                    Back to POs
+                    Back to SOs
                 </button>
                 <div>
-                    <div class="po-create-title">Create Purchase Order</div>
+                    <div class="po-create-title">Create Sales Order</div>
                     <div class="po-create-subtitle">Fill in details and add types with activities</div>
                 </div>
             </div>
             <div class="po-create-header-actions">
                 <button class="btn-save" onclick="poSubmitPO()">
                     <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
-                    Create PO
+                    Create SO
                 </button>
             </div>
         </div>
@@ -16204,11 +16181,11 @@
                     </div>
                     <div class="form-grid">
                         <div class="form-group">
-                            <label class="form-label">PO Number <span class="required">*</span></label>
-                            <input type="text" class="form-input" id="poFPONumber" placeholder="e.g. PO-300">
+                            <label class="form-label">SO Number <span class="required">*</span></label>
+                            <input type="text" class="form-input" id="poFPONumber" placeholder="e.g. SO-300">
                         </div>
                         <div class="form-group">
-                            <label class="form-label">PO Date <span class="required">*</span></label>
+                            <label class="form-label">SO Date <span class="required">*</span></label>
                             <input type="date" class="form-input" id="poFPODate">
                         </div>
                     </div>
@@ -16269,19 +16246,19 @@
                         <div class="form-group" style="justify-content:flex-end;padding-top:20px;">
                             <label class="milestone-toggle" onclick="poToggleMilestone()">
                                 <div class="milestone-check" id="poMilestoneCheck"></div>
-                                <span>Milestone PO</span>
+                                <span>Milestone SO</span>
                             </label>
                         </div>
                     </div>
                 </div>
 
-                <!-- PO Summary -->
+                <!-- SO Summary -->
                 <div class="po-summary-card" id="poSummaryCard">
                     <div class="po-section-title">
                         <div class="po-section-icon" style="background:var(--success-light);color:var(--success);">
                             <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 11h.01M12 11h.01M15 11h.01M4 19h16a2 2 0 002-2V7a2 2 0 00-2-2H4a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
                         </div>
-                        PO Summary
+                        SO Summary
                     </div>
                     <div id="poSummaryContent">
                         <div class="summary-empty">Add types & activities on the right to see the cost summary here.</div>
@@ -16359,7 +16336,7 @@
                     <div>
                         <label class="sd-create-form-label">Type Name <span style="color:var(--danger)">*</span></label>
                         <input class="sd-create-form-input" id="poNewTypeName" placeholder="e.g. Fiber Splicing, Tower Maintenance…" autocomplete="off">
-                        <div class="sd-create-form-hint">This will be saved to the server and available for future POs.</div>
+                        <div class="sd-create-form-hint">This will be saved to the server and available for future SOs.</div>
                     </div>
                     <div>
                         <label class="sd-create-form-label">Description <span style="color:var(--gray-400);font-weight:400;">(optional)</span></label>
@@ -16427,7 +16404,7 @@
                     <div>
                         <label class="sd-create-form-label">Activity Name <span style="color:var(--danger)">*</span></label>
                         <input class="sd-create-form-input" id="poNewActivityName" placeholder="e.g. TEL-1001, Cable Termination…" autocomplete="off">
-                        <div class="sd-create-form-hint">This will be saved to the server and available for future POs.</div>
+                        <div class="sd-create-form-hint">This will be saved to the server and available for future SOs.</div>
                     </div>
                     <div>
                         <label class="sd-create-form-label">Description <span style="color:var(--gray-400);font-weight:400;">(optional)</span></label>
@@ -16482,7 +16459,7 @@
             <button class="sw-close" onclick="poCloseModal('poImportModal')" aria-label="Close">
                 <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M6 18L18 6M6 6l12 12"/></svg>
             </button>
-            <div class="sw-title">Purchase Order Upload</div>
+            <div class="sw-title">Sales Order Upload</div>
             <!-- Step indicator -->
             <div class="sw-steps">
                 <div class="sw-step active" id="pw-step-1">
@@ -16527,7 +16504,7 @@
                         Download a <a onclick="pwDownloadSample('csv')">sample CSV file</a> or <a onclick="pwDownloadSample('xls')">sample XLS file</a> and compare it to your import file to<br>ensure the structure is correct for import.
                     </div>
                     <button class="sw-ref-btn" onclick="pwDownloadReference()">
-                        Download PO Import Reference File with Data
+                        Download SO Import Reference File with Data
                     </button>
                 </div>
             </div>
@@ -16539,7 +16516,7 @@
                     <div class="sw-info-dot">!</div>
                     <div class="sw-info-text">The best match to each field has been auto-selected.</div>
                 </div>
-                <div class="sw-map-section-title">PO Details</div>
+                <div class="sw-map-section-title">SO Details</div>
                 <div class="sw-map-header">
                     <div>ONAQT Field</div>
                     <div>IMPORTED File Headers</div>
@@ -16553,7 +16530,7 @@
             <div class="sw-panel" id="pw-panel-3">
                 <div class="sw-prev-info">
                     <div class="sw-info-dot">!</div>
-                    <div class="sw-prev-info-text"><strong id="pwReadyCount">0</strong> of <strong id="pwTotalCount">0</strong> POs in your file are ready to be imported.</div>
+                    <div class="sw-prev-info-text"><strong id="pwReadyCount">0</strong> of <strong id="pwTotalCount">0</strong> SOs in your file are ready to be imported.</div>
                 </div>
                 <div class="sw-prev-card" id="pwSkippedCard">
                     <div class="sw-prev-row" onclick="pwToggleDetail('pwSkippedCard')">
@@ -16613,7 +16590,7 @@
 
                         <div class="search-container">
                             <span class="search-icon"><svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg></span>
-                            <input type="text" class="search-input" id="apprSearchInput" placeholder="Search by PO number, client, project, or submitter…" oninput="apprHandleSearch(this.value)">
+                            <input type="text" class="search-input" id="apprSearchInput" placeholder="Search by SO number, client, project, or submitter…" oninput="apprHandleSearch(this.value)">
                         </div>
 
                         <button class="cb-icon-btn" onclick="apprRefresh()" title="Refresh"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg></button>
@@ -16649,7 +16626,7 @@
                     <div class="modal-box appr-choice-modal-box">
                         <div class="modal-header">
                             <div>
-                                <div class="modal-title">Approve Purchase Order?</div>
+                                <div class="modal-title">Approve Sales Order?</div>
                                 <div class="modal-subtitle" id="apprAcceptModalSub">—</div>
                             </div>
                             <button class="modal-close" onclick="apprCloseAcceptModal()">
@@ -16657,7 +16634,7 @@
                             </button>
                         </div>
                         <div class="modal-body">
-                            <div style="font-size:12.5px;color:var(--gray-600);line-height:1.55;">Review the PO before approving. You can edit any details first, or approve it exactly as submitted.</div>
+                            <div style="font-size:12.5px;color:var(--gray-600);line-height:1.55;">Review the SO before approving. You can edit any details first, or approve it exactly as submitted.</div>
                             <div class="appr-choice-grid">
                                 <div class="appr-choice-card" onclick="apprAcceptChooseEdit()">
                                     <div class="appr-choice-icon">
@@ -16690,7 +16667,7 @@
                     <div class="appr-edit-drawer">
                         <div class="appr-edit-drawer-head">
                             <div>
-                                <div class="appr-edit-drawer-title">Edit &amp; Approve PO</div>
+                                <div class="appr-edit-drawer-title">Edit &amp; Approve SO</div>
                                 <div class="appr-edit-drawer-sub" id="apprEditSub">—</div>
                             </div>
                             <button class="modal-close" onclick="apprCloseEditDrawer()">
@@ -16700,15 +16677,15 @@
                         <div class="appr-edit-drawer-body">
                             <div class="appr-edit-drawer-info-bar">
                                 <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
-                                <div>Any edits you make here will be saved before the PO is approved. The submitter will see your updated values.</div>
+                                <div>Any edits you make here will be saved before the SO is approved. The submitter will see your updated values.</div>
                             </div>
                             <div class="form-grid">
                                 <div class="form-group">
-                                    <label class="form-label">PO Number</label>
+                                    <label class="form-label">SO Number</label>
                                     <input type="text" class="form-input" id="apprEdit_poNumber" readonly style="background:var(--gray-50);cursor:not-allowed;">
                                 </div>
                                 <div class="form-group">
-                                    <label class="form-label">PO Date <span class="required">*</span></label>
+                                    <label class="form-label">SO Date <span class="required">*</span></label>
                                     <input type="date" class="form-input" id="apprEdit_poDate">
                                 </div>
                                 <div class="form-group">
@@ -16732,7 +16709,7 @@
                                     <input type="number" min="0" class="form-input" id="apprEdit_qty">
                                 </div>
                                 <div class="form-group">
-                                    <label class="form-label">Total PO Value (₹) <span class="required">*</span></label>
+                                    <label class="form-label">Total SO Value (₹) <span class="required">*</span></label>
                                     <input type="number" min="0" class="form-input" id="apprEdit_amount">
                                 </div>
                                 <div class="form-group">
@@ -16769,7 +16746,7 @@
                     <div class="modal-box appr-reject-modal-box">
                         <div class="modal-header">
                             <div>
-                                <div class="modal-title" id="apprRejectTitle">Reject Purchase Order</div>
+                                <div class="modal-title" id="apprRejectTitle">Reject Sales Order</div>
                                 <div class="modal-subtitle" id="apprRejectSub">—</div>
                             </div>
                             <button class="modal-close" onclick="apprCloseRejectModal()">
@@ -17294,15 +17271,15 @@
                           <div class="bdg-sr-section-title" style="margin-top:18px;">Activities &amp; Revenue</div>
                           <div class="bdg-page-meta" style="margin-top:-6px;margin-bottom:10px;">List the activities done per site each month. Per-site subtotal × total project sites = total revenue.</div>
                           <div style="margin-bottom:10px;display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
-                            <label style="font-size:11px;font-weight:600;color:var(--bdg-muted);text-transform:uppercase;letter-spacing:.04em;">Select PO:</label>
-                            <select class="bdg-select" id="bdgRevPOSel" onchange="bdgLoadPOActivities()" style="width:240px;"><option value="">— Select PO —</option></select>
+                            <label style="font-size:11px;font-weight:600;color:var(--bdg-muted);text-transform:uppercase;letter-spacing:.04em;">Select SO:</label>
+                            <select class="bdg-select" id="bdgRevPOSel" onchange="bdgLoadPOActivities()" style="width:240px;"><option value="">— Select SO —</option></select>
                           </div>
-                          <!-- Subtle link to navigate to the PO Listing page for creating a new PO -->
+                          <!-- Subtle link to navigate to the SO Listing page for creating a new SO -->
                           <div class="bdg-create-hint" style="margin-top:0;margin-bottom:12px;">
                             <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                            <span>Don't see your PO?</span>
+                            <span>Don't see your SO?</span>
                             <button type="button" class="bdg-create-link" onclick="bdgGoToCreatePO()">
-                              Create it in PO Listing
+                              Create it in SO Listing
                               <svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.4" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
                             </button>
                           </div>
@@ -17436,6 +17413,19 @@
                         <h2>Reports</h2><p>Page content will be added here</p>
                     </div>
                 </div>
+
+                <!-- ═══ PAGE: BILLING READINESS ═══ -->
+                <div id="page-billing-readiness" class="page-section">
+                    <div class="coming-soon">
+                        <div class="coming-soon-icon">
+                            <svg width="32" height="32" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                            </svg>
+                        </div>
+                        <h2>Billing Readiness</h2>
+                        <p>Signed-off but uninvoiced milestones, ready to push to the accounting system.</p>
+                    </div>
+                </div><!-- /#page-billing-readiness -->
 
                 <div id="page-client" class="page-section">
 
@@ -17669,6 +17659,244 @@
                     </div>
 
                 </div><!-- /#page-site -->
+
+                <!-- ═══ PAGE: DAILY SITE LOGS ═══ -->
+                <div id="page-daily-logs" class="page-section">
+                    <div class="page-header">
+                        <div class="stats-banner">
+                            <div class="stats-banner-item">
+                                <div class="stats-banner-icon">
+                                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2"/></svg>
+                                </div>
+                                <div class="stats-banner-content">
+                                    <div class="stats-banner-label">Logs (today)</div>
+                                    <div class="stats-banner-value">47</div>
+                                </div>
+                            </div>
+                            <div class="stats-banner-item">
+                                <div class="stats-banner-icon">
+                                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/></svg>
+                                </div>
+                                <div class="stats-banner-content">
+                                    <div class="stats-banner-label">Sites Reporting</div>
+                                    <div class="stats-banner-value">38 / 47</div>
+                                </div>
+                            </div>
+                            <div class="stats-banner-item">
+                                <div class="stats-banner-icon">
+                                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/></svg>
+                                </div>
+                                <div class="stats-banner-content">
+                                    <div class="stats-banner-label">Photos Attached</div>
+                                    <div class="stats-banner-value">128</div>
+                                </div>
+                            </div>
+                            <div class="stats-banner-item">
+                                <div class="stats-banner-icon">
+                                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01M5.07 19h13.86c1.54 0 2.5-1.67 1.73-3L13.73 4a2 2 0 00-3.46 0L3.34 16c-.77 1.33.19 3 1.73 3z"/></svg>
+                                </div>
+                                <div class="stats-banner-content">
+                                    <div class="stats-banner-label">Issues Flagged</div>
+                                    <div class="stats-banner-value" style="color:#a86c0c;">9</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="display:flex;gap:10px;margin-bottom:14px;flex-wrap:wrap;align-items:center;">
+                        <select style="padding:8px 12px;border:1px solid var(--gray-200);border-radius:8px;background:var(--white);color:var(--gray-900);font-size:13px;"><option>All projects</option><option>Voult</option><option>Aurora</option><option>Harbinger</option></select>
+                        <select style="padding:8px 12px;border:1px solid var(--gray-200);border-radius:8px;background:var(--white);color:var(--gray-900);font-size:13px;"><option>Today</option><option>Last 7 days</option><option>Last 30 days</option></select>
+                        <input type="text" placeholder="Search logs..." style="padding:8px 12px;border:1px solid var(--gray-200);border-radius:8px;background:var(--white);color:var(--gray-900);font-size:13px;flex:1;max-width:240px;" />
+                        <button style="padding:8px 14px;background:var(--cta);color:#fff;border:none;border-radius:8px;font-size:13px;font-weight:500;cursor:pointer;margin-left:auto;">+ New Log Entry</button>
+                    </div>
+                    <div class="table-card" style="padding:20px;">
+                        <div style="display:flex;flex-direction:column;gap:12px;">
+                            <div style="border:1px solid var(--gray-200);border-radius:10px;padding:16px;background:var(--white);">
+                                <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;">
+                                    <span style="font-weight:600;color:var(--gray-900);">Site HR-014, Voult Phase 2</span>
+                                    <span style="font-size:11px;color:var(--gray-600);">CRW-N02 · Tashu Mehra · 09:42</span>
+                                </div>
+                                <div style="font-size:13px;color:var(--gray-900);margin-bottom:8px;">6-person crew arrived 08:30. Splice work on Pole-A19 to A24 completed by 14:00. Customer rep (R. Khan) signed off. Materials drawn: 480m fiber, 6 splice closures.</div>
+                                <div style="display:flex;gap:6px;font-size:11px;">
+                                    <span style="padding:2px 8px;background:rgba(45,122,77,0.12);color:#2d7a4d;border-radius:4px;">Sign-off</span>
+                                    <span style="padding:2px 8px;background:var(--gray-100);color:var(--gray-600);border-radius:4px;">3 photos</span>
+                                </div>
+                            </div>
+                            <div style="border:1px solid var(--gray-200);border-radius:10px;padding:16px;background:var(--white);">
+                                <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;">
+                                    <span style="font-weight:600;color:var(--gray-900);">Site AU-007, Aurora Phase 3</span>
+                                    <span style="font-size:11px;color:var(--gray-600);">CRW-N04 · Pawan Verma · 11:15</span>
+                                </div>
+                                <div style="font-size:13px;color:var(--gray-900);margin-bottom:8px;">Heavy rain since morning, work paused 10:00–13:30. Resumed at half-pace, 4 of 8 planned poles installed. Logged delay event (3.5h, weather).</div>
+                                <div style="display:flex;gap:6px;font-size:11px;">
+                                    <span style="padding:2px 8px;background:rgba(168,108,12,0.12);color:#a86c0c;border-radius:4px;">Delay logged</span>
+                                    <span style="padding:2px 8px;background:var(--gray-100);color:var(--gray-600);border-radius:4px;">2 photos</span>
+                                </div>
+                            </div>
+                            <div style="border:1px solid var(--gray-200);border-radius:10px;padding:16px;background:var(--white);">
+                                <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;">
+                                    <span style="font-weight:600;color:var(--gray-900);">Site HG-022, Harbinger Phase 1</span>
+                                    <span style="font-size:11px;color:var(--gray-600);">CRW-S01 · Neeti Sharma · 16:30</span>
+                                </div>
+                                <div style="font-size:13px;color:var(--gray-900);margin-bottom:8px;">Earthwork phase complete on Section A. Customer pre-walk-down clean. Permit for Section B received from authority — work plan for tomorrow attached.</div>
+                                <div style="display:flex;gap:6px;font-size:11px;">
+                                    <span style="padding:2px 8px;background:rgba(45,122,77,0.12);color:#2d7a4d;border-radius:4px;">Permit event</span>
+                                    <span style="padding:2px 8px;background:var(--gray-100);color:var(--gray-600);border-radius:4px;">5 photos</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div><!-- /#page-daily-logs -->
+
+                <!-- ═══ PAGE: SITE PERFORMANCE ═══ -->
+                <div id="page-site-performance" class="page-section">
+                    <div class="coming-soon">
+                        <div class="coming-soon-icon">
+                            <svg width="32" height="32" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                            </svg>
+                        </div>
+                        <h2>Site Performance</h2>
+                        <p>Composite site-level health score combining productivity, delay frequency, sign-off velocity, safety.</p>
+                    </div>
+                </div><!-- /#page-site-performance -->
+
+                <!-- ═══ PAGE: REAL-TIME ALERTS ═══ -->
+                <div id="page-alerts" class="page-section">
+                    <div class="coming-soon">
+                        <div class="coming-soon-icon">
+                            <svg width="32" height="32" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/>
+                            </svg>
+                        </div>
+                        <h2>Real-time Alerts</h2>
+                        <p>Configurable alert feed: productivity drops, delay spikes, certification expiries, period close warnings.</p>
+                    </div>
+                </div><!-- /#page-alerts -->
+
+                <!-- ═══ PAGE: CERTIFICATIONS REGISTER ═══ -->
+                <div id="page-certifications" class="page-section">
+                    <div class="page-header">
+                        <div class="stats-banner">
+                            <div class="stats-banner-item">
+                                <div class="stats-banner-icon">
+                                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+                                </div>
+                                <div class="stats-banner-content">
+                                    <div class="stats-banner-label">Active Certs</div>
+                                    <div class="stats-banner-value">486</div>
+                                </div>
+                            </div>
+                            <div class="stats-banner-item">
+                                <div class="stats-banner-icon">
+                                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                                </div>
+                                <div class="stats-banner-content">
+                                    <div class="stats-banner-label">Expiring (30d)</div>
+                                    <div class="stats-banner-value" style="color:#a86c0c;">23</div>
+                                </div>
+                            </div>
+                            <div class="stats-banner-item">
+                                <div class="stats-banner-icon">
+                                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
+                                </div>
+                                <div class="stats-banner-content">
+                                    <div class="stats-banner-label">Expired</div>
+                                    <div class="stats-banner-value" style="color:#b03a2e;">4</div>
+                                </div>
+                            </div>
+                            <div class="stats-banner-item">
+                                <div class="stats-banner-icon">
+                                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+                                </div>
+                                <div class="stats-banner-content">
+                                    <div class="stats-banner-label">Compliant Employees</div>
+                                    <div class="stats-banner-value">98.6%</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="display:flex;gap:12px;padding:14px 18px;background:rgba(125,90,210,0.06);border:1px solid rgba(125,90,210,0.20);border-radius:8px;margin-bottom:16px;">
+                        <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="color:#7d5ad2;flex-shrink:0;margin-top:2px;"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3"/></svg>
+                        <div>
+                            <div style="font-weight:600;font-size:13px;color:var(--gray-900);margin-bottom:3px;">Compliance agent</div>
+                            <div style="font-size:13px;color:var(--gray-600);">3 Height-Work certs expire within 14 days. Capacity agent will exclude affected employees from height-work assignments after expiry. Renew now to avoid dispatch gaps.</div>
+                        </div>
+                    </div>
+                    <div class="table-card" style="padding:20px;">
+                        <table style="width:100%;border-collapse:collapse;">
+                            <thead>
+                                <tr style="border-bottom:2px solid var(--gray-200);text-align:left;font-size:12px;text-transform:uppercase;color:var(--gray-600);">
+                                    <th style="padding:10px 8px;">Employee</th>
+                                    <th style="padding:10px 8px;">Certification</th>
+                                    <th style="padding:10px 8px;">Issuer</th>
+                                    <th style="padding:10px 8px;">Issued</th>
+                                    <th style="padding:10px 8px;">Expires</th>
+                                    <th style="padding:10px 8px;">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody style="font-size:13px;">
+                                <tr style="border-bottom:1px solid var(--gray-200);">
+                                    <td style="padding:12px 8px;color:var(--gray-900);font-weight:500;">Inder Singh (EMP-1041)</td>
+                                    <td style="padding:12px 8px;color:var(--gray-900);">Height Work Safety</td>
+                                    <td style="padding:12px 8px;color:var(--gray-900);">DGMS</td>
+                                    <td style="padding:12px 8px;color:var(--gray-900);">May 2024</td>
+                                    <td style="padding:12px 8px;color:#a86c0c;">May 14, 2026</td>
+                                    <td style="padding:12px 8px;"><span style="display:inline-block;padding:2px 8px;background:rgba(168,108,12,0.12);color:#a86c0c;border-radius:4px;font-size:11px;font-weight:500;">Expires 11d</span></td>
+                                </tr>
+                                <tr style="border-bottom:1px solid var(--gray-200);">
+                                    <td style="padding:12px 8px;color:var(--gray-900);font-weight:500;">Neeti Sharma (EMP-1058)</td>
+                                    <td style="padding:12px 8px;color:var(--gray-900);">Height Work Safety</td>
+                                    <td style="padding:12px 8px;color:var(--gray-900);">DGMS</td>
+                                    <td style="padding:12px 8px;color:var(--gray-900);">Apr 2024</td>
+                                    <td style="padding:12px 8px;color:#b03a2e;">Apr 30, 2026</td>
+                                    <td style="padding:12px 8px;"><span style="display:inline-block;padding:2px 8px;background:rgba(176,58,46,0.12);color:#b03a2e;border-radius:4px;font-size:11px;font-weight:500;">Expired</span></td>
+                                </tr>
+                                <tr style="border-bottom:1px solid var(--gray-200);">
+                                    <td style="padding:12px 8px;color:var(--gray-900);font-weight:500;">Tashu Mehra (EMP-1023)</td>
+                                    <td style="padding:12px 8px;color:var(--gray-900);">Electrical Safety L2</td>
+                                    <td style="padding:12px 8px;color:var(--gray-900);">CEA</td>
+                                    <td style="padding:12px 8px;color:var(--gray-900);">Jul 2025</td>
+                                    <td style="padding:12px 8px;color:var(--gray-900);">Jul 2027</td>
+                                    <td style="padding:12px 8px;"><span style="display:inline-block;padding:2px 8px;background:rgba(45,122,77,0.12);color:#2d7a4d;border-radius:4px;font-size:11px;font-weight:500;">Active</span></td>
+                                </tr>
+                                <tr>
+                                    <td style="padding:12px 8px;color:var(--gray-900);font-weight:500;">Pawan Verma (EMP-1112)</td>
+                                    <td style="padding:12px 8px;color:var(--gray-900);">First Aid</td>
+                                    <td style="padding:12px 8px;color:var(--gray-900);">St. John Ambulance</td>
+                                    <td style="padding:12px 8px;color:var(--gray-900);">Jun 2024</td>
+                                    <td style="padding:12px 8px;color:#a86c0c;">Jun 15, 2026</td>
+                                    <td style="padding:12px 8px;"><span style="display:inline-block;padding:2px 8px;background:rgba(168,108,12,0.12);color:#a86c0c;border-radius:4px;font-size:11px;font-weight:500;">Expires 43d</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div><!-- /#page-certifications -->
+
+                <!-- ═══ PAGE: SAFETY INCIDENTS ═══ -->
+                <div id="page-safety-incidents" class="page-section">
+                    <div class="coming-soon">
+                        <div class="coming-soon-icon">
+                            <svg width="32" height="32" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+                            </svg>
+                        </div>
+                        <h2>Safety Incidents</h2>
+                        <p>OPS_EVENT safety_incident rows with severity, cause, resolution. Compliance agent monitors.</p>
+                    </div>
+                </div><!-- /#page-safety-incidents -->
+
+                <!-- ═══ PAGE: AUDIT LOG ═══ -->
+                <div id="page-audit-log" class="page-section">
+                    <div class="coming-soon">
+                        <div class="coming-soon-icon">
+                            <svg width="32" height="32" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                            </svg>
+                        </div>
+                        <h2>Audit Log</h2>
+                        <p>APPROVAL_LOG view — every state transition, every approval, every agent decision basis.</p>
+                    </div>
+                </div><!-- /#page-audit-log -->
 
                 <div id="page-settings" class="page-section">
                     <div class="coming-soon">
@@ -34697,7 +34925,7 @@ window.bdgGoToCreatePO = function(){
     if(newBtn)   newBtn.style.display   = '';
     if(search)   search.style.display   = '';
   }catch(e){}
-  if(typeof showPage === 'function') showPage('po-listing','PO Listing');
+  if(typeof showPage === 'function') showPage('po-listing','SO Listing');
   /* Auto-open the Add PO modal so the user lands directly on the create flow. */
   setTimeout(function(){
     if(typeof poOpenAddModal === 'function'){
