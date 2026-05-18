@@ -15763,10 +15763,6 @@
                             <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.2"/></svg>
                             <span id="invSyncLabel">Sync Stock</span>
                         </button>
-                        <button class="vh-btn-primary" id="invAdjBtn" onclick="openInvAdjModal()">
-                            <svg width="13" height="13" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"/></svg>
-                            <span id="invAdjLabel">Adjust Stock</span>
-                        </button>
                     </div>
 
                     <!-- Stock Register Panel -->
@@ -15788,7 +15784,6 @@
                                             <th>Project / Site</th>
                                             <th>Zoho</th>
                                             <th>Status</th>
-                                            <th style="width:80px;">Actions</th>
                                         </tr>
                                     </thead>
                                     <tbody id="invStockBody"></tbody>
@@ -32886,12 +32881,6 @@ function invRenderStock(){
       </td>
       <td>${item.zoho_synced?'<span class="zoho-chip synced">✓</span>':'<span class="zoho-chip local">Local</span>'}</td>
       <td><span class="stock-status ${s.cls}">${s.lbl}</span></td>
-      <td>
-        <div class="bill-actions">
-          <button class="bill-action-btn" title="Stock IN" data-tone="success" onclick="quickStockMove(${item.id},'in')"><svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg></button>
-          <button class="bill-action-btn" title="Stock OUT" data-tone="danger" onclick="quickStockMove(${item.id},'out')"><svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 19 5 12"/></svg></button>
-        </div>
-      </td>
     </tr>`;
   }).join('');
 }
@@ -32939,7 +32928,6 @@ function invRenderAlerts(){
   const catBg={Electrical:'#dbeafe',Civil:'#d1fae5',Mechanical:'#fef3c7',Safety:'#fee2e2',General:'#f3f4f6'};
   body.innerHTML=alerts.map(item=>{
     const s=stockStatusClass(item);
-    const reorderQty=item.max-item.qty;
     return `<div class="reorder-card">
       <div class="reorder-icon" style="background:${catBg[item.cat]||'#f3f4f6'};">
         <svg fill="none" stroke="${catColor[item.cat]||'#374151'}" stroke-width="2" viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
@@ -32956,12 +32944,6 @@ function invRenderAlerts(){
         <div class="reorder-qty" style="color:${item.qty===0?'var(--gray-400)':'var(--danger)'};">${item.qty}</div>
         <div class="reorder-min">Min: ${item.min} ${item.unit}</div>
         <span class="stock-status ${s.cls}" style="margin-top:4px;">${s.lbl}</span>
-      </div>
-      <div style="display:flex;flex-direction:column;gap:6px;flex-shrink:0;">
-        <button class="btn-add" style="font-size:11px;padding:5px 12px;" onclick="showToast('Reorder PO created for ${item.name} (${reorderQty} ${item.unit}).','success')">
-          <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 4v16m8-8H4"/></svg> Reorder ${reorderQty} ${item.unit}
-        </button>
-        <button class="btn-secondary" style="font-size:11px;padding:4px 12px;" onclick="openInvAdjModal()">Adjust Stock</button>
       </div>
     </div>`;
   }).join('');
