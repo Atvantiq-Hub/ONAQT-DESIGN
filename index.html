@@ -10845,6 +10845,222 @@
             min-width:80px;
             letter-spacing:0.2px;
         }
+        /* Category chip-style dropdown — looks like inv-cat-chip but editable */
+        .inv-cat-select {
+            font-size:10.5px;
+            font-weight:700;
+            padding:3px 22px 3px 9px;
+            border-radius:5px;
+            min-width:92px;
+            letter-spacing:0.2px;
+            border:1px solid transparent;
+            cursor:pointer;
+            appearance:none;
+            -webkit-appearance:none;
+            -moz-appearance:none;
+            background-repeat:no-repeat;
+            background-position:right 6px center;
+            background-size:8px;
+            background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='8' height='6' viewBox='0 0 8 6'><path fill='currentColor' d='M4 6L0 0h8z'/></svg>");
+            transition:box-shadow .15s ease, border-color .15s ease;
+            font-family:inherit;
+        }
+        .inv-cat-select:hover { border-color:rgba(0,0,0,.12); }
+        .inv-cat-select:focus { outline:none; border-color:var(--primary); box-shadow:0 0 0 2px rgba(45,74,53,.15); }
+        .inv-cat-select option { background:#fff; color:var(--gray-800); font-weight:600; }
+
+        /* Multi-project picker — trigger lives in the cell, popover is FIXED to escape table overflow */
+        .inv-proj-picker { position:relative; display:inline-block; }
+        .inv-proj-trigger {
+            display:inline-flex; align-items:center; gap:6px;
+            min-width:140px; max-width:200px;
+            padding:4px 22px 4px 8px;
+            border:1px solid var(--gray-200);
+            border-radius:6px;
+            background:var(--white);
+            cursor:pointer;
+            font-size:11px; font-weight:600; color:var(--gray-700);
+            transition:border-color .15s ease;
+            position:relative;
+        }
+        .inv-proj-trigger:hover { border-color:var(--primary-light); }
+        .inv-proj-trigger::after {
+            content:''; position:absolute; right:7px; top:50%; transform:translateY(-50%);
+            width:0;height:0;
+            border-left:4px solid transparent; border-right:4px solid transparent;
+            border-top:5px solid var(--gray-500);
+        }
+        .inv-proj-trigger-text { white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+        .inv-proj-chip-count { background:var(--primary); color:#fff; font-size:9.5px; font-weight:700; padding:1px 6px; border-radius:10px; flex-shrink:0; line-height:1.4; }
+        /* Placeholder text when no project is selected */
+        .inv-proj-placeholder { color:var(--gray-400); font-weight:500; font-style:italic; }
+
+        /* Popover renders at body level (position:fixed) so it escapes .premium-table-wrapper's overflow clipping */
+        .inv-proj-popover {
+            position:fixed;
+            min-width:220px;
+            background:var(--white);
+            border:1px solid var(--gray-200);
+            border-radius:8px;
+            box-shadow:0 8px 24px rgba(0,0,0,0.18);
+            padding:6px;
+            display:none;
+            max-height:280px; overflow-y:auto;
+            z-index:9999;
+        }
+        .inv-proj-popover.open { display:block; }
+        .inv-proj-opt {
+            display:flex; align-items:center; gap:8px;
+            padding:6px 8px;
+            font-size:11.5px; font-weight:600; color:var(--gray-700);
+            border-radius:5px; cursor:pointer;
+            transition:background .15s ease;
+        }
+        .inv-proj-opt:hover { background:var(--gray-50); }
+        .inv-proj-opt input[type="checkbox"] {
+            width:14px; height:14px; cursor:pointer; accent-color:var(--primary); margin:0;
+        }
+        [data-dark="true"] .inv-proj-trigger { background:#252836!important; border-color:#363b52!important; color:#d1d5db!important; }
+        [data-dark="true"] .inv-proj-popover { background:#1e2130!important; border-color:#2d3145!important; }
+        [data-dark="true"] .inv-proj-opt { color:#d1d5db!important; }
+        [data-dark="true"] .inv-proj-opt:hover { background:#252836!important; }
+
+        /* Stock-register row: simple gray-50 highlight, nothing else */
+        #page-inventory .premium-table tbody tr.site-row { cursor:pointer; }
+        #page-inventory .premium-table tbody tr.site-row.inv-row-selected > td {
+            background:var(--gray-50) !important;
+        }
+        [data-dark="true"] #page-inventory .premium-table tbody tr.site-row.inv-row-selected > td {
+            background:#252836 !important;
+        }
+        /* Inline controls don't trigger row click */
+        #page-inventory .inv-cat-select,
+        #page-inventory .inv-proj-picker { position:relative; z-index:2; }
+
+        /* ── INVENTORY DETAIL ASIDE (slide-in drawer from right) ── */
+        .inv-aside-overlay {
+            position:fixed; inset:0;
+            background:rgba(0,0,0,0.28);
+            z-index:1700;
+            display:none;
+        }
+        .inv-aside-overlay.open { display:block; }
+        .inv-aside {
+            position:fixed; top:0; right:-560px;
+            width:560px; max-width:96vw;
+            height:100vh;
+            background:var(--white);
+            z-index:1701;
+            display:flex; flex-direction:column;
+            box-shadow:-4px 0 32px rgba(0,0,0,0.14);
+            transition:right 0.3s cubic-bezier(0.4,0,0.2,1);
+        }
+        .inv-aside.open { right:0; }
+        [data-dark="true"] .inv-aside { background:#1a1d27 !important; }
+
+        .inv-aside-hdr {
+            padding:18px 22px 14px;
+            border-bottom:1px solid var(--gray-100);
+            flex-shrink:0;
+            display:flex; align-items:flex-start; justify-content:space-between; gap:12px;
+        }
+        [data-dark="true"] .inv-aside-hdr { border-color:#2d3145 !important; }
+        .inv-aside-title-wrap { min-width:0; flex:1; }
+        .inv-aside-title {
+            font-size:17px; font-weight:700; font-family:'Fraunces',serif;
+            color:var(--gray-900); line-height:1.25;
+        }
+        .inv-aside-sub {
+            font-size:11px; color:var(--gray-500);
+            margin-top:4px;
+            font-family:'Courier New',monospace; letter-spacing:.3px;
+        }
+        .inv-aside-close {
+            width:30px; height:30px; border-radius:8px;
+            background:var(--gray-50); border:1px solid var(--gray-200);
+            cursor:pointer; display:flex; align-items:center; justify-content:center;
+            color:var(--gray-500); font-size:18px; line-height:1; flex-shrink:0;
+            transition:var(--transition); font-family:'DM Sans',sans-serif;
+        }
+        .inv-aside-close:hover { background:var(--gray-100); color:var(--gray-700); }
+        [data-dark="true"] .inv-aside-close { background:#252836!important; border-color:#363b52!important; color:#9ca3af!important; }
+
+        .inv-aside-body { padding:16px 22px 20px; overflow-y:auto; flex:1; }
+        .inv-aside-sec { margin-bottom:18px; }
+        .inv-aside-sec-lbl {
+            font-size:9.5px; font-weight:700;
+            text-transform:uppercase; letter-spacing:.8px;
+            color:var(--primary);
+            margin-bottom:9px;
+            display:flex; align-items:center; gap:8px;
+        }
+        .inv-aside-sec-lbl::after { content:''; flex:1; height:1px; background:var(--gray-100); }
+        [data-dark="true"] .inv-aside-sec-lbl::after { background:#2d3145 !important; }
+
+        .inv-aside-kv-grid {
+            display:grid; grid-template-columns:1fr 1fr; gap:8px;
+        }
+        .inv-aside-kv {
+            background:var(--gray-50);
+            border:1px solid var(--gray-100);
+            border-radius:8px;
+            padding:9px 11px;
+        }
+        .inv-aside-kv.full { grid-column:1 / -1; }
+        [data-dark="true"] .inv-aside-kv { background:#252836 !important; border-color:#363b52 !important; }
+        .inv-aside-kv-lbl {
+            font-size:9.5px; font-weight:700;
+            text-transform:uppercase; letter-spacing:.5px;
+            color:var(--gray-400);
+            margin-bottom:3px;
+        }
+        .inv-aside-kv-val {
+            font-size:13px; font-weight:600;
+            color:var(--gray-900);
+        }
+        .inv-aside-kv-val.mono { font-family:'Courier New',monospace; font-size:12px; }
+        .inv-aside-kv-val.hi { color:var(--primary); }
+        .inv-aside-kv-val.muted { color:var(--gray-500); font-weight:500; }
+        [data-dark="true"] .inv-aside-kv-val { color:#e5e7eb !important; }
+
+        .inv-aside-cat-chip {
+            display:inline-flex; align-items:center;
+            font-size:11px; font-weight:700;
+            padding:3px 10px; border-radius:5px;
+            letter-spacing:0.2px;
+        }
+        .inv-aside-proj-chips { display:flex; flex-wrap:wrap; gap:6px; }
+        .inv-aside-proj-chip {
+            display:inline-flex; align-items:center;
+            padding:4px 10px;
+            font-size:11px; font-weight:600;
+            background:rgba(45,74,53,.08); color:var(--primary);
+            border-radius:11px;
+        }
+        .inv-aside-proj-empty {
+            font-size:11px; color:var(--gray-400); font-style:italic;
+        }
+
+        .inv-aside-stockbar-wrap {
+            margin-top:4px;
+            display:flex; align-items:center; gap:10px;
+        }
+        .inv-aside-stockbar {
+            flex:1; height:6px;
+            background:var(--gray-100); border-radius:3px; overflow:hidden;
+        }
+        .inv-aside-stockbar-fill { height:100%; border-radius:3px; transition:width .3s ease; }
+        .inv-aside-stockbar-fill.ok       { background:#16a34a; }
+        .inv-aside-stockbar-fill.low      { background:#f59e0b; }
+        .inv-aside-stockbar-fill.critical { background:#dc2626; }
+
+        .inv-aside-zoho {
+            display:inline-flex; align-items:center; gap:6px;
+            font-size:11px; font-weight:700;
+            padding:3px 9px; border-radius:5px;
+        }
+        .inv-aside-zoho.synced { background:#dcfce7; color:#15803d; }
+        .inv-aside-zoho.local  { background:#fef3c7; color:#92400e; }
 
         /* ── TRIP STATUS ── */
         .trip-status { display:inline-flex;align-items:center;justify-content:center;gap:4px;font-size:11px;font-weight:700;padding:4px 10px;border-radius:6px;min-width:88px; }
@@ -15674,31 +15890,6 @@
                     </div>
                 </div>
 
-                <!-- Stock Adjustment Modal -->
-                <div class="vnd-modal-overlay" id="vndInvAdjModal">
-                    <div class="vnd-modal">
-                        <div class="vnd-modal-hd">
-                            <div><div class="vnd-modal-title">Manual Stock Adjustment</div><div class="vnd-modal-sub">Correct stock levels — audit logged and Zoho synced.</div></div>
-                            <button class="vnd-modal-close" onclick="closeVndModal('vndInvAdjModal')">✕</button>
-                        </div>
-                        <div class="vnd-modal-body">
-                            <div class="vnd-form-grid">
-                                <div class="vnd-field"><label class="vnd-label">Item / SKU <span>*</span></label><select class="vnd-select" id="adjFItem"><option value="">Select item…</option><option>ACSR Conductor Cable (EL-CAB-001)</option><option>GI Tower Bolt Set (CI-BLT-020)</option><option>Safety Harness (SF-HAR-003)</option><option>Earthing Wire (EL-ETH-004)</option></select></div>
-                                <div class="vnd-field"><label class="vnd-label">Adjustment Type</label><select class="vnd-select" id="adjFType"><option value="in">Stock IN (add)</option><option value="out">Stock OUT (remove)</option><option value="set">Set exact qty</option></select></div>
-                                <div class="vnd-field"><label class="vnd-label">Quantity <span>*</span></label><input type="number" class="vnd-input" id="adjFQty" placeholder="e.g. 50"></div>
-                                <div class="vnd-field"><label class="vnd-label">Reason</label><select class="vnd-select"><option>Physical count correction</option><option>Damaged / write-off</option><option>Return to vendor</option><option>Transfer between sites</option><option>Opening stock entry</option></select></div>
-                                <div class="vnd-field"><label class="vnd-label">Project / Site</label><input class="vnd-input" placeholder="e.g. Voult / HR-001"></div>
-                                <div class="vnd-field"><label class="vnd-label">Date</label><input type="date" class="vnd-input" value="2026-04-15"></div>
-                                <div class="vnd-field vnd-form-full"><label class="vnd-label">Notes</label><textarea class="vnd-textarea" placeholder="Reason for adjustment…" style="min-height:44px;"></textarea></div>
-                            </div>
-                        </div>
-                        <div class="vnd-modal-ft">
-                            <button class="btn-secondary" onclick="closeVndModal('vndInvAdjModal')">Cancel</button>
-                            <button class="btn-primary-modal" onclick="invSaveAdj()">Save Adjustment →</button>
-                        </div>
-                    </div>
-                </div>
-
                 <!-- ══════════════════════════════════ PAGE: INVENTORY ════════════════════════════════════ -->
                 <div id="page-inventory" class="page-section">
 
@@ -15781,7 +15972,7 @@
                                             <th style="text-align:right;">Unit Cost</th>
                                             <th style="text-align:right;">Stock Value</th>
                                             <th>Last IN</th>
-                                            <th>Project / Site</th>
+                                            <th>Project</th>
                                             <th>Zoho</th>
                                             <th>Status</th>
                                         </tr>
@@ -15794,6 +15985,10 @@
                             </div>
                         </div>
                     </div>
+
+                    <!-- Inventory item detail aside (slides in from right on row click) -->
+                    <div class="inv-aside-overlay" id="invAsideOverlay" onclick="invCloseAside()"></div>
+                    <aside class="inv-aside" id="invAside" aria-hidden="true"></aside>
 
                     <!-- Movement Log Panel -->
                     <div id="inv-panel-log" style="display:none;">
@@ -32592,16 +32787,7 @@ window.vndToggleApiMode=function(enabled){
     if(addLbl) addLbl.textContent='Add Vendor';
     if(syncLbl) syncLbl.textContent='Sync Zoho';
   }
-  // Inventory: disable Adjust Stock in API mode
-  const adjBtn=document.getElementById('invAdjBtn');
-  const adjLbl=document.getElementById('invAdjLabel');
-  if(enabled){
-    if(adjBtn){ adjBtn.disabled=true; adjBtn.style.opacity='0.4'; adjBtn.title='Disabled in API mode — stock IN synced from external system'; }
-    if(adjLbl) adjLbl.textContent='API Managed';
-  } else {
-    if(adjBtn){ adjBtn.disabled=false; adjBtn.style.opacity='1'; adjBtn.title=''; }
-    if(adjLbl) adjLbl.textContent='Adjust Stock';
-  }
+  // Inventory: Adjust Stock UI removed — no API-mode toggle needed
 
   // Update Overview/Detail buttons based on API mode
   document.querySelectorAll('.vdp-btn-primary').forEach(btn=>{
@@ -32680,6 +32866,16 @@ const INV_ITEMS = [
   { id:12, sku:'EL-LGT-012', name:'LED Tower Light 150W',      cat:'Electrical', unit:'Nos',   qty:18,   min:10,  max:60,   cost:4200, last_in:'2026-04-14', last_out:'2026-04-14', project:'Voult Project',  sites:['HR-001','HR-045'], zoho_synced:true,  zoho_id:'ZITM-1012' },
 ];
 
+/* Master project list for the multi-project picker — single source of truth */
+const INV_PROJECTS = ['Voult Project','Indus Towers','Telecom Infra','All Projects','Airtel 5G','Punjab 5G Rollout','BSNL Rural'];
+
+/* Migrate legacy single-project string → projects[] array (idempotent) */
+INV_ITEMS.forEach(it=>{
+  if(!Array.isArray(it.projects)){
+    it.projects = it.project ? [it.project] : [];
+  }
+});
+
 /* ─── MOVEMENT LOG DATA ────────────────────────────
    Source: 'bill' = vendor purchase bill (auto-created on bill save)
            'exit' = work exit form (employee/vendor marked material used)
@@ -32721,6 +32917,10 @@ window.invSwitchTab=function(tab,el){
   invTab=tab;
   if(el) el.closest('.ovw-status-tabs')?.querySelectorAll('.ovw-tab').forEach(t=>t.classList.toggle('active',t.dataset.tab===tab));
   ['stock','log','alerts'].forEach(p=>{ const panel=document.getElementById('inv-panel-'+p); if(panel) panel.style.display=p===tab?'':'none'; });
+  if(tab!=='stock'){
+    if(typeof invClosePopover==='function') invClosePopover();
+    if(typeof invCloseAside==='function') invCloseAside();
+  }
   if(tab==='stock') invRenderStock();
   else if(tab==='log') invRenderLog();
   else if(tab==='alerts') invRenderAlerts();
@@ -32776,12 +32976,8 @@ window.invSaveProjectAssign=function(){
   document.getElementById('invProjectAssignModal')?.remove();
   invRenderStock(); invRenderLog();
 };
-window.openInvAdjModal=function(){
-  const isApi=document.getElementById('vndApiMode')?.checked||false;
-  if(isApi){showToast('Manual stock adjustment is disabled in API mode. Stock IN is synced from external system. Stock OUT is recorded via task sign-out.','warn');return;}
-  document.getElementById('vndInvAdjModal').classList.add('open');
-};
-window.invSaveAdj=function(){ showToast('Stock adjustment saved and logged.','success'); closeVndModal('vndInvAdjModal'); invRenderStock(); invRenderLog(); };
+window.openInvAdjModal=function(){ /* Adjust Stock UI removed */ };
+window.invSaveAdj=function(){ /* Adjust Stock UI removed */ };
 
 /* ── CONSUMPTION / STOCK OUT — triggered from task sign-out ── */
 window.invRecordConsumption=function(opts){
@@ -32850,20 +33046,23 @@ function invRenderStock(){
   const info=document.getElementById('invStockInfo');
   if(!body) return;
   if(info) info.textContent=`Showing ${list.length} of ${INV_ITEMS.length} items`;
+  // Close any open project popover first (its anchor row is about to be re-rendered)
+  invClosePopover();
   const catColor={Electrical:'#1e40af',Civil:'#065f46',Mechanical:'#92400e',Safety:'#991b1b',General:'#374151'};
   const catBg={Electrical:'#dbeafe',Civil:'#d1fae5',Mechanical:'#fef3c7',Safety:'#fee2e2',General:'#f3f4f6'};
   body.innerHTML=list.map(item=>{
     const s=stockStatusClass(item);
     const pct=item.max?Math.min(item.qty/item.max*100,100):50;
     const value=(item.qty*item.cost).toLocaleString('en-IN');
-    const sites = item.sites || [];
-    const sitesCell = sites.length === 0
-      ? '<span style="font-size:11px;color:var(--gray-300);">—</span>'
-      : `<div style="display:inline-flex;align-items:center;gap:6px;white-space:nowrap;"><span style="font-size:10.5px;padding:2px 7px;background:var(--gray-100);border-radius:4px;font-weight:600;color:var(--gray-700);font-family:'Courier New',monospace;letter-spacing:0.2px;">${sites[0]}</span>${sites.length>1?`<span style="font-size:10.5px;color:var(--gray-500);font-weight:600;">+${sites.length-1} more</span>`:''}</div>`;
-    return `<tr class="site-row">
+    const projects = item.projects || [];
+    const projLabel = invFormatProjLabel(projects);
+    const isSelected = (window.invSelId===item.id) ? ' inv-row-selected' : '';
+    return `<tr class="site-row${isSelected}" data-id="${item.id}" onclick="invOpenAside(${item.id})">
       <td><span class="employee-id">${item.sku}</span></td>
       <td><span style="font-weight:600;color:var(--gray-800);font-size:13px;">${item.name}</span></td>
-      <td><span class="inv-cat-chip" style="background:${catBg[item.cat]||'#f3f4f6'};color:${catColor[item.cat]||'#374151'};">${item.cat}</span></td>
+      <td onclick="event.stopPropagation();"><select class="inv-cat-select" data-id="${item.id}" onchange="invUpdateCategory(${item.id}, this.value)" style="background-color:${catBg[item.cat]||'#f3f4f6'};color:${catColor[item.cat]||'#374151'};">
+        ${['Electrical','Civil','Mechanical','Safety','General'].map(c=>`<option value="${c}" ${item.cat===c?'selected':''}>${c}</option>`).join('')}
+      </select></td>
       <td style="font-size:12px;color:var(--gray-500);">${item.unit}</td>
       <td style="text-align:right;">
         <div class="stock-bar-wrap ${s.barCls}">
@@ -32875,14 +33074,329 @@ function invRenderStock(){
       <td style="text-align:right;font-size:12px;font-variant-numeric:tabular-nums;">₹${item.cost.toLocaleString('en-IN')}</td>
       <td style="text-align:right;font-weight:600;font-variant-numeric:tabular-nums;color:var(--primary);">₹${value}</td>
       <td style="font-size:11px;color:var(--gray-500);">${item.last_in}</td>
-      <td>
-        <div style="font-size:11px;color:var(--gray-700);font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:140px;" title="${item.project}">${item.project}</div>
-        <div style="margin-top:3px;">${sitesCell}</div>
+      <td onclick="event.stopPropagation();">
+        <div class="inv-proj-picker" data-id="${item.id}">
+          <div class="inv-proj-trigger" onclick="invToggleProjPicker(${item.id}, event)">
+            <span class="inv-proj-trigger-text" title="${projects.join(', ')}">${projLabel}</span>
+          </div>
+        </div>
       </td>
       <td>${item.zoho_synced?'<span class="zoho-chip synced">✓</span>':'<span class="zoho-chip local">Local</span>'}</td>
       <td><span class="stock-status ${s.cls}">${s.lbl}</span></td>
     </tr>`;
   }).join('');
+}
+
+/* Format the project-trigger label, with placeholder when empty */
+function invFormatProjLabel(projects){
+  if(!projects || projects.length === 0) return '<span class="inv-proj-placeholder">Select project</span>';
+  if(projects.length === 1) return projects[0];
+  return `${projects[0]} <span class="inv-proj-chip-count">+${projects.length-1}</span>`;
+}
+
+/* ─── INLINE CATEGORY EDIT ────────────────────────── */
+window.invUpdateCategory=function(id, newCat){
+  const item = INV_ITEMS.find(i=>i.id===id);
+  if(!item) return;
+  if(item.cat === newCat) return;
+  item.cat = newCat;
+  const catColor={Electrical:'#1e40af',Civil:'#065f46',Mechanical:'#92400e',Safety:'#991b1b',General:'#374151'};
+  const catBg={Electrical:'#dbeafe',Civil:'#d1fae5',Mechanical:'#fef3c7',Safety:'#fee2e2',General:'#f3f4f6'};
+  const el = document.querySelector(`.inv-cat-select[data-id="${id}"]`);
+  if(el){ el.style.backgroundColor = catBg[newCat]||'#f3f4f6'; el.style.color = catColor[newCat]||'#374151'; }
+  if(typeof showToast==='function') showToast(`Category updated: ${item.name} → ${newCat}`,'success');
+  if(window.invSelId===id) invRefreshAsideCategory(id);
+};
+
+/* ─── MULTI-PROJECT PICKER ───────────────────────────
+   Popover is a single fixed-position element appended to <body>,
+   so it escapes the table-wrapper's overflow:auto clipping. */
+let _invPopoverEl = null;     // the lone popover DOM node
+let _invPopoverFor = null;    // which item id it is currently open for
+let _invPopoverReposition = null;  // bound scroll/resize listener
+
+function invGetPopover(){
+  if(_invPopoverEl) return _invPopoverEl;
+  _invPopoverEl = document.createElement('div');
+  _invPopoverEl.className = 'inv-proj-popover';
+  _invPopoverEl.id = 'invProjPopover';
+  // Clicks inside the popover should not bubble up and close it
+  _invPopoverEl.addEventListener('click', e=>e.stopPropagation());
+  document.body.appendChild(_invPopoverEl);
+  return _invPopoverEl;
+}
+
+function invPositionPopover(triggerEl){
+  if(!_invPopoverEl || !triggerEl) return;
+  const r = triggerEl.getBoundingClientRect();
+  const pop = _invPopoverEl;
+  // Default: open below the trigger
+  let top = r.bottom + 4;
+  let left = r.left;
+  // Make sure it fits on screen; flip up if needed
+  const popHeight = Math.min(pop.scrollHeight || 280, 280);
+  if(top + popHeight > window.innerHeight - 8){
+    top = Math.max(8, r.top - popHeight - 4);
+  }
+  // Make sure it fits horizontally
+  const popWidth = Math.max(pop.offsetWidth, 220);
+  if(left + popWidth > window.innerWidth - 8){
+    left = Math.max(8, window.innerWidth - popWidth - 8);
+  }
+  pop.style.top = top + 'px';
+  pop.style.left = left + 'px';
+}
+
+function invBuildPopoverContent(id){
+  const item = INV_ITEMS.find(i=>i.id===id);
+  if(!item) return '';
+  const projects = item.projects || [];
+  return INV_PROJECTS.map(p=>{
+    const checked = projects.includes(p) ? 'checked' : '';
+    const esc = p.replace(/'/g, "\\'");
+    return `<label class="inv-proj-opt">
+      <input type="checkbox" ${checked} onchange="invToggleProject(${id}, '${esc}', this.checked)"/>
+      <span>${p}</span>
+    </label>`;
+  }).join('');
+}
+
+window.invToggleProjPicker=function(id, ev){
+  ev && ev.stopPropagation();
+  const pop = invGetPopover();
+  // If already open for this row, close it; otherwise open it on this row
+  if(_invPopoverFor === id && pop.classList.contains('open')){
+    invClosePopover();
+    return;
+  }
+  _invPopoverFor = id;
+  pop.innerHTML = invBuildPopoverContent(id);
+  // Reset positioning before measuring
+  pop.style.top = '-9999px';
+  pop.style.left = '-9999px';
+  pop.classList.add('open');
+  const trigger = document.querySelector(`.inv-proj-picker[data-id="${id}"] .inv-proj-trigger`);
+  // Position after the browser has measured the new content
+  requestAnimationFrame(()=>invPositionPopover(trigger));
+  // Reposition while user scrolls/resizes
+  if(!_invPopoverReposition){
+    _invPopoverReposition = function(){
+      if(_invPopoverFor==null) return;
+      const t = document.querySelector(`.inv-proj-picker[data-id="${_invPopoverFor}"] .inv-proj-trigger`);
+      if(t) invPositionPopover(t); else invClosePopover();
+    };
+    window.addEventListener('scroll', _invPopoverReposition, true);
+    window.addEventListener('resize', _invPopoverReposition);
+  }
+};
+
+function invClosePopover(){
+  if(_invPopoverEl){
+    _invPopoverEl.classList.remove('open');
+    _invPopoverEl.style.top = '-9999px';
+    _invPopoverEl.style.left = '-9999px';
+  }
+  _invPopoverFor = null;
+}
+
+window.invToggleProject=function(id, projectName, isChecked){
+  const item = INV_ITEMS.find(i=>i.id===id);
+  if(!item) return;
+  if(!Array.isArray(item.projects)) item.projects=[];
+  if(isChecked){
+    if(!item.projects.includes(projectName)) item.projects.push(projectName);
+  } else {
+    item.projects = item.projects.filter(p=>p!==projectName);
+  }
+  // Update the row's trigger label in place (don't redraw — preserves popover state)
+  const labelEl = document.querySelector(`.inv-proj-picker[data-id="${id}"] .inv-proj-trigger-text`);
+  if(labelEl){
+    const ps = item.projects;
+    labelEl.title = ps.join(', ');
+    labelEl.innerHTML = invFormatProjLabel(ps);
+  }
+  if(window.invSelId===id) invRefreshAsideProjects(id);
+};
+
+// Click anywhere outside picker / popover closes the popover
+document.addEventListener('click', function(e){
+  if(_invPopoverFor==null) return;
+  if(e.target.closest('.inv-proj-picker')) return;
+  if(e.target.closest('#invProjPopover')) return;
+  invClosePopover();
+});
+
+/* ─── ROW DETAIL ASIDE ───────────────────────────── */
+window.invSelId = null;
+window.invOpenAside=function(id){
+  const item = INV_ITEMS.find(i=>i.id===id);
+  if(!item) return;
+  invClosePopover();
+  window.invSelId = id;
+  document.querySelectorAll('#invStockBody tr.site-row').forEach(tr=>{
+    tr.classList.toggle('inv-row-selected', String(tr.dataset.id)===String(id));
+  });
+  const aside = document.getElementById('invAside');
+  const overlay = document.getElementById('invAsideOverlay');
+  if(!aside || !overlay) return;
+  aside.innerHTML = invBuildAsideHTML(item);
+  aside.setAttribute('aria-hidden','false');
+  requestAnimationFrame(()=>{
+    overlay.classList.add('open');
+    aside.classList.add('open');
+  });
+};
+window.invCloseAside=function(){
+  const aside = document.getElementById('invAside');
+  const overlay = document.getElementById('invAsideOverlay');
+  if(overlay) overlay.classList.remove('open');
+  if(aside){ aside.classList.remove('open'); aside.setAttribute('aria-hidden','true'); }
+  window.invSelId = null;
+  document.querySelectorAll('#invStockBody tr.site-row.inv-row-selected').forEach(tr=>tr.classList.remove('inv-row-selected'));
+};
+document.addEventListener('keydown', function(e){
+  if(e.key==='Escape'){
+    if(_invPopoverFor!=null){ invClosePopover(); return; }
+    if(document.getElementById('invAside')?.classList.contains('open')) invCloseAside();
+  }
+});
+
+function invBuildAsideHTML(item){
+  const catColor={Electrical:'#1e40af',Civil:'#065f46',Mechanical:'#92400e',Safety:'#991b1b',General:'#374151'};
+  const catBg   ={Electrical:'#dbeafe',Civil:'#d1fae5',Mechanical:'#fef3c7',Safety:'#fee2e2',General:'#f3f4f6'};
+  const s = stockStatusClass(item);
+  const pct = item.max ? Math.min(item.qty/item.max*100,100) : 50;
+  const value = (item.qty*item.cost).toLocaleString('en-IN');
+  const projects = item.projects || [];
+  const projChips = projects.length === 0
+    ? '<span class="inv-aside-proj-empty">No projects assigned</span>'
+    : projects.map(p=>`<span class="inv-aside-proj-chip">${p}</span>`).join('');
+  const sites = item.sites || [];
+  const sitesText = sites.length ? sites.join(', ') : '—';
+  const barClass = s.barCls.replace('stock-bar-','');
+
+  return `
+    <div class="inv-aside-hdr">
+      <div class="inv-aside-title-wrap">
+        <div class="inv-aside-title">${item.name}</div>
+        <div class="inv-aside-sub">${item.sku}</div>
+      </div>
+      <button class="inv-aside-close" onclick="invCloseAside()" aria-label="Close" title="Close">×</button>
+    </div>
+    <div class="inv-aside-body">
+
+      <div class="inv-aside-sec">
+        <div class="inv-aside-sec-lbl">Item Details</div>
+        <div class="inv-aside-kv-grid">
+          <div class="inv-aside-kv">
+            <div class="inv-aside-kv-lbl">SKU</div>
+            <div class="inv-aside-kv-val mono">${item.sku}</div>
+          </div>
+          <div class="inv-aside-kv">
+            <div class="inv-aside-kv-lbl">Category</div>
+            <div class="inv-aside-kv-val" id="invAsideCatVal">
+              <span class="inv-aside-cat-chip" style="background:${catBg[item.cat]||'#f3f4f6'};color:${catColor[item.cat]||'#374151'};">${item.cat}</span>
+            </div>
+          </div>
+          <div class="inv-aside-kv">
+            <div class="inv-aside-kv-lbl">Unit</div>
+            <div class="inv-aside-kv-val">${item.unit}</div>
+          </div>
+          <div class="inv-aside-kv">
+            <div class="inv-aside-kv-lbl">Status</div>
+            <div class="inv-aside-kv-val"><span class="stock-status ${s.cls}">${s.lbl}</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="inv-aside-sec">
+        <div class="inv-aside-sec-lbl">Stock Levels</div>
+        <div class="inv-aside-kv-grid">
+          <div class="inv-aside-kv full">
+            <div class="inv-aside-kv-lbl">In Stock</div>
+            <div class="inv-aside-kv-val" style="font-size:18px;">${item.qty.toLocaleString()} <span style="font-size:11px;color:var(--gray-500);font-weight:500;">${item.unit}</span></div>
+            <div class="inv-aside-stockbar-wrap">
+              <div class="inv-aside-stockbar"><div class="inv-aside-stockbar-fill ${barClass}" style="width:${pct}%;"></div></div>
+              <div style="font-size:10.5px;color:var(--gray-500);font-weight:600;white-space:nowrap;">${Math.round(pct)}% of max</div>
+            </div>
+          </div>
+          <div class="inv-aside-kv">
+            <div class="inv-aside-kv-lbl">Min Stock</div>
+            <div class="inv-aside-kv-val mono">${item.min.toLocaleString()}</div>
+          </div>
+          <div class="inv-aside-kv">
+            <div class="inv-aside-kv-lbl">Max Capacity</div>
+            <div class="inv-aside-kv-val mono">${(item.max||0).toLocaleString()}</div>
+          </div>
+          <div class="inv-aside-kv">
+            <div class="inv-aside-kv-lbl">Unit Cost</div>
+            <div class="inv-aside-kv-val mono">₹${item.cost.toLocaleString('en-IN')}</div>
+          </div>
+          <div class="inv-aside-kv">
+            <div class="inv-aside-kv-lbl">Stock Value</div>
+            <div class="inv-aside-kv-val hi">₹${value}</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="inv-aside-sec">
+        <div class="inv-aside-sec-lbl">Projects</div>
+        <div class="inv-aside-proj-chips" id="invAsideProjChips">${projChips}</div>
+      </div>
+
+      <div class="inv-aside-sec">
+        <div class="inv-aside-sec-lbl">Movement Activity</div>
+        <div class="inv-aside-kv-grid">
+          <div class="inv-aside-kv">
+            <div class="inv-aside-kv-lbl">Last IN</div>
+            <div class="inv-aside-kv-val muted">${item.last_in||'—'}</div>
+          </div>
+          <div class="inv-aside-kv">
+            <div class="inv-aside-kv-lbl">Last OUT</div>
+            <div class="inv-aside-kv-val muted">${item.last_out||'—'}</div>
+          </div>
+          ${sites.length ? `
+          <div class="inv-aside-kv full">
+            <div class="inv-aside-kv-lbl">Site IDs (historical)</div>
+            <div class="inv-aside-kv-val mono" style="font-size:11px;">${sitesText}</div>
+          </div>` : ''}
+        </div>
+      </div>
+
+      <div class="inv-aside-sec">
+        <div class="inv-aside-sec-lbl">Zoho Sync</div>
+        <div class="inv-aside-kv-grid">
+          <div class="inv-aside-kv">
+            <div class="inv-aside-kv-lbl">Status</div>
+            <div class="inv-aside-kv-val">
+              <span class="inv-aside-zoho ${item.zoho_synced?'synced':'local'}">${item.zoho_synced?'✓ Synced':'Local only'}</span>
+            </div>
+          </div>
+          <div class="inv-aside-kv">
+            <div class="inv-aside-kv-lbl">Zoho ID</div>
+            <div class="inv-aside-kv-val mono">${item.zoho_id||'—'}</div>
+          </div>
+        </div>
+      </div>
+
+    </div>`;
+}
+
+function invRefreshAsideCategory(id){
+  const item = INV_ITEMS.find(i=>i.id===id); if(!item) return;
+  const catColor={Electrical:'#1e40af',Civil:'#065f46',Mechanical:'#92400e',Safety:'#991b1b',General:'#374151'};
+  const catBg   ={Electrical:'#dbeafe',Civil:'#d1fae5',Mechanical:'#fef3c7',Safety:'#fee2e2',General:'#f3f4f6'};
+  const host = document.getElementById('invAsideCatVal');
+  if(host) host.innerHTML = `<span class="inv-aside-cat-chip" style="background:${catBg[item.cat]||'#f3f4f6'};color:${catColor[item.cat]||'#374151'};">${item.cat}</span>`;
+}
+function invRefreshAsideProjects(id){
+  const item = INV_ITEMS.find(i=>i.id===id); if(!item) return;
+  const host = document.getElementById('invAsideProjChips');
+  if(!host) return;
+  const ps = item.projects||[];
+  host.innerHTML = ps.length === 0
+    ? '<span class="inv-aside-proj-empty">No projects assigned</span>'
+    : ps.map(p=>`<span class="inv-aside-proj-chip">${p}</span>`).join('');
 }
 
 /* ─── MOVEMENT LOG RENDER ─────────────────────────
