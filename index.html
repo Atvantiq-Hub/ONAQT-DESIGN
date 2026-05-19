@@ -774,6 +774,1103 @@
             color: var(--gray-500);
         }
 
+        /* User Dropdown Menu */
+        .user-menu-wrapper {
+            position: relative;
+        }
+        .user-menu-caret {
+            transition: transform 0.2s ease;
+        }
+        .user-menu-wrapper.open .user-menu-caret {
+            transform: rotate(180deg);
+        }
+        .user-menu-wrapper.open .user-menu {
+            background: var(--gray-100);
+        }
+        .user-dropdown {
+            position: absolute;
+            top: calc(100% + 8px);
+            right: 0;
+            min-width: 240px;
+            background: var(--white);
+            border: 1px solid var(--gray-100);
+            border-radius: var(--border-radius-sm);
+            box-shadow: 0 12px 32px rgba(45, 74, 53, 0.12), 0 4px 12px rgba(0, 0, 0, 0.04);
+            padding: 6px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-6px);
+            transition: opacity 0.18s ease, transform 0.18s ease, visibility 0.18s ease;
+            z-index: 1100;
+        }
+        .user-menu-wrapper.open .user-dropdown {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+        .user-dropdown-header {
+            padding: 10px 12px 8px;
+        }
+        .user-dropdown-name {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--gray-900);
+            font-family: 'Fraunces', serif;
+        }
+        .user-dropdown-role {
+            font-size: 11px;
+            color: var(--gray-500);
+            margin-top: 2px;
+        }
+        .user-dropdown-divider {
+            height: 1px;
+            background: var(--gray-100);
+            margin: 4px 0;
+        }
+        .user-dropdown-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 9px 12px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--gray-700);
+            text-decoration: none;
+            cursor: pointer;
+            transition: background 0.15s ease, color 0.15s ease;
+        }
+        .user-dropdown-item svg {
+            color: var(--gray-500);
+            flex-shrink: 0;
+            transition: color 0.15s ease;
+        }
+        .user-dropdown-item:hover {
+            background: var(--gray-50);
+            color: var(--gray-900);
+        }
+        .user-dropdown-item:hover svg {
+            color: var(--primary);
+        }
+        .user-dropdown-item.danger {
+            color: var(--danger);
+        }
+        .user-dropdown-item.danger svg {
+            color: var(--danger);
+        }
+        .user-dropdown-item.danger:hover {
+            background: var(--danger-light);
+            color: var(--danger);
+        }
+        .user-dropdown-item.danger:hover svg {
+            color: var(--danger);
+        }
+        [data-dark="true"] .user-dropdown {
+            background: #252836 !important;
+            border-color: rgba(255,255,255,0.06) !important;
+            box-shadow: 0 12px 32px rgba(0,0,0,0.4) !important;
+        }
+        [data-dark="true"] .user-dropdown-divider {
+            background: rgba(255,255,255,0.06) !important;
+        }
+        [data-dark="true"] .user-dropdown-item:hover {
+            background: #2d3145 !important;
+        }
+
+        /* ═══════════════════════════════════════════════
+           SETTINGS PAGE — Integrations + Zoho Books flow
+        ═══════════════════════════════════════════════ */
+        /* Make the Settings page its own scroll container so it isn't clipped
+           by .page-section.active{overflow:hidden}. scrollbar-gutter reserves
+           space whether the scrollbar is visible or not, which keeps the
+           centered max-width:1100px layout from shifting when switching tabs. */
+        #page-settings.page-section.active {
+            overflow-y: auto;
+            scrollbar-gutter: stable;
+        }
+        .settings-page {
+            width: 100%;
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 28px 28px 60px;
+            min-height: 100%;
+            box-sizing: border-box;
+        }
+        .settings-tabs {
+            display: flex;
+            gap: 4px;
+            padding: 4px;
+            background: var(--gray-50);
+            border-radius: var(--border-radius-sm);
+            margin-bottom: 18px;
+            overflow-x: auto;
+            scrollbar-width: none;
+        }
+        .settings-tabs::-webkit-scrollbar { display: none; }
+        .settings-tab {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            padding: 9px 14px;
+            border: none;
+            background: transparent;
+            color: var(--gray-500);
+            font-size: 13px;
+            font-weight: 600;
+            border-radius: 9px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            white-space: nowrap;
+        }
+        .settings-tab:hover { color: var(--gray-900); }
+        .settings-tab.active {
+            background: var(--white);
+            color: var(--primary);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+        }
+
+        .settings-hero {
+            margin-bottom: 18px;
+        }
+        .settings-hero-title {
+            font-family: 'Fraunces', serif;
+            font-size: 26px;
+            font-weight: 600;
+            color: var(--gray-900);
+            letter-spacing: -0.02em;
+            line-height: 1.1;
+            margin: 0;
+        }
+        .settings-tab-panel { display: none; }
+        .settings-tab-panel.active { display: block; }
+        .settings-section-head {
+            margin-bottom: 14px;
+        }
+        .settings-section-title {
+            font-family: 'Fraunces', serif;
+            font-size: 17px;
+            font-weight: 600;
+            color: var(--gray-900);
+            margin: 0;
+            letter-spacing: -0.01em;
+        }
+        .settings-section-sub {
+            font-size: 12.5px;
+            color: var(--gray-500);
+            margin: 3px 0 0;
+        }
+        .settings-placeholder {
+            padding: 60px 20px;
+            text-align: center;
+            color: var(--gray-400);
+            font-size: 13px;
+            background: var(--gray-50);
+            border-radius: var(--border-radius-sm);
+            border: 1px dashed var(--gray-200);
+        }
+
+        /* ─── Integrations grid (scales 1 → N cards) ─── */
+        .integration-stack {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(440px, 1fr));
+            gap: 14px;
+            align-items: start;
+        }
+
+        /* ═══════════════════════════════════════════════
+           INTEG CARD — compact reusable integration card
+           Designed to host multiple integrations side-by-side in a grid.
+        ═══════════════════════════════════════════════ */
+        .integ-card {
+            background: var(--white);
+            border: 1px solid var(--gray-100);
+            border-radius: var(--border-radius);
+            padding: 18px 18px 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .integ-card::before {
+            /* Brand accent strip along the top — color tints per state */
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--gray-200);
+            opacity: 0.7;
+            transition: background 0.25s ease;
+        }
+        .integ-card[data-state="disconnected"]::before { background: var(--gray-200); }
+        .integ-card[data-state="connecting"]::before  { background: linear-gradient(90deg, #f5b834, #d99a2b); }
+        .integ-card[data-state="connected"]::before   { background: linear-gradient(90deg, #2ea866, var(--primary)); }
+        .integ-card[data-state="error"]::before       { background: linear-gradient(90deg, #e07a6f, var(--danger)); }
+        .integ-card:hover {
+            border-color: color-mix(in srgb, var(--primary) 18%, var(--gray-100));
+            box-shadow: 0 4px 20px rgba(45,74,53,0.06);
+        }
+
+        /* Card head */
+        .integ-card-head {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .integ-logo {
+            width: 38px;
+            height: 38px;
+            border-radius: 10px;
+            overflow: hidden;
+            flex-shrink: 0;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+        }
+        .integ-logo svg { display: block; width: 100%; height: 100%; }
+        .integ-meta { flex: 1; min-width: 0; }
+        .integ-name {
+            font-family: 'Fraunces', serif;
+            font-size: 15.5px;
+            font-weight: 600;
+            color: var(--gray-900);
+            letter-spacing: -0.01em;
+            line-height: 1.2;
+        }
+        .integ-cat {
+            font-size: 11px;
+            color: var(--gray-500);
+            margin-top: 2px;
+        }
+        .integ-status-slot {
+            flex-shrink: 0;
+        }
+        /* Show pill matching current state */
+        .integ-pill { display: none; }
+        .integ-card[data-state="disconnected"] .integ-pill[data-show="disconnected"],
+        .integ-card[data-state="connecting"]   .integ-pill[data-show="connecting"],
+        .integ-card[data-state="connected"]    .integ-pill[data-show="connected"],
+        .integ-card[data-state="error"]        .integ-pill[data-show="error"] {
+            display: inline-flex;
+        }
+        .integ-pill {
+            align-items: center;
+            gap: 5px;
+            padding: 4px 9px;
+            border-radius: 999px;
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+            white-space: nowrap;
+            background: var(--gray-100);
+            color: var(--gray-500);
+        }
+        .integ-pill.connected {
+            background: color-mix(in srgb, #2ea866 14%, transparent);
+            color: #1d7a48;
+        }
+        .integ-pill.pending {
+            background: color-mix(in srgb, #d99a2b 16%, transparent);
+            color: #8a5e10;
+        }
+        .integ-pill.error {
+            background: var(--danger-light);
+            color: var(--danger);
+        }
+        .dot-pulse {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: #d99a2b;
+            box-shadow: 0 0 0 0 rgba(217,154,43,0.6);
+            animation: pulseDot 1.6s ease-out infinite;
+            display: inline-block;
+        }
+        @keyframes pulseDot {
+            0% { box-shadow: 0 0 0 0 rgba(217,154,43,0.6); }
+            70% { box-shadow: 0 0 0 6px rgba(217,154,43,0); }
+            100% { box-shadow: 0 0 0 0 rgba(217,154,43,0); }
+        }
+        .live-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: #2ea866;
+            box-shadow: 0 0 0 0 rgba(46,168,102,0.5);
+            animation: pulseDot 1.8s ease-out infinite;
+            display: inline-block;
+            margin-right: 5px;
+        }
+
+        /* Card body */
+        .integ-body {
+            display: flex;
+            flex-direction: column;
+            min-height: 78px;
+        }
+        .integ-state { display: none; flex-direction: column; gap: 10px; }
+        .integ-card[data-state="disconnected"] .integ-state[data-state="disconnected"],
+        .integ-card[data-state="connecting"]   .integ-state[data-state="connecting"],
+        .integ-card[data-state="connected"]    .integ-state[data-state="connected"],
+        .integ-card[data-state="error"]        .integ-state[data-state="error"] {
+            display: flex;
+        }
+        .integ-desc {
+            font-size: 12.5px;
+            color: var(--gray-600);
+            line-height: 1.55;
+            margin: 0;
+        }
+        .integ-features {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+        .integ-features li {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            font-size: 12px;
+            color: var(--gray-700);
+        }
+        .integ-features li svg { color: var(--primary); flex-shrink: 0; }
+
+        /* Connected — account info */
+        .integ-account {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            padding: 10px 12px;
+            background: var(--gray-50);
+            border-radius: 10px;
+        }
+        .integ-account-row {
+            display: flex;
+            align-items: baseline;
+            gap: 10px;
+            justify-content: space-between;
+        }
+        .integ-account-label {
+            font-size: 11px;
+            color: var(--gray-500);
+            white-space: nowrap;
+        }
+        .integ-account-value {
+            font-size: 12.5px;
+            font-weight: 600;
+            color: var(--gray-900);
+            text-align: right;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        .integ-account-value.mono {
+            font-family: 'JetBrains Mono', 'SF Mono', Consolas, monospace;
+            font-size: 11.5px;
+            font-weight: 500;
+        }
+        .integ-scope {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+        }
+        .integ-scope-chip {
+            display: inline-flex;
+            padding: 3px 8px;
+            background: color-mix(in srgb, var(--primary) 8%, transparent);
+            color: var(--primary);
+            border-radius: 999px;
+            font-size: 10.5px;
+            font-weight: 600;
+        }
+
+        /* Inline callouts (compact) */
+        .integ-inline {
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+            padding: 8px 10px;
+            border-radius: 8px;
+            font-size: 11.5px;
+            line-height: 1.5;
+            color: var(--gray-700);
+        }
+        .integ-inline svg { flex-shrink: 0; margin-top: 1px; }
+        .integ-inline strong { color: var(--gray-900); font-weight: 600; }
+        .integ-inline code {
+            background: rgba(0,0,0,0.06);
+            padding: 1px 4px;
+            border-radius: 3px;
+            font-family: 'JetBrains Mono', 'SF Mono', Consolas, monospace;
+            font-size: 10px;
+        }
+        .integ-inline.warning {
+            background: color-mix(in srgb, #d99a2b 10%, transparent);
+            border: 1px solid color-mix(in srgb, #d99a2b 22%, transparent);
+        }
+        .integ-inline.warning svg { color: #8a5e10; }
+        .integ-inline.danger {
+            background: var(--danger-light);
+            border: 1px solid color-mix(in srgb, var(--danger) 18%, transparent);
+        }
+        .integ-inline.danger svg { color: var(--danger); }
+
+        /* Footer actions */
+        .integ-footer {
+            margin-top: auto;
+            padding-top: 12px;
+            border-top: 1px solid var(--gray-100);
+        }
+        .integ-actions {
+            display: none;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        .integ-card[data-state="disconnected"] .integ-actions[data-state="disconnected"],
+        .integ-card[data-state="connecting"]   .integ-actions[data-state="connecting"],
+        .integ-card[data-state="connected"]    .integ-actions[data-state="connected"],
+        .integ-card[data-state="error"]        .integ-actions[data-state="error"] {
+            display: flex;
+        }
+        .integ-spacer { flex: 1; }
+
+
+        /* Zoho buttons */
+        .zoho-btn-primary {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            padding: 9px 16px;
+            background: var(--primary);
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.18s ease, transform 0.18s ease;
+            white-space: nowrap;
+        }
+        .zoho-btn-primary:hover:not(:disabled) {
+            background: color-mix(in srgb, var(--primary) 88%, #000);
+            transform: translateY(-1px);
+        }
+        .zoho-btn-primary:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        .zoho-btn-primary.loading .zoho-btn-label,
+        .zoho-btn-primary.loading .zoho-btn-arrow { opacity: 0.5; }
+        .zoho-btn-primary .zoho-btn-spinner { display: none; animation: spin 0.8s linear infinite; }
+        .zoho-btn-primary.loading .zoho-btn-spinner { display: inline-block; }
+        @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+        .zoho-btn-ghost {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            padding: 9px 14px;
+            background: transparent;
+            color: var(--gray-700);
+            border: 1px solid var(--gray-200);
+            border-radius: 10px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.18s ease;
+            white-space: nowrap;
+        }
+        .zoho-btn-ghost:hover {
+            background: var(--gray-50);
+            border-color: var(--gray-300);
+            color: var(--gray-900);
+        }
+
+        .zoho-btn-danger {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            padding: 9px 14px;
+            background: transparent;
+            color: var(--danger);
+            border: 1px solid color-mix(in srgb, var(--danger) 30%, transparent);
+            border-radius: 10px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.18s ease;
+            white-space: nowrap;
+        }
+        .zoho-btn-danger:hover {
+            background: var(--danger-light);
+            border-color: var(--danger);
+        }
+        .zoho-btn-danger.loading .zoho-btn-label { opacity: 0.5; }
+        .zoho-btn-danger .zoho-btn-spinner { display: none; animation: spin 0.8s linear infinite; }
+        .zoho-btn-danger.loading .zoho-btn-spinner { display: inline-block; }
+
+        /* Compact button sizing inside integ-card */
+        .integ-card .zoho-btn-primary,
+        .integ-card .zoho-btn-ghost,
+        .integ-card .zoho-btn-danger {
+            padding: 7px 12px;
+            font-size: 12px;
+            border-radius: 8px;
+            gap: 5px;
+        }
+        .integ-card .zoho-btn-link {
+            padding: 7px 8px;
+            font-size: 12px;
+        }
+        .zoho-btn-danger.compact { padding: 7px 10px; }
+
+        .zoho-btn-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 9px 10px;
+            font-size: 12.5px;
+            font-weight: 600;
+            color: var(--primary);
+            text-decoration: none;
+            border-radius: 8px;
+            transition: background 0.15s ease;
+        }
+        .zoho-btn-link:hover { background: color-mix(in srgb, var(--primary) 8%, transparent); }
+
+        /* ═══ Zoho modal overlay & box ═══ */
+        /* Inherits .modal-overlay base (position/backdrop/visibility/.active behavior)
+           from existing global styles. We only refine box look + animation. */
+        .zoho-modal-overlay {
+            padding: 20px;
+        }
+        .zoho-modal-overlay.active {
+            animation: zohoFadeIn 0.2s ease;
+        }
+        @keyframes zohoFadeIn { from { opacity: 0; } to { opacity: 1; } }
+        .zoho-modal-box {
+            background: var(--white);
+            border-radius: var(--border-radius);
+            width: 100%;
+            max-width: 540px;
+            max-height: 92vh;
+            overflow-y: auto;
+            box-shadow: 0 24px 80px rgba(0,0,0,0.25);
+            animation: zohoSlideUp 0.25s cubic-bezier(0.4,0,0.2,1);
+            display: flex;
+            flex-direction: column;
+        }
+        @keyframes zohoSlideUp {
+            from { opacity: 0; transform: translateY(20px) scale(0.97); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+        .zoho-step-pill {
+            display: inline-block;
+            padding: 3px 10px;
+            background: color-mix(in srgb, var(--primary) 12%, transparent);
+            color: var(--primary);
+            font-size: 10.5px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.6px;
+            border-radius: 999px;
+            margin-bottom: 8px;
+        }
+
+        /* Stepper */
+        .zoho-stepper {
+            display: flex;
+            align-items: center;
+            margin-bottom: 22px;
+            gap: 4px;
+        }
+        .zoho-stepper-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+            flex-shrink: 0;
+        }
+        .zoho-stepper-dot {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: var(--gray-100);
+            color: var(--gray-400);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 700;
+            transition: all 0.25s ease;
+        }
+        .zoho-stepper-item.active .zoho-stepper-dot {
+            background: var(--primary);
+            color: #fff;
+            box-shadow: 0 0 0 4px color-mix(in srgb, var(--primary) 18%, transparent);
+        }
+        .zoho-stepper-item.done .zoho-stepper-dot {
+            background: var(--primary);
+            color: #fff;
+        }
+        .zoho-stepper-label {
+            font-size: 10.5px;
+            font-weight: 600;
+            color: var(--gray-500);
+        }
+        .zoho-stepper-item.active .zoho-stepper-label,
+        .zoho-stepper-item.done .zoho-stepper-label { color: var(--primary); }
+        .zoho-stepper-bar {
+            flex: 1;
+            height: 2px;
+            background: var(--gray-100);
+            margin: 0 6px;
+            margin-bottom: 18px;
+            border-radius: 2px;
+            transition: background 0.25s ease;
+        }
+        .zoho-stepper-bar.done { background: var(--primary); }
+
+        /* Step 1 instructions */
+        .zoho-instructions {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            padding: 18px;
+            background: var(--gray-50);
+            border-radius: var(--border-radius-sm);
+            margin-bottom: 16px;
+        }
+        .zoho-instruction-row {
+            display: flex;
+            gap: 12px;
+            align-items: flex-start;
+        }
+        .zoho-instruction-num {
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            background: var(--white);
+            color: var(--primary);
+            border: 1.5px solid color-mix(in srgb, var(--primary) 25%, transparent);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+        .zoho-instruction-text {
+            font-size: 13px;
+            color: var(--gray-700);
+            line-height: 1.55;
+            padding-top: 1px;
+        }
+        .zoho-instruction-text strong {
+            color: var(--gray-900);
+            font-weight: 600;
+        }
+        .zoho-tip {
+            display: flex;
+            gap: 10px;
+            padding: 11px 14px;
+            background: color-mix(in srgb, var(--primary) 8%, transparent);
+            border: 1px solid color-mix(in srgb, var(--primary) 18%, transparent);
+            border-radius: 10px;
+            font-size: 12.5px;
+            color: var(--gray-700);
+            line-height: 1.5;
+        }
+        .zoho-tip svg { color: var(--primary); flex-shrink: 0; margin-top: 1px; }
+        .zoho-tip strong { color: var(--gray-900); font-weight: 600; }
+
+        /* URL example block */
+        .zoho-url-example {
+            background: var(--gray-50);
+            border: 1px solid var(--gray-100);
+            border-radius: var(--border-radius-sm);
+            padding: 14px 16px;
+        }
+        .zoho-url-example-label {
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.6px;
+            color: var(--gray-500);
+            margin-bottom: 8px;
+        }
+        .zoho-url-example-bar {
+            font-family: 'JetBrains Mono', 'SF Mono', Consolas, monospace;
+            font-size: 12px;
+            background: var(--white);
+            padding: 10px 12px;
+            border-radius: 8px;
+            border: 1px solid var(--gray-100);
+            word-break: break-all;
+            line-height: 1.5;
+        }
+        .zoho-url-example-bar .url-dim { color: var(--gray-400); }
+        .zoho-url-example-bar .url-hl {
+            color: var(--primary);
+            background: color-mix(in srgb, var(--primary) 12%, transparent);
+            padding: 1px 4px;
+            border-radius: 3px;
+            font-weight: 600;
+        }
+        .zoho-url-example-hint {
+            font-size: 12px;
+            color: var(--gray-600);
+            margin-top: 8px;
+            line-height: 1.5;
+        }
+        .zoho-url-example-hint code {
+            background: var(--gray-100);
+            padding: 1px 5px;
+            border-radius: 3px;
+            font-family: 'JetBrains Mono', 'SF Mono', Consolas, monospace;
+            font-size: 11px;
+        }
+
+        /* Code input */
+        .zoho-code-input-wrap {
+            position: relative;
+            display: flex;
+            gap: 8px;
+        }
+        .zoho-code-input {
+            flex: 1;
+            font-family: 'JetBrains Mono', 'SF Mono', Consolas, monospace !important;
+            font-size: 13px !important;
+            letter-spacing: 0.2px;
+        }
+        .zoho-code-input.valid {
+            border-color: #2ea866 !important;
+            box-shadow: 0 0 0 3px rgba(46,168,102,0.12) !important;
+        }
+        .zoho-code-input.invalid {
+            border-color: var(--danger) !important;
+            box-shadow: 0 0 0 3px color-mix(in srgb, var(--danger) 14%, transparent) !important;
+        }
+        .zoho-paste-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 0 14px;
+            background: var(--gray-50);
+            color: var(--gray-700);
+            border: 1px solid var(--gray-200);
+            border-radius: 10px;
+            font-size: 12.5px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            white-space: nowrap;
+        }
+        .zoho-paste-btn:hover {
+            background: var(--gray-100);
+            border-color: var(--gray-300);
+        }
+        .zoho-code-hint {
+            font-size: 11.5px;
+            color: var(--gray-500);
+            margin-top: 8px;
+            line-height: 1.5;
+        }
+        .zoho-code-hint.error { color: var(--danger); }
+        .zoho-code-hint.success { color: #1d7a48; }
+        .zoho-code-hint code {
+            background: var(--gray-100);
+            padding: 1px 5px;
+            border-radius: 3px;
+            font-family: 'JetBrains Mono', 'SF Mono', Consolas, monospace;
+            font-size: 10.5px;
+        }
+
+        .zoho-step2-footer {
+            justify-content: space-between !important;
+        }
+        .zoho-step2-right {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        /* Result modal (verifying / success / error) */
+        .zoho-result-box {
+            max-width: 460px;
+            text-align: center;
+        }
+        .zoho-result-state { display: none; padding: 36px 30px 30px; }
+        .zoho-result-box[data-mode="verifying"] .zoho-result-state[data-mode="verifying"],
+        .zoho-result-box[data-mode="success"]   .zoho-result-state[data-mode="success"],
+        .zoho-result-box[data-mode="error"]     .zoho-result-state[data-mode="error"] {
+            display: block;
+        }
+        .zoho-result-spinner {
+            display: inline-flex;
+            color: var(--primary);
+            animation: spin 1s linear infinite;
+            margin-bottom: 18px;
+        }
+        .zoho-result-icon {
+            width: 72px;
+            height: 72px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 18px;
+            animation: zohoPop 0.4s cubic-bezier(0.34,1.56,0.64,1);
+        }
+        @keyframes zohoPop {
+            0% { transform: scale(0); }
+            100% { transform: scale(1); }
+        }
+        .zoho-result-icon.success {
+            background: color-mix(in srgb, #2ea866 16%, transparent);
+            color: #1d7a48;
+        }
+        .zoho-result-icon.error {
+            background: var(--danger-light);
+            color: var(--danger);
+        }
+        .zoho-result-title {
+            font-family: 'Fraunces', serif;
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--gray-900);
+            margin-bottom: 8px;
+            letter-spacing: -0.01em;
+        }
+        .zoho-result-desc {
+            font-size: 13.5px;
+            color: var(--gray-600);
+            line-height: 1.55;
+            margin-bottom: 20px;
+            max-width: 360px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .zoho-result-summary {
+            background: var(--gray-50);
+            border-radius: var(--border-radius-sm);
+            padding: 14px 16px;
+            margin-bottom: 20px;
+            text-align: left;
+        }
+        .zoho-summary-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 7px 0;
+            font-size: 12.5px;
+            border-bottom: 1px solid var(--gray-100);
+        }
+        .zoho-summary-row:last-child { border-bottom: none; }
+        .zoho-summary-row span { color: var(--gray-500); }
+        .zoho-summary-row strong { color: var(--gray-900); font-weight: 600; }
+        .zoho-result-btn { width: 100%; justify-content: center; padding: 11px 16px; }
+        .zoho-result-btn-row {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        }
+        .zoho-result-btn-row > button { flex: 1; justify-content: center; }
+        .zoho-error-details {
+            background: var(--gray-50);
+            border-radius: 8px;
+            padding: 10px 12px;
+            margin-bottom: 16px;
+            text-align: left;
+        }
+        .zoho-error-details-label {
+            font-size: 10.5px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--gray-400);
+            margin-bottom: 4px;
+        }
+        .zoho-error-details code {
+            font-family: 'JetBrains Mono', 'SF Mono', Consolas, monospace;
+            font-size: 11.5px;
+            color: var(--gray-700);
+            word-break: break-all;
+        }
+
+        /* Verify progress steps */
+        .zoho-verify-progress {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 22px;
+            text-align: left;
+            max-width: 280px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .zoho-verify-step {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 12.5px;
+            color: var(--gray-400);
+            transition: color 0.2s ease;
+        }
+        .zoho-verify-step .vstep-icon {
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            border: 1.5px solid var(--gray-300);
+            flex-shrink: 0;
+            position: relative;
+        }
+        .zoho-verify-step.active { color: var(--gray-900); font-weight: 600; }
+        .zoho-verify-step.active .vstep-icon {
+            border-color: var(--primary);
+            background: var(--primary);
+            box-shadow: 0 0 0 3px color-mix(in srgb, var(--primary) 18%, transparent);
+            animation: pulseDot 1.5s ease-out infinite;
+        }
+        .zoho-verify-step.done { color: #1d7a48; font-weight: 600; }
+        .zoho-verify-step.done .vstep-icon {
+            background: #2ea866;
+            border-color: #2ea866;
+        }
+        .zoho-verify-step.done .vstep-icon::after {
+            content: '';
+            position: absolute;
+            left: 3px;
+            top: 0;
+            width: 4px;
+            height: 7px;
+            border: solid #fff;
+            border-width: 0 2px 2px 0;
+            transform: rotate(45deg);
+        }
+
+        /* Disconnect modal */
+        .zoho-confirm-box { max-width: 460px; }
+        .zoho-disconnect-callout {
+            display: flex;
+            gap: 12px;
+            padding: 14px 16px;
+            background: var(--danger-light);
+            border: 1px solid color-mix(in srgb, var(--danger) 18%, transparent);
+            border-radius: var(--border-radius-sm);
+        }
+        .zoho-disconnect-callout svg { color: var(--danger); flex-shrink: 0; margin-top: 2px; }
+        .zoho-disconnect-callout strong {
+            font-size: 13px;
+            color: var(--gray-900);
+            font-weight: 700;
+            display: block;
+            margin-bottom: 6px;
+        }
+        .zoho-disconnect-callout ul {
+            margin: 0;
+            padding-left: 18px;
+            font-size: 12.5px;
+            color: var(--gray-700);
+            line-height: 1.7;
+        }
+
+        /* Toast */
+        .zoho-toast {
+            position: fixed;
+            bottom: 24px;
+            left: 50%;
+            transform: translateX(-50%) translateY(20px);
+            background: var(--gray-900);
+            color: #fff;
+            padding: 11px 18px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 13px;
+            font-weight: 500;
+            box-shadow: 0 12px 32px rgba(0,0,0,0.2);
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.25s cubic-bezier(0.4,0,0.2,1);
+            z-index: 3000;
+            max-width: calc(100vw - 32px);
+        }
+        .zoho-toast.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translateX(-50%) translateY(0);
+        }
+        .zoho-toast.error { background: var(--danger); }
+        .zoho-toast-icon { color: #6ee7a7; flex-shrink: 0; }
+        .zoho-toast.error .zoho-toast-icon { color: #fecaca; }
+
+        /* Dark mode for settings + zoho */
+        [data-dark="true"] .settings-tabs { background: #252836 !important; }
+        [data-dark="true"] .settings-tab.active { background: #1a1d27 !important; }
+        [data-dark="true"] .integ-card { background: #252836 !important; border-color: rgba(255,255,255,0.06) !important; }
+        [data-dark="true"] .integ-card::before { opacity: 0.5; }
+        [data-dark="true"] .integ-footer { border-color: rgba(255,255,255,0.05) !important; }
+        [data-dark="true"] .integ-account,
+        [data-dark="true"] .zoho-instructions,
+        [data-dark="true"] .zoho-url-example,
+        [data-dark="true"] .zoho-result-summary,
+        [data-dark="true"] .zoho-error-details,
+        [data-dark="true"] .settings-placeholder { background: #1a1d27 !important; border-color: rgba(255,255,255,0.05) !important; }
+        [data-dark="true"] .zoho-url-example-bar { background: #252836 !important; border-color: rgba(255,255,255,0.06) !important; }
+        [data-dark="true"] .zoho-modal-box { background: #252836 !important; }
+        [data-dark="true"] .zoho-paste-btn { background: #1a1d27 !important; border-color: rgba(255,255,255,0.08) !important; }
+        [data-dark="true"] .zoho-btn-ghost { border-color: rgba(255,255,255,0.1) !important; }
+        [data-dark="true"] .zoho-instruction-num { background: #252836 !important; }
+        [data-dark="true"] .zoho-stepper-dot { background: #1a1d27 !important; }
+        [data-dark="true"] .zoho-stepper-bar { background: #1a1d27 !important; }
+        [data-dark="true"] .zoho-summary-row { border-color: rgba(255,255,255,0.05) !important; }
+
+        /* Mobile responsive */
+        @media (max-width: 768px) {
+            .settings-page { padding: 16px 14px 40px; }
+            .settings-hero-title { font-size: 22px; }
+            .integ-card { padding: 16px 16px 14px; }
+            .integ-card-head { flex-wrap: wrap; }
+            .integ-status-slot { order: 3; flex-basis: 100%; margin-top: 2px; }
+            .integ-actions { flex-wrap: wrap; }
+            .zoho-modal-box { max-width: 100%; max-height: 95vh; }
+            .zoho-modal-overlay { padding: 12px; align-items: flex-end; }
+            .zoho-modal-box { animation: zohoSlideUpMobile 0.3s cubic-bezier(0.4,0,0.2,1); border-radius: var(--border-radius) var(--border-radius) 0 0; }
+            @keyframes zohoSlideUpMobile {
+                from { transform: translateY(40px); opacity: 0; }
+                to { transform: translateY(0); opacity: 1; }
+            }
+            .zoho-stepper-label { font-size: 9.5px; }
+            .zoho-stepper-bar { margin: 0 4px 18px; }
+            .zoho-result-state { padding: 28px 22px 22px; }
+            .zoho-result-title { font-size: 18px; }
+            .zoho-step2-footer { flex-direction: column; gap: 10px; align-items: stretch !important; }
+            .zoho-step2-right { width: 100%; }
+            .zoho-step2-right > button { flex: 1; justify-content: center; }
+            .zoho-step2-footer > .zoho-btn-ghost { justify-content: center; }
+            .zoho-result-btn-row { flex-direction: column-reverse; }
+            .zoho-instructions { padding: 14px; gap: 12px; }
+        }
+        @media (max-width: 600px) {
+            /* Single column grid on small phones */
+            .integration-stack { grid-template-columns: 1fr; }
+        }
+        @media (max-width: 480px) {
+            .settings-tabs { padding: 3px; }
+            .settings-tab { padding: 8px 10px; font-size: 12px; }
+            .settings-tab svg { width: 12px; height: 12px; }
+            .zoho-code-input-wrap { flex-direction: column; }
+            .zoho-paste-btn { justify-content: center; padding: 9px 14px; }
+        }
+
         /* Content Area */
         .content-area {
             flex: 1;
@@ -13450,17 +14547,6 @@
                     </div>
                 </div>
 
-                <div class="nav-group">
-                    <a href="#" class="nav-link" onclick="showPage('settings','Settings');return false;">
-                        <div class="nav-link-content">
-                            <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/>
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
-                            </svg>
-                            Settings
-                        </div>
-                    </a>
-                </div>
             </nav>
 
             <div class="sidebar-footer">
@@ -13503,15 +14589,44 @@
                         Start your day
                     </button>
 
-                    <div class="user-menu">
-                        <div class="user-avatar">O</div>
-                        <div class="user-info">
-                            <div class="user-name">ops</div>
-                            <div class="user-role">Administrator</div>
+                    <div class="user-menu-wrapper">
+                        <div class="user-menu" id="userMenuTrigger" onclick="toggleUserDropdown(event)">
+                            <div class="user-avatar">O</div>
+                            <div class="user-info">
+                                <div class="user-name">ops</div>
+                                <div class="user-role">Administrator</div>
+                            </div>
+                            <svg class="user-menu-caret" width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                            </svg>
                         </div>
-                        <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
-                        </svg>
+                        <div class="user-dropdown" id="userDropdown">
+                            <div class="user-dropdown-header">
+                                <div class="user-dropdown-name">ops</div>
+                                <div class="user-dropdown-role">Administrator</div>
+                            </div>
+                            <div class="user-dropdown-divider"></div>
+                            <a href="#" class="user-dropdown-item" onclick="showPage('profile','Profile');closeUserDropdown();return false;">
+                                <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+                                </svg>
+                                <span>Profile</span>
+                            </a>
+                            <a href="#" class="user-dropdown-item" onclick="showPage('settings','Settings');closeUserDropdown();return false;">
+                                <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                </svg>
+                                <span>Settings</span>
+                            </a>
+                            <div class="user-dropdown-divider"></div>
+                            <a href="#" class="user-dropdown-item danger" onclick="closeUserDropdown();return false;">
+                                <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
+                                </svg>
+                                <span>Sign out</span>
+                            </a>
+                        </div>
                     </div>
                 </div>
             </header>
@@ -18089,10 +19204,436 @@
                 </div><!-- /#page-audit-log -->
 
                 <div id="page-settings" class="page-section">
-                    <div class="coming-soon">
-                        <div class="coming-soon-icon"><svg width="32" height="32" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg></div>
-                        <h2>Settings</h2><p>Page content will be added here</p>
+                    <div class="settings-page">
+                        <!-- Settings section tabs -->
+                        <div class="settings-tabs">
+                            <button class="settings-tab active" onclick="settingsSwitchTab('integrations', this)">
+                                <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+                                Integrations
+                            </button>
+                            <button class="settings-tab" onclick="settingsSwitchTab('general', this)">
+                                <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                                General
+                            </button>
+                            <button class="settings-tab" onclick="settingsSwitchTab('notifications', this)">
+                                <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>
+                                Notifications
+                            </button>
+                            <button class="settings-tab" onclick="settingsSwitchTab('security', this)">
+                                <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+                                Security
+                            </button>
+                        </div>
+
+                        <!-- Settings title -->
+                        <div class="settings-hero">
+                            <h1 class="settings-hero-title">Settings</h1>
+                        </div>
+
+                        <!-- ─── Integrations tab ─── -->
+                        <div class="settings-tab-panel active" id="settings-tab-integrations">
+                            <div class="settings-section-head">
+                                <div>
+                                    <h2 class="settings-section-title">Integrations</h2>
+                                    <p class="settings-section-sub">Connect ONAQT with the tools you already use.</p>
+                                </div>
+                            </div>
+
+                            <!-- Single integration: Zoho Books as hero card -->
+                            <div class="integration-stack">
+
+                                <!-- ═══ ZOHO BOOKS — compact integration card ═══ -->
+                                <!-- This card pattern is designed to be reused for future integrations.
+                                     Each card has 4 states (disconnected/connecting/connected/error)
+                                     toggled via data-state attribute. -->
+                                <div class="integ-card" id="zohoBooksCard" data-state="disconnected" data-brand="zoho">
+
+                                    <!-- Card header (constant across states) -->
+                                    <div class="integ-card-head">
+                                        <div class="integ-logo">
+                                            <svg viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="16" fill="#E32E2E"/><path d="M9 11h11l-7 8h7v3H9l7-8H9z" fill="#fff"/></svg>
+                                        </div>
+                                        <div class="integ-meta">
+                                            <div class="integ-name">Zoho Books</div>
+                                            <div class="integ-cat">Accounting · Invoices</div>
+                                        </div>
+                                        <div class="integ-status-slot">
+                                            <span class="integ-pill" data-show="disconnected">Not connected</span>
+                                            <span class="integ-pill pending" data-show="connecting"><span class="dot-pulse"></span>Awaiting code</span>
+                                            <span class="integ-pill connected" data-show="connected">
+                                                <svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+                                                Connected
+                                            </span>
+                                            <span class="integ-pill error" data-show="error">
+                                                <svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01M5 19h14a2 2 0 001.84-2.75L13.74 4a2 2 0 00-3.48 0L3.16 16.25A2 2 0 005 19z"/></svg>
+                                                Error
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                    <!-- Body — state-specific -->
+                                    <div class="integ-body">
+
+                                        <!-- ─── DISCONNECTED ─── -->
+                                        <div class="integ-state" data-state="disconnected">
+                                            <p class="integ-desc">Sync invoices, expenses, and customer records between ONAQT and Zoho Books on a schedule.</p>
+                                            <ul class="integ-features">
+                                                <li><svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>Two-way invoice sync</li>
+                                                <li><svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>Auto-push expenses &amp; reimbursements</li>
+                                                <li><svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>Customer &amp; vendor mapping</li>
+                                            </ul>
+                                        </div>
+
+                                        <!-- ─── CONNECTING ─── -->
+                                        <div class="integ-state" data-state="connecting">
+                                            <p class="integ-desc">Authorization started. Paste the code from Zoho to finish connecting.</p>
+                                            <div class="integ-inline warning">
+                                                <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                                                <div>Codes expire in <strong>10 minutes</strong>. Paste it soon to avoid restarting.</div>
+                                            </div>
+                                        </div>
+
+                                        <!-- ─── CONNECTED ─── -->
+                                        <div class="integ-state" data-state="connected">
+                                            <div class="integ-account">
+                                                <div class="integ-account-row">
+                                                    <span class="integ-account-label">Organization</span>
+                                                    <span class="integ-account-value" id="zohoConnectedOrg">Atvantiq Pvt Ltd</span>
+                                                </div>
+                                                <div class="integ-account-row">
+                                                    <span class="integ-account-label">Account</span>
+                                                    <span class="integ-account-value mono" id="zohoConnectedEmail">accounts@atvantiq.com</span>
+                                                </div>
+                                                <div class="integ-account-row">
+                                                    <span class="integ-account-label">Last sync</span>
+                                                    <span class="integ-account-value" id="zohoLastSync">Just now</span>
+                                                </div>
+                                            </div>
+                                            <div class="integ-scope">
+                                                <span class="integ-scope-chip">Invoices</span>
+                                                <span class="integ-scope-chip">Expenses</span>
+                                                <span class="integ-scope-chip">Customers</span>
+                                                <span class="integ-scope-chip">Vendors</span>
+                                            </div>
+                                        </div>
+
+                                        <!-- ─── ERROR ─── -->
+                                        <div class="integ-state" data-state="error">
+                                            <p class="integ-desc" id="zohoErrorDesc">We couldn't verify the code you entered. It may have expired or been used already.</p>
+                                            <div class="integ-inline danger">
+                                                <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                                                <div>Make sure you copied the full code after <code>code=</code>, and try again before it expires.</div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Footer actions — state-specific -->
+                                    <div class="integ-footer">
+                                        <div class="integ-actions" data-state="disconnected">
+                                            <button class="zoho-btn-primary" onclick="zohoStartConnect()">
+                                                <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"/></svg>
+                                                Connect
+                                            </button>
+                                            <a href="#" class="zoho-btn-link" onclick="zohoShowHelp();return false;">How does it work?</a>
+                                        </div>
+                                        <div class="integ-actions" data-state="connecting">
+                                            <button class="zoho-btn-primary" onclick="zohoOpenStep2()">
+                                                <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
+                                                Paste code
+                                            </button>
+                                            <button class="zoho-btn-ghost" onclick="zohoCancelConnect()">Cancel</button>
+                                        </div>
+                                        <div class="integ-actions" data-state="connected">
+                                            <button class="zoho-btn-ghost" onclick="zohoSyncNow()" title="Sync now">
+                                                <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+                                                Sync
+                                            </button>
+                                            <button class="zoho-btn-ghost" onclick="zohoStartConnect(true)">Reconnect</button>
+                                            <div class="integ-spacer"></div>
+                                            <button class="zoho-btn-danger compact" onclick="zohoConfirmDisconnect()">Disconnect</button>
+                                        </div>
+                                        <div class="integ-actions" data-state="error">
+                                            <button class="zoho-btn-primary" onclick="zohoStartConnect(true)">
+                                                <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+                                                Try again
+                                            </button>
+                                            <button class="zoho-btn-ghost" onclick="zohoShowHelp()">Get help</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Other tabs - placeholders -->
+                        <div class="settings-tab-panel" id="settings-tab-general">
+                            <div class="settings-section-head">
+                                <div>
+                                    <h2 class="settings-section-title">General</h2>
+                                    <p class="settings-section-sub">Organization preferences, timezone, locale, and defaults.</p>
+                                </div>
+                            </div>
+                            <div class="settings-placeholder">Coming soon</div>
+                        </div>
+                        <div class="settings-tab-panel" id="settings-tab-notifications">
+                            <div class="settings-section-head">
+                                <div>
+                                    <h2 class="settings-section-title">Notifications</h2>
+                                    <p class="settings-section-sub">Email, in-app, and webhook delivery preferences.</p>
+                                </div>
+                            </div>
+                            <div class="settings-placeholder">Coming soon</div>
+                        </div>
+                        <div class="settings-tab-panel" id="settings-tab-security">
+                            <div class="settings-section-head">
+                                <div>
+                                    <h2 class="settings-section-title">Security</h2>
+                                    <p class="settings-section-sub">Two-factor auth, sessions, and audit trail visibility.</p>
+                                </div>
+                            </div>
+                            <div class="settings-placeholder">Coming soon</div>
+                        </div>
                     </div>
+                </div>
+
+                <!-- ═══════════════════════════════════════════════
+                     ZOHO BOOKS — STEP 1 MODAL: Authorize on Zoho
+                ═══════════════════════════════════════════════ -->
+                <div class="modal-overlay zoho-modal-overlay" id="zohoStep1Modal" onclick="if(event.target===this)zohoCloseStep1()">
+                    <div class="modal-box zoho-modal-box">
+                        <div class="modal-header">
+                            <div>
+                                <div class="zoho-step-pill">Step 1 of 3</div>
+                                <div class="modal-title">Authorize ONAQT on Zoho</div>
+                                <div class="modal-subtitle">We'll redirect you to Zoho to grant access.</div>
+                            </div>
+                            <button class="modal-close" onclick="zohoCloseStep1()">
+                                <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="zoho-stepper">
+                                <div class="zoho-stepper-item active">
+                                    <div class="zoho-stepper-dot">1</div>
+                                    <div class="zoho-stepper-label">Authorize</div>
+                                </div>
+                                <div class="zoho-stepper-bar"></div>
+                                <div class="zoho-stepper-item">
+                                    <div class="zoho-stepper-dot">2</div>
+                                    <div class="zoho-stepper-label">Paste code</div>
+                                </div>
+                                <div class="zoho-stepper-bar"></div>
+                                <div class="zoho-stepper-item">
+                                    <div class="zoho-stepper-dot">3</div>
+                                    <div class="zoho-stepper-label">Verify</div>
+                                </div>
+                            </div>
+
+                            <div class="zoho-instructions">
+                                <div class="zoho-instruction-row">
+                                    <div class="zoho-instruction-num">1</div>
+                                    <div class="zoho-instruction-text">Click <strong>Continue to Zoho</strong>. A new tab will open with Zoho's sign-in page.</div>
+                                </div>
+                                <div class="zoho-instruction-row">
+                                    <div class="zoho-instruction-num">2</div>
+                                    <div class="zoho-instruction-text">Sign in and choose the Zoho Books organization you want to link.</div>
+                                </div>
+                                <div class="zoho-instruction-row">
+                                    <div class="zoho-instruction-num">3</div>
+                                    <div class="zoho-instruction-text">After approval, Zoho will show a page with an <strong>authorization code</strong>. Copy it.</div>
+                                </div>
+                                <div class="zoho-instruction-row">
+                                    <div class="zoho-instruction-num">4</div>
+                                    <div class="zoho-instruction-text">Come back to this tab and paste the code in the next step.</div>
+                                </div>
+                            </div>
+
+                            <div class="zoho-tip">
+                                <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+                                <div><strong>Keep this tab open.</strong> You'll need to return here to finish connecting.</div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn-cancel" onclick="zohoCloseStep1()">Cancel</button>
+                            <button class="zoho-btn-primary" id="zohoStep1ContinueBtn" onclick="zohoStep1Continue()">
+                                <span class="zoho-btn-label">Continue to Zoho</span>
+                                <svg class="zoho-btn-spinner" width="14" height="14" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="3" stroke-opacity="0.25"/><path d="M22 12a10 10 0 00-10-10" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg>
+                                <svg class="zoho-btn-arrow" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ═══════════════════════════════════════════════
+                     ZOHO BOOKS — STEP 2 MODAL: Paste auth code
+                ═══════════════════════════════════════════════ -->
+                <div class="modal-overlay zoho-modal-overlay" id="zohoStep2Modal" onclick="if(event.target===this)zohoCloseStep2()">
+                    <div class="modal-box zoho-modal-box">
+                        <div class="modal-header">
+                            <div>
+                                <div class="zoho-step-pill">Step 2 of 3</div>
+                                <div class="modal-title">Paste your authorization code</div>
+                                <div class="modal-subtitle">Copy the code Zoho gave you after approval.</div>
+                            </div>
+                            <button class="modal-close" onclick="zohoCloseStep2()">
+                                <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="zoho-stepper">
+                                <div class="zoho-stepper-item done">
+                                    <div class="zoho-stepper-dot"><svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg></div>
+                                    <div class="zoho-stepper-label">Authorize</div>
+                                </div>
+                                <div class="zoho-stepper-bar done"></div>
+                                <div class="zoho-stepper-item active">
+                                    <div class="zoho-stepper-dot">2</div>
+                                    <div class="zoho-stepper-label">Paste code</div>
+                                </div>
+                                <div class="zoho-stepper-bar"></div>
+                                <div class="zoho-stepper-item">
+                                    <div class="zoho-stepper-dot">3</div>
+                                    <div class="zoho-stepper-label">Verify</div>
+                                </div>
+                            </div>
+
+                            <div class="zoho-url-example">
+                                <div class="zoho-url-example-label">Look for a URL like this:</div>
+                                <div class="zoho-url-example-bar">
+                                    <span class="url-dim">https://onaqt.app/zoho/success?code=</span><span class="url-hl">1000.abc123def456...</span>
+                                </div>
+                                <div class="zoho-url-example-hint">Copy everything after <code>code=</code> — that's your authorization code.</div>
+                            </div>
+
+                            <div class="form-group" style="margin-top:18px;">
+                                <label class="form-label">Authorization code <span class="required">*</span></label>
+                                <div class="zoho-code-input-wrap">
+                                    <input type="text" class="form-input zoho-code-input" id="zohoCodeInput" placeholder="Paste your code here, e.g. 1000.abc123def456..." autocomplete="off" spellcheck="false" oninput="zohoCodeValidate()">
+                                    <button type="button" class="zoho-paste-btn" onclick="zohoPasteFromClipboard()" title="Paste from clipboard">
+                                        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
+                                        Paste
+                                    </button>
+                                </div>
+                                <div class="zoho-code-hint" id="zohoCodeHint">Codes typically start with <code>1000.</code> and expire in 10 minutes.</div>
+                            </div>
+                        </div>
+                        <div class="modal-footer zoho-step2-footer">
+                            <button class="zoho-btn-ghost" onclick="zohoBackToStep1()">
+                                <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
+                                Back
+                            </button>
+                            <div class="zoho-step2-right">
+                                <button class="btn-cancel" onclick="zohoCloseStep2()">Cancel</button>
+                                <button class="zoho-btn-primary" id="zohoStep2SubmitBtn" onclick="zohoSubmitCode()" disabled>
+                                    <span class="zoho-btn-label">Verify &amp; connect</span>
+                                    <svg class="zoho-btn-spinner" width="14" height="14" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="3" stroke-opacity="0.25"/><path d="M22 12a10 10 0 00-10-10" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ═══════════════════════════════════════════════
+                     ZOHO BOOKS — STEP 3 MODAL: Verifying / Result
+                ═══════════════════════════════════════════════ -->
+                <div class="modal-overlay zoho-modal-overlay" id="zohoStep3Modal" onclick="if(event.target===this && document.getElementById('zohoStep3Modal').getAttribute('data-mode')!=='verifying')zohoCloseStep3()">
+                    <div class="modal-box zoho-modal-box zoho-result-box">
+                        <!-- VERIFYING -->
+                        <div class="zoho-result-state" data-mode="verifying">
+                            <div class="zoho-result-spinner">
+                                <svg width="56" height="56" viewBox="0 0 24 24" fill="none">
+                                    <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2.5" stroke-opacity="0.15"/>
+                                    <path d="M22 12a10 10 0 00-10-10" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+                                </svg>
+                            </div>
+                            <div class="zoho-result-title">Connecting to Zoho Books…</div>
+                            <div class="zoho-result-desc">Verifying your code and fetching organization details. This usually takes a few seconds.</div>
+                            <div class="zoho-verify-progress" id="zohoVerifyProgress">
+                                <div class="zoho-verify-step" data-step="1"><span class="vstep-icon"></span>Validating code</div>
+                                <div class="zoho-verify-step" data-step="2"><span class="vstep-icon"></span>Exchanging for access token</div>
+                                <div class="zoho-verify-step" data-step="3"><span class="vstep-icon"></span>Fetching organization</div>
+                            </div>
+                        </div>
+
+                        <!-- SUCCESS -->
+                        <div class="zoho-result-state" data-mode="success">
+                            <div class="zoho-result-icon success">
+                                <svg width="44" height="44" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+                            </div>
+                            <div class="zoho-result-title">Zoho Books connected</div>
+                            <div class="zoho-result-desc">ONAQT is now linked to your Zoho Books account. We'll start syncing in the background.</div>
+                            <div class="zoho-result-summary">
+                                <div class="zoho-summary-row"><span>Organization</span><strong id="zohoSummaryOrg">Atvantiq Pvt Ltd</strong></div>
+                                <div class="zoho-summary-row"><span>Account</span><strong id="zohoSummaryEmail">accounts@atvantiq.com</strong></div>
+                                <div class="zoho-summary-row"><span>Permissions</span><strong>Invoices · Expenses · Customers</strong></div>
+                            </div>
+                            <button class="zoho-btn-primary zoho-result-btn" onclick="zohoCloseStep3()">Done</button>
+                        </div>
+
+                        <!-- ERROR -->
+                        <div class="zoho-result-state" data-mode="error">
+                            <div class="zoho-result-icon error">
+                                <svg width="44" height="44" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+                            </div>
+                            <div class="zoho-result-title">Couldn't connect</div>
+                            <div class="zoho-result-desc" id="zohoResultErrorDesc">The authorization code was invalid or has expired. Try the connection again.</div>
+                            <div class="zoho-error-details" id="zohoErrorDetails" style="display:none;">
+                                <div class="zoho-error-details-label">Technical details</div>
+                                <code id="zohoErrorCode">—</code>
+                            </div>
+                            <div class="zoho-result-btn-row">
+                                <button class="zoho-btn-ghost" onclick="zohoCloseStep3()">Close</button>
+                                <button class="zoho-btn-primary" onclick="zohoRetryFromError()">
+                                    <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+                                    Try again
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ═══════════════════════════════════════════════
+                     ZOHO BOOKS — DISCONNECT CONFIRMATION
+                ═══════════════════════════════════════════════ -->
+                <div class="modal-overlay zoho-modal-overlay" id="zohoDisconnectModal" onclick="if(event.target===this)zohoCloseDisconnect()">
+                    <div class="modal-box zoho-modal-box zoho-confirm-box">
+                        <div class="modal-header">
+                            <div>
+                                <div class="modal-title">Disconnect Zoho Books?</div>
+                                <div class="modal-subtitle">This will stop all data sync between ONAQT and Zoho Books.</div>
+                            </div>
+                            <button class="modal-close" onclick="zohoCloseDisconnect()">
+                                <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="zoho-disconnect-callout">
+                                <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01M5 19h14a2 2 0 001.84-2.75L13.74 4a2 2 0 00-3.48 0L3.16 16.25A2 2 0 005 19z"/></svg>
+                                <div>
+                                    <strong>What happens next:</strong>
+                                    <ul>
+                                        <li>New invoices and expenses won't sync to Zoho.</li>
+                                        <li>Existing synced records stay in both systems.</li>
+                                        <li>You can reconnect at any time.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn-cancel" onclick="zohoCloseDisconnect()">Keep connected</button>
+                            <button class="zoho-btn-danger" id="zohoDisconnectBtn" onclick="zohoDoDisconnect()">
+                                <span class="zoho-btn-label">Yes, disconnect</span>
+                                <svg class="zoho-btn-spinner" width="14" height="14" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="3" stroke-opacity="0.25"/><path d="M22 12a10 10 0 00-10-10" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ═══════════════════════════════════════════════
+                     ZOHO BOOKS — TOAST
+                ═══════════════════════════════════════════════ -->
+                <div class="zoho-toast" id="zohoToast">
+                    <svg class="zoho-toast-icon" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+                    <div class="zoho-toast-msg" id="zohoToastMsg">Done</div>
                 </div>
 
             </main>
@@ -26580,6 +28121,310 @@ document.addEventListener('DOMContentLoaded', () => {
             html.setAttribute('data-dark', newDark ? 'true' : 'false');
             localStorage.setItem('onaqt-dark', newDark ? 'true' : 'false');
             updateDarkIcon(newDark);
+        }
+
+        // User profile dropdown
+        function toggleUserDropdown(event) {
+            if (event) event.stopPropagation();
+            const wrapper = document.querySelector('.user-menu-wrapper');
+            if (!wrapper) return;
+            wrapper.classList.toggle('open');
+        }
+        function closeUserDropdown() {
+            const wrapper = document.querySelector('.user-menu-wrapper');
+            if (wrapper) wrapper.classList.remove('open');
+        }
+        document.addEventListener('click', (e) => {
+            const wrapper = document.querySelector('.user-menu-wrapper');
+            if (!wrapper || !wrapper.classList.contains('open')) return;
+            if (!wrapper.contains(e.target)) wrapper.classList.remove('open');
+        });
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeUserDropdown();
+        });
+
+        /* ═══════════════════════════════════════════════
+           SETTINGS — Tab switching
+        ═══════════════════════════════════════════════ */
+        function settingsSwitchTab(tabId, btn) {
+            document.querySelectorAll('.settings-tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.settings-tab-panel').forEach(p => p.classList.remove('active'));
+            if (btn) btn.classList.add('active');
+            const panel = document.getElementById('settings-tab-' + tabId);
+            if (panel) panel.classList.add('active');
+        }
+
+        /* ═══════════════════════════════════════════════
+           ZOHO BOOKS — Integration flow
+           ──────────────────────────────────────────────
+           Endpoints (replace with real URLs when wiring):
+             POST /api/integrations/zoho/connect        → { redirect_url }
+             POST /api/integrations/zoho/verify         body: { code }  → { success, organization, email }
+             POST /api/integrations/zoho/disconnect     → { success }
+             POST /api/integrations/zoho/sync           → { last_sync_at }
+        ═══════════════════════════════════════════════ */
+
+        const ZOHO_DEMO_MODE = true; // flip to false when real API is wired
+
+        // ─── Helpers ─────────────────────────────────
+        function zohoSetCardState(state) {
+            const card = document.getElementById('zohoBooksCard');
+            if (card) card.setAttribute('data-state', state);
+        }
+        function zohoSetButtonLoading(btn, loading) {
+            if (!btn) return;
+            if (loading) {
+                btn.classList.add('loading');
+                btn.disabled = true;
+            } else {
+                btn.classList.remove('loading');
+                btn.disabled = false;
+            }
+        }
+        function zohoOpenModal(id) {
+            const m = document.getElementById(id);
+            if (m) m.classList.add('active');
+        }
+        function zohoCloseModal(id) {
+            const m = document.getElementById(id);
+            if (m) m.classList.remove('active');
+        }
+        function zohoToast(msg, type) {
+            const toast = document.getElementById('zohoToast');
+            const msgEl = document.getElementById('zohoToastMsg');
+            if (!toast || !msgEl) return;
+            msgEl.textContent = msg;
+            toast.classList.remove('error');
+            if (type === 'error') toast.classList.add('error');
+            toast.classList.add('show');
+            clearTimeout(toast._t);
+            toast._t = setTimeout(() => toast.classList.remove('show'), 3200);
+        }
+
+        // ─── Step 1: Start connect — open instruction modal ─
+        function zohoStartConnect(isReconnect) {
+            zohoCloseModal('zohoDisconnectModal');
+            // Optional: track reconnect intent
+            zohoOpenModal('zohoStep1Modal');
+        }
+        function zohoCloseStep1() { zohoCloseModal('zohoStep1Modal'); }
+
+        // ─── Step 1: User clicks Continue to Zoho ────
+        async function zohoStep1Continue() {
+            const btn = document.getElementById('zohoStep1ContinueBtn');
+            zohoSetButtonLoading(btn, true);
+            try {
+                // === Real implementation ===
+                // const res = await fetch('/api/integrations/zoho/connect', { method: 'POST' });
+                // const data = await res.json();
+                // const redirectUrl = data.redirect_url;
+
+                // === Demo simulation ===
+                await new Promise(r => setTimeout(r, 900));
+                const redirectUrl = ZOHO_DEMO_MODE
+                    ? 'https://accounts.zoho.in/oauth/v2/auth?scope=ZohoBooks.fullaccess.ALL&client_id=DEMO&response_type=code&redirect_uri=https://onaqt.app/zoho/success'
+                    : null;
+
+                if (!redirectUrl) throw new Error('No redirect URL received');
+
+                // Open Zoho in new tab so user keeps ONAQT open
+                window.open(redirectUrl, '_blank', 'noopener');
+
+                // Advance card to connecting state
+                zohoSetCardState('connecting');
+
+                // Close step 1 and open step 2
+                zohoCloseModal('zohoStep1Modal');
+                setTimeout(() => zohoOpenModal('zohoStep2Modal'), 200);
+            } catch (err) {
+                zohoToast('Could not start connection. Please try again.', 'error');
+            } finally {
+                zohoSetButtonLoading(btn, false);
+            }
+        }
+
+        // ─── Step 2: Code input handling ─────────────
+        function zohoOpenStep2() {
+            zohoOpenModal('zohoStep2Modal');
+        }
+        function zohoCloseStep2() { zohoCloseModal('zohoStep2Modal'); }
+        function zohoBackToStep1() {
+            zohoCloseModal('zohoStep2Modal');
+            setTimeout(() => zohoOpenModal('zohoStep1Modal'), 150);
+        }
+        function zohoCancelConnect() {
+            zohoSetCardState('disconnected');
+            zohoToast('Connection cancelled');
+        }
+
+        function zohoCodeValidate() {
+            const input = document.getElementById('zohoCodeInput');
+            const hint = document.getElementById('zohoCodeHint');
+            const submit = document.getElementById('zohoStep2SubmitBtn');
+            const v = (input.value || '').trim();
+            input.classList.remove('valid', 'invalid');
+            hint.classList.remove('error', 'success');
+
+            if (v.length === 0) {
+                hint.textContent = '';
+                hint.innerHTML = 'Codes typically start with <code>1000.</code> and expire in 10 minutes.';
+                submit.disabled = true;
+                return;
+            }
+            // Basic shape check: starts with "1000." and has enough length
+            if (/^1000\.[A-Za-z0-9]{20,}/.test(v)) {
+                input.classList.add('valid');
+                hint.classList.add('success');
+                hint.textContent = '✓ Looks like a valid Zoho authorization code.';
+                submit.disabled = false;
+            } else if (v.length > 8) {
+                input.classList.add('invalid');
+                hint.classList.add('error');
+                hint.innerHTML = 'This doesn\'t look like a Zoho code. It should start with <code>1000.</code>';
+                submit.disabled = true;
+            } else {
+                hint.innerHTML = 'Keep pasting — codes are usually 80+ characters long.';
+                submit.disabled = true;
+            }
+        }
+
+        async function zohoPasteFromClipboard() {
+            const input = document.getElementById('zohoCodeInput');
+            try {
+                const text = await navigator.clipboard.readText();
+                input.value = (text || '').trim();
+                zohoCodeValidate();
+                input.focus();
+            } catch {
+                zohoToast('Clipboard access denied — please paste manually with Ctrl+V', 'error');
+                input.focus();
+            }
+        }
+
+        // ─── Step 3: Submit & verify ─────────────────
+        async function zohoSubmitCode() {
+            const code = (document.getElementById('zohoCodeInput').value || '').trim();
+            if (!code) return;
+
+            // Close step 2, open verifying modal
+            zohoCloseModal('zohoStep2Modal');
+            const resultBox = document.querySelector('#zohoStep3Modal .zoho-result-box');
+            resultBox.setAttribute('data-mode', 'verifying');
+            zohoOpenModal('zohoStep3Modal');
+
+            // Animate verification steps
+            const steps = document.querySelectorAll('#zohoVerifyProgress .zoho-verify-step');
+            steps.forEach(s => s.classList.remove('active', 'done'));
+            const advance = (i) => {
+                steps.forEach((s, idx) => {
+                    s.classList.remove('active', 'done');
+                    if (idx < i) s.classList.add('done');
+                    if (idx === i) s.classList.add('active');
+                });
+            };
+            advance(0);
+            setTimeout(() => advance(1), 700);
+            setTimeout(() => advance(2), 1400);
+
+            try {
+                // === Real implementation ===
+                // const res = await fetch('/api/integrations/zoho/verify', {
+                //     method: 'POST',
+                //     headers: { 'Content-Type': 'application/json' },
+                //     body: JSON.stringify({ code })
+                // });
+                // if (!res.ok) throw await res.json();
+                // const data = await res.json();
+
+                // === Demo simulation ===
+                await new Promise(r => setTimeout(r, 2200));
+                // Trigger error path if code contains "fail" — useful for QA
+                if (/fail/i.test(code)) throw { error: 'invalid_code', message: 'The authorization code was rejected by Zoho.' };
+                const data = {
+                    success: true,
+                    organization: 'Atvantiq Pvt Ltd',
+                    email: 'accounts@atvantiq.com'
+                };
+
+                // Mark all done
+                steps.forEach(s => { s.classList.remove('active'); s.classList.add('done'); });
+                await new Promise(r => setTimeout(r, 300));
+
+                // Populate success summary
+                document.getElementById('zohoSummaryOrg').textContent = data.organization;
+                document.getElementById('zohoSummaryEmail').textContent = data.email;
+                document.getElementById('zohoConnectedOrg').textContent = data.organization;
+                document.getElementById('zohoConnectedEmail').textContent = data.email;
+                document.getElementById('zohoLastSync').textContent = 'Just now';
+
+                resultBox.setAttribute('data-mode', 'success');
+                zohoSetCardState('connected');
+                // Clear the code so it isn't reused
+                document.getElementById('zohoCodeInput').value = '';
+                zohoCodeValidate();
+            } catch (err) {
+                const msg = (err && err.message) || 'The authorization code was invalid or has expired.';
+                document.getElementById('zohoResultErrorDesc').textContent = msg + ' You can try the connection again.';
+                const code = err && err.error;
+                const detailsEl = document.getElementById('zohoErrorDetails');
+                if (code) {
+                    document.getElementById('zohoErrorCode').textContent = code;
+                    detailsEl.style.display = 'block';
+                } else {
+                    detailsEl.style.display = 'none';
+                }
+                resultBox.setAttribute('data-mode', 'error');
+                zohoSetCardState('error');
+            }
+        }
+
+        function zohoCloseStep3() {
+            zohoCloseModal('zohoStep3Modal');
+        }
+        function zohoRetryFromError() {
+            zohoCloseModal('zohoStep3Modal');
+            setTimeout(() => zohoStartConnect(), 200);
+        }
+
+        // ─── Connected actions ───────────────────────
+        async function zohoSyncNow() {
+            const lastSyncEl = document.getElementById('zohoLastSync');
+            const original = lastSyncEl.textContent;
+            lastSyncEl.innerHTML = '<span style="opacity:0.6">Syncing…</span>';
+            try {
+                // === Real ===
+                // await fetch('/api/integrations/zoho/sync', { method: 'POST' });
+                await new Promise(r => setTimeout(r, 1100));
+                lastSyncEl.textContent = 'Just now';
+                zohoToast('Synced with Zoho Books');
+            } catch {
+                lastSyncEl.textContent = original;
+                zohoToast('Sync failed. Please try again.', 'error');
+            }
+        }
+
+        function zohoConfirmDisconnect() { zohoOpenModal('zohoDisconnectModal'); }
+        function zohoCloseDisconnect() { zohoCloseModal('zohoDisconnectModal'); }
+
+        async function zohoDoDisconnect() {
+            const btn = document.getElementById('zohoDisconnectBtn');
+            zohoSetButtonLoading(btn, true);
+            try {
+                // === Real ===
+                // await fetch('/api/integrations/zoho/disconnect', { method: 'POST' });
+                await new Promise(r => setTimeout(r, 800));
+                zohoSetCardState('disconnected');
+                zohoCloseModal('zohoDisconnectModal');
+                zohoToast('Zoho Books disconnected');
+            } catch {
+                zohoToast('Could not disconnect. Please try again.', 'error');
+            } finally {
+                zohoSetButtonLoading(btn, false);
+            }
+        }
+
+        function zohoShowHelp() {
+            zohoToast('Help docs coming soon — contact support@onaqt.app');
         }
 
         function setTheme(theme, el) {
