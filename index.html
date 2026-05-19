@@ -1489,6 +1489,53 @@
         }
         .zoho-tip svg { color: var(--primary); flex-shrink: 0; margin-top: 1px; }
         .zoho-tip strong { color: var(--gray-900); font-weight: 600; }
+        /* Secure-variant tip: subtle green tint to suggest safety */
+        .zoho-tip-secure {
+            background: color-mix(in srgb, #2ea866 8%, transparent);
+            border-color: color-mix(in srgb, #2ea866 22%, transparent);
+        }
+        .zoho-tip-secure svg { color: #1d7a48; }
+
+        /* Popup recovery (inside verifying modal) */
+        .zoho-popup-recovery {
+            margin-top: 18px;
+            padding: 12px;
+            background: color-mix(in srgb, #d99a2b 8%, transparent);
+            border: 1px solid color-mix(in srgb, #d99a2b 20%, transparent);
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            align-items: center;
+            text-align: center;
+        }
+        .zoho-popup-recovery-inner {
+            display: flex;
+            gap: 7px;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            color: #8a5e10;
+            line-height: 1.45;
+        }
+        .zoho-popup-recovery-inner svg { color: #8a5e10; flex-shrink: 0; }
+        .zoho-popup-reopen { padding: 6px 12px !important; font-size: 12px !important; }
+
+        /* Inline cancel link under verifying spinner */
+        .zoho-cancel-link {
+            margin-top: 16px;
+            background: transparent;
+            border: none;
+            color: var(--gray-500);
+            font-size: 12px;
+            font-weight: 500;
+            text-decoration: underline;
+            text-underline-offset: 2px;
+            cursor: pointer;
+            padding: 6px 12px;
+            transition: color 0.15s ease;
+        }
+        .zoho-cancel-link:hover { color: var(--gray-900); }
 
         /* URL example block */
         .zoho-url-example {
@@ -19337,9 +19384,9 @@
                                             <a href="#" class="zoho-btn-link" onclick="zohoShowHelp();return false;">How does it work?</a>
                                         </div>
                                         <div class="integ-actions" data-state="connecting">
-                                            <button class="zoho-btn-primary" onclick="zohoOpenStep2()">
-                                                <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
-                                                Paste code
+                                            <button class="zoho-btn-primary" onclick="zohoResumeVerifying()">
+                                                <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/><path stroke-linecap="round" stroke-linejoin="round" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                                                Resume
                                             </button>
                                             <button class="zoho-btn-ghost" onclick="zohoCancelConnect()">Cancel</button>
                                         </div>
@@ -19396,15 +19443,15 @@
                 </div>
 
                 <!-- ═══════════════════════════════════════════════
-                     ZOHO BOOKS — STEP 1 MODAL: Authorize on Zoho
+                     ZOHO BOOKS — STEP 1 MODAL: Start authorization
                 ═══════════════════════════════════════════════ -->
                 <div class="modal-overlay zoho-modal-overlay" id="zohoStep1Modal" onclick="if(event.target===this)zohoCloseStep1()">
                     <div class="modal-box zoho-modal-box">
                         <div class="modal-header">
                             <div>
-                                <div class="zoho-step-pill">Step 1 of 3</div>
+                                <div class="zoho-step-pill">Step 1 of 2</div>
                                 <div class="modal-title">Authorize ONAQT on Zoho</div>
-                                <div class="modal-subtitle">We'll redirect you to Zoho to grant access.</div>
+                                <div class="modal-subtitle">A secure popup will open so you can grant access.</div>
                             </div>
                             <button class="modal-close" onclick="zohoCloseStep1()">
                                 <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
@@ -19419,37 +19466,28 @@
                                 <div class="zoho-stepper-bar"></div>
                                 <div class="zoho-stepper-item">
                                     <div class="zoho-stepper-dot">2</div>
-                                    <div class="zoho-stepper-label">Paste code</div>
-                                </div>
-                                <div class="zoho-stepper-bar"></div>
-                                <div class="zoho-stepper-item">
-                                    <div class="zoho-stepper-dot">3</div>
-                                    <div class="zoho-stepper-label">Verify</div>
+                                    <div class="zoho-stepper-label">Done</div>
                                 </div>
                             </div>
 
                             <div class="zoho-instructions">
                                 <div class="zoho-instruction-row">
                                     <div class="zoho-instruction-num">1</div>
-                                    <div class="zoho-instruction-text">Click <strong>Continue to Zoho</strong>. A new tab will open with Zoho's sign-in page.</div>
+                                    <div class="zoho-instruction-text">Click <strong>Continue to Zoho</strong>. A small popup window will open with Zoho's sign-in page.</div>
                                 </div>
                                 <div class="zoho-instruction-row">
                                     <div class="zoho-instruction-num">2</div>
-                                    <div class="zoho-instruction-text">Sign in and choose the Zoho Books organization you want to link.</div>
+                                    <div class="zoho-instruction-text">Sign in and pick the Zoho Books organization you want to link.</div>
                                 </div>
                                 <div class="zoho-instruction-row">
                                     <div class="zoho-instruction-num">3</div>
-                                    <div class="zoho-instruction-text">After approval, Zoho will show a page with an <strong>authorization code</strong>. Copy it.</div>
-                                </div>
-                                <div class="zoho-instruction-row">
-                                    <div class="zoho-instruction-num">4</div>
-                                    <div class="zoho-instruction-text">Come back to this tab and paste the code in the next step.</div>
+                                    <div class="zoho-instruction-text">Approve the requested permissions. The popup will close automatically when done.</div>
                                 </div>
                             </div>
 
-                            <div class="zoho-tip">
-                                <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
-                                <div><strong>Keep this tab open.</strong> You'll need to return here to finish connecting.</div>
+                            <div class="zoho-tip zoho-tip-secure">
+                                <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+                                <div><strong>Your credentials stay private.</strong> ONAQT never sees your Zoho password or the security code — Zoho sends the link directly to our servers.</div>
                             </div>
                         </div>
                         <div class="modal-footer">
@@ -19457,77 +19495,8 @@
                             <button class="zoho-btn-primary" id="zohoStep1ContinueBtn" onclick="zohoStep1Continue()">
                                 <span class="zoho-btn-label">Continue to Zoho</span>
                                 <svg class="zoho-btn-spinner" width="14" height="14" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="3" stroke-opacity="0.25"/><path d="M22 12a10 10 0 00-10-10" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg>
-                                <svg class="zoho-btn-arrow" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
+                                <svg class="zoho-btn-arrow" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
                             </button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- ═══════════════════════════════════════════════
-                     ZOHO BOOKS — STEP 2 MODAL: Paste auth code
-                ═══════════════════════════════════════════════ -->
-                <div class="modal-overlay zoho-modal-overlay" id="zohoStep2Modal" onclick="if(event.target===this)zohoCloseStep2()">
-                    <div class="modal-box zoho-modal-box">
-                        <div class="modal-header">
-                            <div>
-                                <div class="zoho-step-pill">Step 2 of 3</div>
-                                <div class="modal-title">Paste your authorization code</div>
-                                <div class="modal-subtitle">Copy the code Zoho gave you after approval.</div>
-                            </div>
-                            <button class="modal-close" onclick="zohoCloseStep2()">
-                                <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <div class="zoho-stepper">
-                                <div class="zoho-stepper-item done">
-                                    <div class="zoho-stepper-dot"><svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg></div>
-                                    <div class="zoho-stepper-label">Authorize</div>
-                                </div>
-                                <div class="zoho-stepper-bar done"></div>
-                                <div class="zoho-stepper-item active">
-                                    <div class="zoho-stepper-dot">2</div>
-                                    <div class="zoho-stepper-label">Paste code</div>
-                                </div>
-                                <div class="zoho-stepper-bar"></div>
-                                <div class="zoho-stepper-item">
-                                    <div class="zoho-stepper-dot">3</div>
-                                    <div class="zoho-stepper-label">Verify</div>
-                                </div>
-                            </div>
-
-                            <div class="zoho-url-example">
-                                <div class="zoho-url-example-label">Look for a URL like this:</div>
-                                <div class="zoho-url-example-bar">
-                                    <span class="url-dim">https://onaqt.app/zoho/success?code=</span><span class="url-hl">1000.abc123def456...</span>
-                                </div>
-                                <div class="zoho-url-example-hint">Copy everything after <code>code=</code> — that's your authorization code.</div>
-                            </div>
-
-                            <div class="form-group" style="margin-top:18px;">
-                                <label class="form-label">Authorization code <span class="required">*</span></label>
-                                <div class="zoho-code-input-wrap">
-                                    <input type="text" class="form-input zoho-code-input" id="zohoCodeInput" placeholder="Paste your code here, e.g. 1000.abc123def456..." autocomplete="off" spellcheck="false" oninput="zohoCodeValidate()">
-                                    <button type="button" class="zoho-paste-btn" onclick="zohoPasteFromClipboard()" title="Paste from clipboard">
-                                        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
-                                        Paste
-                                    </button>
-                                </div>
-                                <div class="zoho-code-hint" id="zohoCodeHint">Codes typically start with <code>1000.</code> and expire in 10 minutes.</div>
-                            </div>
-                        </div>
-                        <div class="modal-footer zoho-step2-footer">
-                            <button class="zoho-btn-ghost" onclick="zohoBackToStep1()">
-                                <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
-                                Back
-                            </button>
-                            <div class="zoho-step2-right">
-                                <button class="btn-cancel" onclick="zohoCloseStep2()">Cancel</button>
-                                <button class="zoho-btn-primary" id="zohoStep2SubmitBtn" onclick="zohoSubmitCode()" disabled>
-                                    <span class="zoho-btn-label">Verify &amp; connect</span>
-                                    <svg class="zoho-btn-spinner" width="14" height="14" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="3" stroke-opacity="0.25"/><path d="M22 12a10 10 0 00-10-10" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg>
-                                </button>
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -19545,13 +19514,25 @@
                                     <path d="M22 12a10 10 0 00-10-10" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
                                 </svg>
                             </div>
-                            <div class="zoho-result-title">Connecting to Zoho Books…</div>
-                            <div class="zoho-result-desc">Verifying your code and fetching organization details. This usually takes a few seconds.</div>
+                            <div class="zoho-result-title" id="zohoVerifyTitle">Waiting for you on Zoho…</div>
+                            <div class="zoho-result-desc" id="zohoVerifyDesc">Finish signing in and approving access in the popup window. We'll handle the rest automatically.</div>
                             <div class="zoho-verify-progress" id="zohoVerifyProgress">
-                                <div class="zoho-verify-step" data-step="1"><span class="vstep-icon"></span>Validating code</div>
-                                <div class="zoho-verify-step" data-step="2"><span class="vstep-icon"></span>Exchanging for access token</div>
-                                <div class="zoho-verify-step" data-step="3"><span class="vstep-icon"></span>Fetching organization</div>
+                                <div class="zoho-verify-step active" data-step="1"><span class="vstep-icon"></span>Popup opened</div>
+                                <div class="zoho-verify-step" data-step="2"><span class="vstep-icon"></span>Authorizing on Zoho</div>
+                                <div class="zoho-verify-step" data-step="3"><span class="vstep-icon"></span>Linking your account</div>
                             </div>
+                            <!-- Popup recovery — shown if popup was blocked or user closed it -->
+                            <div class="zoho-popup-recovery" id="zohoPopupRecovery" style="display:none;">
+                                <div class="zoho-popup-recovery-inner">
+                                    <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                                    <span id="zohoPopupRecoveryMsg">Popup blocked? Click below to reopen it.</span>
+                                </div>
+                                <button class="zoho-btn-ghost zoho-popup-reopen" onclick="zohoReopenPopup()">
+                                    <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+                                    Reopen popup
+                                </button>
+                            </div>
+                            <button class="zoho-cancel-link" onclick="zohoCancelVerifying()">Cancel</button>
                         </div>
 
                         <!-- SUCCESS -->
@@ -28204,10 +28185,40 @@ document.addEventListener('DOMContentLoaded', () => {
         // ─── Step 1: Start connect — open instruction modal ─
         function zohoStartConnect(isReconnect) {
             zohoCloseModal('zohoDisconnectModal');
-            // Optional: track reconnect intent
             zohoOpenModal('zohoStep1Modal');
         }
         function zohoCloseStep1() { zohoCloseModal('zohoStep1Modal'); }
+
+        /* ═══════════════════════════════════════════════
+           Popup + postMessage + polling connection flow
+           ──────────────────────────────────────────────
+           State held in zohoConnState:
+             popup:         the popup window reference (or null)
+             connectionId:  id from POST /connect
+             redirectUrl:   url to open (kept so we can reopen if popup blocked)
+             pollTimer:     setInterval id for status polling
+             popupTimer:    setInterval id watching popup.closed
+             finished:      true once success/error fired (idempotency guard)
+        ═══════════════════════════════════════════════ */
+        const zohoConnState = {
+            popup: null,
+            connectionId: null,
+            redirectUrl: null,
+            pollTimer: null,
+            popupTimer: null,
+            finished: false
+        };
+
+        const ZOHO_POPUP_FEATURES = 'width=520,height=720,toolbar=no,menubar=no,location=yes,status=no,resizable=yes,scrollbars=yes';
+
+        function zohoOpenPopup(url) {
+            // Center the popup over the parent window
+            const w = 520, h = 720;
+            const left = (window.screen.availWidth  - w) / 2 + (window.screenX || 0);
+            const top  = (window.screen.availHeight - h) / 2 + (window.screenY || 0);
+            const features = `${ZOHO_POPUP_FEATURES},left=${Math.round(left)},top=${Math.round(top)}`;
+            return window.open(url, 'zohoOAuth', features);
+        }
 
         // ─── Step 1: User clicks Continue to Zoho ────
         async function zohoStep1Continue() {
@@ -28216,26 +28227,44 @@ document.addEventListener('DOMContentLoaded', () => {
             try {
                 // === Real implementation ===
                 // const res = await fetch('/api/integrations/zoho/connect', { method: 'POST' });
-                // const data = await res.json();
-                // const redirectUrl = data.redirect_url;
+                // if (!res.ok) throw new Error('connect_failed');
+                // const data = await res.json(); // { redirect_url, connection_id }
 
                 // === Demo simulation ===
-                await new Promise(r => setTimeout(r, 900));
-                const redirectUrl = ZOHO_DEMO_MODE
-                    ? 'https://accounts.zoho.in/oauth/v2/auth?scope=ZohoBooks.fullaccess.ALL&client_id=DEMO&response_type=code&redirect_uri=https://onaqt.app/zoho/success'
-                    : null;
+                await new Promise(r => setTimeout(r, 600));
+                const data = ZOHO_DEMO_MODE ? {
+                    redirect_url: 'https://accounts.zoho.in/oauth/v2/auth?scope=ZohoBooks.fullaccess.ALL&client_id=DEMO&response_type=code&redirect_uri=https%3A%2F%2Fonaqt.app%2Fzoho%2Fcallback&state=DEMO_STATE',
+                    connection_id: 'conn_demo_' + Math.random().toString(36).slice(2, 10)
+                } : null;
+                if (!data || !data.redirect_url || !data.connection_id) {
+                    throw new Error('Missing redirect_url or connection_id from server');
+                }
 
-                if (!redirectUrl) throw new Error('No redirect URL received');
+                // Reset state
+                zohoStopWatchers();
+                zohoConnState.connectionId = data.connection_id;
+                zohoConnState.redirectUrl = data.redirect_url;
+                zohoConnState.finished = false;
 
-                // Open Zoho in new tab so user keeps ONAQT open
-                window.open(redirectUrl, '_blank', 'noopener');
+                // Open popup
+                zohoConnState.popup = zohoOpenPopup(data.redirect_url);
 
-                // Advance card to connecting state
+                // Move card to connecting & open verifying modal
                 zohoSetCardState('connecting');
-
-                // Close step 1 and open step 2
                 zohoCloseModal('zohoStep1Modal');
-                setTimeout(() => zohoOpenModal('zohoStep2Modal'), 200);
+                zohoOpenVerifyingModal();
+
+                if (!zohoConnState.popup || zohoConnState.popup.closed) {
+                    // Popup blocked — show recovery UI immediately
+                    zohoShowPopupRecovery('Your browser blocked the popup. Click below to open it manually.');
+                } else {
+                    // Mark step 1 done, step 2 active (Authorizing on Zoho)
+                    zohoSetVerifyStep(2);
+                    zohoStartPopupWatcher();
+                }
+
+                // Always start polling — handles both popup blocker case and cross-device completion
+                zohoStartPolling();
             } catch (err) {
                 zohoToast('Could not start connection. Please try again.', 'error');
             } finally {
@@ -28243,138 +28272,224 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
 
-        // ─── Step 2: Code input handling ─────────────
-        function zohoOpenStep2() {
-            zohoOpenModal('zohoStep2Modal');
+        // ─── Verifying modal helpers ──────────────────
+        function zohoOpenVerifyingModal() {
+            const resultBox = document.querySelector('#zohoStep3Modal .zoho-result-box');
+            resultBox.setAttribute('data-mode', 'verifying');
+            // Reset progress
+            const steps = document.querySelectorAll('#zohoVerifyProgress .zoho-verify-step');
+            steps.forEach(s => s.classList.remove('active', 'done'));
+            steps[0]?.classList.add('done');     // step 1: Popup opened (done by the time we're here)
+            steps[1]?.classList.add('active');   // step 2: Authorizing on Zoho
+            document.getElementById('zohoVerifyTitle').textContent = 'Waiting for you on Zoho…';
+            document.getElementById('zohoVerifyDesc').textContent = "Finish signing in and approving access in the popup window. We'll handle the rest automatically.";
+            document.getElementById('zohoPopupRecovery').style.display = 'none';
+            zohoOpenModal('zohoStep3Modal');
         }
-        function zohoCloseStep2() { zohoCloseModal('zohoStep2Modal'); }
-        function zohoBackToStep1() {
-            zohoCloseModal('zohoStep2Modal');
-            setTimeout(() => zohoOpenModal('zohoStep1Modal'), 150);
+
+        function zohoSetVerifyStep(stepNum) {
+            // stepNum: 1=Popup opened, 2=Authorizing, 3=Linking
+            const steps = document.querySelectorAll('#zohoVerifyProgress .zoho-verify-step');
+            steps.forEach((s, idx) => {
+                s.classList.remove('active', 'done');
+                if (idx + 1 < stepNum) s.classList.add('done');
+                if (idx + 1 === stepNum) s.classList.add('active');
+            });
+            if (stepNum === 3) {
+                document.getElementById('zohoVerifyTitle').textContent = 'Linking your account…';
+                document.getElementById('zohoVerifyDesc').textContent = "Fetching your Zoho Books organization details. Almost done.";
+            }
         }
+
+        function zohoShowPopupRecovery(msg) {
+            const rec = document.getElementById('zohoPopupRecovery');
+            const msgEl = document.getElementById('zohoPopupRecoveryMsg');
+            if (msg) msgEl.textContent = msg;
+            rec.style.display = 'flex';
+        }
+
+        function zohoReopenPopup() {
+            if (!zohoConnState.redirectUrl) return;
+            zohoConnState.popup = zohoOpenPopup(zohoConnState.redirectUrl);
+            if (zohoConnState.popup && !zohoConnState.popup.closed) {
+                document.getElementById('zohoPopupRecovery').style.display = 'none';
+                zohoStartPopupWatcher();
+                zohoSetVerifyStep(2);
+            } else {
+                zohoShowPopupRecovery('Still blocked. Please allow popups for this site, then try again.');
+            }
+        }
+
+        // ─── Watchers ─────────────────────────────────
+        function zohoStartPopupWatcher() {
+            if (zohoConnState.popupTimer) clearInterval(zohoConnState.popupTimer);
+            zohoConnState.popupTimer = setInterval(() => {
+                const p = zohoConnState.popup;
+                if (!p || p.closed) {
+                    clearInterval(zohoConnState.popupTimer);
+                    zohoConnState.popupTimer = null;
+                    // Popup gone but we don't know yet if user finished — keep polling.
+                    // If we never get a success, show the recovery option after 3s.
+                    setTimeout(() => {
+                        if (!zohoConnState.finished) {
+                            zohoShowPopupRecovery('Popup closed before completion. Reopen it to finish, or cancel.');
+                        }
+                    }, 3000);
+                }
+            }, 600);
+        }
+
+        function zohoStartPolling() {
+            if (zohoConnState.pollTimer) clearInterval(zohoConnState.pollTimer);
+            const connId = zohoConnState.connectionId;
+            let attempts = 0;
+            const maxAttempts = 150; // ~5 minutes at 2s intervals
+
+            zohoConnState.pollTimer = setInterval(async () => {
+                attempts++;
+                if (zohoConnState.finished) {
+                    clearInterval(zohoConnState.pollTimer);
+                    return;
+                }
+                if (attempts > maxAttempts) {
+                    clearInterval(zohoConnState.pollTimer);
+                    if (!zohoConnState.finished) {
+                        zohoFinishWithError({ error: 'timeout', message: 'The connection took too long. Please try again.' });
+                    }
+                    return;
+                }
+                try {
+                    // === Real implementation ===
+                    // const res = await fetch(`/api/integrations/zoho/status/${connId}`);
+                    // const data = await res.json();
+                    //   data.status: 'pending' | 'ready' | 'failed'
+                    //   on ready:    data.organization, data.email
+                    //   on failed:   data.error, data.message
+
+                    // === Demo simulation ===
+                    // In demo mode: pretend the user finished on Zoho after ~5 polls (~10s)
+                    const data = ZOHO_DEMO_MODE && attempts >= 5
+                        ? { status: 'ready', organization: 'Atvantiq Pvt Ltd', email: 'accounts@atvantiq.com' }
+                        : { status: 'pending' };
+
+                    if (data.status === 'ready') {
+                        zohoFinishWithSuccess(data);
+                    } else if (data.status === 'failed') {
+                        zohoFinishWithError(data);
+                    }
+                    // status === 'pending' — keep polling silently
+                } catch (err) {
+                    // Network blips while polling shouldn't kill the flow — just log
+                    console.warn('Zoho status poll failed:', err);
+                }
+            }, 2000);
+        }
+
+        function zohoStopWatchers() {
+            if (zohoConnState.pollTimer)  { clearInterval(zohoConnState.pollTimer);  zohoConnState.pollTimer = null; }
+            if (zohoConnState.popupTimer) { clearInterval(zohoConnState.popupTimer); zohoConnState.popupTimer = null; }
+        }
+
+        function zohoClosePopup() {
+            try { if (zohoConnState.popup && !zohoConnState.popup.closed) zohoConnState.popup.close(); } catch {}
+            zohoConnState.popup = null;
+        }
+
+        // ─── postMessage listener ─────────────────────
+        // Backend callback page should call:
+        //   window.opener.postMessage({ type: 'zoho-oauth', status: 'ready'|'failed', connection_id, ... }, location.origin);
+        //   window.close();
+        window.addEventListener('message', (e) => {
+            // Origin check — only trust messages from our own origin
+            if (e.origin !== window.location.origin) return;
+            const msg = e.data;
+            if (!msg || msg.type !== 'zoho-oauth') return;
+            if (zohoConnState.finished) return;
+            // Optionally verify connection_id matches
+            if (msg.connection_id && zohoConnState.connectionId && msg.connection_id !== zohoConnState.connectionId) return;
+
+            if (msg.status === 'ready') {
+                zohoFinishWithSuccess(msg);
+            } else if (msg.status === 'failed') {
+                zohoFinishWithError(msg);
+            }
+        });
+
+        // ─── Finish handlers ──────────────────────────
+        async function zohoFinishWithSuccess(data) {
+            if (zohoConnState.finished) return;
+            zohoConnState.finished = true;
+            zohoStopWatchers();
+            zohoClosePopup();
+
+            // Brief "linking" stage for visual continuity even on instant success
+            zohoSetVerifyStep(3);
+            await new Promise(r => setTimeout(r, 500));
+
+            const resultBox = document.querySelector('#zohoStep3Modal .zoho-result-box');
+            const org = data.organization || 'Your organization';
+            const email = data.email || '';
+
+            document.getElementById('zohoSummaryOrg').textContent = org;
+            document.getElementById('zohoSummaryEmail').textContent = email;
+            document.getElementById('zohoConnectedOrg').textContent = org;
+            document.getElementById('zohoConnectedEmail').textContent = email;
+            document.getElementById('zohoLastSync').textContent = 'Just now';
+
+            resultBox.setAttribute('data-mode', 'success');
+            zohoSetCardState('connected');
+        }
+
+        function zohoFinishWithError(data) {
+            if (zohoConnState.finished) return;
+            zohoConnState.finished = true;
+            zohoStopWatchers();
+            zohoClosePopup();
+
+            const resultBox = document.querySelector('#zohoStep3Modal .zoho-result-box');
+            const msg = (data && data.message) || "We couldn't complete the connection. Please try again.";
+            document.getElementById('zohoResultErrorDesc').textContent = msg;
+            const detailsEl = document.getElementById('zohoErrorDetails');
+            if (data && data.error) {
+                document.getElementById('zohoErrorCode').textContent = data.error;
+                detailsEl.style.display = 'block';
+            } else {
+                detailsEl.style.display = 'none';
+            }
+            resultBox.setAttribute('data-mode', 'error');
+            zohoSetCardState('error');
+        }
+
+        // ─── Cancel handlers ──────────────────────────
         function zohoCancelConnect() {
+            zohoConnState.finished = true;
+            zohoStopWatchers();
+            zohoClosePopup();
             zohoSetCardState('disconnected');
             zohoToast('Connection cancelled');
         }
 
-        function zohoCodeValidate() {
-            const input = document.getElementById('zohoCodeInput');
-            const hint = document.getElementById('zohoCodeHint');
-            const submit = document.getElementById('zohoStep2SubmitBtn');
-            const v = (input.value || '').trim();
-            input.classList.remove('valid', 'invalid');
-            hint.classList.remove('error', 'success');
+        function zohoCancelVerifying() {
+            zohoConnState.finished = true;
+            zohoStopWatchers();
+            zohoClosePopup();
+            zohoCloseModal('zohoStep3Modal');
+            zohoSetCardState('disconnected');
+            zohoToast('Connection cancelled');
+        }
 
-            if (v.length === 0) {
-                hint.textContent = '';
-                hint.innerHTML = 'Codes typically start with <code>1000.</code> and expire in 10 minutes.';
-                submit.disabled = true;
+        // Resume the verifying modal if the user dismissed it while connection is still in flight.
+        // Reachable from the card's "Resume" button when card is in 'connecting' state.
+        function zohoResumeVerifying() {
+            // If we already finished or no active connection, just restart from scratch
+            if (zohoConnState.finished || !zohoConnState.connectionId) {
+                zohoStartConnect();
                 return;
             }
-            // Basic shape check: starts with "1000." and has enough length
-            if (/^1000\.[A-Za-z0-9]{20,}/.test(v)) {
-                input.classList.add('valid');
-                hint.classList.add('success');
-                hint.textContent = '✓ Looks like a valid Zoho authorization code.';
-                submit.disabled = false;
-            } else if (v.length > 8) {
-                input.classList.add('invalid');
-                hint.classList.add('error');
-                hint.innerHTML = 'This doesn\'t look like a Zoho code. It should start with <code>1000.</code>';
-                submit.disabled = true;
-            } else {
-                hint.innerHTML = 'Keep pasting — codes are usually 80+ characters long.';
-                submit.disabled = true;
-            }
-        }
-
-        async function zohoPasteFromClipboard() {
-            const input = document.getElementById('zohoCodeInput');
-            try {
-                const text = await navigator.clipboard.readText();
-                input.value = (text || '').trim();
-                zohoCodeValidate();
-                input.focus();
-            } catch {
-                zohoToast('Clipboard access denied — please paste manually with Ctrl+V', 'error');
-                input.focus();
-            }
-        }
-
-        // ─── Step 3: Submit & verify ─────────────────
-        async function zohoSubmitCode() {
-            const code = (document.getElementById('zohoCodeInput').value || '').trim();
-            if (!code) return;
-
-            // Close step 2, open verifying modal
-            zohoCloseModal('zohoStep2Modal');
-            const resultBox = document.querySelector('#zohoStep3Modal .zoho-result-box');
-            resultBox.setAttribute('data-mode', 'verifying');
-            zohoOpenModal('zohoStep3Modal');
-
-            // Animate verification steps
-            const steps = document.querySelectorAll('#zohoVerifyProgress .zoho-verify-step');
-            steps.forEach(s => s.classList.remove('active', 'done'));
-            const advance = (i) => {
-                steps.forEach((s, idx) => {
-                    s.classList.remove('active', 'done');
-                    if (idx < i) s.classList.add('done');
-                    if (idx === i) s.classList.add('active');
-                });
-            };
-            advance(0);
-            setTimeout(() => advance(1), 700);
-            setTimeout(() => advance(2), 1400);
-
-            try {
-                // === Real implementation ===
-                // const res = await fetch('/api/integrations/zoho/verify', {
-                //     method: 'POST',
-                //     headers: { 'Content-Type': 'application/json' },
-                //     body: JSON.stringify({ code })
-                // });
-                // if (!res.ok) throw await res.json();
-                // const data = await res.json();
-
-                // === Demo simulation ===
-                await new Promise(r => setTimeout(r, 2200));
-                // Trigger error path if code contains "fail" — useful for QA
-                if (/fail/i.test(code)) throw { error: 'invalid_code', message: 'The authorization code was rejected by Zoho.' };
-                const data = {
-                    success: true,
-                    organization: 'Atvantiq Pvt Ltd',
-                    email: 'accounts@atvantiq.com'
-                };
-
-                // Mark all done
-                steps.forEach(s => { s.classList.remove('active'); s.classList.add('done'); });
-                await new Promise(r => setTimeout(r, 300));
-
-                // Populate success summary
-                document.getElementById('zohoSummaryOrg').textContent = data.organization;
-                document.getElementById('zohoSummaryEmail').textContent = data.email;
-                document.getElementById('zohoConnectedOrg').textContent = data.organization;
-                document.getElementById('zohoConnectedEmail').textContent = data.email;
-                document.getElementById('zohoLastSync').textContent = 'Just now';
-
-                resultBox.setAttribute('data-mode', 'success');
-                zohoSetCardState('connected');
-                // Clear the code so it isn't reused
-                document.getElementById('zohoCodeInput').value = '';
-                zohoCodeValidate();
-            } catch (err) {
-                const msg = (err && err.message) || 'The authorization code was invalid or has expired.';
-                document.getElementById('zohoResultErrorDesc').textContent = msg + ' You can try the connection again.';
-                const code = err && err.error;
-                const detailsEl = document.getElementById('zohoErrorDetails');
-                if (code) {
-                    document.getElementById('zohoErrorCode').textContent = code;
-                    detailsEl.style.display = 'block';
-                } else {
-                    detailsEl.style.display = 'none';
-                }
-                resultBox.setAttribute('data-mode', 'error');
-                zohoSetCardState('error');
+            zohoOpenVerifyingModal();
+            // If popup got closed, show recovery
+            if (!zohoConnState.popup || zohoConnState.popup.closed) {
+                zohoShowPopupRecovery('Popup closed before completion. Reopen it to finish, or cancel.');
             }
         }
 
