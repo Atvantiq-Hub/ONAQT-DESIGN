@@ -14508,9 +14508,18 @@
                         <a href="#" class="nav-submenu-link" onclick="showPage('vendor','Vendors');return false;">Vendors</a>
                         <a href="#" class="nav-submenu-link" onclick="showPage('vendor-bills','Bills');return false;">Bills</a>
                         <a href="#" class="nav-submenu-link" onclick="showPage('vendor-mileage','Mileage');return false;">Mileage</a>
-                        <a href="#" class="nav-submenu-link" onclick="showPage('inventory','Inventory');return false;">Inventory</a>
                     </div>
                 </div>
+
+                <!-- Material Consumption (standalone) -->
+                <a href="#" class="nav-link" id="nav-inventory-link" onclick="showPage('inventory','Material Consumption');return false;">
+                    <div class="nav-link-content">
+                        <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/>
+                        </svg>
+                        Material Consumption
+                    </div>
+                </a>
 
                 <!-- Project Planning -->
                 <div class="nav-section-label">Project Planning</div>
@@ -17122,10 +17131,6 @@
                             <div class="vnd-stat-icon"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="17" height="17" style="flex-shrink:0"><polyline points="23 7 13.5 15.5 8.5 10.5 1 17"/><polyline points="17 7 23 7 23 13"/></svg></div>
                             <div class="vnd-stat-body"><div class="vnd-stat-lbl">OUT This Week</div><div class="vnd-stat-val" id="invOutWeek">43 units</div><div class="vnd-stat-sub">Via work exit forms</div></div>
                         </div>
-                        <div class="vnd-stat">
-                            <div class="vnd-stat-icon"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="17" height="17" style="flex-shrink:0"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
-                            <div class="vnd-stat-body"><div class="vnd-stat-lbl">Pending Zoho Sync</div><div class="vnd-stat-val" id="invPendingSync">4</div><div class="vnd-stat-sub">Movements unsynced</div></div>
-                        </div>
                     </div>
 
                     <!-- View tabs row -->
@@ -17139,7 +17144,7 @@
                     <div class="ovw-filter-bar">
                         <div class="vh-title-chip">
                             <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="color:var(--primary);flex-shrink:0;"><path d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg>
-                            <span class="vh-title-text">Inventory</span>
+                            <span class="vh-title-text">Material Consumption</span>
                         </div>
 
                         <select class="ovw-select" id="invCatFilter" onchange="invRender()">
