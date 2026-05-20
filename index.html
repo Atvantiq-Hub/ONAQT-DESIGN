@@ -14267,6 +14267,13 @@
         .rp-filter-strip { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 10px; padding: 8px 12px; background: var(--rp-surface); border: 1px solid var(--rp-border); border-radius: 10px; flex-wrap: wrap; }
         .rp-filter-strip-selects { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
         .rp-filter-strip .rp-month-nav { margin: 0; padding: 0; background: transparent; border: none; }
+        .rp-date-picker-wrap { display: flex; align-items: center; gap: 8px; }
+        .rp-date-lbl { font-size: 10px; color: var(--rp-muted); text-transform: uppercase; letter-spacing: .05em; font-weight: 600; }
+        .rp-date-picker { font-family: inherit; font-size: 12px; padding: 6px 10px; border: 1px solid var(--rp-border-md); border-radius: 6px; background: var(--rp-surface); color: var(--rp-text); cursor: pointer; transition: border-color .12s, box-shadow .12s; min-width: 150px; }
+        .rp-date-picker:hover { border-color: var(--primary); }
+        .rp-date-picker:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 2px rgba(45,74,53,.12); }
+        [data-dark="true"] .rp-date-picker { background: #252836; color: #f3f4f6; }
+        [data-dark="true"] .rp-date-picker::-webkit-calendar-picker-indicator { filter: invert(1); opacity: .7; }
         .rp-group-lbl { font-size: 10px; color: var(--rp-muted); text-transform: uppercase; letter-spacing: .04em; font-weight: 600; margin-right: 2px; }
         .rp-group-btn { padding: 4px 10px; font-size: 10.5px; font-weight: 600; background: var(--rp-surface); border: 1px solid var(--rp-border-md); color: var(--rp-muted); cursor: pointer; transition: all .12s; }
         .rp-group-btn:first-of-type { border-radius: 6px 0 0 6px; }
@@ -14311,7 +14318,7 @@
         #page-plan-actual table { width: 100%; border-collapse: collapse; font-size: 12px; }
         #page-plan-actual thead th { background: var(--bg); padding: 8px 8px; text-align: right; font-weight: 500; color: var(--rp-muted); font-size: 10px; text-transform: uppercase; letter-spacing: .05em; border-bottom: 1px solid var(--rp-border); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; cursor: pointer; user-select: none; transition: color .12s; }
         [data-dark="true"] #page-plan-actual thead th { background: #1e2130 !important; }
-        #page-plan-actual thead th:first-child,#page-plan-actual thead th:nth-child(2),#page-plan-actual thead th:nth-child(3),#page-plan-actual thead th:nth-child(4),#page-plan-actual thead th:nth-child(5),#page-plan-actual thead th:nth-child(6) { text-align: left; }
+        #page-plan-actual thead th:first-child,#page-plan-actual thead th:nth-child(2),#page-plan-actual thead th:nth-child(3),#page-plan-actual thead th:nth-child(4),#page-plan-actual thead th:nth-child(5) { text-align: left; }
         #page-plan-actual thead th:hover { color: var(--rp-text); }
         #page-plan-actual thead th.rp-sorted { color: var(--primary); }
         #page-plan-actual tbody tr { border-bottom: 1px solid var(--rp-border); transition: background .1s; }
@@ -14325,21 +14332,20 @@
         /* Min widths per column — scrollable when narrow */
         #page-plan-actual table th:nth-child(1),  #page-plan-actual table td:nth-child(1)  { min-width: 180px; text-align: left; }
         #page-plan-actual table th:nth-child(2),  #page-plan-actual table td:nth-child(2)  { min-width: 90px;  text-align: left; }
-        #page-plan-actual table th:nth-child(3),  #page-plan-actual table td:nth-child(3)  { min-width: 90px;  text-align: left; }
-        #page-plan-actual table th:nth-child(4),  #page-plan-actual table td:nth-child(4)  { min-width: 70px;  text-align: left; }
-        #page-plan-actual table th:nth-child(5),  #page-plan-actual table td:nth-child(5)  { min-width: 100px; text-align: left; }
-        #page-plan-actual table th:nth-child(6),  #page-plan-actual table td:nth-child(6)  { min-width: 90px;  text-align: left; }
-        #page-plan-actual table th:nth-child(7),  #page-plan-actual table td:nth-child(7)  { min-width: 85px; }     /* Target Rev */
-        #page-plan-actual table th:nth-child(8),  #page-plan-actual table td:nth-child(8)  { min-width: 95px; }     /* Achieved Rev */
-        #page-plan-actual table th:nth-child(9),  #page-plan-actual table td:nth-child(9)  { min-width: 75px; }     /* Var Rev */
-        #page-plan-actual table th:nth-child(10), #page-plan-actual table td:nth-child(10) { min-width: 130px; }    /* Achievement % bar */
-        #page-plan-actual table th:nth-child(11), #page-plan-actual table td:nth-child(11) { min-width: 80px; }     /* Sites */
-        #page-plan-actual table th:nth-child(12), #page-plan-actual table td:nth-child(12) { min-width: 80px; }     /* Active Days */
-        #page-plan-actual table th:nth-child(13), #page-plan-actual table td:nth-child(13) { min-width: 75px; }     /* Avg D/Site */
-        #page-plan-actual table th:nth-child(14), #page-plan-actual table td:nth-child(14) { min-width: 130px; }    /* Efficiency % bar */
-        #page-plan-actual table th:nth-child(15), #page-plan-actual table td:nth-child(15) { min-width: 70px; }     /* Plan Hrs */
-        #page-plan-actual table th:nth-child(16), #page-plan-actual table td:nth-child(16) { min-width: 75px; }     /* Actual Hrs */
-        #page-plan-actual tbody td:first-child,#page-plan-actual tbody td:nth-child(2),#page-plan-actual tbody td:nth-child(3),#page-plan-actual tbody td:nth-child(4),#page-plan-actual tbody td:nth-child(5),#page-plan-actual tbody td:nth-child(6) { text-align: left; }
+        #page-plan-actual table th:nth-child(3),  #page-plan-actual table td:nth-child(3)  { min-width: 70px;  text-align: left; }
+        #page-plan-actual table th:nth-child(4),  #page-plan-actual table td:nth-child(4)  { min-width: 100px; text-align: left; }
+        #page-plan-actual table th:nth-child(5),  #page-plan-actual table td:nth-child(5)  { min-width: 90px;  text-align: left; }
+        #page-plan-actual table th:nth-child(6),  #page-plan-actual table td:nth-child(6)  { min-width: 85px; }     /* Target Rev */
+        #page-plan-actual table th:nth-child(7),  #page-plan-actual table td:nth-child(7)  { min-width: 95px; }     /* Achieved Rev */
+        #page-plan-actual table th:nth-child(8),  #page-plan-actual table td:nth-child(8)  { min-width: 75px; }     /* Var Rev */
+        #page-plan-actual table th:nth-child(9),  #page-plan-actual table td:nth-child(9)  { min-width: 130px; }    /* Achievement % bar */
+        #page-plan-actual table th:nth-child(10), #page-plan-actual table td:nth-child(10) { min-width: 80px; }     /* Sites */
+        #page-plan-actual table th:nth-child(11), #page-plan-actual table td:nth-child(11) { min-width: 80px; }     /* Active Days */
+        #page-plan-actual table th:nth-child(12), #page-plan-actual table td:nth-child(12) { min-width: 75px; }     /* Avg D/Site */
+        #page-plan-actual table th:nth-child(13), #page-plan-actual table td:nth-child(13) { min-width: 130px; }    /* Efficiency % bar */
+        #page-plan-actual table th:nth-child(14), #page-plan-actual table td:nth-child(14) { min-width: 70px; }     /* Plan Hrs */
+        #page-plan-actual table th:nth-child(15), #page-plan-actual table td:nth-child(15) { min-width: 75px; }     /* Actual Hrs */
+        #page-plan-actual tbody td:first-child,#page-plan-actual tbody td:nth-child(2),#page-plan-actual tbody td:nth-child(3),#page-plan-actual tbody td:nth-child(4),#page-plan-actual tbody td:nth-child(5) { text-align: left; }
         /* Shrink utilization bar to fit narrow column */
         #page-plan-actual .rp-util-wrap { gap: 5px; }
         #page-plan-actual .rp-util-bar { width: 40px; }
@@ -14367,6 +14373,49 @@
         .rp-tbl-footer .lbl { color: var(--rp-muted); }
         .rp-tbl-footer .val { font-weight: 600; font-family: var(--rp-mono); color: var(--rp-text); }
         .rp-tbl-footer .val.neg { color: var(--danger); }
+
+        /* ─── Drill-down modal (rpDrillDown) ─── */
+        .rpdd-overlay { position: fixed; inset: 0; background: rgba(0,0,0,.5); z-index: 99999; display: flex; align-items: center; justify-content: center; padding: 20px; box-sizing: border-box; }
+        .rpdd-card { background: #fff; border-radius: 14px; width: 100%; max-width: 720px; max-height: 90vh; display: flex; flex-direction: column; overflow: hidden; box-shadow: 0 24px 64px rgba(0,0,0,.28); color: #2D2820; }
+        [data-dark="true"] .rpdd-card { background: #1e2130; color: #f3f4f6; }
+        .rpdd-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; padding: 18px 22px; border-bottom: 1px solid rgba(45,40,32,.08); flex-shrink: 0; }
+        [data-dark="true"] .rpdd-head { border-bottom-color: rgba(255,255,255,.08); }
+        .rpdd-head-info { min-width: 0; flex: 1; }
+        .rpdd-title { font-family: 'Fraunces', serif; font-size: 18px; font-weight: 600; color: inherit; line-height: 1.2; }
+        .rpdd-subtitle { font-size: 11px; color: #5C5650; margin-top: 4px; }
+        [data-dark="true"] .rpdd-subtitle { color: #c4c9d4; }
+        .rpdd-head-actions { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+        .rpdd-btn-primary { padding: 6px 14px; border-radius: 6px; background: var(--primary); color: #fff; border: none; font-size: 11.5px; font-weight: 600; cursor: pointer; font-family: inherit; white-space: nowrap; }
+        .rpdd-btn-primary:hover { opacity: .9; }
+        .rpdd-close { width: 30px; height: 30px; border-radius: 6px; background: transparent; border: 1px solid rgba(45,40,32,.12); color: #5C5650; font-size: 20px; line-height: 1; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; padding: 0; }
+        .rpdd-close:hover { background: rgba(45,40,32,.06); color: #2D2820; }
+        [data-dark="true"] .rpdd-close { border-color: rgba(255,255,255,.12); color: #c4c9d4; }
+        [data-dark="true"] .rpdd-close:hover { background: rgba(255,255,255,.06); color: #f3f4f6; }
+        .rpdd-body { padding: 18px 22px; overflow-y: auto; flex: 1; min-height: 0; }
+        .rpdd-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+        @media (max-width: 600px) { .rpdd-grid { grid-template-columns: 1fr; } }
+        .rpdd-section { background: #FAF7F2; border: 1px solid rgba(45,40,32,.06); border-radius: 10px; padding: 12px 14px; }
+        [data-dark="true"] .rpdd-section { background: #252836; border-color: rgba(255,255,255,.06); }
+        .rpdd-section-label { font-size: 9.5px; font-weight: 700; color: var(--primary); text-transform: uppercase; letter-spacing: .06em; margin-bottom: 10px; }
+        .rpdd-stat-row { display: flex; align-items: center; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid rgba(45,40,32,.06); font-size: 12px; }
+        .rpdd-stat-row:last-child { border-bottom: none; }
+        [data-dark="true"] .rpdd-stat-row { border-bottom-color: rgba(255,255,255,.06); }
+        .rpdd-stat-lbl { color: #5C5650; }
+        [data-dark="true"] .rpdd-stat-lbl { color: #c4c9d4; }
+        .rpdd-stat-val { font-weight: 600; font-family: 'DM Mono','Courier New',monospace; color: inherit; }
+        .rpdd-section-eff { display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
+        .rpdd-section-eff .rpdd-section-label { align-self: stretch; text-align: left; }
+        .rpdd-eff-val { font-family: 'Fraunces', serif; font-size: 36px; font-weight: 700; line-height: 1; margin: 6px 0; }
+        .rpdd-eff-meta { font-size: 10px; color: #8B8275; font-family: 'DM Mono', monospace; }
+        [data-dark="true"] .rpdd-eff-meta { color: #9CA3AF; }
+        .rpdd-meta { margin-top: 14px; padding-top: 12px; border-top: 1px solid rgba(45,40,32,.08); font-size: 11.5px; color: #5C5650; display: flex; flex-direction: column; gap: 4px; }
+        [data-dark="true"] .rpdd-meta { border-top-color: rgba(255,255,255,.08); color: #c4c9d4; }
+        .rpdd-meta-lbl { font-weight: 600; color: #2D2820; }
+        [data-dark="true"] .rpdd-meta-lbl { color: #f3f4f6; }
+        .rpdd-foot { padding: 12px 22px; border-top: 1px solid rgba(45,40,32,.08); display: flex; justify-content: flex-end; flex-shrink: 0; background: #FAF7F2; }
+        [data-dark="true"] .rpdd-foot { background: #252836; border-top-color: rgba(255,255,255,.08); }
+        .rpdd-btn-secondary { padding: 7px 18px; border-radius: 6px; background: var(--primary); color: #fff; border: none; font-size: 12px; font-weight: 600; cursor: pointer; font-family: inherit; }
+        .rpdd-btn-secondary:hover { opacity: .9; }
         .rp-tbl-footer .val.pos { color: var(--success); }
         .rp-dept-chip { font-size: 10px; color: var(--rp-muted); font-weight: 400; margin-left: 8px; }
 
@@ -18324,51 +18373,25 @@
                         <button class="rp-btn-export" onclick="rpExportCSV()">↓ Export CSV</button>
                       </div>
                     </div>
-                    <!-- KPI Row -->
-                    <div class="rp-kpi-row" id="rpKpiRow"></div>
-                    <!-- Filter strip (above table) -->
-                    <div class="rp-filter-strip">
-                      <div class="rp-month-nav" id="rpMonthNav"></div>
-                      <div class="rp-filter-strip-selects">
-                        <select class="rp-select" id="rpDeptFilter" onchange="rpApplyFilter()">
-                          <option value="all">All LOB</option>
-                          <option value="Civil">Civil Engineering</option>
-                          <option value="Structural">Structural</option>
-                          <option value="Geotechnical">Geotechnical</option>
-                          <option value="MEP">MEP</option>
-                          <option value="PM">Project Management</option>
-                          <option value="Operations">Operations</option>
-                          <option value="Electrical">Electrical</option>
-                        </select>
-                        <select class="rp-select" id="rpProjectFilter" onchange="rpApplyFilter()">
-                          <option value="all">All Projects</option>
-                        </select>
-                        <select class="rp-select" id="rpStatusFilter" onchange="rpApplyFilter()">
-                          <option value="all">All Status</option>
-                          <option value="Over">Over allocated</option>
-                          <option value="On Track">On track</option>
-                          <option value="Under">Under allocated</option>
-                        </select>
-                      </div>
-                    </div>
                     <!-- Toolbar with view toggle -->
                     <div class="rp-tbl-wrap" id="rpTblOuter">
-                      <div class="rp-toolbar">
+                      <div class="rp-toolbar rp-toolbar-unified">
                         <div class="rp-toolbar-left">
                           <span class="rp-toolbar-title">Employee Detail</span>
                           <input class="rp-search" id="rpSearchBox" placeholder="Search employee or project…" oninput="rpApplyFilter()" />
-                          <button class="rp-filter-btn over" id="rpFilterOver" onclick="rpToggleFilter('over')">Over allocated</button>
-                          <button class="rp-filter-btn low" id="rpFilterLow" onclick="rpToggleFilter('low')">Under allocated</button>
+                          <input type="month" id="rpMonthPicker" class="rp-date-picker" onchange="rpSetMonthFromPicker(this.value)" title="Filter by month" />
+                          <select class="rp-select" id="rpProjectFilter" onchange="rpApplyFilter()">
+                            <option value="all">All Projects</option>
+                          </select>
+                          <select class="rp-select" id="rpStatusFilter" onchange="rpApplyFilter()">
+                            <option value="all">All Status</option>
+                            <option value="Over">Over allocated</option>
+                            <option value="On Track">On track</option>
+                            <option value="Under">Under allocated</option>
+                          </select>
                         </div>
                         <div style="display:flex;align-items:center;gap:10px;">
                           <span class="rp-row-count" id="rpRowCount"></span>
-                          <!-- Group-by toggle -->
-                          <div class="rp-group-toggle">
-                            <span class="rp-group-lbl">Group:</span>
-                            <button class="rp-group-btn active" id="rpGroupNone" onclick="rpSwitchGroup('none')">None</button>
-                            <button class="rp-group-btn" id="rpGroupLOB" onclick="rpSwitchGroup('lob')">LOB</button>
-                            <button class="rp-group-btn" id="rpGroupProj" onclick="rpSwitchGroup('project')">Project</button>
-                          </div>
                           <div class="rp-view-toggle">
                             <button class="rp-view-btn active" id="rpViewList" onclick="rpSwitchView('list')" title="List View">
                               <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16"/></svg>
@@ -18384,7 +18407,6 @@
                         <table id="rpMainTable">
                           <thead><tr>
                             <th onclick="rpSortTable('name')" id="rp-th-name">Name</th>
-                            <th onclick="rpSortTable('dept')" id="rp-th-dept">LOB</th>
                             <th onclick="rpSortTable('primaryProject')" id="rp-th-primaryProject">Project</th>
                             <th onclick="rpSortTable('level')" id="rp-th-level">Level</th>
                             <th onclick="rpSortTable('pm')" id="rp-th-pm">PM</th>
@@ -35787,7 +35809,6 @@ document.addEventListener('DOMContentLoaded',function(){
     var safeName = e.name.replace(/\'/g,'');
     return '<tr style="cursor:pointer;" onclick="rpDrillDown(\''+safeName+'\')" title="Click row for breakdown">'
       +'<td><div class="rp-emp-cell" onclick="event.stopPropagation();rpOpenDailyView(\''+safeName+'\')" title="Click name for 30-day detail"><div class="rp-avatar" style="background:'+col[0]+';color:'+col[1]+';">'+ini+'</div><div><div class="rp-emp-name" style="color:var(--primary);text-decoration:underline;text-underline-offset:2px;">'+e.name+'</div><div class="rp-emp-role">'+e.role+'</div></div></div></td>'
-      +'<td><span style="font-size:11px;color:#5C5650;">'+e.dept+'</span></td>'
       +'<td><span class="rp-proj-tag">'+e.primaryProject+'</span></td>'
       +'<td><span style="font-size:11px;color:#5C5650;">'+e.level+'</span></td>'
       +'<td><span style="font-size:11px;color:#5C5650;">'+e.pm+'</span></td>'
@@ -35808,7 +35829,7 @@ document.addEventListener('DOMContentLoaded',function(){
   function rpRenderTable(data){
     var body=document.getElementById('rpTblBody'); if(!body) return;
     var rows='', vis=0;
-    var COLSPAN = 16;
+    var COLSPAN = 15;
 
     if(rpGroupBy==='none'){
       data.forEach(function(e){ vis++; rows+=rpRowHTML(e); });
@@ -35887,11 +35908,20 @@ document.addEventListener('DOMContentLoaded',function(){
   }
 
   window.rpRenderMonths = function rpRenderMonths(){
-    var el=document.getElementById('rpMonthNav'); if(!el) return;
-    el.innerHTML=RP_MONTHS.map(function(m,i){return '<button class="rp-mth-btn'+(i===rpActiveMonth?' active':'')+'" onclick="rpSetMonth('+i+')">'+m+'</button>';}).join('');
+    var el=document.getElementById('rpMonthPicker'); if(!el) return;
+    var mm=String(rpActiveMonth+1).padStart(2,'0');
+    el.value='2025-'+mm;
   }
 
   window.rpSetMonth=function(i){rpActiveMonth=i;rpRenderMonths();rpApplyFilter();};
+  window.rpSetMonthFromPicker=function(val){
+    if(!val) return;
+    var parts=val.split('-');
+    var m=parseInt(parts[1],10);
+    if(isNaN(m)||m<1||m>12) return;
+    rpActiveMonth=m-1;
+    rpApplyFilter();
+  };
 
   function rpPopulateProjectFilter(){
     var sel=document.getElementById('rpProjectFilter'); if(!sel) return;
@@ -35905,18 +35935,16 @@ document.addEventListener('DOMContentLoaded',function(){
   window.rpApplyFilter=function(){
     rpPopulateProjectFilter();
     var data=rpEnriched();
-    var dEl=document.getElementById('rpDeptFilter');
     var pEl=document.getElementById('rpProjectFilter');
     var sEl=document.getElementById('rpStatusFilter');
     var qEl=document.getElementById('rpSearchBox');
-    if(dEl&&dEl.value!=='all') data=data.filter(function(e){return e.dept===dEl.value;});
     if(pEl&&pEl.value!=='all') data=data.filter(function(e){return e.projects.indexOf(pEl.value)>=0;});
     if(sEl&&sEl.value!=='all') data=data.filter(function(e){return e.status===sEl.value;});
     if(qEl&&qEl.value){var q=qEl.value.toLowerCase();data=data.filter(function(e){return e.name.toLowerCase().includes(q)||e.projects.some(function(p){return p.toLowerCase().includes(q);})||e.role.toLowerCase().includes(q);});}
     if(rpActiveFilters.over) data=data.filter(function(e){return e.status==='Over';});
     if(rpActiveFilters.low)  data=data.filter(function(e){return e.status==='Under';});
     data.sort(function(a,b){var av=a[rpSortKey],bv=b[rpSortKey];if(typeof av==='string')return rpSortDir*av.localeCompare(bv);return rpSortDir*((av||0)-(bv||0));});
-    rpRenderKPI(data); rpRenderCharts(data);
+    rpRenderCharts(data);
     if(rpView==='list') rpRenderTable(data); else rpRenderTiles(data);
     rpUpdateSort();
   };
@@ -36124,48 +36152,71 @@ document.addEventListener('DOMContentLoaded',function(){
     if(!emp) return;
     var revVar = emp.actualRev - emp.targetRev;
     var safeName = emp.name.replace(/\'/g,'');
-    var msg='<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;border-bottom:1px solid var(--rp-border);padding-bottom:12px;">'
-        +'<div><div style="font-family:Fraunces,serif;font-size:17px;font-weight:600;color:var(--rp-text);">'+emp.name+'</div>'
-        +'<div style="font-size:11px;color:var(--rp-sub);margin-top:2px;">'+emp.role+' · '+emp.dept+' · '+emp.level+' · '+emp.circle+'</div></div>'
-        +'<button class="rp-btn-export" onclick="rpOpenDailyView(\''+safeName+'\');document.getElementById(\'rpDrillModal\').remove();" style="padding:5px 12px;font-size:11px;">View 30-day Detail →</button>'
-      +'</div>'
-      +'<div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">'
-        +'<div>'
-        +'<div style="font-size:10px;font-weight:700;color:var(--primary);text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px;">Revenue (Plan vs Achieved)</div>'
-        +'<table style="width:100%;font-size:12px;border-collapse:collapse;margin-bottom:14px;">'
-        +'<tr style="border-bottom:1px solid var(--rp-border);"><td style="padding:6px 0;color:var(--rp-sub);">Target Revenue</td><td style="text-align:right;padding:6px 0;font-weight:600;">'+rpFmtK(emp.targetRev)+'</td></tr>'
-        +'<tr style="border-bottom:1px solid var(--rp-border);"><td style="padding:6px 0;color:var(--rp-sub);">Achieved Revenue</td><td style="text-align:right;padding:6px 0;font-weight:600;color:'+(emp.actualRev>=emp.targetRev?'var(--success)':'var(--danger)')+';">'+rpFmtK(emp.actualRev)+'</td></tr>'
-        +'<tr style="border-bottom:1px solid var(--rp-border);"><td style="padding:6px 0;color:var(--rp-sub);">Variance (Var Rev)</td><td style="text-align:right;padding:6px 0;font-weight:600;color:'+(revVar>=0?'var(--success)':'var(--danger)')+';">'+(revVar>=0?'+':'')+rpFmtK(revVar)+'</td></tr>'
-        +'<tr><td style="padding:6px 0;color:var(--rp-sub);">Achievement %</td><td style="text-align:right;padding:6px 0;font-weight:600;color:'+(emp.revAchPct>=100?'var(--success)':emp.revAchPct>=80?'var(--warning)':'var(--danger)')+';">'+emp.revAchPct+'%</td></tr></table>'
-        +'<div style="font-size:10px;font-weight:700;color:var(--primary);text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px;">Tasks &amp; Sites</div>'
-        +'<table style="width:100%;font-size:12px;border-collapse:collapse;">'
-        +'<tr style="border-bottom:1px solid var(--rp-border);"><td style="padding:6px 0;color:var(--rp-sub);">Sites Completed</td><td style="text-align:right;padding:6px 0;font-weight:600;color:'+(emp.sitesDone>=emp.targetSites?'var(--success)':'var(--danger)')+';">'+emp.sitesDone+' / '+emp.targetSites+'</td></tr>'
-        +'<tr style="border-bottom:1px solid var(--rp-border);"><td style="padding:6px 0;color:var(--rp-sub);">Active Field Days</td><td style="text-align:right;padding:6px 0;font-weight:600;">'+emp.activeDays+' / '+emp.totalDays+'</td></tr>'
-        +'<tr><td style="padding:6px 0;color:var(--rp-sub);">Avg Days/Site</td><td style="text-align:right;padding:6px 0;font-weight:600;">'+emp.avgDays+'</td></tr></table>'
-        +'</div>'
-        +'<div>'
-        +'<div style="font-size:10px;font-weight:700;color:var(--primary);text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px;">Hours (Hourly billing · 5%)</div>'
-        +'<table style="width:100%;font-size:12px;border-collapse:collapse;margin-bottom:14px;">'
-        +'<tr style="border-bottom:1px solid var(--rp-border);"><td style="padding:6px 0;color:var(--rp-sub);">Plan Hours</td><td style="text-align:right;padding:6px 0;font-weight:600;">'+rpFmt(emp.planHrs)+' h</td></tr>'
-        +'<tr style="border-bottom:1px solid var(--rp-border);"><td style="padding:6px 0;color:var(--rp-sub);">Actual Hours</td><td style="text-align:right;padding:6px 0;font-weight:600;">'+rpFmt(emp.actHrs)+' h</td></tr>'
-        +'<tr><td style="padding:6px 0;color:var(--rp-sub);">Utilization</td><td style="text-align:right;padding:6px 0;font-weight:600;color:'+(emp.util>110?'var(--danger)':emp.util<85?'var(--warning)':'var(--success)')+';">'+emp.util+'%</td></tr></table>'
-        +'<div style="font-size:10px;font-weight:700;color:var(--primary);text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px;">Composite Efficiency</div>'
-        +'<div style="background:var(--bg);border-radius:8px;padding:12px;text-align:center;">'
-        +'<div style="font-size:32px;font-weight:700;font-family:Fraunces,serif;color:'+(emp.efficiency>=90?'var(--success)':emp.efficiency>=70?'var(--warning)':'var(--danger)')+';">'+emp.efficiency+'%</div>'
-        +'<div style="font-size:10px;color:var(--rp-muted);margin-top:4px;">Avg of: Util '+emp.util+'% · Site '+(emp.targetSites?Math.round(emp.sitesDone/emp.targetSites*100):0)+'% · Rev '+emp.revAchPct+'%</div>'
-        +'</div>'
-        +'<div style="margin-top:14px;font-size:11px;color:var(--rp-sub);"><strong style="color:var(--rp-text);">Projects:</strong> '+emp.projects.join(', ')+'</div>'
-        +'<div style="margin-top:6px;font-size:11px;color:var(--rp-sub);"><strong style="color:var(--rp-text);">PM:</strong> '+emp.pm+'</div>'
-        +'</div>'
-      +'</div>';
-    var overlay=document.createElement('div');
-    overlay.id='rpDrillModal';
-    overlay.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:9999;display:flex;align-items:center;justify-content:center;';
-    overlay.onclick=function(e){if(e.target===overlay)overlay.remove();};
-    var card=document.createElement('div');
-    card.style.cssText='background:var(--rp-surface);border-radius:14px;padding:20px 22px;max-width:680px;width:92%;max-height:88vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.25);color:var(--rp-text);';
-    card.innerHTML=msg+'<div style="text-align:right;margin-top:14px;border-top:1px solid var(--rp-border);padding-top:12px;"><button onclick="document.getElementById(\'rpDrillModal\').remove()" style="padding:7px 18px;border-radius:6px;background:var(--primary);color:#fff;border:none;cursor:pointer;font-size:12px;font-weight:600;">Close</button></div>';
-    overlay.appendChild(card);
+    var revColor = emp.actualRev>=emp.targetRev?'var(--success)':'var(--danger)';
+    var varColor = revVar>=0?'var(--success)':'var(--danger)';
+    var achColor = emp.revAchPct>=100?'var(--success)':emp.revAchPct>=80?'var(--warning)':'var(--danger)';
+    var sitesColor = emp.sitesDone>=emp.targetSites?'var(--success)':'var(--danger)';
+    var utilColor = emp.util>110?'var(--danger)':emp.util<85?'var(--warning)':'var(--success)';
+    var effColor = emp.efficiency>=90?'var(--success)':emp.efficiency>=70?'var(--warning)':'var(--danger)';
+
+    var existing = document.getElementById('rpDrillModal');
+    if(existing) existing.remove();
+
+    var html = ''
+      + '<div class="rpdd-overlay" id="rpDrillModal">'
+      +   '<div class="rpdd-card" role="dialog" aria-modal="true">'
+      +     '<div class="rpdd-head">'
+      +       '<div class="rpdd-head-info">'
+      +         '<div class="rpdd-title">'+emp.name+'</div>'
+      +         '<div class="rpdd-subtitle">'+emp.role+' · '+emp.dept+' · '+emp.level+' · '+emp.circle+'</div>'
+      +       '</div>'
+      +       '<div class="rpdd-head-actions">'
+      +         '<button class="rpdd-btn-primary" onclick="rpOpenDailyView(\''+safeName+'\');document.getElementById(\'rpDrillModal\').remove();">View 30-day Detail →</button>'
+      +         '<button class="rpdd-close" aria-label="Close" onclick="document.getElementById(\'rpDrillModal\').remove();">×</button>'
+      +       '</div>'
+      +     '</div>'
+      +     '<div class="rpdd-body">'
+      +       '<div class="rpdd-grid">'
+      +         '<div class="rpdd-section">'
+      +           '<div class="rpdd-section-label">Revenue (Plan vs Achieved)</div>'
+      +           '<div class="rpdd-stat-row"><span class="rpdd-stat-lbl">Target Revenue</span><span class="rpdd-stat-val">'+rpFmtK(emp.targetRev)+'</span></div>'
+      +           '<div class="rpdd-stat-row"><span class="rpdd-stat-lbl">Achieved Revenue</span><span class="rpdd-stat-val" style="color:'+revColor+';">'+rpFmtK(emp.actualRev)+'</span></div>'
+      +           '<div class="rpdd-stat-row"><span class="rpdd-stat-lbl">Variance</span><span class="rpdd-stat-val" style="color:'+varColor+';">'+(revVar>=0?'+':'')+rpFmtK(revVar)+'</span></div>'
+      +           '<div class="rpdd-stat-row"><span class="rpdd-stat-lbl">Achievement %</span><span class="rpdd-stat-val" style="color:'+achColor+';">'+emp.revAchPct+'%</span></div>'
+      +         '</div>'
+      +         '<div class="rpdd-section">'
+      +           '<div class="rpdd-section-label">Hours (Hourly billing · 5%)</div>'
+      +           '<div class="rpdd-stat-row"><span class="rpdd-stat-lbl">Plan Hours</span><span class="rpdd-stat-val">'+rpFmt(emp.planHrs)+' h</span></div>'
+      +           '<div class="rpdd-stat-row"><span class="rpdd-stat-lbl">Actual Hours</span><span class="rpdd-stat-val">'+rpFmt(emp.actHrs)+' h</span></div>'
+      +           '<div class="rpdd-stat-row"><span class="rpdd-stat-lbl">Utilization</span><span class="rpdd-stat-val" style="color:'+utilColor+';">'+emp.util+'%</span></div>'
+      +         '</div>'
+      +         '<div class="rpdd-section">'
+      +           '<div class="rpdd-section-label">Tasks &amp; Sites</div>'
+      +           '<div class="rpdd-stat-row"><span class="rpdd-stat-lbl">Sites Completed</span><span class="rpdd-stat-val" style="color:'+sitesColor+';">'+emp.sitesDone+' / '+emp.targetSites+'</span></div>'
+      +           '<div class="rpdd-stat-row"><span class="rpdd-stat-lbl">Active Field Days</span><span class="rpdd-stat-val">'+emp.activeDays+' / '+emp.totalDays+'</span></div>'
+      +           '<div class="rpdd-stat-row"><span class="rpdd-stat-lbl">Avg Days/Site</span><span class="rpdd-stat-val">'+emp.avgDays+'</span></div>'
+      +         '</div>'
+      +         '<div class="rpdd-section rpdd-section-eff">'
+      +           '<div class="rpdd-section-label">Composite Efficiency</div>'
+      +           '<div class="rpdd-eff-val" style="color:'+effColor+';">'+emp.efficiency+'%</div>'
+      +           '<div class="rpdd-eff-meta">Util '+emp.util+'% · Site '+(emp.targetSites?Math.round(emp.sitesDone/emp.targetSites*100):0)+'% · Rev '+emp.revAchPct+'%</div>'
+      +         '</div>'
+      +       '</div>'
+      +       '<div class="rpdd-meta">'
+      +         '<div><span class="rpdd-meta-lbl">Projects:</span> '+emp.projects.join(', ')+'</div>'
+      +         '<div><span class="rpdd-meta-lbl">PM:</span> '+emp.pm+'</div>'
+      +       '</div>'
+      +     '</div>'
+      +     '<div class="rpdd-foot">'
+      +       '<button class="rpdd-btn-secondary" onclick="document.getElementById(\'rpDrillModal\').remove();">Close</button>'
+      +     '</div>'
+      +   '</div>'
+      + '</div>';
+
+    var wrap=document.createElement('div');
+    wrap.innerHTML=html;
+    var overlay=wrap.firstChild;
+    overlay.addEventListener('click',function(e){if(e.target===overlay)overlay.remove();});
     document.body.appendChild(overlay);
   };
 
