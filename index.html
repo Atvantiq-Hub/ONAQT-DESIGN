@@ -20452,6 +20452,17 @@ if (typeof showPage === 'function') {
                       <!-- TILE VIEW (hidden by default) -->
                       <div class="rp-tile-grid" id="rpTileViewWrap" style="display:none;"></div>
                       <div class="rp-tbl-footer" id="rpTblFooter"></div>
+                      <!-- Pagination footer (canonical .table-footer design, matches other listing pages) -->
+                      <div class="table-footer" id="rpPaginFooter">
+                        <div class="pagination-info" id="rpPaginInfo">Showing 0–0 of 0 records</div>
+                        <div class="pagination-controls" id="rpPaginControls"></div>
+                        <div class="page-limit-selector">
+                          <span class="page-limit-label">Rows per page:</span>
+                          <select class="page-limit-select" id="rpPageLimit" onchange="rpChangePageSize(this.value)">
+                            <option value="10">10</option><option value="20" selected>20</option><option value="50">50</option><option value="100">100</option>
+                          </select>
+                        </div>
+                      </div>
                     </div>
                   </div><!-- /rp-scroll -->
                 </div><!-- /#page-plan-actual -->
@@ -40334,6 +40345,9 @@ document.addEventListener('DOMContentLoaded',function(){
   var RP_MONTHS=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
   var rpActiveMonth=2;
   var rpActiveFilters={over:false,low:false};
+  var rpCurrentPage=1;
+  var rpPageSize=20;
+  var rpFilteredData=[];
   var rpSortKey='name',rpSortDir=1;
   var rpDeptChartInst=null;
   var RP_AVATAR_COLORS=[
@@ -40472,13 +40486,21 @@ document.addEventListener('DOMContentLoaded',function(){
     var rows='', vis=0;
     var COLSPAN = 15;
 
+    /* Pagination: clamp page, slice the flat list to the active page. */
+    var rpTotal = data.length;
+    var rpPages = Math.max(1, Math.ceil(rpTotal / rpPageSize));
+    if(rpCurrentPage > rpPages) rpCurrentPage = rpPages;
+    if(rpCurrentPage < 1) rpCurrentPage = 1;
+    var rpStart = (rpCurrentPage - 1) * rpPageSize;
+    var pageData = data.slice(rpStart, rpStart + rpPageSize);
+
     if(rpGroupBy==='none'){
-      data.forEach(function(e){ vis++; rows+=rpRowHTML(e); });
+      pageData.forEach(function(e){ vis++; rows+=rpRowHTML(e); });
     } else {
       var keyFn = rpGroupBy==='lob' ? function(e){return e.dept;} : function(e){return e.primaryProject;};
       var labelFn = rpGroupBy==='lob' ? function(k){return k+' (LOB)';} : function(k){return k+' (Project)';};
       var groups = {};
-      data.forEach(function(e){
+      pageData.forEach(function(e){
         var k = keyFn(e);
         if(!groups[k]) groups[k]=[];
         groups[k].push(e);
@@ -40497,7 +40519,7 @@ document.addEventListener('DOMContentLoaded',function(){
       });
     }
     body.innerHTML=rows;
-    var rc=document.getElementById('rpRowCount'); if(rc) rc.textContent=vis+' employees';
+    var rc=document.getElementById('rpRowCount'); if(rc) rc.textContent=rpTotal+' employees';
     var tP=data.reduce(function(a,e){return a+e.planHrs;},0);
     var tA=data.reduce(function(a,e){return a+e.actHrs;},0);
     var tSP=data.reduce(function(a,e){return a+(e.targetSites||0);},0);
@@ -40506,12 +40528,19 @@ document.addEventListener('DOMContentLoaded',function(){
     var tRA=data.reduce(function(a,e){return a+(e.actualRev||0);},0);
     var tRV=tRA-tRP;
     var tf=document.getElementById('rpTblFooter');
-    if(tf) tf.innerHTML='<span><span class="lbl">Totals —</span></span><span><span class="lbl">Plan hrs:</span> <span class="val">'+rpFmt(tP)+'</span></span><span><span class="lbl">Actual:</span> <span class="val">'+rpFmt(tA)+'</span></span><span><span class="lbl">Sites T/A:</span> <span class="val">'+tSP+'/'+tSD+'</span></span><span><span class="lbl">Plan Rev:</span> <span class="val">'+rpFmtK(tRP)+'</span></span><span><span class="lbl">Achieved:</span> <span class="val">'+rpFmtK(tRA)+'</span></span><span><span class="lbl">Rev Var:</span> <span class="val '+(tRV>=0?'pos':'neg')+'">'+(tRV>=0?'+':'')+rpFmtK(tRV)+'</span></span>';
+    if(tf) tf.innerHTML='<span><span class="lbl">Totals —</span></span><span><span class="lbl">Plan hrs:</span> <span class="val">'+rpFmt(tP)+'</span></span><span><span class="lbl">Actual:</span> <span class="val">'+rpFmt(tA)+'</span></span><span><span class="lbl">Sites T/A:</span> <span class="val">'+tSP+'/'+tSD+'</span></span><span><span class="lbl">Plan Rev:</span> <span class="val">'+rpFmtK(tRP)+'</span></span><span><span class="lbl">Achieved:</span> <span class="val">'+rpFmtK(tRA)+'</span></span><span><span class="lbl">Rev Var:</span> <span class="val '+(tRV>=0?'pos':'neg')+'">'+(tRV>=0?'+':'')+rpFmtK(tRV)+'</span></span>';    rpRenderPagination(rpTotal);
   }
 
   function rpRenderTiles(data){
     var grid=document.getElementById('rpTileViewWrap'); if(!grid) return;
-    grid.innerHTML=data.map(function(e){
+    var rpTotal = data.length;
+    var rpPages = Math.max(1, Math.ceil(rpTotal / rpPageSize));
+    if(rpCurrentPage > rpPages) rpCurrentPage = rpPages;
+    if(rpCurrentPage < 1) rpCurrentPage = 1;
+    var rpStart = (rpCurrentPage - 1) * rpPageSize;
+    var pageData = data.slice(rpStart, rpStart + rpPageSize);
+    var rc=document.getElementById('rpRowCount'); if(rc) rc.textContent=rpTotal+' employees';
+    grid.innerHTML=pageData.map(function(e){
       var col=RP_AVATAR_COLORS[e.avatarIdx%RP_AVATAR_COLORS.length];
       var ini=e.name.split(' ').map(function(x){return x[0];}).join('').slice(0,2);
       var effCls=e.efficiency>=90?'high':e.efficiency>=70?'mid':'low';
@@ -40546,6 +40575,7 @@ document.addEventListener('DOMContentLoaded',function(){
         +'<div class="rp-tile-projs">'+e.projects.map(function(p){return '<span class="rp-tile-proj">'+p+'</span>';}).join('')+'</div>'
         +'</div></div>';
     }).join('');
+    rpRenderPagination(rpTotal);
   }
 
   window.rpRenderMonths = function rpRenderMonths(){
@@ -40574,6 +40604,7 @@ document.addEventListener('DOMContentLoaded',function(){
   }
 
   window.rpApplyFilter=function(){
+    rpCurrentPage=1;
     rpPopulateProjectFilter();
     var data=rpEnriched();
     var pEl=document.getElementById('rpProjectFilter');
@@ -40586,6 +40617,7 @@ document.addEventListener('DOMContentLoaded',function(){
     if(rpActiveFilters.low)  data=data.filter(function(e){return e.status==='Under';});
     data.sort(function(a,b){var av=a[rpSortKey],bv=b[rpSortKey];if(typeof av==='string')return rpSortDir*av.localeCompare(bv);return rpSortDir*((av||0)-(bv||0));});
     rpRenderCharts(data);
+    rpFilteredData = data;
     if(rpView==='list') rpRenderTable(data); else rpRenderTiles(data);
     rpUpdateSort();
   };
@@ -40600,6 +40632,48 @@ document.addEventListener('DOMContentLoaded',function(){
   window.rpSortTable=function(key){
     if(rpSortKey===key) rpSortDir*=-1; else{rpSortKey=key;rpSortDir=1;}
     rpApplyFilter();
+  };
+
+  /* ─── PAGINATION (canonical .table-footer design, matches every other listing page) ─── */
+  function rpRenderPagination(total){
+    var pages = Math.max(1, Math.ceil(total / rpPageSize));
+    if(rpCurrentPage > pages) rpCurrentPage = pages;
+    if(rpCurrentPage < 1) rpCurrentPage = 1;
+    var start = total ? (rpCurrentPage - 1) * rpPageSize + 1 : 0;
+    var end   = Math.min(rpCurrentPage * rpPageSize, total);
+
+    var pi = document.getElementById('rpPaginInfo');
+    var pc = document.getElementById('rpPaginControls');
+    if(pi) pi.innerHTML = 'Showing <strong>'+start+'\u2013'+end+'</strong> of <strong>'+total+'</strong> records';
+    if(!pc) return;
+
+    var html = '<button class="page-btn" onclick="rpGoPage('+(rpCurrentPage-1)+')" '+(rpCurrentPage<=1?'disabled':'')+'>'
+             + '<svg width="13" height="13" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg></button>';
+    var s = Math.max(1, rpCurrentPage - 2), e = Math.min(pages, s + 4);
+    s = Math.max(1, e - 4);
+    for(var i = s; i <= e; i++){
+      html += '<button class="page-btn '+(i===rpCurrentPage?'active':'')+'" onclick="rpGoPage('+i+')">'+i+'</button>';
+    }
+    html += '<button class="page-btn" onclick="rpGoPage('+(rpCurrentPage+1)+')" '+(rpCurrentPage>=pages?'disabled':'')+'>'
+          + '<svg width="13" height="13" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg></button>';
+    pc.innerHTML = html;
+  }
+
+  window.rpGoPage = function(p){
+    var pages = Math.max(1, Math.ceil(rpFilteredData.length / rpPageSize));
+    if(p < 1 || p > pages) return;
+    rpCurrentPage = p;
+    /* Re-render the active view from the cached filtered list (no filter reset). */
+    if(rpView==='list') rpRenderTable(rpFilteredData); else rpRenderTiles(rpFilteredData);
+  };
+
+  window.rpChangePageSize = function(v){
+    var n = parseInt(v, 10);
+    if(!n || n < 1) return;
+    rpPageSize = n;
+    rpCurrentPage = 1;
+    var sel = document.getElementById('rpPageLimit'); if(sel) sel.value = String(n);
+    if(rpView==='list') rpRenderTable(rpFilteredData); else rpRenderTiles(rpFilteredData);
   };
 
   function rpUpdateSort(){
