@@ -15506,6 +15506,110 @@
 .v10-health-tile.red    { background:#ef4444; }
 .v10-health-tile.gray   { background:#9ca3af; }
 
+/* === Widget Filter Dropdown (compact, design-system) === */
+.v10-wfilter {
+  appearance:none;
+  -webkit-appearance:none;
+  font-family:inherit;
+  font-size:10.5px;
+  font-weight:600;
+  color:var(--gray-700, #3E3A35);
+  background:var(--gray-50, #F5F2EC);
+  border:1px solid var(--gray-200, #DDD9D0);
+  border-radius:7px;
+  padding:4px 22px 4px 9px;
+  cursor:pointer;
+  line-height:1.2;
+  transition:all 0.15s;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 24 24' fill='none' stroke='%237A7268' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;
+  background-position:right 7px center;
+  background-size:9px;
+  max-width:130px;
+}
+.v10-wfilter:hover {
+  border-color:var(--primary, #2D4A35);
+  color:var(--primary, #2D4A35);
+}
+.v10-wfilter:focus {
+  outline:none;
+  border-color:var(--primary, #2D4A35);
+  box-shadow:0 0 0 2px var(--primary-light, #e6f0e8);
+}
+[data-dark="true"] .v10-wfilter {
+  background:rgba(255,255,255,0.05);
+  border-color:rgba(255,255,255,0.12);
+  color:var(--gray-700);
+}
+/* Filter row sits under header for widgets that need >1 control */
+.v10-wfilter-row {
+  display:flex;
+  gap:6px;
+  flex-wrap:wrap;
+  align-items:center;
+}
+/* Canvas wrapper so Chart.js can size to the widget */
+.v10-canvas-wrap {
+  position:relative;
+  flex:1;
+  min-height:120px;
+  width:100%;
+  margin-top:2px;
+}
+.v10-canvas-wrap.tall { min-height:140px; }
+.v10-canvas-wrap canvas { position:absolute; inset:0; }
+/* Mini KPI strip used under some charts */
+.v10-chart-kpis {
+  display:flex;
+  gap:14px;
+  flex-wrap:wrap;
+  font-size:11px;
+  color:var(--muted, #6b7280);
+}
+.v10-chart-kpis b { color:var(--text, #1a1a1a); font-weight:800; }
+/* Health summary chips for Portfolio Health */
+.v10-rag-summary {
+  display:flex;
+  gap:6px;
+  margin-top:2px;
+}
+.v10-rag-chip {
+  flex:1;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:1px;
+  padding:6px 4px;
+  border-radius:7px;
+  font-size:9px;
+  font-weight:700;
+  text-transform:uppercase;
+  letter-spacing:0.03em;
+}
+.v10-rag-chip .n { font-size:18px; font-weight:800; line-height:1; }
+.v10-rag-chip.g { background:rgba(16,185,129,0.12); color:#0f7a55; }
+.v10-rag-chip.a { background:rgba(245,158,11,0.14); color:#a96a08; }
+.v10-rag-chip.r { background:rgba(239,68,68,0.12); color:#c2403a; }
+.v10-rag-chip.x { background:rgba(156,163,175,0.16); color:#6b7280; }
+[data-dark="true"] .v10-rag-chip.g { color:#34d399; }
+[data-dark="true"] .v10-rag-chip.a { color:#fbbf24; }
+[data-dark="true"] .v10-rag-chip.r { color:#f87171; }
+/* Leave heat: month label + nav */
+.v10-heat-head {
+  display:flex; align-items:center; justify-content:space-between;
+  font-size:11px; color:var(--muted, #6b7280); font-weight:600;
+}
+.v10-heat-dow {
+  display:grid; grid-template-columns:repeat(7,1fr); gap:3px;
+  font-size:8px; color:var(--muted, #6b7280); text-align:center;
+  margin-top:4px; font-weight:700;
+}
+.v10-heat-month-grid {
+  display:grid; grid-template-columns:repeat(7,1fr); gap:3px; margin-top:3px;
+}
+.v10-heat-month-grid .v10-heat-cell { aspect-ratio:1; border-radius:3px; }
+.v10-heat-month-grid .v10-heat-cell.empty { background:transparent; }
+
 /* === Customize Mode (Stage C — placeholder visible toggle) === */
 .v10-widget.customize-mode {
   border-style:dashed;
@@ -15883,7 +15987,7 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2a4 4 0 014-4h6m0 0l-3-3m3 3l-3 3M3 12a9 9 0 1018 0 9 9 0 00-18 0z"/>
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 8h6M7 12h4M7 16h2"/>
                             </svg>
-                            Reports Hub <span style="display:inline-flex;align-items:center;justify-content:center;min-width:18px;height:18px;padding:0 5px;background:var(--cta);color:#fff;border-radius:9px;font-size:10px;font-weight:700;margin-left:6px;">60</span>
+                            Reports Hub <span style="display:inline-flex;align-items:center;justify-content:center;min-width:18px;height:18px;padding:0 5px;background:var(--cta);color:#fff;border-radius:9px;font-size:10px;font-weight:700;margin-left:6px;">16</span>
                         </div>
                     </a>
                 </div>
@@ -16830,57 +16934,22 @@
         <div class="v10-widget-header">
           <div>
             <div class="v10-widget-title">Income vs Expense</div>
-            <div class="v10-widget-sub">Last 6 months · ₹ Cr</div>
+            <div class="v10-widget-sub" id="ieSub">Last 6 months · ₹ Cr</div>
           </div>
-          <span class="v10-widget-badge fin">B6</span>
+          <select class="v10-wfilter" id="ieFilter" onchange="ieRender(this.value)" title="Period">
+            <option value="6m">Last 6 Months</option>
+            <option value="thisMonth">This Month</option>
+            <option value="lastMonth">Last Month</option>
+            <option value="quarter">This Quarter</option>
+            <option value="half">Half Year</option>
+            <option value="year">This Year</option>
+          </select>
         </div>
-        <div class="v10-twin-bars">
-          <div class="v10-twin-month">
-            <div class="v10-twin-bars-pair">
-              <div class="v10-twin-bar in"  style="height:42px"></div>
-              <div class="v10-twin-bar out" style="height:35px"></div>
-            </div>
-            <div class="v10-twin-label">Dec</div>
-          </div>
-          <div class="v10-twin-month">
-            <div class="v10-twin-bars-pair">
-              <div class="v10-twin-bar in"  style="height:50px"></div>
-              <div class="v10-twin-bar out" style="height:38px"></div>
-            </div>
-            <div class="v10-twin-label">Jan</div>
-          </div>
-          <div class="v10-twin-month">
-            <div class="v10-twin-bars-pair">
-              <div class="v10-twin-bar in"  style="height:45px"></div>
-              <div class="v10-twin-bar out" style="height:42px"></div>
-            </div>
-            <div class="v10-twin-label">Feb</div>
-          </div>
-          <div class="v10-twin-month">
-            <div class="v10-twin-bars-pair">
-              <div class="v10-twin-bar in"  style="height:55px"></div>
-              <div class="v10-twin-bar out" style="height:40px"></div>
-            </div>
-            <div class="v10-twin-label">Mar</div>
-          </div>
-          <div class="v10-twin-month">
-            <div class="v10-twin-bars-pair">
-              <div class="v10-twin-bar in"  style="height:48px"></div>
-              <div class="v10-twin-bar out" style="height:46px"></div>
-            </div>
-            <div class="v10-twin-label">Apr</div>
-          </div>
-          <div class="v10-twin-month">
-            <div class="v10-twin-bars-pair">
-              <div class="v10-twin-bar in"  style="height:58px"></div>
-              <div class="v10-twin-bar out" style="height:44px"></div>
-            </div>
-            <div class="v10-twin-label">May</div>
-          </div>
-        </div>
-        <div class="v10-twin-legend">
-          <span><span class="sw" style="background:#10b981;"></span>Income</span>
-          <span><span class="sw" style="background:#f59e0b;"></span>Expense</span>
+        <div class="v10-canvas-wrap"><canvas id="ieChart"></canvas></div>
+        <div class="v10-chart-kpis">
+          <span>Income <b id="ieKpiIn">₹3.06Cr</b></span>
+          <span>Expense <b id="ieKpiOut">₹2.45Cr</b></span>
+          <span>Net <b id="ieKpiNet">₹0.61Cr</b></span>
         </div>
       </div>
 
@@ -16928,23 +16997,21 @@
         <div class="v10-widget-header">
           <div>
             <div class="v10-widget-title">Portfolio Health</div>
-            <div class="v10-widget-sub">All projects · R/A/G status</div>
+            <div class="v10-widget-sub" id="phSub">This month · R/A/G status</div>
           </div>
-          <span class="v10-widget-badge proj">C1</span>
+          <select class="v10-wfilter" id="phFilter" onchange="phRender(this.value)" title="Period">
+            <option value="month">This Month</option>
+            <option value="quarter">This Quarter</option>
+            <option value="half">Half Year</option>
+            <option value="year">This Year</option>
+          </select>
         </div>
-        <div class="v10-health-grid">
-          <div class="v10-health-tile green">P-101 Steelplant</div>
-          <div class="v10-health-tile green">P-102 Refinery</div>
-          <div class="v10-health-tile amber">P-103 Highway</div>
-          <div class="v10-health-tile green">P-104 Metro</div>
-          <div class="v10-health-tile amber">P-105 Bridge</div>
-          <div class="v10-health-tile red">P-106 Mall</div>
-          <div class="v10-health-tile green">P-107 Hospital</div>
-          <div class="v10-health-tile amber">P-108 Solar</div>
-          <div class="v10-health-tile green">P-109 Airport</div>
-          <div class="v10-health-tile red">P-110 Warehouse</div>
-          <div class="v10-health-tile green">P-111 Office</div>
-          <div class="v10-health-tile gray">P-112 Hold</div>
+        <div class="v10-canvas-wrap" style="min-height:108px;"><canvas id="phChart"></canvas></div>
+        <div class="v10-rag-summary" id="phSummary">
+          <div class="v10-rag-chip g"><span class="n">7</span>On Track</div>
+          <div class="v10-rag-chip a"><span class="n">3</span>At Risk</div>
+          <div class="v10-rag-chip r"><span class="n">2</span>Critical</div>
+          <div class="v10-rag-chip x"><span class="n">1</span>Hold</div>
         </div>
       </div>
 
@@ -17129,17 +17196,21 @@
         <div class="v10-widget-header">
           <div>
             <div class="v10-widget-title">Attendance Trend</div>
-            <div class="v10-widget-sub">Last 30 days · %</div>
+            <div class="v10-widget-sub" id="atSub">May 2026 · daily %</div>
           </div>
-          <span class="v10-widget-badge work">D2</span>
+          <select class="v10-wfilter" id="atFilter" onchange="atRender(this.value)" title="Month">
+            <option value="2026-05">May 2026</option>
+            <option value="2026-04">Apr 2026</option>
+            <option value="2026-03">Mar 2026</option>
+            <option value="2026-02">Feb 2026</option>
+            <option value="2026-01">Jan 2026</option>
+            <option value="2025-12">Dec 2025</option>
+          </select>
         </div>
-        <div class="v10-big-number" style="font-size:24px;">94.2%</div>
-        <span class="v10-delta pos" style="align-self:flex-start;">↑ 1.8% vs last month</span>
-        <div class="v10-chart-wrap" style="min-height:60px;">
-          <svg viewBox="0 0 300 60" preserveAspectRatio="none">
-            <polyline points="0,30 15,28 30,32 45,25 60,22 75,28 90,20 105,18 120,24 135,22 150,18 165,15 180,20 195,18 210,12 225,15 240,18 255,12 270,15 285,10 300,12"
-                      fill="none" stroke="#10b981" stroke-width="2"/>
-          </svg>
+        <div class="v10-canvas-wrap"><canvas id="atChart"></canvas></div>
+        <div class="v10-chart-kpis">
+          <span><span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:#3b82f6;margin-right:3px;"></span>Submitted <b id="atKpiSub">96.1%</b></span>
+          <span><span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:#10b981;margin-right:3px;"></span>Approved <b id="atKpiApp">94.2%</b></span>
         </div>
       </div>
 
@@ -17149,13 +17220,21 @@
         <div class="v10-widget-header">
           <div>
             <div class="v10-widget-title">Leave Calendar</div>
-            <div class="v10-widget-sub">May 2026 · daily count</div>
+            <div class="v10-widget-sub" id="lcSub">May 2026 · daily count</div>
           </div>
-          <span class="v10-widget-badge work">D3</span>
+          <select class="v10-wfilter" id="lcFilter" onchange="lcRender(this.value)" title="Month">
+            <option value="2026-05">May 2026</option>
+            <option value="2026-04">Apr 2026</option>
+            <option value="2026-03">Mar 2026</option>
+            <option value="2026-02">Feb 2026</option>
+            <option value="2026-01">Jan 2026</option>
+            <option value="2025-12">Dec 2025</option>
+          </select>
         </div>
-        <div class="v10-heat-grid" id="v10HeatMap"></div>
+        <div class="v10-heat-dow"><span>S</span><span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span></div>
+        <div class="v10-heat-month-grid" id="v10HeatMap"></div>
         <div style="display:flex;justify-content:space-between;align-items:center;font-size:11px;color:var(--muted);margin-top:6px;">
-          <span>Avg 8 leaves/day</span>
+          <span id="lcAvg">Avg 8 leaves/day</span>
           <span style="display:flex;gap:2px;align-items:center;">Less <div class="v10-heat-cell" style="width:10px;height:10px;"></div><div class="v10-heat-cell h2" style="width:10px;height:10px;"></div><div class="v10-heat-cell h3" style="width:10px;height:10px;"></div><div class="v10-heat-cell h4" style="width:10px;height:10px;"></div><div class="v10-heat-cell h5" style="width:10px;height:10px;"></div> More</span>
         </div>
       </div>
@@ -17413,22 +17492,210 @@ function v10ToggleCustomize() {
   }
 }
 
-// Render heatmap for D3 (4 weeks × 7 days = 28 cells, but we use 14 cols × 2 rows in CSS — adjust to 14×2)
-function v10RenderHeatmap() {
-  const grid = document.getElementById('v10HeatMap');
-  if (!grid) return;
+/* ============================================================
+   V10 DASHBOARD — Chart widgets + filters
+   (Income vs Expense, Portfolio Health, Attendance Trend,
+    Leave Calendar). Mock data; swap with API later.
+   ============================================================ */
+
+// Theme-aware helpers ----------------------------------------
+function v10ThemeColors() {
+  const cs = getComputedStyle(document.documentElement);
+  const dark = document.documentElement.getAttribute('data-dark') === 'true';
+  return {
+    primary: (cs.getPropertyValue('--primary') || '#2D4A35').trim(),
+    text:    dark ? '#e5e7eb' : '#3E3A35',
+    muted:   dark ? '#9ca3af' : '#A09890',
+    grid:    dark ? 'rgba(255,255,255,0.07)' : 'rgba(45,40,32,0.06)',
+    income:  '#10b981',
+    expense: '#f59e0b',
+    submitted:'#3b82f6',
+    approved: '#10b981'
+  };
+}
+function v10MonthLabel(key) {
+  const [y,m] = key.split('-').map(Number);
+  return new Date(y, m-1, 1).toLocaleString('en-US',{month:'long',year:'numeric'});
+}
+function v10MonthShort(key) {
+  const [y,m] = key.split('-').map(Number);
+  return new Date(y, m-1, 1).toLocaleString('en-US',{month:'short'});
+}
+function v10DaysInMonth(key){ const [y,m]=key.split('-').map(Number); return new Date(y,m,0).getDate(); }
+function v10FirstDOW(key){ const [y,m]=key.split('-').map(Number); return new Date(y,m-1,1).getDay(); }
+// Deterministic pseudo-random so values stay stable per key (no flicker on re-render)
+function v10Seed(str){ let h=2166136261; for(let i=0;i<str.length;i++){h^=str.charCodeAt(i);h=Math.imul(h,16777619);} return (h>>>0)/4294967295; }
+
+// Chart instance registry (so we can destroy before re-render)
+const v10Charts = {};
+function v10Destroy(id){ if(v10Charts[id]){ try{v10Charts[id].destroy();}catch(e){} delete v10Charts[id]; } }
+
+/* ---------- B6: INCOME vs EXPENSE ---------- */
+// Base monthly series (₹ Cr) keyed by YYYY-MM
+const IE_MONTHLY = {
+  '2025-06':[0.42,0.34],'2025-07':[0.46,0.38],'2025-08':[0.44,0.40],
+  '2025-09':[0.51,0.39],'2025-10':[0.48,0.43],'2025-11':[0.53,0.41],
+  '2025-12':[0.42,0.35],'2026-01':[0.50,0.38],'2026-02':[0.45,0.42],
+  '2026-03':[0.55,0.40],'2026-04':[0.48,0.46],'2026-05':[0.58,0.44]
+};
+const IE_ORDER = Object.keys(IE_MONTHLY);
+function ieRender(period){
+  period = period || (document.getElementById('ieFilter')||{}).value || '6m';
+  const c = v10ThemeColors();
+  const sub = document.getElementById('ieSub');
+  let labels=[], inc=[], exp=[], subText='';
+
+  if(period==='thisMonth' || period==='lastMonth'){
+    // Show weekly breakdown within the chosen month
+    const key = period==='thisMonth' ? '2026-05' : '2026-04';
+    const tot = IE_MONTHLY[key];
+    labels=['Wk 1','Wk 2','Wk 3','Wk 4'];
+    const split=[0.22,0.26,0.24,0.28];
+    inc = split.map(s=>+(tot[0]*s).toFixed(2));
+    exp = split.map(s=>+(tot[1]*s).toFixed(2));
+    subText = v10MonthLabel(key)+' · weekly · ₹ Cr';
+  } else {
+    let n = period==='6m'?6 : period==='quarter'?3 : period==='half'?6 : 12;
+    const keys = IE_ORDER.slice(-n);
+    labels = keys.map(v10MonthShort);
+    inc = keys.map(k=>IE_MONTHLY[k][0]);
+    exp = keys.map(k=>IE_MONTHLY[k][1]);
+    subText = (period==='quarter'?'This quarter':period==='half'?'Half year':period==='year'?'This year':'Last 6 months')+' · ₹ Cr';
+  }
+  if(sub) sub.textContent = subText;
+
+  const totIn = inc.reduce((a,b)=>a+b,0), totOut = exp.reduce((a,b)=>a+b,0);
+  const ki=document.getElementById('ieKpiIn'), ko=document.getElementById('ieKpiOut'), kn=document.getElementById('ieKpiNet');
+  if(ki) ki.textContent='₹'+totIn.toFixed(2)+'Cr';
+  if(ko) ko.textContent='₹'+totOut.toFixed(2)+'Cr';
+  if(kn) kn.textContent='₹'+(totIn-totOut).toFixed(2)+'Cr';
+
+  const cv = document.getElementById('ieChart'); if(!cv || typeof Chart==='undefined') return;
+  v10Destroy('ie');
+  v10Charts['ie'] = new Chart(cv, {
+    type:'bar',
+    data:{labels,datasets:[
+      {label:'Income',data:inc,backgroundColor:c.income,borderRadius:3,borderSkipped:false,maxBarThickness:16},
+      {label:'Expense',data:exp,backgroundColor:c.expense,borderRadius:3,borderSkipped:false,maxBarThickness:16}
+    ]},
+    options:{responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>ctx.dataset.label+': ₹'+ctx.parsed.y+'Cr'}}},
+      scales:{
+        x:{ticks:{font:{size:9},color:c.muted},grid:{display:false},border:{display:false}},
+        y:{beginAtZero:true,ticks:{font:{size:9},color:c.muted,callback:v=>'₹'+v},grid:{color:c.grid},border:{display:false}}
+      }
+    }
+  });
+}
+
+/* ---------- C1: PORTFOLIO HEALTH ---------- */
+// counts: [onTrack, atRisk, critical, hold] per period
+const PH_DATA = {
+  month:   [7,3,2,1],
+  quarter: [9,5,3,1],
+  half:    [12,6,4,2],
+  year:    [18,9,6,3]
+};
+function phRender(period){
+  period = period || (document.getElementById('phFilter')||{}).value || 'month';
+  const c = v10ThemeColors();
+  const d = PH_DATA[period] || PH_DATA.month;
+  const total = d.reduce((a,b)=>a+b,0);
+  const sub = document.getElementById('phSub');
+  if(sub) sub.textContent = (period==='month'?'This month':period==='quarter'?'This quarter':period==='half'?'Half year':'This year')+' · '+total+' projects';
+
+  // summary chips
+  const sm = document.getElementById('phSummary');
+  if(sm){
+    const labels=['On Track','At Risk','Critical','Hold'], cls=['g','a','r','x'];
+    sm.innerHTML = d.map((n,i)=>`<div class="v10-rag-chip ${cls[i]}"><span class="n">${n}</span>${labels[i]}</div>`).join('');
+  }
+
+  const cv = document.getElementById('phChart'); if(!cv || typeof Chart==='undefined') return;
+  v10Destroy('ph');
+  v10Charts['ph'] = new Chart(cv, {
+    type:'doughnut',
+    data:{labels:['On Track','At Risk','Critical','Hold'],
+      datasets:[{data:d,backgroundColor:['#10b981','#f59e0b','#ef4444','#9ca3af'],borderWidth:0}]},
+    options:{responsive:true,maintainAspectRatio:false,cutout:'68%',
+      plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>ctx.label+': '+ctx.parsed+' ('+Math.round(ctx.parsed/total*100)+'%)'}}}
+    }
+  });
+}
+
+/* ---------- D2: ATTENDANCE TREND (2 lines) ---------- */
+function atRender(monthKey){
+  monthKey = monthKey || (document.getElementById('atFilter')||{}).value || '2026-05';
+  const c = v10ThemeColors();
+  const days = v10DaysInMonth(monthKey);
+  const labels=[], submitted=[], approved=[];
+  for(let d=1; d<=days; d++){
+    const r1 = v10Seed(monthKey+'-s-'+d), r2 = v10Seed(monthKey+'-a-'+d);
+    const sub = +(93 + r1*6).toFixed(1);              // 93–99 %
+    const app = +(Math.max(88, sub - (1 + r2*4))).toFixed(1); // approved <= submitted
+    labels.push(d);
+    submitted.push(sub);
+    approved.push(app);
+  }
+  const avg = arr => (arr.reduce((a,b)=>a+b,0)/arr.length).toFixed(1);
+  const ks=document.getElementById('atKpiSub'), ka=document.getElementById('atKpiApp'), sub=document.getElementById('atSub');
+  if(ks) ks.textContent=avg(submitted)+'%';
+  if(ka) ka.textContent=avg(approved)+'%';
+  if(sub) sub.textContent=v10MonthLabel(monthKey)+' · daily %';
+
+  const cv = document.getElementById('atChart'); if(!cv || typeof Chart==='undefined') return;
+  v10Destroy('at');
+  v10Charts['at'] = new Chart(cv, {
+    type:'line',
+    data:{labels,datasets:[
+      {label:'Submitted',data:submitted,borderColor:c.submitted,backgroundColor:'rgba(59,130,246,0.06)',fill:false,tension:0.35,borderWidth:2,pointRadius:0,pointHoverRadius:4},
+      {label:'Approved', data:approved, borderColor:c.approved, backgroundColor:'rgba(16,185,129,0.08)',fill:true, tension:0.35,borderWidth:2,pointRadius:0,pointHoverRadius:4}
+    ]},
+    options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},
+      plugins:{legend:{display:false},tooltip:{callbacks:{title:items=>'Day '+items[0].label,label:ctx=>ctx.dataset.label+': '+ctx.parsed.y+'%'}}},
+      scales:{
+        x:{ticks:{font:{size:8},color:c.muted,maxTicksLimit:8,autoSkip:true},grid:{display:false},border:{display:false}},
+        y:{min:85,max:100,ticks:{font:{size:9},color:c.muted,callback:v=>v+'%',stepSize:5},grid:{color:c.grid},border:{display:false}}
+      }
+    }
+  });
+}
+
+/* ---------- D3: LEAVE CALENDAR (month-wise heatmap) ---------- */
+function lcRender(monthKey){
+  monthKey = monthKey || (document.getElementById('lcFilter')||{}).value || '2026-05';
+  const grid = document.getElementById('v10HeatMap'); if(!grid) return;
+  const days = v10DaysInMonth(monthKey);
+  const firstDOW = v10FirstDOW(monthKey);
   const intensities = ['', 'h1', 'h2', 'h3', 'h4', 'h5'];
-  let html = '';
-  for (let i = 0; i < 28; i++) {
-    const v = Math.floor(Math.random() * 6);
-    html += `<div class="v10-heat-cell ${intensities[v]}" title="May ${i+1}: ${v*3} leaves"></div>`;
+  let html='', counts=[];
+  // leading blanks so day 1 lands on correct weekday
+  for(let i=0;i<firstDOW;i++) html += `<div class="v10-heat-cell empty"></div>`;
+  for(let d=1; d<=days; d++){
+    const r = v10Seed(monthKey+'-lv-'+d);
+    const cnt = Math.round(r*18);            // 0–18 leaves
+    counts.push(cnt);
+    const lvl = cnt===0?0 : Math.min(5, Math.ceil(cnt/4));
+    html += `<div class="v10-heat-cell ${intensities[lvl]}" title="${v10MonthShort(monthKey)} ${d}: ${cnt} leaves"></div>`;
   }
   grid.innerHTML = html;
+  const avg = counts.length ? Math.round(counts.reduce((a,b)=>a+b,0)/counts.length) : 0;
+  const av = document.getElementById('lcAvg'); if(av) av.textContent='Avg '+avg+' leaves/day';
+  const sub = document.getElementById('lcSub'); if(sub) sub.textContent=v10MonthLabel(monthKey)+' · daily count';
 }
+
+// Master render for all dashboard charts
+function v10RenderCharts(){
+  ieRender();
+  phRender();
+  atRender();
+  lcRender();
+}
+// Back-compat alias (old code calls v10RenderHeatmap)
+function v10RenderHeatmap(){ lcRender(); }
 
 // Init on dashboard show
 document.addEventListener('DOMContentLoaded', function() {
-  v10RenderHeatmap();
   v10RenderForRole('exec');
   // set today's date
   const dt = document.getElementById('v10TodayDate');
@@ -17437,7 +17704,15 @@ document.addEventListener('DOMContentLoaded', function() {
     const opts = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
     dt.textContent = now.toLocaleDateString('en-US', opts);
   }
+  // charts after a tick so canvases have layout
+  setTimeout(v10RenderCharts, 60);
 });
+
+// Re-render charts on theme / dark-mode change so colors update
+(function(){
+  const obs = new MutationObserver(()=>{ setTimeout(v10RenderCharts, 50); });
+  obs.observe(document.documentElement, {attributes:true, attributeFilter:['data-theme','data-dark']});
+})();
 
 // Hook into existing showPage if available (re-init when nav-ing back to dashboard)
 if (typeof showPage === 'function') {
@@ -17445,7 +17720,7 @@ if (typeof showPage === 'function') {
   window.showPage = function(page, title) {
     _orig(page, title);
     if (page === 'dashboard' || page === 'home') {
-      setTimeout(() => { v10RenderForRole(v10CurrentRole); v10RenderHeatmap(); }, 50);
+      setTimeout(() => { v10RenderForRole(v10CurrentRole); v10RenderCharts(); }, 60);
     }
   };
 }
@@ -20829,11 +21104,11 @@ if (typeof showPage === 'function') {
                         <div class="rh-topbar">
                             <div>
                                 <h2 class="rh-title">Reports Hub</h2>
-                                <div class="rh-subtitle">60 reports across 9 categories — filter by role, search, or pick a category to explore</div>
+                                <div class="rh-subtitle">Browse available reports — filter by role, search, or pick a category to explore</div>
                             </div>
                             <div class="rh-search-box">
                                 <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
-                                <input id="rhSearchInput" type="text" placeholder="Search 60 reports by name, description, or category..." />
+                                <input id="rhSearchInput" type="text" placeholder="Search reports by name, description, or category..." />
                             </div>
                         </div>
 
@@ -43550,6 +43825,35 @@ window.bdgSubmit = function(){
 const CATEGORIES = [{"id": "fin", "name": "Financial / Accounting", "icon": "💰", "color": "#0F5132"}, {"id": "prj", "name": "Project Controls", "icon": "📊", "color": "#1E4A72"}, {"id": "po", "name": "Procurement", "icon": "📋", "color": "#8B3A52"}, {"id": "vnd", "name": "Vendor / Subcontractor", "icon": "🏗", "color": "#7A4F1A"}, {"id": "att", "name": "Attendance & Workforce", "icon": "👥", "color": "#3B3F8C"}, {"id": "exp", "name": "Expense & Reimbursement", "icon": "💳", "color": "#2C4A5A"}, {"id": "exec", "name": "Execution / Sign-off", "icon": "✅", "color": "#4a7c59"}, {"id": "ai", "name": "AI Agent", "icon": "🤖", "color": "#6e5fb4"}, {"id": "aud", "name": "Audit & Compliance", "icon": "🔒", "color": "#b85c52"}];
 const REPORTS = [{"id": "R1", "cat": "fin", "name": "AP Aging Summary", "pri": "high", "desc": "Outstanding payables to vendors bucketed by age. Drives payment prioritization.", "rows": 10, "roles": {"exec": "✓", "pm": "L", "fin": "✓", "ops": "✗", "vm": "L"}}, {"id": "R2", "cat": "fin", "name": "AP Aging Details", "pri": "high", "desc": "Drill-down view: one row per unpaid bill with age, amount, and PO linkage.", "rows": 12, "roles": {"exec": "✓", "pm": "L", "fin": "✓", "ops": "✗", "vm": "L"}}, {"id": "R3", "cat": "fin", "name": "Vendor Balance Summary", "pri": "high", "desc": "Per-vendor net payable position: open bills minus unapplied credits.", "rows": 10, "roles": {"exec": "✓", "pm": "L", "fin": "✓", "ops": "✗", "vm": "L"}}, {"id": "R4", "cat": "fin", "name": "Bills Details Report", "pri": "high", "desc": "Full bill register with computed status. AP audit and reconciliation source.", "rows": 10, "roles": {"exec": "✓", "pm": "L", "fin": "✓", "ops": "✗", "vm": "L"}}, {"id": "R5", "cat": "fin", "name": "Payments Made Report", "pri": "high", "desc": "Payment register: every outgoing payment with mode, reference, reconciliation.", "rows": 10, "roles": {"exec": "✓", "pm": "✗", "fin": "✓", "ops": "✗", "vm": "L"}}, {"id": "R6", "cat": "fin", "name": "AR Aging Summary", "pri": "high", "desc": "Customer invoices outstanding by age. Drives collections priority.", "rows": 8, "roles": {"exec": "✓", "pm": "✗", "fin": "✓", "ops": "✗", "vm": "✗"}}, {"id": "R7", "cat": "fin", "name": "Customer Balance Summary", "pri": "high", "desc": "Net receivable per customer including unapplied credits.", "rows": 8, "roles": {"exec": "✓", "pm": "✗", "fin": "✓", "ops": "✗", "vm": "✗"}}, {"id": "R8", "cat": "fin", "name": "Invoice Tracker", "pri": "high", "desc": "Lifecycle tracking: days invoices spend in each stage (raised → sent → ack → paid).", "rows": 8, "roles": {"exec": "✓", "pm": "L", "fin": "✓", "ops": "✗", "vm": "✗"}}, {"id": "R9", "cat": "fin", "name": "Cash Flow Statement", "pri": "med", "desc": "Monthly inflows and outflows categorized into Operating, Investing, Financing.", "rows": 6, "roles": {"exec": "✓", "pm": "✗", "fin": "✓", "ops": "✗", "vm": "✗"}}, {"id": "R10", "cat": "fin", "name": "Cash Flow Forecast", "pri": "med", "desc": "Projected cash position for next 30/60/90 days based on scheduled bills + collection probabilities.", "rows": 8, "roles": {"exec": "✓", "pm": "✗", "fin": "✓", "ops": "✗", "vm": "✗"}}, {"id": "R11", "cat": "fin", "name": "P&L by Project", "pri": "high", "desc": "Revenue minus direct costs per project. Margin and margin % computed.", "rows": 9, "roles": {"exec": "✓", "pm": "L", "fin": "✓", "ops": "✗", "vm": "✗"}}, {"id": "R12", "cat": "fin", "name": "Top Expenses", "pri": "med", "desc": "Spend by chart-of-accounts category with share % for the period.", "rows": 10, "roles": {"exec": "✓", "pm": "L", "fin": "✓", "ops": "✗", "vm": "✗"}}, {"id": "R13", "cat": "fin", "name": "Zoho Sync Audit Log", "pri": "high", "desc": "Integration heartbeat: every record sent to Zoho Books with status, errors, retries.", "rows": 10, "roles": {"exec": "✓", "pm": "✗", "fin": "✓", "ops": "✗", "vm": "✗"}}, {"id": "R15", "cat": "prj", "name": "Earned Value Report", "pri": "high", "desc": "BAC, PV, EV, AC with CPI & SPI per project — foundation of project performance measurement.", "rows": 9, "roles": {"exec": "✓", "pm": "L", "fin": "✓", "ops": "✗", "vm": "✗"}}, {"id": "R16", "cat": "prj", "name": "CPI / SPI Trend", "pri": "high", "desc": "Monthly trendline of CPI and SPI per project — performance improving or deteriorating.", "rows": 12, "roles": {"exec": "✓", "pm": "L", "fin": "✓", "ops": "✗", "vm": "✗"}}, {"id": "R17", "cat": "prj", "name": "Schedule Variance Report", "pri": "high", "desc": "Per-WBS comparison of planned vs actual start/finish dates with days late or early.", "rows": 10, "roles": {"exec": "✓", "pm": "L", "fin": "L", "ops": "✗", "vm": "✗"}}, {"id": "R18", "cat": "prj", "name": "Cost Variance Report", "pri": "high", "desc": "Per-WBS budgeted vs actual cost with variance in absolute and percentage terms.", "rows": 10, "roles": {"exec": "✓", "pm": "L", "fin": "✓", "ops": "✗", "vm": "✗"}}, {"id": "R19", "cat": "prj", "name": "EAC / ETC Forecast", "pri": "med", "desc": "Estimate at Completion / to Complete using PMI standard formulas. Three variants.", "rows": 9, "roles": {"exec": "✓", "pm": "L", "fin": "✓", "ops": "✗", "vm": "✗"}}, {"id": "R20", "cat": "prj", "name": "Critical Path Activities", "pri": "med", "desc": "Activities on the critical path with zero or negative float — drive project end date.", "rows": 10, "roles": {"exec": "✓", "pm": "L", "fin": "✗", "ops": "✗", "vm": "✗"}}, {"id": "R21", "cat": "prj", "name": "Milestone Status", "pri": "high", "desc": "Cross-portfolio milestones with achieved/upcoming/slipped/overdue status.", "rows": 10, "roles": {"exec": "✓", "pm": "L", "fin": "✗", "ops": "✗", "vm": "✗"}}, {"id": "R22", "cat": "prj", "name": "S-Curve Report", "pri": "high", "desc": "Cumulative planned vs actual cost (or %) plotted over time — classic project tracking chart.", "rows": 10, "roles": {"exec": "✓", "pm": "L", "fin": "✓", "ops": "✗", "vm": "✗"}}, {"id": "R23", "cat": "prj", "name": "Look-Ahead Report", "pri": "med", "desc": "Activities starting or finishing in next 2/4/6 weeks. Used for weekly project meetings.", "rows": 10, "roles": {"exec": "✓", "pm": "L", "fin": "✗", "ops": "✗", "vm": "✗"}}, {"id": "R25", "cat": "po", "name": "PO Listing", "pri": "high", "desc": "Master register of all purchase orders by status.", "rows": 10, "roles": {"exec": "✓", "pm": "L", "fin": "✓", "ops": "✗", "vm": "L"}}, {"id": "R26", "cat": "po", "name": "PO Aging", "pri": "high", "desc": "Open POs with delivery/billing overdue against expected delivery date.", "rows": 10, "roles": {"exec": "✓", "pm": "L", "fin": "✓", "ops": "✗", "vm": "L"}}, {"id": "R27", "cat": "po", "name": "Committed vs Spent", "pri": "high", "desc": "Per approved PO: total commitment vs amount billed. Utilization tracking.", "rows": 10, "roles": {"exec": "✓", "pm": "L", "fin": "✓", "ops": "✗", "vm": "L"}}, {"id": "R28", "cat": "po", "name": "PO Approval Cycle Time", "pri": "med", "desc": "Days from raise → L1 approve → L2 approve. Surfaces approval bottlenecks.", "rows": 10, "roles": {"exec": "✓", "pm": "L", "fin": "✓", "ops": "✗", "vm": "✗"}}, {"id": "R29", "cat": "po", "name": "Open Commitments by Project", "pri": "high", "desc": "Outstanding PO commitments per project — future cash outflow pipeline.", "rows": 8, "roles": {"exec": "✓", "pm": "L", "fin": "✓", "ops": "✗", "vm": "✗"}}, {"id": "R30", "cat": "po", "name": "PO vs Budget", "pri": "high", "desc": "% of project budget consumed by approved POs — early warning before bills land.", "rows": 9, "roles": {"exec": "✓", "pm": "L", "fin": "✓", "ops": "✗", "vm": "✗"}}, {"id": "R31", "cat": "po", "name": "Change Order Log", "pri": "med", "desc": "All PO change orders with $ impact, reason, approval. Scope-creep tracking.", "rows": 8, "roles": {"exec": "✓", "pm": "L", "fin": "✓", "ops": "✗", "vm": "✗"}}, {"id": "R32", "cat": "vnd", "name": "Vendor Spend Analysis", "pri": "high", "desc": "Total spend per vendor MTD/YTD with ranking. Concentration insight for negotiation.", "rows": 10, "roles": {"exec": "✓", "pm": "L", "fin": "✓", "ops": "✗", "vm": "✓"}}, {"id": "R33", "cat": "vnd", "name": "Vendor Performance Scorecard", "pri": "high", "desc": "Composite scorecard: on-time delivery, bill accuracy, sign-off cycle, rejection rate.", "rows": 10, "roles": {"exec": "✓", "pm": "L", "fin": "✓", "ops": "✗", "vm": "✓"}}, {"id": "R34", "cat": "vnd", "name": "Vendor Type Distribution", "pri": "med", "desc": "Count and spend share across the 4 vendor types.", "rows": 4, "roles": {"exec": "✓", "pm": "L", "fin": "✓", "ops": "✗", "vm": "✓"}}, {"id": "R35", "cat": "vnd", "name": "Vendor Compliance", "pri": "high", "desc": "Status of insurance, GST, PAN, MSME, contract docs with expiry tracking.", "rows": 10, "roles": {"exec": "✓", "pm": "L", "fin": "✓", "ops": "✗", "vm": "✓"}}, {"id": "R36", "cat": "vnd", "name": "Vendor Bill Cycle Time", "pri": "med", "desc": "Avg days bill raise → L1 → L2 → paid per vendor.", "rows": 10, "roles": {"exec": "✓", "pm": "✗", "fin": "✓", "ops": "✗", "vm": "✓"}}, {"id": "R37", "cat": "vnd", "name": "Work Done vs Billed", "pri": "high", "desc": "Gap analysis: value of work signed-off vs value billed per vendor.", "rows": 10, "roles": {"exec": "✓", "pm": "L", "fin": "✓", "ops": "✗", "vm": "✓"}}, {"id": "R38", "cat": "vnd", "name": "Mileage Summary by Transporter", "pri": "med", "desc": "Total km, rate × km cost, deviations per transporter vendor.", "rows": 6, "roles": {"exec": "✓", "pm": "L", "fin": "✓", "ops": "✓", "vm": "✓"}}, {"id": "R39", "cat": "vnd", "name": "Vendor Concentration Risk", "pri": "low", "desc": "% of spend in top N vendors. Herfindahl-Hirschman Index for concentration risk.", "rows": 9, "roles": {"exec": "✓", "pm": "✗", "fin": "✓", "ops": "✗", "vm": "✓"}}, {"id": "R40", "cat": "att", "name": "Monthly Attendance Summary", "pri": "high", "desc": "Per-employee monthly summary: present, absent, leave, OOD, late days.", "rows": 10, "roles": {"exec": "✓", "pm": "L", "fin": "✗", "ops": "✓", "vm": "✗"}}, {"id": "R41", "cat": "att", "name": "Site-wise Headcount", "pri": "high", "desc": "Daily/weekly headcount per site.", "rows": 10, "roles": {"exec": "✓", "pm": "L", "fin": "✗", "ops": "✓", "vm": "✗"}}, {"id": "R42", "cat": "att", "name": "Leave Balance & Usage", "pri": "high", "desc": "Per-employee leave entitlement, taken, pending, available.", "rows": 10, "roles": {"exec": "✓", "pm": "L", "fin": "✗", "ops": "✓", "vm": "✗"}}, {"id": "R43", "cat": "att", "name": "Overtime Report", "pri": "med", "desc": "OT hours and cost per employee/site.", "rows": 10, "roles": {"exec": "✓", "pm": "L", "fin": "✓", "ops": "✓", "vm": "✗"}}, {"id": "R44", "cat": "att", "name": "Out-on-Duty Report", "pri": "med", "desc": "OOD frequency, purpose, location patterns. Fraud/anomaly detection.", "rows": 10, "roles": {"exec": "✓", "pm": "L", "fin": "✗", "ops": "✓", "vm": "✗"}}, {"id": "R45", "cat": "att", "name": "Late Arrival / Early Departure", "pri": "low", "desc": "Punctuality trend per employee. Performance review input.", "rows": 10, "roles": {"exec": "✓", "pm": "L", "fin": "✗", "ops": "✓", "vm": "✗"}}, {"id": "R46", "cat": "att", "name": "Workforce Cost by Project", "pri": "high", "desc": "Allocated labor cost per project = hours × loaded hourly rate.", "rows": 10, "roles": {"exec": "✓", "pm": "L", "fin": "✓", "ops": "✓", "vm": "✗"}}, {"id": "R47", "cat": "exp", "name": "Expense Reports by Employee", "pri": "high", "desc": "Per-employee total expense claims with status breakdown.", "rows": 10, "roles": {"exec": "✓", "pm": "L", "fin": "✓", "ops": "✓", "vm": "✗"}}, {"id": "R48", "cat": "exp", "name": "Expense by Category", "pri": "high", "desc": "Spend per category. Policy and budget insight.", "rows": 8, "roles": {"exec": "✓", "pm": "L", "fin": "✓", "ops": "✓", "vm": "✗"}}, {"id": "R49", "cat": "exp", "name": "Mileage Report (Employee)", "pri": "high", "desc": "Per-employee km claimed, route, reimbursement amount.", "rows": 10, "roles": {"exec": "✓", "pm": "L", "fin": "✓", "ops": "✓", "vm": "✗"}}, {"id": "R50", "cat": "exp", "name": "Reimbursement Aging", "pri": "high", "desc": "Pending reimbursement claims by age. Flags slow approvals.", "rows": 10, "roles": {"exec": "✓", "pm": "L", "fin": "✓", "ops": "✓", "vm": "✗"}}, {"id": "R51", "cat": "exp", "name": "Policy Violation Report", "pri": "med", "desc": "Claims above policy limits, missing receipts, late submissions.", "rows": 10, "roles": {"exec": "✓", "pm": "L", "fin": "✓", "ops": "✓", "vm": "✗"}}, {"id": "R52", "cat": "exp", "name": "Disbursement Register", "pri": "high", "desc": "Cash disbursement log: who was paid, when, mode, reference.", "rows": 10, "roles": {"exec": "✓", "pm": "✗", "fin": "✓", "ops": "✗", "vm": "✗"}}, {"id": "R53", "cat": "exec", "name": "Work Done Summary", "pri": "high", "desc": "Per site/project/vendor summary of work signed-off with total value.", "rows": 10, "roles": {"exec": "✓", "pm": "L", "fin": "✓", "ops": "✓", "vm": "L"}}, {"id": "R54", "cat": "exec", "name": "WCC / Sign-off Pipeline", "pri": "high", "desc": "Counts by stage of the 5-stage workflow with avg dwell time per stage.", "rows": 6, "roles": {"exec": "✓", "pm": "L", "fin": "✓", "ops": "✓", "vm": "L"}}, {"id": "R55", "cat": "exec", "name": "Approval Bottleneck", "pri": "med", "desc": "Avg time items spend waiting on each approver across PO/Bills/WCC.", "rows": 8, "roles": {"exec": "✓", "pm": "L", "fin": "✓", "ops": "✓", "vm": "✗"}}, {"id": "R56", "cat": "exec", "name": "Rejection Reason Analysis", "pri": "med", "desc": "Top reasons work gets rejected at sign-off.", "rows": 7, "roles": {"exec": "✓", "pm": "L", "fin": "✓", "ops": "✓", "vm": "✗"}}, {"id": "R57", "cat": "ai", "name": "Agent Action Log", "pri": "med", "desc": "Every action AI agents have taken with outcome and reversibility.", "rows": 10, "roles": {"exec": "✓", "pm": "L", "fin": "L", "ops": "✓", "vm": "L"}}, {"id": "R58", "cat": "ai", "name": "AI Suggestion Acceptance Rate", "pri": "med", "desc": "Per-agent acceptance/dismissal/modification rate. Measures usefulness.", "rows": 7, "roles": {"exec": "✓", "pm": "L", "fin": "L", "ops": "✓", "vm": "L"}}, {"id": "R59", "cat": "ai", "name": "Time Saved by AI", "pri": "low", "desc": "Estimated hours saved by AI automation vs manual baseline. ROI metric.", "rows": 9, "roles": {"exec": "✓", "pm": "✗", "fin": "✓", "ops": "✓", "vm": "✗"}}, {"id": "R60", "cat": "aud", "name": "Activity Log / Audit Trail", "pri": "high", "desc": "Cross-module activity log: who did what, when, before/after values.", "rows": 10, "roles": {"exec": "✓", "pm": "L", "fin": "L", "ops": "L", "vm": "L"}}, {"id": "R61", "cat": "aud", "name": "Role & Access Report", "pri": "med", "desc": "Per-user role assignment + per-role permission list. Governance review.", "rows": 10, "roles": {"exec": "✓", "pm": "✗", "fin": "L", "ops": "✓", "vm": "✗"}}, {"id": "R62", "cat": "aud", "name": "Document Expiry Report", "pri": "high", "desc": "Vendor & employee documents expiring soon. Prevents compliance lapses.", "rows": 10, "roles": {"exec": "✓", "pm": "L", "fin": "✓", "ops": "✓", "vm": "L"}}];
 
+// Only these reports are actually functional (have a built data view).
+// Every other card stays listed in the hub but routes to the "No report found" page.
+const FUNCTIONAL = new Set([
+    "R37", // Work Done vs Billed        (Vendor)
+    "R3",  // Vendor Balance Summary     (Vendor)
+    "R25", // PO Listing                 (Vendor / Procurement)
+    "R11", // P&L by Project             (Finance)
+    "R15", // Earned Value Report        (Project Controls)
+    "R29", // Open Commitments by Project(Project Controls)
+    "R19", // EAC / ETC Forecast         (Project Controls)
+    "R40", // Monthly Attendance Summary (Attendance)
+    "R41", // Site-wise Headcount & Cost (Attendance)
+    "R46", // Workforce Cost & Count by Project (Attendance)
+    "R44", // Out-on-Duty Report         (Attendance)
+    "R45", // Late Arrival / Early Departure (Attendance)
+    "R47", // Expense Reports by Employee(Expense)
+    "R48", // Expense by Category        (Expense)
+    "R53", // Work Done Summary          (Execution / Sign-off)
+    "R54"  // WCC / Sign-off Pipeline    (Execution / Sign-off)
+]);
+
+// Router for report cards. Only functional reports are shown in the grid,
+// so this opens their data view directly.
+window.rhOpenReport = function(id, name){
+    if (FUNCTIONAL.has(id)) {
+        showPage('report-' + id, name);
+    }
+};
+
 let currentRole = "exec";
 let currentCategory = "all";
 let currentSearch = "";
@@ -43563,7 +43867,7 @@ function rhGetAccess(report){
 }
 
 function rhCountForCategory(catId){
-    return REPORTS.filter(r => r.cat === catId && rhGetAccess(r) !== "✗" && rhMatchesSearch(r)).length;
+    return REPORTS.filter(r => FUNCTIONAL.has(r.id) && r.cat === catId && rhGetAccess(r) !== "✗" && rhMatchesSearch(r)).length;
 }
 
 function rhMatchesSearch(report){
@@ -43579,7 +43883,7 @@ function rhMatchesSearch(report){
 function rhRenderSidebar(){
     const sidebar = document.getElementById('rhCategorySidebar');
     if (!sidebar) return;
-    const totalCount = REPORTS.filter(r => rhGetAccess(r) !== "✗" && rhMatchesSearch(r)).length;
+    const totalCount = REPORTS.filter(r => FUNCTIONAL.has(r.id) && rhGetAccess(r) !== "✗" && rhMatchesSearch(r)).length;
     let html = `<div class="rh-cat-item ${currentCategory==='all'?'active':''}" onclick="rhSelectCategory('all')">
         <div class="rh-cat-icon">📚</div>
         <div class="rh-cat-name">All Reports</div>
@@ -43600,7 +43904,7 @@ function rhRenderContent(){
     const content = document.getElementById('rhContent');
     if (!content) return;
 
-    let filtered = REPORTS.filter(rhMatchesSearch);
+    let filtered = REPORTS.filter(r => FUNCTIONAL.has(r.id) && rhMatchesSearch(r));
     if (currentCategory !== "all") {
         filtered = filtered.filter(r => r.cat === currentCategory);
     }
@@ -43631,9 +43935,9 @@ function rhRenderContent(){
 
     if (filtered.length === 0) {
         html += `<div class="rh-empty">
-            <div class="rh-empty-icon">🔍</div>
-            <div>No reports match the current filters.</div>
-            <div style="font-size:12px;margin-top:6px;">Try adjusting the search, role, or category.</div>
+            <div class="rh-empty-icon">📭</div>
+            <div>No reports available in this category yet.</div>
+            <div style="font-size:12px;margin-top:6px;">Pick another category from the list, or adjust your search.</div>
         </div>`;
     } else if (currentView === 'grid') {
         // ============ GRID VIEW (existing) ============
@@ -43643,7 +43947,7 @@ function rhRenderContent(){
             const noAccess = access === "✗";
             const accessClass = access === "✓" ? "full" : (access === "L" ? "scoped" : "none");
             const accessLabel = access === "✓" ? "Full Access" : (access === "L" ? "Scoped" : "No Access");
-            const onclick = noAccess ? '' : `onclick="showPage('report-${r.id}','${r.name.replace(/'/g, "\\'")}')"`;
+            const onclick = noAccess ? '' : `onclick="rhOpenReport('${r.id}','${r.name.replace(/'/g, "\\'")}')"`;
             html += `<div class="rh-report-card ${noAccess?'no-access':''}" ${onclick}>
                 <div class="rh-card-head">
                     <span class="rh-card-id">${r.id}</span>
@@ -43676,7 +43980,7 @@ function rhRenderContent(){
             const accessClass = access === "✓" ? "full" : (access === "L" ? "scoped" : "none");
             const accessLabel = access === "✓" ? "Full Access" : (access === "L" ? "Scoped" : "No Access");
             const cat = CATEGORIES.find(c => c.id === r.cat) || {icon:"📄", name:r.cat, color:"#888"};
-            const onclick = noAccess ? '' : `onclick="showPage('report-${r.id}','${r.name.replace(/'/g, "\\'")}')"`;
+            const onclick = noAccess ? '' : `onclick="rhOpenReport('${r.id}','${r.name.replace(/'/g, "\\'")}')"`;
             html += `<div class="rh-list-row ${noAccess?'no-access':''}" ${onclick}>
                 <div class="rh-list-id rh-list-col-id">${r.id}</div>
                 <div class="rh-list-name-cell">
