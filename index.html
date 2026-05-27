@@ -14199,6 +14199,15 @@
         /* Token aliases */
         #page-plan-actual { --rp-text: var(--gray-900); --rp-sub: var(--gray-600); --rp-muted: var(--gray-400); --rp-surface: var(--white); --rp-border: rgba(45,40,32,.08); --rp-border-md: rgba(45,40,32,.14); --rp-mono: 'DM Mono','Courier New',monospace; }
         [data-dark="true"] #page-plan-actual { --rp-text: #f3f4f6; --rp-sub: #c4c9d4; --rp-muted: #6b7280; --rp-surface: #1e2130; --rp-border: rgba(255,255,255,.06); --rp-border-md: rgba(255,255,255,.12); }
+        /* ── New Plan vs Actual (budget analytics) page — shares rp-* infrastructure ── */
+        #page-plan-vs-actual.page-section { display: none; }
+        #page-plan-vs-actual.page-section.active { display: block; height: 100%; overflow-y: auto; }
+        #page-plan-vs-actual { overflow: hidden; }
+        #page-plan-vs-actual .rp-scroll { flex: 1; overflow-y: auto; padding: 20px 24px; }
+        #page-plan-vs-actual .rp-scroll::-webkit-scrollbar { width: 6px; }
+        #page-plan-vs-actual .rp-scroll::-webkit-scrollbar-thumb { background: var(--gray-200); border-radius: 6px; }
+        #page-plan-vs-actual { --rp-text: var(--gray-900); --rp-sub: var(--gray-600); --rp-muted: var(--gray-400); --rp-surface: var(--white); --rp-border: rgba(45,40,32,.08); --rp-border-md: rgba(45,40,32,.14); --rp-mono: 'DM Mono','Courier New',monospace; }
+        [data-dark="true"] #page-plan-vs-actual { --rp-text: #f3f4f6; --rp-sub: #c4c9d4; --rp-muted: #6b7280; --rp-surface: #1e2130; --rp-border: rgba(255,255,255,.06); --rp-border-md: rgba(255,255,255,.12); }
         /* Page header */
         .rp-page-title { font-size: 20px; font-weight: 600; letter-spacing: -0.03em; color: var(--rp-text); font-family: 'Fraunces', serif; }
         .rp-page-meta { font-size: 12px; color: var(--rp-sub); margin-top: 3px; }
@@ -15857,6 +15866,61 @@
   font-weight:600;
 }
 
+        /* ══ PLAN vs ACTUAL (budget analytics) — scoped table & helpers ══ */
+        #page-plan-vs-actual .pva-tbl { width: 100%; border-collapse: collapse; font-size: 12px; }
+        #page-plan-vs-actual .pva-tbl thead th { background: var(--bg); padding: 9px 10px; text-align: right; font-weight: 500; color: var(--rp-muted); font-size: 10px; text-transform: uppercase; letter-spacing: .05em; border-bottom: 1px solid var(--rp-border); white-space: nowrap; cursor: pointer; user-select: none; transition: color .12s; }
+        [data-dark="true"] #page-plan-vs-actual .pva-tbl thead th { background: #1e2130 !important; }
+        #page-plan-vs-actual .pva-tbl thead th:hover { color: var(--rp-text); }
+        #page-plan-vs-actual .pva-tbl thead th.pva-sorted { color: var(--primary); }
+        #page-plan-vs-actual .pva-tbl thead th.pva-sorted::after { content: ' ▾'; font-size: 9px; }
+        #page-plan-vs-actual .pva-tbl tbody tr { border-bottom: 1px solid var(--rp-border); transition: background .1s; cursor: pointer; }
+        #page-plan-vs-actual .pva-tbl tbody tr:last-child { border-bottom: none; }
+        #page-plan-vs-actual .pva-tbl tbody tr:hover { background: var(--gray-50); }
+        [data-dark="true"] #page-plan-vs-actual .pva-tbl tbody tr:hover { background: #252836 !important; }
+        #page-plan-vs-actual .pva-tbl tbody td { padding: 9px 10px; text-align: right; vertical-align: middle; white-space: nowrap; color: var(--rp-text); font-family: var(--rp-mono); }
+        /* Left-align the first five descriptive columns */
+        #page-plan-vs-actual .pva-tbl thead th:nth-child(-n+5),
+        #page-plan-vs-actual .pva-tbl tbody td:nth-child(-n+5) { text-align: left; font-family: inherit; }
+        /* Group header rows */
+        #page-plan-vs-actual .pva-tbl tbody tr.pva-group-row { background: var(--bg); cursor: default; }
+        [data-dark="true"] #page-plan-vs-actual .pva-tbl tbody tr.pva-group-row { background: #1e2130 !important; }
+        #page-plan-vs-actual .pva-tbl tbody tr.pva-group-row:hover { background: var(--bg); }
+        [data-dark="true"] #page-plan-vs-actual .pva-tbl tbody tr.pva-group-row:hover { background: #1e2130 !important; }
+        #page-plan-vs-actual .pva-tbl tbody tr.pva-group-row td { font-size: 10px; text-transform: uppercase; letter-spacing: .06em; color: var(--rp-muted); padding: 7px 10px; font-weight: 700; text-align: left; font-family: inherit; }
+        /* Column min-widths */
+        #page-plan-vs-actual .pva-tbl th:nth-child(1),  #page-plan-vs-actual .pva-tbl td:nth-child(1)  { min-width: 170px; }
+        #page-plan-vs-actual .pva-tbl th:nth-child(2),  #page-plan-vs-actual .pva-tbl td:nth-child(2)  { min-width: 90px; }
+        #page-plan-vs-actual .pva-tbl th:nth-child(3),  #page-plan-vs-actual .pva-tbl td:nth-child(3)  { min-width: 110px; }
+        #page-plan-vs-actual .pva-tbl th:nth-child(4),  #page-plan-vs-actual .pva-tbl td:nth-child(4)  { min-width: 90px; }
+        #page-plan-vs-actual .pva-tbl th:nth-child(5),  #page-plan-vs-actual .pva-tbl td:nth-child(5)  { min-width: 110px; }
+        #page-plan-vs-actual .pva-tbl th:nth-child(9),  #page-plan-vs-actual .pva-tbl td:nth-child(9)  { min-width: 120px; } /* Rev Ach % bar */
+        #page-plan-vs-actual .pva-tbl th:nth-child(13), #page-plan-vs-actual .pva-tbl td:nth-child(13) { min-width: 110px; } /* Margin % bar */
+        /* Project cell */
+        #page-plan-vs-actual .pva-proj-cell { display: flex; align-items: center; gap: 9px; }
+        #page-plan-vs-actual .pva-proj-icon { width: 28px; height: 28px; border-radius: 7px; background: var(--primary-light); color: var(--primary); display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 700; flex-shrink: 0; }
+        #page-plan-vs-actual .pva-proj-name { font-size: 12px; font-weight: 600; color: var(--rp-text); }
+        #page-plan-vs-actual .pva-proj-sub { font-size: 10px; color: var(--rp-muted); font-family: var(--rp-mono); }
+        #page-plan-vs-actual .pva-dim { font-size: 11px; color: var(--rp-sub); }
+        /* Variance value coloring */
+        #page-plan-vs-actual .pva-pos { color: var(--success); font-weight: 600; }
+        #page-plan-vs-actual .pva-neg { color: var(--danger); font-weight: 600; }
+        #page-plan-vs-actual .pva-zero { color: var(--rp-muted); }
+        /* Achievement / margin mini bar */
+        #page-plan-vs-actual .pva-bar-cell { display: flex; align-items: center; gap: 7px; justify-content: flex-end; }
+        #page-plan-vs-actual .pva-bar { height: 5px; border-radius: 3px; background: var(--gray-200); overflow: hidden; width: 56px; flex-shrink: 0; }
+        [data-dark="true"] #page-plan-vs-actual .pva-bar { background: #363b52; }
+        #page-plan-vs-actual .pva-bar-fill { height: 100%; border-radius: 3px; }
+        #page-plan-vs-actual .pva-bar-pct { min-width: 34px; font-size: 11px; font-weight: 600; font-family: var(--rp-mono); }
+        /* Status pill fallback (reuse bdg-status-pill if present) */
+        #page-plan-vs-actual .pva-status { display: inline-block; padding: 3px 9px; border-radius: 20px; font-size: 10px; font-weight: 700; letter-spacing: .02em; }
+        #page-plan-vs-actual .pva-status.approved { background: rgba(16,185,129,.12); color: var(--success); }
+        #page-plan-vs-actual .pva-status.l1approved { background: rgba(59,130,246,.12); color: #3b82f6; }
+        #page-plan-vs-actual .pva-status.submitted { background: rgba(245,158,11,.12); color: var(--warning); }
+        #page-plan-vs-actual .pva-status.draft { background: var(--gray-100); color: var(--rp-sub); }
+        #page-plan-vs-actual .pva-status.rejected { background: rgba(239,68,68,.12); color: var(--danger); }
+        /* Footer totals strip */
+        #page-plan-vs-actual .rp-tbl-footer .pva-foot-grp { display: flex; align-items: center; gap: 6px; }
+
     </style>
 </head>
 <body>
@@ -15974,11 +16038,12 @@
                     </button>
                     <div class="nav-submenu">
                         <a href="#" class="nav-submenu-link" onclick="showPage('budgeting','Project Plans');return false;">Plans &amp; WBS</a>
+                        <a href="#" class="nav-submenu-link" onclick="showPage('plan-vs-actual','Plan vs Actual');return false;">Plan vs Actual</a>
                         <a href="#" class="nav-submenu-link" onclick="showPage('assign-task','Assign Task');return false;">Assign Task</a>
                         <a href="#" class="nav-submenu-link" onclick="showPage('po-listing','SO Listing');return false;">SO Listing</a>
-                        <a href="#" class="nav-submenu-link" onclick="showPage('po-approvals','SO Approvals');return false;" style="display:flex;align-items:center;justify-content:space-between;">
+                        <a href="#" class="nav-submenu-link" onclick="showPage('po-approvals','SO Approvals');return false;">
                             <span>SO Approvals</span>
-                            <span id="navApprovalsBadge" style="display:inline-flex;align-items:center;justify-content:center;min-width:18px;height:18px;padding:0 5px;background:var(--cta);color:#fff;border-radius:9px;font-size:10px;font-weight:700;">0</span>
+                            <span id="navApprovalsBadge" style="margin-left:auto;display:inline-flex;align-items:center;justify-content:center;min-width:18px;height:18px;padding:0 5px;background:var(--cta);color:#fff;border-radius:9px;font-size:10px;font-weight:700;">0</span>
                         </a>
                         <a href="#" class="nav-submenu-link" onclick="showPage('wcc','Sign-off');return false;">Sign-off &amp; Certification</a>
                     </div>
@@ -15999,7 +16064,7 @@
                         </svg>
                     </button>
                     <div class="nav-submenu">
-                        <a href="#" class="nav-submenu-link" onclick="showPage('plan-actual','Plan vs Actual');return false;">Plan vs Actual</a>
+                        <a href="#" class="nav-submenu-link" onclick="showPage('plan-actual','Resource Analytics');return false;">Resource Analytics</a>
                         <a href="#" class="nav-submenu-link" onclick="showPage('billing-readiness','Billing Readiness');return false;">Billing Readiness</a>
                         <a href="#" class="nav-submenu-link" onclick="showPage('invoice-tracking','Invoice Hub');return false;">Invoice Hub</a>
                     </div>
@@ -20810,6 +20875,143 @@ if (typeof showPage === 'function') {
 
                 </div><!-- /#page-work-done -->
 
+                <div id="page-plan-vs-actual" class="page-section">
+                  <div class="rp-scroll">
+                    <!-- Header -->
+                    <div class="rp-header">
+                      <div>
+                        <div class="rp-page-title">Plan vs Actual</div>
+                        <div class="rp-page-meta">Created budgets compared against actual implementation &nbsp;·&nbsp; revenue, cost &amp; margin analytics</div>
+                      </div>
+                      <div class="rp-controls">
+                        <button class="rp-btn-export" onclick="pvaExportCSV()">↓ Export CSV</button>
+                      </div>
+                    </div>
+
+                    <!-- KPI tiles -->
+                    <div class="rp-kpi-row" id="pvaKpiRow"></div>
+
+                    <!-- Chart row 1: Plan vs Actual Revenue + Plan vs Actual Cost -->
+                    <div class="rp-chart-row">
+                      <div class="rp-chart-box">
+                        <div class="rp-chart-header">
+                          <span class="rp-chart-title" id="pvaRevChartTitle">Plan vs Actual Revenue by Project</span>
+                        </div>
+                        <div class="rp-legend" style="margin-bottom:10px;">
+                          <span class="rp-legend-item"><span class="rp-legend-dot" style="background:#a8c4ae;"></span>Plan</span>
+                          <span class="rp-legend-item"><span class="rp-legend-dot" style="background:#2D4A35;"></span>Actual</span>
+                        </div>
+                        <div style="position:relative;height:210px;"><canvas id="pvaRevChart"></canvas></div>
+                      </div>
+                      <div class="rp-chart-box">
+                        <div class="rp-chart-header">
+                          <span class="rp-chart-title" id="pvaCostChartTitle">Plan vs Actual Cost by Project</span>
+                        </div>
+                        <div class="rp-legend" style="margin-bottom:10px;">
+                          <span class="rp-legend-item"><span class="rp-legend-dot" style="background:#cdb89a;"></span>Plan</span>
+                          <span class="rp-legend-item"><span class="rp-legend-dot" style="background:#8a6d3b;"></span>Actual</span>
+                        </div>
+                        <div style="position:relative;height:210px;"><canvas id="pvaCostChart"></canvas></div>
+                      </div>
+                    </div>
+
+                    <!-- Chart row 2: Monthly Margin Trend (full width) -->
+                    <div class="rp-chart-row rp-chart-row-single">
+                      <div class="rp-chart-box">
+                        <div class="rp-chart-header">
+                          <span class="rp-chart-title">Monthly Trend — Plan vs Actual Revenue &amp; Margin %</span>
+                          <div class="rp-legend">
+                            <span class="rp-legend-item"><span class="rp-legend-dot" style="background:#a8c4ae;"></span>Plan Rev</span>
+                            <span class="rp-legend-item"><span class="rp-legend-dot" style="background:#2D4A35;"></span>Actual Rev</span>
+                            <span class="rp-legend-item"><span class="rp-legend-dot" style="background:#b8895a;border-radius:50%;"></span>Margin %</span>
+                          </div>
+                        </div>
+                        <div style="position:relative;height:240px;"><canvas id="pvaTrendChart"></canvas></div>
+                      </div>
+                    </div>
+
+                    <!-- Filter strip -->
+                    <div class="rp-filter-strip">
+                      <div class="rp-filter-strip-selects">
+                        <span class="rp-group-lbl">Filter</span>
+                        <select class="rp-select" id="pvaDateSel" onchange="pvaApplyFilter()" title="Date range">
+                          <option value="all" selected>All Time</option>
+                          <option value="this_month">This Month</option>
+                          <option value="last_month">Last Month</option>
+                          <option value="this_quarter">This Quarter</option>
+                          <option value="this_year">This Year</option>
+                          <option value="last_year">Last Year</option>
+                        </select>
+                        <select class="rp-select" id="pvaStatusSel" onchange="pvaApplyFilter()" title="Status">
+                          <option value="all">All Status</option>
+                          <option value="Approved">Approved</option>
+                          <option value="L1 Approved">L1 Approved</option>
+                          <option value="Submitted">Submitted</option>
+                          <option value="Draft">Draft</option>
+                          <option value="Rejected">Rejected</option>
+                        </select>
+                        <select class="rp-select" id="pvaVarSel" onchange="pvaApplyFilter()" title="Variance">
+                          <option value="all">All Variance</option>
+                          <option value="over">Over budget (cost)</option>
+                          <option value="rev_short">Revenue shortfall</option>
+                          <option value="on_track">On / above plan</option>
+                        </select>
+                      </div>
+                      <div style="display:flex;align-items:center;gap:10px;">
+                        <input class="rp-search" id="pvaSearchBox" placeholder="Search project, client, PM…" oninput="pvaApplyFilter()" />
+                      </div>
+                    </div>
+
+                    <!-- Table section -->
+                    <div class="rp-tbl-wrap">
+                      <div class="rp-toolbar">
+                        <div class="rp-toolbar-left">
+                          <span class="rp-toolbar-title">Project Dashboard — Plan vs Actual</span>
+                          <span class="rp-row-count" id="pvaRowCount"></span>
+                        </div>
+                        <div class="rp-group-toggle">
+                          <span class="rp-group-lbl">Group</span>
+                          <button class="rp-group-btn active" id="pvaGroupNone" onclick="pvaSwitchGroup('none')">None</button>
+                          <button class="rp-group-btn" id="pvaGroupClient" onclick="pvaSwitchGroup('client')">Client</button>
+                        </div>
+                      </div>
+                      <div class="rp-tbl-scroll">
+                        <table id="pvaTable" class="pva-tbl">
+                          <thead><tr>
+                            <th onclick="pvaSort('project')" id="pva-th-project">Project</th>
+                            <th onclick="pvaSort('lob')" id="pva-th-lob">LOB</th>
+                            <th onclick="pvaSort('client')" id="pva-th-client">Client</th>
+                            <th onclick="pvaSort('circle')" id="pva-th-circle">Circle</th>
+                            <th onclick="pvaSort('pm')" id="pva-th-pm">PM</th>
+                            <th onclick="pvaSort('revenue')" id="pva-th-revenue">Plan Rev</th>
+                            <th onclick="pvaSort('actualRev')" id="pva-th-actualRev">Actual Rev</th>
+                            <th onclick="pvaSort('revVar')" id="pva-th-revVar">Var Rev</th>
+                            <th onclick="pvaSort('revAchPct')" id="pva-th-revAchPct">Rev Ach %</th>
+                            <th onclick="pvaSort('totalCost')" id="pva-th-totalCost">Plan Cost</th>
+                            <th onclick="pvaSort('actualCost')" id="pva-th-actualCost">Actual Cost</th>
+                            <th onclick="pvaSort('costVar')" id="pva-th-costVar">Var Cost</th>
+                            <th onclick="pvaSort('marginPct')" id="pva-th-marginPct">Margin %</th>
+                            <th onclick="pvaSort('status')" id="pva-th-status" style="text-align:center;">Status</th>
+                          </tr></thead>
+                          <tbody id="pvaTblBody"></tbody>
+                        </table>
+                      </div>
+                      <div class="rp-tbl-footer" id="pvaTblFooter"></div>
+                      <!-- Pagination footer -->
+                      <div class="table-footer" id="pvaPaginFooter">
+                        <div class="pagination-info" id="pvaPaginInfo">Showing 0–0 of 0 records</div>
+                        <div class="pagination-controls" id="pvaPaginControls"></div>
+                        <div class="page-limit-selector">
+                          <span class="page-limit-label">Rows per page:</span>
+                          <select class="page-limit-select" id="pvaPageLimit" onchange="pvaChangePageSize(this.value)">
+                            <option value="10">10</option><option value="20" selected>20</option><option value="50">50</option><option value="100">100</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                  </div><!-- /rp-scroll -->
+                </div><!-- /#page-plan-vs-actual -->
+
                 <div id="page-plan-actual" class="page-section">
                   <div class="rp-scroll">
                     <!-- Header -->
@@ -20891,6 +21093,7 @@ if (typeof showPage === 'function') {
                     </div>
                   </div><!-- /rp-scroll -->
                 </div><!-- /#page-plan-actual -->
+
 
                 <div id="page-budgeting" class="page-section">
                   <div class="bdg-scroll" id="bdgScrollArea">
@@ -33133,7 +33336,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 'vendor-material': function(){ if(typeof matRender==='function') matRender(); },
                 'inventory':       function(){ if(typeof invRenderStock==='function'){ invRenderStock(); invRenderLog(); invRenderAlerts(); } },
                 'budgeting':       function(){ if(typeof bdgRender==='function') bdgRender(); },
-                'plan-actual':     function(){ if(typeof rpRenderMonths==='function'){ try{rpRenderMonths();}catch(e){} } if(typeof rpApplyFilter==='function') rpApplyFilter(); }
+                'plan-actual':     function(){ if(typeof rpRenderMonths==='function'){ try{rpRenderMonths();}catch(e){} } if(typeof rpApplyFilter==='function') rpApplyFilter(); },
+                'plan-vs-actual':  function(){ if(typeof pvaRender==='function'){ try{pvaRender();}catch(e){} } }
             };
             if (renderMap[pageId]) renderMap[pageId]();
         }
@@ -41987,6 +42191,355 @@ function bdgRenderListKPI(items){
 }
 
 window.bdgFilterList = function(){ bdgRenderList(); };
+
+/* ════════════════════════════════════════════════════════════════════
+   PLAN vs ACTUAL — budget analytics dashboard (#page-plan-actual)
+   Reads the same bdgSavedBudgets data, enriched via bdgEnrich(), and renders
+   KPI tiles, Plan/Actual revenue & cost charts, a monthly margin trend, and a
+   project-level Plan vs Actual table. Namespaced under pva* to avoid colliding
+   with the Budgeting (bdg*) listing.
+═══════════════════════════════════════════════════════════════════════ */
+var pvaDim       = 'project'; // chart grouping dimension — fixed to Project (LOB toggle removed)
+var pvaGroupBy   = 'none';    // 'none' | 'lob' | 'client' (table grouping)
+var pvaSortKey   = 'revVar';
+var pvaSortDir   = 1;
+var pvaPageSize  = 20;
+var pvaPage      = 1;
+var pvaRevChartInst  = null;
+var pvaCostChartInst = null;
+var pvaTrendChartInst= null;
+var pvaFiltered  = [];
+
+/* Resolve the active date-range filter into an ordinal window (month is 0-indexed). */
+function pvaDateRange(sel){
+  var today=new Date(), ty=today.getFullYear(), tm=today.getMonth();
+  if(sel==='this_month')    return {sy:ty,   sm:tm,  ey:ty,   em:tm};
+  if(sel==='last_month'){var lm=tm-1, ly=ty; if(lm<0){lm=11; ly=ty-1;} return {sy:ly,sm:lm,ey:ly,em:lm};}
+  if(sel==='this_quarter'){var qs=Math.floor(tm/3)*3; return {sy:ty,sm:qs,ey:ty,em:qs+2};}
+  if(sel==='this_year')     return {sy:ty,   sm:0,   ey:ty,   em:11};
+  if(sel==='last_year')     return {sy:ty-1, sm:0,   ey:ty-1, em:11};
+  return null;
+}
+
+/* Build the filtered + enriched + sorted dataset from the current controls. */
+function pvaGetData(){
+  var dateSel   = (document.getElementById('pvaDateSel')  ||{}).value || 'all';
+  var lobSel    = (document.getElementById('pvaLOBSel')   ||{}).value || 'all';
+  var statusSel = (document.getElementById('pvaStatusSel')||{}).value || 'all';
+  var varSel    = (document.getElementById('pvaVarSel')   ||{}).value || 'all';
+  var q         = ((document.getElementById('pvaSearchBox')||{}).value || '').toLowerCase();
+  var range = pvaDateRange(dateSel);
+
+  var data = bdgSavedBudgets.filter(function(b){
+    if(range){
+      var y=parseInt(b.date.slice(0,4),10), m=parseInt(b.date.slice(5,7),10)-1;
+      var ord=y*12+m, sord=range.sy*12+range.sm, eord=range.ey*12+range.em;
+      if(ord<sord || ord>eord) return false;
+    }
+    if(lobSel!=='all'    && b.lob!==lobSel)       return false;
+    if(statusSel!=='all' && b.status!==statusSel) return false;
+    if(q && !((b.client+' '+b.project+' '+b.circle+' '+b.submittedBy+' '+b.lob).toLowerCase().includes(q))) return false;
+    return true;
+  }).map(bdgEnrich).map(function(e){
+    return Object.assign({}, e, { costVar: (e.actualCost||0) - (e.totalCost||0) });
+  });
+
+  if(varSel!=='all'){
+    data = data.filter(function(e){
+      if(varSel==='over')      return e.costVar > 0;                 // spent more than planned
+      if(varSel==='rev_short') return e.actualRev > 0 && e.revVar < 0;// earned less than planned
+      if(varSel==='on_track')  return e.revVar >= 0;                 // met / beat revenue plan
+      return true;
+    });
+  }
+
+  data.sort(function(a,b){
+    var av=a[pvaSortKey], bv=b[pvaSortKey];
+    if(typeof av==='string') return pvaSortDir * av.localeCompare(bv);
+    return pvaSortDir * ((av||0)-(bv||0));
+  });
+  return data;
+}
+
+/* Populate the LOB select once from the data. */
+function pvaPopulateLOB(){
+  var sel=document.getElementById('pvaLOBSel'); if(!sel || sel.dataset.filled) return;
+  var lobs=[]; bdgSavedBudgets.forEach(function(b){ if(lobs.indexOf(b.lob)<0) lobs.push(b.lob); });
+  lobs.sort().forEach(function(l){
+    var o=document.createElement('option'); o.value=l; o.textContent=l; sel.appendChild(o);
+  });
+  sel.dataset.filled='1';
+}
+
+/* ── KPI tiles ── */
+function pvaRenderKPI(data){
+  var el=document.getElementById('pvaKpiRow'); if(!el) return;
+  var pRev=data.reduce(function(a,b){return a+(b.revenue||0);},0);
+  var aRev=data.reduce(function(a,b){return a+(b.actualRev||0);},0);
+  var pCost=data.reduce(function(a,b){return a+(b.totalCost||0);},0);
+  var aCost=data.reduce(function(a,b){return a+(b.actualCost||0);},0);
+  var pMargin=pRev-pCost, aMargin=aRev-aCost;
+  var pMpct=pRev?Math.round(pMargin/pRev*100):0;
+  var aMpct=aRev?Math.round(aMargin/aRev*100):0;
+  var sitesP=data.reduce(function(a,b){return a+(b.targetSites||0);},0);
+  var sitesA=data.reduce(function(a,b){return a+(b.actualSites||0);},0);
+  var revVar=aRev-pRev, costVar=aCost-pCost;
+  var approved=data.filter(function(b){return b.status==='Approved';}).length;
+  var subm=data.filter(function(b){return b.status==='Submitted';}).length;
+  var draft=data.filter(function(b){return b.status==='Draft';}).length;
+
+  var kpis=[
+    {lbl:'Projects Tracked',val:data.length,delta:approved+' approved · '+subm+' submitted · '+draft+' draft',cls:''},
+    {lbl:'Revenue — Plan vs Actual',val:bdgFmtK(aRev),delta:'Plan '+bdgFmtK(pRev)+'  ·  '+(revVar>=0?'+':'')+bdgFmtK(revVar),cls:revVar>=0?'rp-ok':'rp-warn',deltaCls:revVar>=0?'pos':'neg'},
+    {lbl:'Cost — Plan vs Actual',val:bdgFmtK(aCost),delta:'Plan '+bdgFmtK(pCost)+'  ·  '+(costVar>=0?'+':'')+bdgFmtK(costVar),cls:costVar<=0?'rp-ok':'rp-warn',deltaCls:costVar<=0?'pos':'neg'},
+    {lbl:'Margin — Plan / Actual',val:pMpct+'% / '+aMpct+'%',delta:'Actual margin '+bdgFmtK(aMargin),cls:aMpct>=pMpct?'rp-ok':'rp-warn',deltaCls:aMpct>=pMpct?'pos':'neg'},
+    {lbl:'Sites — Plan / Actual',val:sitesP+' / '+sitesA,delta:sitesP?Math.round(sitesA/sitesP*100)+'% completed':'No sites planned',cls:sitesA>=sitesP?'rp-ok':'rp-warn',deltaCls:sitesA>=sitesP?'pos':'neg'}
+  ];
+  el.innerHTML=kpis.map(function(k){
+    return '<div class="rp-kpi '+(k.cls||'')+'">'
+      +'<div class="rp-kpi-label">'+k.lbl+'</div>'
+      +'<div class="rp-kpi-val">'+k.val+'</div>'
+      +'<div class="rp-kpi-delta '+(k.deltaCls||'')+'">'+k.delta+'</div>'
+    +'</div>';
+  }).join('');
+}
+
+/* Shared currency tick formatter for the charts. */
+function pvaMoneyTick(v){ return v>=10000000?'₹'+(v/10000000).toFixed(1)+'Cr':v>=100000?'₹'+(v/100000).toFixed(1)+'L':'₹'+(v/1000).toFixed(0)+'K'; }
+function pvaIsDark(){ return document.body.getAttribute('data-dark')==='true' || document.documentElement.getAttribute('data-dark')==='true'; }
+function pvaAxisColor(){ return pvaIsDark()?'#9aa0ad':'#A09890'; }
+function pvaLabelColor(){ return pvaIsDark()?'#c4c9d4':'#5C5650'; }
+function pvaGridColor(){ return pvaIsDark()?'rgba(255,255,255,0.06)':'rgba(45,40,32,0.05)'; }
+
+/* ── Charts ── */
+function pvaRenderCharts(data){
+  if(typeof Chart==='undefined') return;
+
+  /* group plan/actual revenue & cost by the selected dimension */
+  var dims=[]; data.forEach(function(b){ var k=(pvaDim==='project')?b.project:b.lob; if(dims.indexOf(k)<0) dims.push(k); });
+  function sumBy(dim, field){ return data.filter(function(b){return ((pvaDim==='project')?b.project:b.lob)===dim;}).reduce(function(a,b){return a+(b[field]||0);},0); }
+  var planRev=dims.map(function(d){return sumBy(d,'revenue');});
+  var actRev =dims.map(function(d){return sumBy(d,'actualRev');});
+  var planCost=dims.map(function(d){return sumBy(d,'totalCost');});
+  var actCost =dims.map(function(d){return sumBy(d,'actualCost');});
+
+  var barOpts={responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},
+      tooltip:{callbacks:{label:function(c){return c.dataset.label+': '+bdgFmtK(c.parsed.y);}}}},
+    scales:{
+      x:{ticks:{font:{size:10},color:pvaLabelColor()},grid:{display:false},border:{display:false}},
+      y:{ticks:{font:{size:9},color:pvaAxisColor(),callback:pvaMoneyTick},grid:{color:pvaGridColor()},border:{display:false}}
+    }};
+
+  var rc=document.getElementById('pvaRevChart');
+  if(rc){
+    if(pvaRevChartInst) pvaRevChartInst.destroy();
+    pvaRevChartInst=new Chart(rc,{type:'bar',data:{labels:dims,datasets:[
+      {label:'Plan',data:planRev,backgroundColor:'#a8c4ae',borderRadius:4,borderSkipped:false},
+      {label:'Actual',data:actRev,backgroundColor:'#2D4A35',borderRadius:4,borderSkipped:false}
+    ]},options:barOpts});
+  }
+  var cc=document.getElementById('pvaCostChart');
+  if(cc){
+    if(pvaCostChartInst) pvaCostChartInst.destroy();
+    pvaCostChartInst=new Chart(cc,{type:'bar',data:{labels:dims,datasets:[
+      {label:'Plan',data:planCost,backgroundColor:'#cdb89a',borderRadius:4,borderSkipped:false},
+      {label:'Actual',data:actCost,backgroundColor:'#8a6d3b',borderRadius:4,borderSkipped:false}
+    ]},options:barOpts});
+  }
+
+  /* Monthly trend — plan rev (bars) + actual rev (bars) + margin % (line, right axis).
+     Uses the filtered set so the trend reflects current LOB/status/search filters. */
+  var monthsP=BDG_MONTH_LABELS.map(function(_,i){ return data.filter(function(b){return parseInt(b.date.slice(5,7),10)-1===i;}).reduce(function(a,b){return a+(b.revenue||0);},0); });
+  var monthsA=BDG_MONTH_LABELS.map(function(_,i){ return data.filter(function(b){return parseInt(b.date.slice(5,7),10)-1===i;}).reduce(function(a,b){return a+(b.actualRev||0);},0); });
+  var monthsM=BDG_MONTH_LABELS.map(function(_,i){
+    var mi=data.filter(function(b){return parseInt(b.date.slice(5,7),10)-1===i;});
+    if(!mi.length) return null;
+    var rev=mi.reduce(function(a,b){return a+(b.actualRev||b.revenue||0);},0);
+    var cost=mi.reduce(function(a,b){return a+(b.actualCost||b.totalCost||0);},0);
+    return rev?Math.round((rev-cost)/rev*100):null;
+  });
+  var tc=document.getElementById('pvaTrendChart');
+  if(tc){
+    if(pvaTrendChartInst) pvaTrendChartInst.destroy();
+    pvaTrendChartInst=new Chart(tc,{
+      data:{labels:BDG_MONTH_LABELS,datasets:[
+        {type:'bar',label:'Plan Rev',data:monthsP,backgroundColor:'#a8c4ae',borderRadius:3,borderSkipped:false,yAxisID:'y',order:3},
+        {type:'bar',label:'Actual Rev',data:monthsA,backgroundColor:'#2D4A35',borderRadius:3,borderSkipped:false,yAxisID:'y',order:2},
+        {type:'line',label:'Margin %',data:monthsM,borderColor:'#b8895a',backgroundColor:'rgba(184,137,90,0.12)',fill:false,tension:0.4,pointRadius:3,pointBackgroundColor:'#b8895a',borderWidth:2,pointHoverRadius:5,spanGaps:true,yAxisID:'y1',order:1}
+      ]},
+      options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},
+          tooltip:{callbacks:{label:function(c){return c.dataset.label+': '+(c.dataset.yAxisID==='y1'?(c.parsed.y==null?'—':c.parsed.y+'%'):bdgFmtK(c.parsed.y));}}}},
+        scales:{
+          x:{ticks:{font:{size:10},color:pvaLabelColor()},grid:{display:false},border:{display:false}},
+          y:{position:'left',ticks:{font:{size:9},color:pvaAxisColor(),callback:pvaMoneyTick},grid:{color:pvaGridColor()},border:{display:false}},
+          y1:{position:'right',ticks:{font:{size:9},color:pvaAxisColor(),callback:function(v){return v+'%';}},grid:{display:false},border:{display:false},suggestedMin:0,suggestedMax:60}
+        }}
+    });
+  }
+}
+
+/* ── Table ── */
+function pvaRenderTable(data){
+  var body=document.getElementById('pvaTblBody'); if(!body) return;
+  var rc=document.getElementById('pvaRowCount');
+  if(rc) rc.textContent=data.length+(data.length===1?' project':' projects');
+  var COLSPAN=14;
+
+  if(!data.length){
+    body.innerHTML='<tr><td colspan="'+COLSPAN+'" style="text-align:center;padding:40px;color:var(--rp-muted);font-size:13px;">No budgets match the current filters.</td></tr>';
+    var fe=document.getElementById('pvaTblFooter'); if(fe) fe.innerHTML='';
+    pvaRenderPagination(0);
+    return;
+  }
+
+  var maxPage=Math.max(1,Math.ceil(data.length/pvaPageSize));
+  if(pvaPage>maxPage) pvaPage=maxPage;
+  if(pvaPage<1) pvaPage=1;
+  var start=(pvaPage-1)*pvaPageSize;
+  var pageItems=data.slice(start,start+pvaPageSize);
+
+  function statusCls(s){ return (typeof bdgStatusClass==='function')?bdgStatusClass(s):(s||'').toLowerCase().replace(/\s+/g,''); }
+  function varCell(v){
+    if(!v) return '<span class="pva-zero">—</span>';
+    return '<span class="'+(v>0?'pva-pos':'pva-neg')+'">'+(v>0?'+':'-')+bdgFmtK(Math.abs(v)).replace('₹','₹')+'</span>';
+  }
+  function bar(pct, good){
+    var p=Math.max(0,Math.min(150,pct));
+    var color = good ? (pct>=100?'var(--success)':pct>=80?'var(--warning)':'var(--danger)')
+                     : (pct<=100?'var(--success)':pct<=110?'var(--warning)':'var(--danger)');
+    return '<div class="pva-bar-cell"><div class="pva-bar"><div class="pva-bar-fill" style="width:'+Math.min(100,p)+'%;background:'+color+';"></div></div>'
+      +'<span class="pva-bar-pct" style="color:'+color+';">'+(pct||0)+'%</span></div>';
+  }
+  function rowHTML(b){
+    var ini=b.project.split(' ').map(function(x){return x[0];}).join('').slice(0,2).toUpperCase();
+    var revColor=b.actualRev>=b.revenue?'var(--success)':(b.actualRev>0?'var(--danger)':'var(--rp-muted)');
+    var costColor=(b.actualCost>0 && b.actualCost<=b.totalCost)?'var(--success)':(b.actualCost>b.totalCost?'var(--danger)':'var(--rp-text)');
+    var hasActual=b.actualRev>0 || b.actualCost>0;
+    var mColor=b.marginPct>=0?'var(--success)':'var(--danger)';
+    return '<tr onclick="pvaOpenBudget('+b.id+')">'
+      +'<td><div class="pva-proj-cell"><div class="pva-proj-icon">'+ini+'</div>'
+        +'<div><div class="pva-proj-name">'+b.project+'</div><div class="pva-proj-sub">'+b.date+'</div></div></div></td>'
+      +'<td><span class="pva-dim">'+b.lob+'</span></td>'
+      +'<td><span class="pva-dim">'+b.client+'</span></td>'
+      +'<td><span class="pva-dim">'+b.circle+'</span></td>'
+      +'<td><span class="pva-dim">'+b.submittedBy+'</span></td>'
+      +'<td>'+bdgFmtK(b.revenue)+'</td>'
+      +'<td style="color:'+revColor+';font-weight:600;">'+(hasActual?bdgFmtK(b.actualRev):'<span class="pva-zero">—</span>')+'</td>'
+      +'<td>'+(hasActual?varCell(b.revVar):'<span class="pva-zero">—</span>')+'</td>'
+      +'<td>'+(hasActual?bar(b.revAchPct,true):'<span class="pva-zero">—</span>')+'</td>'
+      +'<td>'+bdgFmtK(b.totalCost)+'</td>'
+      +'<td style="color:'+costColor+';font-weight:600;">'+(hasActual?bdgFmtK(b.actualCost):'<span class="pva-zero">—</span>')+'</td>'
+      +'<td>'+(hasActual?varCell(b.costVar):'<span class="pva-zero">—</span>')+'</td>'
+      +'<td style="color:'+(hasActual?mColor:'var(--rp-muted)')+';font-weight:600;">'+(hasActual?b.marginPct+'%':'—')+'</td>'
+      +'<td style="text-align:center;"><span class="pva-status '+statusCls(b.status)+'">'+b.status+'</span></td>'
+    +'</tr>';
+  }
+
+  var html='';
+  if(pvaGroupBy==='none'){
+    html=pageItems.map(rowHTML).join('');
+  } else {
+    var keyFn = pvaGroupBy==='lob' ? function(b){return b.lob;} : function(b){return b.client;};
+    var groups={};
+    pageItems.forEach(function(b){ var k=keyFn(b); (groups[k]=groups[k]||[]).push(b); });
+    Object.keys(groups).sort().forEach(function(k){
+      var g=groups[k];
+      var gPRev=g.reduce(function(a,b){return a+b.revenue;},0);
+      var gARev=g.reduce(function(a,b){return a+(b.actualRev||0);},0);
+      html+='<tr class="pva-group-row"><td colspan="'+COLSPAN+'">'+k+' ('+(pvaGroupBy==='lob'?'LOB':'Client')+') — '+g.length+' project'+(g.length===1?'':'s')
+        +'  ·  Plan '+bdgFmtK(gPRev)+' → Actual '+bdgFmtK(gARev)+'</td></tr>';
+      g.forEach(function(b){ html+=rowHTML(b); });
+    });
+  }
+  body.innerHTML=html;
+
+  /* Footer totals */
+  var tF=document.getElementById('pvaTblFooter');
+  if(tF){
+    var tPRev=data.reduce(function(a,b){return a+b.revenue;},0);
+    var tARev=data.reduce(function(a,b){return a+(b.actualRev||0);},0);
+    var tPCost=data.reduce(function(a,b){return a+b.totalCost;},0);
+    var tACost=data.reduce(function(a,b){return a+(b.actualCost||0);},0);
+    var tRV=tARev-tPRev, tCV=tACost-tPCost;
+    tF.innerHTML='<span class="pva-foot-grp"><span class="lbl">Totals —</span></span>'
+      +'<span class="pva-foot-grp"><span class="lbl">Plan Rev:</span> <span class="val">'+bdgFmtK(tPRev)+'</span></span>'
+      +'<span class="pva-foot-grp"><span class="lbl">Actual Rev:</span> <span class="val">'+bdgFmtK(tARev)+'</span></span>'
+      +'<span class="pva-foot-grp"><span class="lbl">Rev Var:</span> <span class="val '+(tRV>=0?'':'neg')+'">'+(tRV>=0?'+':'')+bdgFmtK(tRV)+'</span></span>'
+      +'<span class="pva-foot-grp"><span class="lbl">Plan Cost:</span> <span class="val">'+bdgFmtK(tPCost)+'</span></span>'
+      +'<span class="pva-foot-grp"><span class="lbl">Actual Cost:</span> <span class="val">'+bdgFmtK(tACost)+'</span></span>'
+      +'<span class="pva-foot-grp"><span class="lbl">Cost Var:</span> <span class="val '+(tCV<=0?'':'neg')+'">'+(tCV>=0?'+':'')+bdgFmtK(tCV)+'</span></span>';
+  }
+  pvaRenderPagination(data.length);
+}
+
+function pvaRenderPagination(total){
+  var info=document.getElementById('pvaPaginInfo');
+  var ctrls=document.getElementById('pvaPaginControls');
+  var pages=Math.max(1,Math.ceil(total/pvaPageSize));
+  if(pvaPage>pages) pvaPage=pages;
+  var start=total===0?0:(pvaPage-1)*pvaPageSize+1;
+  var end=Math.min(pvaPage*pvaPageSize,total);
+  if(info) info.textContent='Showing '+start+'–'+end+' of '+total+' records';
+  if(!ctrls) return;
+  var svgPrev='<svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>';
+  var svgNext='<svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>';
+  var h='<button class="page-btn" '+(pvaPage<=1?'disabled':'onclick="pvaGoPage('+(pvaPage-1)+')"')+'>'+svgPrev+'</button>';
+  for(var p=1;p<=pages;p++){
+    if(pages>7 && (p>2 && p<pages-1) && Math.abs(p-pvaPage)>1){ if(p===3 || p===pages-2) h+='<span style="padding:0 4px;color:var(--rp-muted);">…</span>'; continue; }
+    h+='<button class="page-btn '+(p===pvaPage?'active':'')+'" onclick="pvaGoPage('+p+')">'+p+'</button>';
+  }
+  h+='<button class="page-btn" '+(pvaPage>=pages?'disabled':'onclick="pvaGoPage('+(pvaPage+1)+')"')+'>'+svgNext+'</button>';
+  ctrls.innerHTML=h;
+}
+
+/* ── Public controls ── */
+window.pvaApplyFilter=function(){ pvaPage=1; pvaRender(); };
+window.pvaGoPage=function(p){ var pages=Math.max(1,Math.ceil(pvaFiltered.length/pvaPageSize)); if(p<1||p>pages) return; pvaPage=p; pvaRenderTable(pvaFiltered); };
+window.pvaChangePageSize=function(v){ var n=parseInt(v,10); if(!n) return; pvaPageSize=n; pvaPage=1; pvaRenderTable(pvaFiltered); };
+window.pvaSort=function(key){
+  if(pvaSortKey===key) pvaSortDir*=-1; else { pvaSortKey=key; pvaSortDir=(key==='project'||key==='lob'||key==='client'||key==='circle'||key==='pm')?1:-1; }
+  pvaPage=1; pvaRender();
+};
+window.pvaSwitchDim=function(){ /* chart dimension is fixed to Project; toggle removed */ };
+window.pvaSwitchGroup=function(g){
+  if(g==='lob') g='none';
+  pvaGroupBy=g;
+  ['none','client'].forEach(function(k){var e=document.getElementById('pvaGroup'+k.charAt(0).toUpperCase()+k.slice(1)); if(e) e.classList.toggle('active',k===g);});
+  pvaPage=1; pvaRenderTable(pvaFiltered);
+};
+window.pvaOpenBudget=function(id){
+  /* Navigate to the Budgeting page, then open the budget detail there. */
+  if(typeof showPage==='function') showPage('budgeting','Project Plans');
+  if(typeof bdgViewBudget==='function') bdgViewBudget(id);
+};
+window.pvaExportCSV=function(){
+  var data=pvaGetData();
+  var head=['Project','LOB','Client','Circle','PM','Date','Status','Plan Rev','Actual Rev','Rev Var','Rev Ach %','Plan Cost','Actual Cost','Cost Var','Plan Margin','Actual Margin','Margin %','Plan Sites','Actual Sites'];
+  var rows=data.map(function(b){
+    return [b.project,b.lob,b.client,b.circle,b.submittedBy,b.date,b.status,b.revenue,b.actualRev,b.revVar,b.revAchPct,b.totalCost,b.actualCost,b.costVar,b.planMargin,b.actualMargin,b.marginPct,b.targetSites,b.actualSites]
+      .map(function(c){var s=String(c==null?'':c); return /[",\n]/.test(s)?'"'+s.replace(/"/g,'""')+'"':s;}).join(',');
+  });
+  var csv=head.join(',')+'\n'+rows.join('\n');
+  var blob=new Blob([csv],{type:'text/csv;charset=utf-8;'});
+  var url=URL.createObjectURL(blob);
+  var a=document.createElement('a'); a.href=url; a.download='plan-vs-actual.csv'; document.body.appendChild(a); a.click();
+  document.body.removeChild(a); URL.revokeObjectURL(url);
+};
+
+function pvaUpdateSortIcons(){
+  document.querySelectorAll('#page-plan-vs-actual .pva-tbl thead th').forEach(function(th){ th.classList.remove('pva-sorted'); });
+  var el=document.getElementById('pva-th-'+pvaSortKey); if(el) el.classList.add('pva-sorted');
+}
+
+/* Master render — recomputes data and repaints KPI + charts + table. */
+window.pvaRender=function(){
+  pvaPopulateLOB();
+  pvaFiltered=pvaGetData();
+  pvaRenderKPI(pvaFiltered);
+  pvaRenderCharts(pvaFiltered);
+  pvaRenderTable(pvaFiltered);
+  pvaUpdateSortIcons();
+};
 
 /* ─── PLAN VS ACHIEVED DETAIL PAGE (replaces wizard step 7 view) ─── */
 window.bdgViewBudget = function(id){
