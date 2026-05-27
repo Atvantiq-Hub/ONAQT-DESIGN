@@ -15391,6 +15391,116 @@
   font-size:11px;
 }
 
+/* === Critical Alerts — pinned top banner === */
+.v10-crit {
+  background:var(--card-bg, #fff);
+  border:1px solid var(--border, #e5e7eb);
+  border-radius:12px;
+  padding:13px 14px;
+  margin-bottom:14px;
+}
+.v10-crit-head {
+  display:flex;
+  align-items:center;
+  gap:8px;
+  margin-bottom:11px;
+}
+.v10-crit-head .dot {
+  width:8px; height:8px; border-radius:50%;
+  background:var(--danger, #b85c52);
+  box-shadow:0 0 0 4px color-mix(in srgb, var(--danger, #b85c52) 18%, transparent);
+  flex-shrink:0;
+  animation:v10CritPulse 2s ease-in-out infinite;
+}
+@keyframes v10CritPulse {
+  0%,100% { box-shadow:0 0 0 3px color-mix(in srgb, var(--danger, #b85c52) 22%, transparent); }
+  50%     { box-shadow:0 0 0 6px color-mix(in srgb, var(--danger, #b85c52) 6%, transparent); }
+}
+.v10-crit-title {
+  font-size:11px;
+  font-weight:800;
+  text-transform:uppercase;
+  letter-spacing:0.07em;
+  color:var(--text, #1a1a1a);
+}
+.v10-crit-count {
+  font-size:10px;
+  font-weight:800;
+  color:var(--danger, #b85c52);
+  background:var(--danger-light, #faeeed);
+  padding:2px 8px;
+  border-radius:20px;
+  margin-left:auto;
+  white-space:nowrap;
+}
+.v10-crit-grid {
+  display:grid;
+  grid-template-columns:repeat(4, 1fr);
+  gap:10px;
+}
+@media (max-width:980px) { .v10-crit-grid { grid-template-columns:repeat(2, 1fr); } }
+@media (max-width:560px) { .v10-crit-grid { grid-template-columns:1fr; } }
+.v10-crit-card {
+  display:flex;
+  align-items:center;
+  gap:11px;
+  padding:11px 12px;
+  border-radius:10px;
+  border:1px solid var(--border, #e5e7eb);
+  background:var(--accent-light, #f8f6f2);
+  cursor:pointer;
+  transition:all 0.15s;
+  position:relative;
+  overflow:hidden;
+  text-align:left;
+}
+.v10-crit-card::before {
+  content:""; position:absolute; left:0; top:0; bottom:0; width:3px;
+  background:var(--cr-accent, #b85c52);
+}
+.v10-crit-card:hover {
+  transform:translateY(-1px);
+  box-shadow:0 4px 14px rgba(0,0,0,0.07);
+  border-color:var(--cr-accent, #b85c52);
+}
+.v10-crit-ico {
+  width:38px; height:38px; border-radius:9px;
+  display:flex; align-items:center; justify-content:center;
+  flex-shrink:0;
+  background:var(--cr-tint, #faeeed);
+  color:var(--cr-accent, #b85c52);
+}
+.v10-crit-ico svg { width:19px; height:19px; }
+.v10-crit-body { min-width:0; flex:1; }
+.v10-crit-val {
+  display:flex; align-items:baseline; gap:5px;
+  font-size:21px; font-weight:800; line-height:1;
+  color:var(--text, #1a1a1a);
+  font-variant-numeric:tabular-nums;
+}
+.v10-crit-val .unit { font-size:12px; font-weight:700; color:var(--muted, #6b7280); }
+.v10-crit-label {
+  font-size:11.5px;
+  font-weight:700;
+  color:var(--text, #1a1a1a);
+  margin-top:3px;
+  line-height:1.25;
+  white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+}
+.v10-crit-sub {
+  font-size:10px;
+  color:var(--muted, #6b7280);
+  margin-top:1px;
+  white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+}
+/* per-card color themes */
+.v10-crit-card.red    { --cr-accent:var(--danger, #b85c52);  --cr-tint:var(--danger-light, #faeeed); }
+.v10-crit-card.amber  { --cr-accent:var(--warning, #b8893a); --cr-tint:var(--warning-light, #fdf4e7); }
+.v10-crit-card.cta    { --cr-accent:var(--cta, #C8837A);     --cr-tint:color-mix(in srgb, var(--cta, #C8837A) 14%, transparent); }
+.v10-crit-card.violet { --cr-accent:#7c5cbf; --cr-tint:color-mix(in srgb, #7c5cbf 13%, transparent); }
+[data-dark="true"] .v10-crit { background:#1e2130; border-color:#2d3145; }
+[data-dark="true"] .v10-crit-card { background:#161824; border-color:#2d3145; }
+
 /* === Heatmap === */
 .v10-heat-grid {
   display:grid;
@@ -16809,6 +16919,66 @@
       </div>
     </div>
 
+    <!-- ═══════════ CRITICAL ALERTS — pinned top banner ═══════════ -->
+    <div class="v10-crit" id="v10CritAlerts">
+      <div class="v10-crit-head">
+        <span class="dot"></span>
+        <span class="v10-crit-title">Critical Alerts</span>
+        <span class="v10-crit-count">4 need attention</span>
+      </div>
+      <div class="v10-crit-grid">
+
+        <!-- Absent NA — system-generated absents -->
+        <div class="v10-crit-card red" onclick="showPage('attendance','Attendance')" role="button" tabindex="0">
+          <div class="v10-crit-ico">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636"/></svg>
+          </div>
+          <div class="v10-crit-body">
+            <div class="v10-crit-val">9</div>
+            <div class="v10-crit-label">Absent NA</div>
+            <div class="v10-crit-sub">System-generated absents</div>
+          </div>
+        </div>
+
+        <!-- Expenses -->
+        <div class="v10-crit-card cta" onclick="showPage('expense-summary','Expense Summary')" role="button" tabindex="0">
+          <div class="v10-crit-ico">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
+          </div>
+          <div class="v10-crit-body">
+            <div class="v10-crit-val">5 <span class="unit">· ₹2.8L</span></div>
+            <div class="v10-crit-label">Expenses</div>
+            <div class="v10-crit-sub">Pending approval</div>
+          </div>
+        </div>
+
+        <!-- Cost > Work Done -->
+        <div class="v10-crit-card amber" onclick="showPage('work-done','Work Done')" role="button" tabindex="0">
+          <div class="v10-crit-ico">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/></svg>
+          </div>
+          <div class="v10-crit-body">
+            <div class="v10-crit-val">3</div>
+            <div class="v10-crit-label">Cost &gt; Work Done</div>
+            <div class="v10-crit-sub">Sites over budget</div>
+          </div>
+        </div>
+
+        <!-- WCC aging 15 days -->
+        <div class="v10-crit-card violet" onclick="showPage('wcc','Work Completion Certificate')" role="button" tabindex="0">
+          <div class="v10-crit-ico">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+          </div>
+          <div class="v10-crit-body">
+            <div class="v10-crit-val">7</div>
+            <div class="v10-crit-label">WCC Aging 15 Days</div>
+            <div class="v10-crit-sub">Stuck beyond SLA</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
     <!-- WIDGET GRID — visibility controlled by JS per role -->
     <div class="v10-dash-grid" id="v10DashGrid">
 
@@ -17322,26 +17492,6 @@
 
       <!-- ═══════════════ SECTION E — ALERTS, RISKS & ACTIONS ═══════════════ -->
 
-      <!-- E1: Critical Alerts Banner -->
-      <div class="v10-widget span-12" data-widget="E1" data-roles="exec,pm,fin,ops,vm">
-        <div class="v10-widget-controls"><div class="v10-widget-ctrl close">✕</div></div>
-        <div class="v10-widget-header">
-          <div>
-            <div class="v10-widget-title">Critical Alerts</div>
-            <div class="v10-widget-sub">Items needing attention</div>
-          </div>
-          <span class="v10-widget-badge alert">E1</span>
-        </div>
-        <div class="v10-alerts-strip">
-          <span class="v10-alert-pill red">3 bills overdue >60d <span class="cnt">₹4.2L</span></span>
-          <span class="v10-alert-pill red">2 PO budget breaches <span class="cnt">P-106, P-110</span></span>
-          <span class="v10-alert-pill amber">7 WCCs stuck >SLA <span class="cnt">L1 stage</span></span>
-          <span class="v10-alert-pill amber">8 docs expiring &lt;30d <span class="cnt">view</span></span>
-          <span class="v10-alert-pill blue">12 milestones due this week</span>
-          <span class="v10-alert-pill amber">1 approver on leave <span class="cnt">re-route</span></span>
-        </div>
-      </div>
-
       <!-- E2: My Approvals Queue -->
       <div class="v10-widget span-6" data-widget="E2" data-roles="exec,pm,fin,ops,vm">
         <div class="v10-widget-controls"><div class="v10-widget-ctrl close">✕</div></div>
@@ -17426,11 +17576,11 @@
 
 // Default layouts per role (widget IDs in display order)
 const V10_ROLE_LAYOUTS = {
-  exec: ['E1','B1','B2','B3','B6','B7','C1','C2','C6','C7','D2','D5','E2','E3','E4','E5'],
-  pm:   ['E1','C1','C2','C3','C4','C5','C6','C7','C8','D1','D5','E2','E3','E4'],
-  fin:  ['E1','B1','B2','B3','B4','B5','B6','B7','B8','C4','C5','C8','D5','D7','E2','E3'],
-  ops:  ['E1','D1','D2','D3','D4','D5','D6','D7','C6','E2','E3','E4','E5'],
-  vm:   ['E1','B2','B5','C5','C6','D6','E2','E3','E4','E5'],
+  exec: ['B1','B2','B3','B6','B7','C1','C2','C6','C7','D2','D5','E2','E3','E4','E5'],
+  pm:   ['C1','C2','C3','C4','C5','C6','C7','C8','D1','D5','E2','E3','E4'],
+  fin:  ['B1','B2','B3','B4','B5','B6','B7','B8','C4','C5','C8','D5','D7','E2','E3'],
+  ops:  ['D1','D2','D3','D4','D5','D6','D7','C6','E2','E3','E4','E5'],
+  vm:   ['B2','B5','C5','C6','D6','E2','E3','E4','E5'],
 };
 
 let v10CurrentRole = 'exec';
