@@ -15098,8 +15098,12 @@
 .span-8  { grid-column:span 8; }
 .span-12 { grid-column:span 12; }
 
+/* Trailing orphan widget stretches to fill its row for a symmetrical bottom edge */
+.v10-dash-grid .v10-widget.v10-fill-row { grid-column:1 / -1; }
+
 @media (max-width:1100px) {
   .span-3, .span-4 { grid-column:span 6; }
+  .v10-dash-grid .v10-widget.v10-fill-row { grid-column:1 / -1; }
 }
 @media (max-width:680px) {
   .v10-dash-grid { grid-template-columns:1fr; }
@@ -15400,115 +15404,394 @@
   font-size:11px;
 }
 
-/* === Critical Alerts — pinned top banner === */
+/* === Critical Alerts — pinned top banner (pill style) === */
 .v10-crit {
+  background:var(--card-bg, #fff);
+  border:1px solid var(--border, #e5e7eb);
+  border-radius:14px;
+  padding:11px 14px 13px;
+  margin-bottom:14px;
+  position:relative;
+}
+.v10-crit-head {
+  display:flex;
+  align-items:flex-start;
+  gap:8px;
+  margin-bottom:9px;
+}
+.v10-crit-head .v10-crit-heading { flex:1; min-width:0; }
+.v10-crit-title {
+  font-size:13px;
+  font-weight:800;
+  letter-spacing:-0.01em;
+  color:var(--text, #1a1a1a);
+  line-height:1.2;
+}
+.v10-crit-subtitle {
+  font-size:10.5px;
+  font-weight:500;
+  color:var(--muted, #6b7280);
+  margin-top:2px;
+}
+.v10-crit-count {
+  font-size:9px;
+  font-weight:800;
+  color:var(--danger, #b85c52);
+  background:var(--danger-light, #faeeed);
+  padding:2px 7px;
+  border-radius:6px;
+  white-space:nowrap;
+  flex-shrink:0;
+}
+.v10-crit-grid {
+  display:flex;
+  flex-wrap:wrap;
+  gap:6px;
+}
+.v10-crit-card {
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  padding:5px 10px;
+  border-radius:999px;
+  border:none;
+  background:var(--cr-tint, #faeeed);
+  cursor:pointer;
+  transition:all 0.15s;
+  text-align:left;
+}
+.v10-crit-card:hover {
+  transform:translateY(-1px);
+  box-shadow:0 4px 14px rgba(0,0,0,0.08);
+  filter:brightness(0.97);
+}
+.v10-crit-card .v10-crit-text {
+  font-size:10.5px;
+  font-weight:700;
+  color:var(--cr-accent, #b85c52);
+  white-space:nowrap;
+  line-height:1;
+}
+.v10-crit-card .v10-crit-tag {
+  font-size:9.5px;
+  font-weight:700;
+  color:var(--cr-accent, #b85c52);
+  background:var(--card-bg, #fff);
+  padding:2px 7px;
+  border-radius:999px;
+  white-space:nowrap;
+  line-height:1;
+}
+/* per-pill color themes — mapped to the app palette (shifts per theme) */
+.v10-crit-card.red    { --cr-accent:var(--card1-color, #b85c52); --cr-tint:var(--card1-icon, rgba(200,120,112,0.14)); }
+.v10-crit-card.cta    { --cr-accent:var(--card2-color, #3d7a52); --cr-tint:var(--card2-icon, rgba(80,150,95,0.14)); }
+.v10-crit-card.amber  { --cr-accent:var(--card3-color, #9a7020); --cr-tint:var(--card3-icon, rgba(190,140,50,0.14)); }
+.v10-crit-card.violet { --cr-accent:var(--card4-color, #6050a8); --cr-tint:var(--card4-icon, rgba(110,95,180,0.14)); }
+.v10-crit-card.blue   { --cr-accent:#2f6fc4; --cr-tint:#dde9f7; }
+[data-dark="true"] .v10-crit { background:#1e2130; border-color:#2d3145; }
+[data-dark="true"] .v10-crit-card .v10-crit-tag { background:rgba(255,255,255,0.12); }
+[data-dark="true"] .v10-crit-card.blue { --cr-accent:#7fb0ec; --cr-tint:rgba(47,111,196,0.25); }
+
+/* === Approvals Pending — home banner === */
+.v10-appr {
   background:var(--card-bg, #fff);
   border:1px solid var(--border, #e5e7eb);
   border-radius:12px;
   padding:13px 14px;
-  margin-bottom:14px;
+  margin-bottom:18px;
 }
-.v10-crit-head {
-  display:flex;
-  align-items:center;
-  gap:8px;
-  margin-bottom:11px;
+.v10-appr-head {
+  display:flex; align-items:center; gap:9px; margin-bottom:11px;
 }
-.v10-crit-head .dot {
-  width:8px; height:8px; border-radius:50%;
-  background:var(--danger, #b85c52);
-  box-shadow:0 0 0 4px color-mix(in srgb, var(--danger, #b85c52) 18%, transparent);
-  flex-shrink:0;
-  animation:v10CritPulse 2s ease-in-out infinite;
+.v10-appr-head .ic {
+  width:26px; height:26px; border-radius:7px; flex-shrink:0;
+  display:flex; align-items:center; justify-content:center;
+  background:var(--primary-light, #e6f0e8); color:var(--primary, #2D4A35);
 }
-@keyframes v10CritPulse {
-  0%,100% { box-shadow:0 0 0 3px color-mix(in srgb, var(--danger, #b85c52) 22%, transparent); }
-  50%     { box-shadow:0 0 0 6px color-mix(in srgb, var(--danger, #b85c52) 6%, transparent); }
+.v10-appr-head .ic svg { width:15px; height:15px; }
+.v10-appr-title {
+  font-size:11px; font-weight:800; text-transform:uppercase;
+  letter-spacing:0.07em; color:var(--text, #1a1a1a);
 }
-.v10-crit-title {
-  font-size:11px;
-  font-weight:800;
-  text-transform:uppercase;
-  letter-spacing:0.07em;
-  color:var(--text, #1a1a1a);
+.v10-appr-count {
+  font-size:10px; font-weight:800; color:var(--primary, #2D4A35);
+  background:var(--primary-light, #e6f0e8);
+  padding:2px 8px; border-radius:20px; margin-left:6px; white-space:nowrap;
 }
-.v10-crit-count {
-  font-size:10px;
-  font-weight:800;
-  color:var(--danger, #b85c52);
-  background:var(--danger-light, #faeeed);
-  padding:2px 8px;
-  border-radius:20px;
+.v10-appr-jump {
   margin-left:auto;
-  white-space:nowrap;
+  display:inline-flex; align-items:center; gap:5px;
+  font-size:11.5px; font-weight:700; color:var(--primary, #2D4A35);
+  background:transparent; border:1px solid var(--border, #e5e7eb);
+  padding:6px 11px; border-radius:8px; cursor:pointer; transition:all 0.15s;
 }
-.v10-crit-grid {
-  display:grid;
-  grid-template-columns:repeat(4, 1fr);
-  gap:10px;
+.v10-appr-jump:hover { background:var(--primary, #2D4A35); color:#fff; border-color:var(--primary, #2D4A35); }
+.v10-appr-jump svg { width:13px; height:13px; }
+.v10-appr-grid {
+  display:grid; grid-template-columns:repeat(4, 1fr); gap:10px;
 }
-@media (max-width:980px) { .v10-crit-grid { grid-template-columns:repeat(2, 1fr); } }
-@media (max-width:560px) { .v10-crit-grid { grid-template-columns:1fr; } }
-.v10-crit-card {
+@media (max-width:980px) { .v10-appr-grid { grid-template-columns:repeat(2, 1fr); } }
+@media (max-width:560px) { .v10-appr-grid { grid-template-columns:1fr; } }
+.v10-appr-card {
+  display:flex; align-items:center; gap:10px;
+  padding:11px 12px; border-radius:10px;
+  border:1px solid var(--border, #e5e7eb);
+  background:var(--accent-light, #f8f6f2);
+  cursor:pointer; transition:all 0.15s; text-align:left;
+}
+.v10-appr-card:hover {
+  transform:translateY(-1px);
+  box-shadow:0 4px 14px rgba(0,0,0,0.07);
+  border-color:var(--primary, #2D4A35);
+}
+.v10-appr-card .num {
+  font-size:22px; font-weight:800; line-height:1; color:var(--primary, #2D4A35);
+  font-variant-numeric:tabular-nums; min-width:30px;
+}
+.v10-appr-card .lbl { font-size:11.5px; font-weight:700; color:var(--text, #1a1a1a); line-height:1.25; }
+.v10-appr-card .sub { font-size:10px; color:var(--muted, #6b7280); margin-top:2px; }
+[data-dark="true"] .v10-appr { background:#1e2130; border-color:#2d3145; }
+[data-dark="true"] .v10-appr-card { background:#161824; border-color:#2d3145; }
+
+/* === Approvals Pending — compact vertical list (E2 widget) === */
+.v10-appr-list {
+  display:flex;
+  flex-direction:column;
+  gap:5px;
+  margin-top:6px;
+  max-height:230px;
+  overflow-y:auto;
+}
+.v10-appr-row {
   display:flex;
   align-items:center;
-  gap:11px;
-  padding:11px 12px;
-  border-radius:10px;
+  gap:10px;
+  padding:7px 10px;
+  border-radius:8px;
   border:1px solid var(--border, #e5e7eb);
   background:var(--accent-light, #f8f6f2);
   cursor:pointer;
   transition:all 0.15s;
-  position:relative;
-  overflow:hidden;
-  text-align:left;
 }
-.v10-crit-card::before {
-  content:""; position:absolute; left:0; top:0; bottom:0; width:3px;
-  background:var(--cr-accent, #b85c52);
+.v10-appr-row:hover {
+  border-color:var(--primary, #2D4A35);
+  background:#f1f5f4;
 }
-.v10-crit-card:hover {
-  transform:translateY(-1px);
-  box-shadow:0 4px 14px rgba(0,0,0,0.07);
-  border-color:var(--cr-accent, #b85c52);
-}
-.v10-crit-ico {
-  width:38px; height:38px; border-radius:9px;
-  display:flex; align-items:center; justify-content:center;
-  flex-shrink:0;
-  background:var(--cr-tint, #faeeed);
-  color:var(--cr-accent, #b85c52);
-}
-.v10-crit-ico svg { width:19px; height:19px; }
-.v10-crit-body { min-width:0; flex:1; }
-.v10-crit-val {
-  display:flex; align-items:baseline; gap:5px;
-  font-size:21px; font-weight:800; line-height:1;
-  color:var(--text, #1a1a1a);
+.v10-appr-row .cnt {
+  font-size:12px;
+  font-weight:800;
+  line-height:1;
+  color:var(--primary, #2D4A35);
+  background:var(--primary-light, #e6f0e8);
   font-variant-numeric:tabular-nums;
+  min-width:22px;
+  height:22px;
+  padding:0 6px;
+  border-radius:7px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  flex-shrink:0;
 }
-.v10-crit-val .unit { font-size:12px; font-weight:700; color:var(--muted, #6b7280); }
-.v10-crit-label {
-  font-size:11.5px;
+.v10-appr-row .info {
+  display:flex;
+  align-items:baseline;
+  gap:7px;
+  min-width:0;
+  flex:1;
+}
+.v10-appr-row .info .lbl {
+  font-size:12px;
   font-weight:700;
   color:var(--text, #1a1a1a);
-  margin-top:3px;
-  line-height:1.25;
-  white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+  white-space:nowrap;
 }
-.v10-crit-sub {
-  font-size:10px;
+.v10-appr-row .info .sub {
+  font-size:10.5px;
   color:var(--muted, #6b7280);
-  margin-top:1px;
-  white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
 }
-/* per-card color themes */
-.v10-crit-card.red    { --cr-accent:var(--danger, #b85c52);  --cr-tint:var(--danger-light, #faeeed); }
-.v10-crit-card.amber  { --cr-accent:var(--warning, #b8893a); --cr-tint:var(--warning-light, #fdf4e7); }
-.v10-crit-card.cta    { --cr-accent:var(--cta, #C8837A);     --cr-tint:color-mix(in srgb, var(--cta, #C8837A) 14%, transparent); }
-.v10-crit-card.violet { --cr-accent:#7c5cbf; --cr-tint:color-mix(in srgb, #7c5cbf 13%, transparent); }
-[data-dark="true"] .v10-crit { background:#1e2130; border-color:#2d3145; }
-[data-dark="true"] .v10-crit-card { background:#161824; border-color:#2d3145; }
+[data-dark="true"] .v10-appr-row { background:#161824; border-color:#2d3145; }
+
+/* === Approvals Pending — dedicated page (compact) === */
+#page-approvals-pending .ap-note {
+  display:flex; align-items:flex-start; gap:7px;
+  background:var(--warning-light, #fdf4e7);
+  border:1px solid color-mix(in srgb, var(--warning, #b8893a) 30%, transparent);
+  border-radius:8px; padding:7px 10px; margin-bottom:11px;
+  font-size:11px; color:var(--gray-700, #3E3A35); line-height:1.45;
+}
+#page-approvals-pending .ap-note svg { width:14px; height:14px; color:var(--warning, #b8893a); flex-shrink:0; margin-top:1px; }
+#page-approvals-pending .ap-note strong { color:var(--gray-900, #1A1714); }
+#page-approvals-pending .ap-rolebar {
+  display:flex; align-items:center; gap:6px; flex-wrap:wrap; margin-bottom:12px;
+}
+#page-approvals-pending .ap-rolebar .lbl {
+  font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:0.05em;
+  color:var(--muted, #6b7280); margin-right:2px;
+}
+#page-approvals-pending .ap-role-tab {
+  display:inline-flex; align-items:center; gap:6px;
+  padding:6px 11px; border-radius:8px; font-size:11.5px; font-weight:700;
+  color:var(--gray-600, #5C5650); background:var(--gray-50, #F5F2EC);
+  border:1px solid var(--gray-200, #DDD9D0); cursor:pointer; transition:all 0.15s;
+}
+#page-approvals-pending .ap-role-tab:hover { border-color:var(--primary, #2D4A35); color:var(--primary, #2D4A35); }
+#page-approvals-pending .ap-role-tab.active {
+  background:var(--primary, #2D4A35); color:#fff; border-color:var(--primary, #2D4A35);
+  box-shadow:0 2px 6px color-mix(in srgb, var(--primary, #2D4A35) 26%, transparent);
+}
+#page-approvals-pending .ap-role-tab .code {
+  font-size:9px; font-weight:800; opacity:0.7;
+  background:rgba(0,0,0,0.06); padding:1px 5px; border-radius:4px;
+}
+#page-approvals-pending .ap-role-tab.active .code { background:rgba(255,255,255,0.18); opacity:0.95; }
+#page-approvals-pending .ap-role-tab .badge {
+  font-size:10px; font-weight:800; background:var(--danger, #b85c52); color:#fff;
+  min-width:16px; height:16px; padding:0 4px; border-radius:8px;
+  display:inline-flex; align-items:center; justify-content:center;
+}
+#page-approvals-pending .ap-role-tab.active .badge { background:rgba(255,255,255,0.22); }
+[data-dark="true"] #page-approvals-pending .ap-role-tab { background:#161824; border-color:#2d3145; color:var(--gray-300); }
+#page-approvals-pending .ap-scroll { flex:1; min-height:0; overflow:auto; padding:14px 18px; }
+#page-approvals-pending .ap-panel { display:none; }
+#page-approvals-pending .ap-panel.active { display:block; }
+#page-approvals-pending .ap-panel-title {
+  font-size:12px; font-weight:700; font-family:'Fraunces', serif; color:var(--gray-900, #1A1714);
+  margin-bottom:2px;
+}
+#page-approvals-pending .ap-panel-sub { font-size:11px; color:var(--gray-500, #7A7268); margin-bottom:11px; }
+#page-approvals-pending .ap-cat-grid {
+  display:grid; grid-template-columns:repeat(2, 1fr); gap:9px;
+}
+@media (max-width:900px) { #page-approvals-pending .ap-cat-grid { grid-template-columns:1fr; } }
+#page-approvals-pending .ap-cat {
+  display:flex; align-items:center; gap:10px;
+  background:var(--white, #fff); border:1px solid var(--gray-200, #DDD9D0);
+  border-radius:9px; padding:10px 12px; cursor:pointer; transition:all 0.15s;
+  position:relative; overflow:hidden;
+}
+#page-approvals-pending .ap-cat::before {
+  content:""; position:absolute; left:0; top:0; bottom:0; width:3px; background:var(--primary, #2D4A35);
+}
+#page-approvals-pending .ap-cat:hover { transform:translateY(-1px); box-shadow:0 4px 12px rgba(0,0,0,0.07); border-color:var(--primary, #2D4A35); }
+[data-dark="true"] #page-approvals-pending .ap-cat { background:#1e2130; border-color:#2d3145; }
+#page-approvals-pending .ap-cat-ico {
+  width:34px; height:34px; border-radius:8px; flex-shrink:0;
+  display:flex; align-items:center; justify-content:center;
+  background:var(--primary-light, #e6f0e8); color:var(--primary, #2D4A35);
+}
+#page-approvals-pending .ap-cat-ico svg { width:17px; height:17px; }
+#page-approvals-pending .ap-cat-body { flex:1; min-width:0; }
+#page-approvals-pending .ap-cat-name { font-size:12px; font-weight:700; color:var(--gray-900, #1A1714); line-height:1.3; }
+#page-approvals-pending .ap-cat-meta { font-size:10.5px; color:var(--gray-500, #7A7268); margin-top:1px; }
+#page-approvals-pending .ap-cat-meta code {
+  font-family:'Courier New', monospace; font-size:10px; color:var(--primary, #2D4A35);
+  background:var(--primary-light, #e6f0e8); padding:1px 5px; border-radius:4px;
+}
+#page-approvals-pending .ap-cat-count {
+  font-size:17px; font-weight:800; color:var(--gray-900, #1A1714);
+  font-variant-numeric:tabular-nums; flex-shrink:0; display:flex; flex-direction:column; align-items:flex-end; gap:2px;
+}
+#page-approvals-pending .ap-cat-count .pct { font-size:9.5px; font-weight:700; color:var(--danger, #b85c52); }
+#page-approvals-pending .ap-cat-arrow { color:var(--gray-300, #C5C0B5); flex-shrink:0; }
+#page-approvals-pending .ap-cat:hover .ap-cat-arrow { color:var(--primary, #2D4A35); }
+#page-approvals-pending .ap-cat-arrow svg { width:16px; height:16px; }
+
+/* === Approvals — accordion section + listing (compact) === */
+#page-approvals-pending .ap-sections { display:flex; flex-direction:column; gap:9px; }
+#page-approvals-pending .ap-sec {
+  background:var(--white, #fff); border:1px solid var(--gray-200, #DDD9D0);
+  border-radius:10px; overflow:hidden;
+}
+[data-dark="true"] #page-approvals-pending .ap-sec { background:#1e2130; border-color:#2d3145; }
+#page-approvals-pending .ap-sec-head {
+  display:flex; align-items:center; gap:10px; padding:9px 12px; cursor:pointer;
+  transition:background 0.15s; user-select:none;
+}
+#page-approvals-pending .ap-sec-head:hover { background:var(--gray-50, #F5F2EC); }
+[data-dark="true"] #page-approvals-pending .ap-sec-head:hover { background:#252836; }
+#page-approvals-pending .ap-sec-ico {
+  width:32px; height:32px; border-radius:8px; flex-shrink:0;
+  display:flex; align-items:center; justify-content:center;
+  background:var(--primary-light, #e6f0e8); color:var(--primary, #2D4A35);
+}
+#page-approvals-pending .ap-sec-ico svg { width:16px; height:16px; }
+#page-approvals-pending .ap-sec-titles { flex:1; min-width:0; }
+#page-approvals-pending .ap-sec-name { font-size:12.5px; font-weight:700; color:var(--gray-900, #1A1714); line-height:1.3; }
+#page-approvals-pending .ap-sec-meta { font-size:10.5px; color:var(--gray-500, #7A7268); margin-top:1px; }
+#page-approvals-pending .ap-sec-meta code {
+  font-family:'Courier New', monospace; font-size:10px; color:var(--primary, #2D4A35);
+  background:var(--primary-light, #e6f0e8); padding:1px 5px; border-radius:4px;
+}
+#page-approvals-pending .ap-sec-count {
+  font-size:10px; font-weight:800; color:#fff; background:var(--cta, #C8837A);
+  min-width:20px; height:20px; padding:0 7px; border-radius:10px;
+  display:inline-flex; align-items:center; justify-content:center; flex-shrink:0;
+  font-variant-numeric:tabular-nums;
+}
+#page-approvals-pending .ap-sec-count.zero { background:var(--gray-200, #DDD9D0); color:var(--gray-500, #7A7268); }
+#page-approvals-pending .ap-sec-chev {
+  color:var(--gray-400, #A09890); flex-shrink:0; transition:transform 0.2s;
+}
+#page-approvals-pending .ap-sec-chev svg { width:16px; height:16px; display:block; }
+#page-approvals-pending .ap-sec.open .ap-sec-chev { transform:rotate(180deg); }
+#page-approvals-pending .ap-sec-body { display:none; border-top:1px solid var(--gray-100, #ECE8E1); }
+[data-dark="true"] #page-approvals-pending .ap-sec-body { border-color:#2d3145; }
+#page-approvals-pending .ap-sec.open .ap-sec-body { display:block; }
+
+/* listing rows */
+#page-approvals-pending .ap-row {
+  display:flex; align-items:center; gap:10px; padding:8px 12px;
+  border-bottom:1px solid var(--gray-100, #ECE8E1);
+}
+[data-dark="true"] #page-approvals-pending .ap-row { border-color:#252836; }
+#page-approvals-pending .ap-row:last-child { border-bottom:none; }
+#page-approvals-pending .ap-row:hover { background:var(--gray-50, #F5F2EC); }
+[data-dark="true"] #page-approvals-pending .ap-row:hover { background:#252836; }
+#page-approvals-pending .ap-row-av {
+  width:28px; height:28px; border-radius:7px; flex-shrink:0;
+  display:flex; align-items:center; justify-content:center;
+  font-size:11px; font-weight:800; color:#fff; background:var(--primary, #2D4A35);
+}
+#page-approvals-pending .ap-row-av.alt2 { background:#5a7fa8; }
+#page-approvals-pending .ap-row-av.alt3 { background:var(--cta, #C8837A); }
+#page-approvals-pending .ap-row-av.alt4 { background:#7c5cbf; }
+#page-approvals-pending .ap-row-main { flex:1; min-width:0; }
+#page-approvals-pending .ap-row-title { font-size:12px; font-weight:600; color:var(--gray-900, #1A1714); line-height:1.3; }
+#page-approvals-pending .ap-row-sub { font-size:10.5px; color:var(--gray-500, #7A7268); margin-top:1px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+#page-approvals-pending .ap-row-amt {
+  font-size:12px; font-weight:800; color:var(--gray-900, #1A1714);
+  font-variant-numeric:tabular-nums; flex-shrink:0; text-align:right;
+}
+#page-approvals-pending .ap-row-amt .age { display:block; font-size:9.5px; font-weight:600; color:var(--gray-400, #A09890); margin-top:1px; }
+#page-approvals-pending .ap-row-actions { display:flex; gap:5px; flex-shrink:0; }
+#page-approvals-pending .ap-act-go {
+  display:inline-flex; align-items:center; gap:5px;
+  font-size:11px; font-weight:700; white-space:nowrap;
+  color:var(--primary, #2D4A35); background:var(--primary-light, #e6f0e8);
+  border:1px solid color-mix(in srgb, var(--primary, #2D4A35) 22%, transparent);
+  padding:5px 11px; border-radius:7px; cursor:pointer; transition:all 0.15s;
+}
+#page-approvals-pending .ap-act-go svg { width:13px; height:13px; flex-shrink:0; }
+#page-approvals-pending .ap-act-go:hover { background:var(--primary, #2D4A35); color:#fff; border-color:var(--primary, #2D4A35); }
+[data-dark="true"] #page-approvals-pending .ap-act-go { background:#252836; color:var(--gray-300); border-color:#363b52; }
+#page-approvals-pending .ap-sec-foot {
+  display:flex; align-items:center; justify-content:space-between; gap:10px;
+  padding:8px 12px; background:var(--gray-50, #F5F2EC); font-size:10.5px; color:var(--gray-500, #7A7268);
+}
+[data-dark="true"] #page-approvals-pending .ap-sec-foot { background:#161824; }
+#page-approvals-pending .ap-sec-open {
+  display:inline-flex; align-items:center; gap:5px;
+  font-size:10.5px; font-weight:700; color:var(--primary, #2D4A35);
+  background:transparent; border:1px solid var(--gray-200, #DDD9D0);
+  padding:4px 9px; border-radius:6px; cursor:pointer; transition:all 0.15s;
+}
+#page-approvals-pending .ap-sec-open:hover { background:var(--primary, #2D4A35); color:#fff; border-color:var(--primary, #2D4A35); }
+#page-approvals-pending .ap-sec-open svg { width:12px; height:12px; }
+#page-approvals-pending .ap-empty { padding:14px 12px; text-align:center; font-size:11px; color:var(--gray-400, #A09890); }
 
 /* === Heatmap === */
 .v10-heat-grid {
@@ -15866,6 +16149,7 @@
   font-weight:600;
 }
 
+
         /* ══ PLAN vs ACTUAL (budget analytics) — scoped table & helpers ══ */
         #page-plan-vs-actual .pva-tbl { width: 100%; border-collapse: collapse; font-size: 12px; }
         #page-plan-vs-actual .pva-tbl thead th { background: var(--bg); padding: 9px 10px; text-align: right; font-weight: 500; color: var(--rp-muted); font-size: 10px; text-transform: uppercase; letter-spacing: .05em; border-bottom: 1px solid var(--rp-border); white-space: nowrap; cursor: pointer; user-select: none; transition: color .12s; }
@@ -16038,7 +16322,6 @@
                     </button>
                     <div class="nav-submenu">
                         <a href="#" class="nav-submenu-link" onclick="showPage('budgeting','Project Plans');return false;">Plans &amp; WBS</a>
-                        <a href="#" class="nav-submenu-link" onclick="showPage('plan-vs-actual','Plan vs Actual');return false;">Plan vs Actual</a>
                         <a href="#" class="nav-submenu-link" onclick="showPage('assign-task','Assign Task');return false;">Assign Task</a>
                         <a href="#" class="nav-submenu-link" onclick="showPage('po-listing','SO Listing');return false;">SO Listing</a>
                         <a href="#" class="nav-submenu-link" onclick="showPage('po-approvals','SO Approvals');return false;">
@@ -16064,6 +16347,7 @@
                         </svg>
                     </button>
                     <div class="nav-submenu">
+                        <a href="#" class="nav-submenu-link" onclick="showPage('plan-vs-actual','Plan vs Actual');return false;">Plan vs Actual</a>
                         <a href="#" class="nav-submenu-link" onclick="showPage('plan-actual','Resource Analytics');return false;">Resource Analytics</a>
                         <a href="#" class="nav-submenu-link" onclick="showPage('billing-readiness','Billing Readiness');return false;">Billing Readiness</a>
                         <a href="#" class="nav-submenu-link" onclick="showPage('invoice-tracking','Invoice Hub');return false;">Invoice Hub</a>
@@ -16987,59 +17271,42 @@
     <!-- ═══════════ CRITICAL ALERTS — pinned top banner ═══════════ -->
     <div class="v10-crit" id="v10CritAlerts">
       <div class="v10-crit-head">
-        <span class="dot"></span>
-        <span class="v10-crit-title">Critical Alerts</span>
-        <span class="v10-crit-count">4 need attention</span>
+        <div class="v10-crit-heading">
+          <div class="v10-crit-title">Critical Alerts</div>
+          <div class="v10-crit-subtitle">Items needing attention</div>
+        </div>
+        <span class="v10-crit-count">E1</span>
       </div>
       <div class="v10-crit-grid">
 
-        <!-- Absent NA — system-generated absents -->
-        <div class="v10-crit-card red" onclick="showPage('attendance','Attendance')" role="button" tabindex="0">
-          <div class="v10-crit-ico">
-            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636"/></svg>
-          </div>
-          <div class="v10-crit-body">
-            <div class="v10-crit-val">9</div>
-            <div class="v10-crit-label">Absent NA</div>
-            <div class="v10-crit-sub">System-generated absents</div>
-          </div>
-        </div>
+        <button class="v10-crit-card red" onclick="showPage('reimbursement','Reimbursement')">
+          <span class="v10-crit-text">3 bills overdue &gt;60d</span>
+          <span class="v10-crit-tag">₹4.2L</span>
+        </button>
 
-        <!-- Expenses -->
-        <div class="v10-crit-card cta" onclick="showPage('expense-summary','Expense Summary')" role="button" tabindex="0">
-          <div class="v10-crit-ico">
-            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
-          </div>
-          <div class="v10-crit-body">
-            <div class="v10-crit-val">5 <span class="unit">· ₹2.8L</span></div>
-            <div class="v10-crit-label">Expenses</div>
-            <div class="v10-crit-sub">Pending approval</div>
-          </div>
-        </div>
+        <button class="v10-crit-card red" onclick="showPage('disbursement','Disbursement')">
+          <span class="v10-crit-text">2 PO budget breaches</span>
+          <span class="v10-crit-tag">P-106, P-110</span>
+        </button>
 
-        <!-- Cost > Work Done -->
-        <div class="v10-crit-card amber" onclick="showPage('work-done','Work Done')" role="button" tabindex="0">
-          <div class="v10-crit-ico">
-            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/></svg>
-          </div>
-          <div class="v10-crit-body">
-            <div class="v10-crit-val">3</div>
-            <div class="v10-crit-label">Cost &gt; Work Done</div>
-            <div class="v10-crit-sub">Sites over budget</div>
-          </div>
-        </div>
+        <button class="v10-crit-card amber" onclick="showPage('wcc','Work Completion Certificate')">
+          <span class="v10-crit-text">7 WCCs stuck &gt;SLA</span>
+          <span class="v10-crit-tag">L1 stage</span>
+        </button>
 
-        <!-- WCC aging 15 days -->
-        <div class="v10-crit-card violet" onclick="showPage('wcc','Work Completion Certificate')" role="button" tabindex="0">
-          <div class="v10-crit-ico">
-            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-          </div>
-          <div class="v10-crit-body">
-            <div class="v10-crit-val">7</div>
-            <div class="v10-crit-label">WCC Aging 15 Days</div>
-            <div class="v10-crit-sub">Stuck beyond SLA</div>
-          </div>
-        </div>
+        <button class="v10-crit-card amber" onclick="showPage('work-done','Work Done')">
+          <span class="v10-crit-text">8 docs expiring &lt;30d</span>
+          <span class="v10-crit-tag">view</span>
+        </button>
+
+        <button class="v10-crit-card blue" onclick="showPage('work-done','Work Done')">
+          <span class="v10-crit-text">12 milestones due this week</span>
+        </button>
+
+        <button class="v10-crit-card amber" onclick="showPage('attendance','Attendance')">
+          <span class="v10-crit-text">1 approver on leave</span>
+          <span class="v10-crit-tag">re-route</span>
+        </button>
 
       </div>
     </div>
@@ -17049,30 +17316,56 @@
 
       <!-- ═══════════════ SECTION B — FINANCIAL HEALTH ═══════════════ -->
 
-      <!-- B1: Cash Position -->
-      <div class="v10-widget span-4" data-widget="B1" data-roles="exec,fin">
-        <div class="v10-widget-controls">
-          <div class="v10-widget-ctrl close" title="Hide widget">✕</div>
-        </div>
+
+      <!-- W1: Work Done (Planned vs Actual) -->
+      <div class="v10-widget span-6" data-widget="W1" data-roles="exec,pm,ops,fin">
+        <div class="v10-widget-controls"><div class="v10-widget-ctrl close">✕</div></div>
         <div class="v10-widget-header">
           <div>
-            <div class="v10-widget-title">Cash Position</div>
-            <div class="v10-widget-sub">Live · across all bank accounts</div>
+            <div class="v10-widget-title">Work Done (Planned vs Actual)</div>
+            <div class="v10-widget-sub">Cumulative progress · Planned vs Actual</div>
           </div>
-          <span class="v10-widget-badge fin">B1</span>
+          <span class="v10-widget-badge work">W1</span>
         </div>
-        <div class="v10-big-number"><span class="currency">₹</span>3.42<span style="font-size:18px;color:var(--muted);">Cr</span></div>
-        <div style="display:flex;justify-content:space-between;align-items:center;font-size:11px;color:var(--muted);">
-          <span><span class="v10-delta pos">↑ 4.2%</span> vs last week</span>
-          <span>30-day proj: <strong style="color:var(--text);">₹3.18Cr</strong></span>
-        </div>
-        <div class="v10-chart-wrap">
-          <svg viewBox="0 0 200 40" preserveAspectRatio="none">
-            <polyline points="0,28 20,30 40,22 60,18 80,20 100,15 120,12 140,18 160,14 180,8 200,10"
-                      fill="none" stroke="#10b981" stroke-width="2"/>
-            <polyline points="0,28 20,30 40,22 60,18 80,20 100,15 120,12 140,18 160,14 180,8 200,10 200,40 0,40"
-                      fill="rgba(16,185,129,0.1)" stroke="none"/>
+        <div class="v10-chart-wrap" style="min-height:120px;">
+          <svg viewBox="0 0 400 120" preserveAspectRatio="none">
+            <line x1="0" y1="30"  x2="400" y2="30"  stroke="#f1f5f4" stroke-width="1"/>
+            <line x1="0" y1="60"  x2="400" y2="60"  stroke="#f1f5f4" stroke-width="1"/>
+            <line x1="0" y1="90"  x2="400" y2="90"  stroke="#f1f5f4" stroke-width="1"/>
+            <!-- planned (dashed) -->
+            <polyline points="0,112 50,100 100,86 150,70 200,54 250,40 300,28 350,20 400,14" fill="none" stroke="#9ca3af" stroke-width="2" stroke-dasharray="4,3"/>
+            <!-- actual -->
+            <polyline points="0,112 50,102 100,90 150,76 200,64 250,55 300,49" fill="none" stroke="#0F5132" stroke-width="2.5"/>
+            <circle cx="300" cy="49" r="4" fill="#0F5132"/>
           </svg>
+        </div>
+        <div class="v10-twin-legend">
+          <span><span class="sw" style="background:#9ca3af;"></span>Planned</span>
+          <span><span class="sw" style="background:#0F5132;"></span>Actual</span>
+          <span style="margin-left:auto;color:var(--text);font-weight:700;">88% of plan · 1,420 / 1,610 units</span>
+        </div>
+      </div>
+
+      <!-- W2: Pending WCC Ageing -->
+      <div class="v10-widget span-4" data-widget="W2" data-roles="exec,pm,fin,ops">
+        <div class="v10-widget-controls"><div class="v10-widget-ctrl close">✕</div></div>
+        <div class="v10-widget-header">
+          <div>
+            <div class="v10-widget-title">Pending WCC Ageing</div>
+            <div class="v10-widget-sub">Work completion certs awaiting sign-off</div>
+          </div>
+          <span class="v10-widget-badge work">W2</span>
+        </div>
+        <div class="v10-big-number" style="font-size:24px;">38<span style="font-size:16px;color:var(--muted);"> WCCs</span></div>
+        <div class="v10-bucket-row">
+          <div class="v10-bucket v10-bucket-0" title="0-3 days">14</div>
+          <div class="v10-bucket v10-bucket-1" title="4-7 days">11</div>
+          <div class="v10-bucket v10-bucket-2" title="8-14 days">7</div>
+          <div class="v10-bucket v10-bucket-3" title="15-30 days">4</div>
+          <div class="v10-bucket v10-bucket-4" title="30+ days">2</div>
+        </div>
+        <div class="v10-bucket-labels">
+          <span>0-3d</span><span>4-7d</span><span>8-14d</span><span>15-30d</span><span>30+d</span>
         </div>
       </div>
 
@@ -17122,46 +17415,7 @@
         </div>
       </div>
 
-      <!-- B4: DSO/DPO Meters -->
-      <div class="v10-widget span-4" data-widget="B4" data-roles="exec,fin">
-        <div class="v10-widget-controls"><div class="v10-widget-ctrl close">✕</div></div>
-        <div class="v10-widget-header">
-          <div>
-            <div class="v10-widget-title">DSO & DPO Meters</div>
-            <div class="v10-widget-sub">Trailing 90-day efficiency</div>
-          </div>
-          <span class="v10-widget-badge fin">B4</span>
-        </div>
-        <div class="v10-meter-pair">
-          <div class="v10-meter">
-            <div class="ring" style="--p: 65%;"><span>42</span></div>
-            <div class="lbl">DSO (days)</div>
-          </div>
-          <div class="v10-meter">
-            <div class="ring" style="--p: 75%; background:conic-gradient(#3b82f6 var(--p), #f1f5f4 0);"><span>38</span></div>
-            <div class="lbl">DPO (days)</div>
-          </div>
-        </div>
-      </div>
 
-      <!-- B5: Top 5 Vendors by Spend -->
-      <div class="v10-widget span-4" data-widget="B5" data-roles="exec,pm,fin,vm">
-        <div class="v10-widget-controls"><div class="v10-widget-ctrl close">✕</div></div>
-        <div class="v10-widget-header">
-          <div>
-            <div class="v10-widget-title">Top 5 Vendors by Spend</div>
-            <div class="v10-widget-sub">YTD · ₹ Cr</div>
-          </div>
-          <span class="v10-widget-badge fin">B5</span>
-        </div>
-        <div class="v10-bar-list">
-          <div class="v10-bar-row"><span class="name">Steelcraft Ind.</span><div class="bar"><div class="bar-fill" style="width:92%"></div></div><span class="val">₹2.4Cr</span></div>
-          <div class="v10-bar-row"><span class="name">Mehta Transport</span><div class="bar"><div class="bar-fill" style="width:74%"></div></div><span class="val">₹1.9Cr</span></div>
-          <div class="v10-bar-row"><span class="name">UnitedPaint Co.</span><div class="bar"><div class="bar-fill" style="width:60%"></div></div><span class="val">₹1.5Cr</span></div>
-          <div class="v10-bar-row"><span class="name">RKL Subcon</span><div class="bar"><div class="bar-fill" style="width:48%"></div></div><span class="val">₹1.2Cr</span></div>
-          <div class="v10-bar-row"><span class="name">Lakshmi Cabs</span><div class="bar"><div class="bar-fill" style="width:35%"></div></div><span class="val">₹0.9Cr</span></div>
-        </div>
-      </div>
 
       <!-- B6: Income vs Expense -->
       <div class="v10-widget span-4" data-widget="B6" data-roles="exec,fin">
@@ -17188,41 +17442,7 @@
         </div>
       </div>
 
-      <!-- B7: Pending Invoice Value -->
-      <div class="v10-widget span-3" data-widget="B7" data-roles="exec,pm,fin">
-        <div class="v10-widget-controls"><div class="v10-widget-ctrl close">✕</div></div>
-        <div class="v10-widget-header">
-          <div>
-            <div class="v10-widget-title">Pending Invoice Value</div>
-            <div class="v10-widget-sub">Awaiting client payment</div>
-          </div>
-          <span class="v10-widget-badge fin">B7</span>
-        </div>
-        <div class="v10-big-number"><span class="currency">₹</span>1.18<span style="font-size:18px;color:var(--muted);">Cr</span></div>
-        <div style="display:flex;gap:5px;flex-wrap:wrap;">
-          <span class="v10-alert-pill blue">Sent <span class="cnt">12</span></span>
-          <span class="v10-alert-pill amber">Partial <span class="cnt">4</span></span>
-          <span class="v10-alert-pill red">Overdue <span class="cnt">3</span></span>
-        </div>
-      </div>
 
-      <!-- B8: Zoho Sync Health -->
-      <div class="v10-widget span-3" data-widget="B8" data-roles="exec,fin">
-        <div class="v10-widget-controls"><div class="v10-widget-ctrl close">✕</div></div>
-        <div class="v10-widget-header">
-          <div>
-            <div class="v10-widget-title">Zoho Sync Health</div>
-            <div class="v10-widget-sub">Integration heartbeat</div>
-          </div>
-          <span class="v10-widget-badge fin">B8</span>
-        </div>
-        <div class="v10-sync-pills">
-          <div class="v10-sync-pill g"><span class="n">142</span>Synced</div>
-          <div class="v10-sync-pill a"><span class="n">7</span>Pending</div>
-          <div class="v10-sync-pill r"><span class="n">2</span>Failed</div>
-        </div>
-        <div class="v10-sync-last">Last sync: 4 min ago</div>
-      </div>
 
       <!-- ═══════════════ SECTION C — PROJECT EXECUTION ═══════════════ -->
 
@@ -17280,74 +17500,8 @@
         </div>
       </div>
 
-      <!-- C3: Schedule Variance Top-5 -->
-      <div class="v10-widget span-4" data-widget="C3" data-roles="exec,pm">
-        <div class="v10-widget-controls"><div class="v10-widget-ctrl close">✕</div></div>
-        <div class="v10-widget-header">
-          <div>
-            <div class="v10-widget-title">Schedule Variance — Top 5 Behind</div>
-            <div class="v10-widget-sub">Days late vs baseline</div>
-          </div>
-          <span class="v10-widget-badge proj">C3</span>
-        </div>
-        <div class="v10-list">
-          <div class="v10-list-item"><div class="ico red">!</div><div class="body"><div class="ttl">P-106 Mall</div><div class="meta">Critical path — Foundation phase</div></div><div class="right" style="color:#dc2626">+22d</div></div>
-          <div class="v10-list-item"><div class="ico red">!</div><div class="body"><div class="ttl">P-110 Warehouse</div><div class="meta">MEP — slipping</div></div><div class="right" style="color:#dc2626">+18d</div></div>
-          <div class="v10-list-item"><div class="ico amber">!</div><div class="body"><div class="ttl">P-105 Bridge</div><div class="meta">Excavation delay</div></div><div class="right" style="color:#f59e0b">+12d</div></div>
-          <div class="v10-list-item"><div class="ico amber">!</div><div class="body"><div class="ttl">P-103 Highway</div><div class="meta">Permit pending</div></div><div class="right" style="color:#f59e0b">+9d</div></div>
-          <div class="v10-list-item"><div class="ico amber">!</div><div class="body"><div class="ttl">P-108 Solar</div><div class="meta">Panel supply</div></div><div class="right" style="color:#f59e0b">+7d</div></div>
-        </div>
-      </div>
 
-      <!-- C4: Budget Burn-down -->
-      <div class="v10-widget span-6" data-widget="C4" data-roles="exec,pm,fin">
-        <div class="v10-widget-controls"><div class="v10-widget-ctrl close">✕</div></div>
-        <div class="v10-widget-header">
-          <div>
-            <div class="v10-widget-title">Budget Burn-down (S-Curve)</div>
-            <div class="v10-widget-sub">P-101 Steelplant · Planned vs Actual</div>
-          </div>
-          <span class="v10-widget-badge proj">C4</span>
-        </div>
-        <div class="v10-chart-wrap" style="min-height:120px;">
-          <svg viewBox="0 0 400 120" preserveAspectRatio="none">
-            <!-- grid -->
-            <line x1="0" y1="30"  x2="400" y2="30"  stroke="#f1f5f4" stroke-width="1"/>
-            <line x1="0" y1="60"  x2="400" y2="60"  stroke="#f1f5f4" stroke-width="1"/>
-            <line x1="0" y1="90"  x2="400" y2="90"  stroke="#f1f5f4" stroke-width="1"/>
-            <!-- planned (dashed) -->
-            <polyline points="0,110 50,98 100,84 150,68 200,52 250,38 300,28 350,20 400,15" fill="none" stroke="#9ca3af" stroke-width="2" stroke-dasharray="4,3"/>
-            <!-- actual -->
-            <polyline points="0,110 50,100 100,90 150,75 200,62 250,52 280,46" fill="none" stroke="#0F5132" stroke-width="2.5"/>
-            <!-- end dot -->
-            <circle cx="280" cy="46" r="4" fill="#0F5132"/>
-          </svg>
-        </div>
-        <div class="v10-twin-legend">
-          <span><span class="sw" style="background:#9ca3af;"></span>Planned</span>
-          <span><span class="sw" style="background:#0F5132;"></span>Actual</span>
-          <span style="margin-left:auto;color:var(--text);font-weight:700;">62% complete · ₹4.8Cr spent</span>
-        </div>
-      </div>
 
-      <!-- C5: Active POs & Value -->
-      <div class="v10-widget span-3" data-widget="C5" data-roles="exec,pm,fin,vm">
-        <div class="v10-widget-controls"><div class="v10-widget-ctrl close">✕</div></div>
-        <div class="v10-widget-header">
-          <div>
-            <div class="v10-widget-title">Active POs</div>
-            <div class="v10-widget-sub">Approved · not fully billed</div>
-          </div>
-          <span class="v10-widget-badge proj">C5</span>
-        </div>
-        <div class="v10-big-number">47</div>
-        <div style="font-size:12px;color:var(--muted);">
-          Committed: <strong style="color:var(--text);">₹6.2Cr</strong>
-        </div>
-        <div style="font-size:12px;color:var(--muted);">
-          Open balance: <strong style="color:var(--text);">₹2.9Cr</strong>
-        </div>
-      </div>
 
       <!-- C6: Sign-off/WCC Pipeline -->
       <div class="v10-widget span-6" data-widget="C6" data-roles="exec,pm,fin,ops,vm">
@@ -17368,40 +17522,7 @@
         </div>
       </div>
 
-      <!-- C7: Milestones Due Next 14 Days -->
-      <div class="v10-widget span-3" data-widget="C7" data-roles="exec,pm">
-        <div class="v10-widget-controls"><div class="v10-widget-ctrl close">✕</div></div>
-        <div class="v10-widget-header">
-          <div>
-            <div class="v10-widget-title">Milestones · 14 Days</div>
-            <div class="v10-widget-sub">Upcoming deliverables</div>
-          </div>
-          <span class="v10-widget-badge proj">C7</span>
-        </div>
-        <div class="v10-list">
-          <div class="v10-list-item"><div class="ico amber">●</div><div class="body"><div class="ttl">Foundation pour</div><div class="meta">P-101 · May 18</div></div></div>
-          <div class="v10-list-item"><div class="ico blue">●</div><div class="body"><div class="ttl">Structural test</div><div class="meta">P-104 · May 21</div></div></div>
-          <div class="v10-list-item"><div class="ico blue">●</div><div class="body"><div class="ttl">HVAC commissioning</div><div class="meta">P-107 · May 24</div></div></div>
-          <div class="v10-list-item"><div class="ico amber">●</div><div class="body"><div class="ttl">Phase 2 handover</div><div class="meta">P-102 · May 27</div></div></div>
-        </div>
-      </div>
 
-      <!-- C8: Change Order Impact -->
-      <div class="v10-widget span-3" data-widget="C8" data-roles="exec,pm,fin">
-        <div class="v10-widget-controls"><div class="v10-widget-ctrl close">✕</div></div>
-        <div class="v10-widget-header">
-          <div>
-            <div class="v10-widget-title">Change Orders</div>
-            <div class="v10-widget-sub">Month-to-date</div>
-          </div>
-          <span class="v10-widget-badge proj">C8</span>
-        </div>
-        <div class="v10-big-number">12</div>
-        <div style="font-size:12px;color:var(--muted);">
-          Net delta: <strong style="color:#dc2626;">+₹38.4L</strong>
-        </div>
-        <span class="v10-delta neg" style="align-self:flex-start;">↑ 18% vs last month</span>
-      </div>
 
       <!-- ═══════════════ SECTION D — WORKFORCE & OPERATIONS ═══════════════ -->
 
@@ -17449,30 +17570,6 @@
         </div>
       </div>
 
-      <!-- D3: Leave Calendar Heatmap -->
-      <div class="v10-widget span-4" data-widget="D3" data-roles="exec,pm,ops">
-        <div class="v10-widget-controls"><div class="v10-widget-ctrl close">✕</div></div>
-        <div class="v10-widget-header">
-          <div>
-            <div class="v10-widget-title">Leave Calendar</div>
-            <div class="v10-widget-sub" id="lcSub">May 2026 · daily count</div>
-          </div>
-          <select class="v10-wfilter" id="lcFilter" onchange="lcRender(this.value)" title="Month">
-            <option value="2026-05">May 2026</option>
-            <option value="2026-04">Apr 2026</option>
-            <option value="2026-03">Mar 2026</option>
-            <option value="2026-02">Feb 2026</option>
-            <option value="2026-01">Jan 2026</option>
-            <option value="2025-12">Dec 2025</option>
-          </select>
-        </div>
-        <div class="v10-heat-dow"><span>S</span><span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span></div>
-        <div class="v10-heat-month-grid" id="v10HeatMap"></div>
-        <div style="display:flex;justify-content:space-between;align-items:center;font-size:11px;color:var(--muted);margin-top:6px;">
-          <span id="lcAvg">Avg 8 leaves/day</span>
-          <span style="display:flex;gap:2px;align-items:center;">Less <div class="v10-heat-cell" style="width:10px;height:10px;"></div><div class="v10-heat-cell h2" style="width:10px;height:10px;"></div><div class="v10-heat-cell h3" style="width:10px;height:10px;"></div><div class="v10-heat-cell h4" style="width:10px;height:10px;"></div><div class="v10-heat-cell h5" style="width:10px;height:10px;"></div> More</span>
-        </div>
-      </div>
 
       <!-- D4: OT & OOD Hours -->
       <div class="v10-widget span-4" data-widget="D4" data-roles="exec,pm,fin,ops">
@@ -17498,117 +17595,42 @@
         </div>
       </div>
 
-      <!-- D5: Expense Pending Reimbursement -->
-      <div class="v10-widget span-4" data-widget="D5" data-roles="exec,pm,fin,ops">
-        <div class="v10-widget-controls"><div class="v10-widget-ctrl close">✕</div></div>
-        <div class="v10-widget-header">
-          <div>
-            <div class="v10-widget-title">Expense Pending</div>
-            <div class="v10-widget-sub">Awaiting reimbursement</div>
-          </div>
-          <span class="v10-widget-badge work">D5</span>
-        </div>
-        <div class="v10-big-number" style="font-size:24px;"><span class="currency">₹</span>3.84<span style="font-size:16px;color:var(--muted);">L</span></div>
-        <div style="font-size:12px;color:var(--muted);">42 claims · 8 employees</div>
-        <div style="display:flex;gap:4px;flex-wrap:wrap;">
-          <span class="v10-alert-pill blue">0-7d <span class="cnt">22</span></span>
-          <span class="v10-alert-pill amber">8-14d <span class="cnt">12</span></span>
-          <span class="v10-alert-pill red">15+ <span class="cnt">8</span></span>
-        </div>
-      </div>
 
-      <!-- D6: Top 5 Mileage Claimers -->
-      <div class="v10-widget span-4" data-widget="D6" data-roles="exec,pm,fin,ops">
-        <div class="v10-widget-controls"><div class="v10-widget-ctrl close">✕</div></div>
-        <div class="v10-widget-header">
-          <div>
-            <div class="v10-widget-title">Top 5 Mileage Claimers</div>
-            <div class="v10-widget-sub">MTD · km</div>
-          </div>
-          <span class="v10-widget-badge work">D6</span>
-        </div>
-        <div class="v10-bar-list">
-          <div class="v10-bar-row"><span class="name">Rajesh K.</span><div class="bar"><div class="bar-fill" style="width:88%"></div></div><span class="val">1,420</span></div>
-          <div class="v10-bar-row"><span class="name">Priya S.</span><div class="bar"><div class="bar-fill" style="width:72%"></div></div><span class="val">1,160</span></div>
-          <div class="v10-bar-row"><span class="name">Amit V.</span><div class="bar"><div class="bar-fill" style="width:60%"></div></div><span class="val">975</span></div>
-          <div class="v10-bar-row"><span class="name">Suresh M.</span><div class="bar"><div class="bar-fill" style="width:46%"></div></div><span class="val">740</span></div>
-          <div class="v10-bar-row"><span class="name">Kavita J.</span><div class="bar"><div class="bar-fill" style="width:34%"></div></div><span class="val">550</span></div>
-        </div>
-      </div>
 
-      <!-- D7: Open Disbursements -->
-      <div class="v10-widget span-4" data-widget="D7" data-roles="exec,fin,ops">
-        <div class="v10-widget-controls"><div class="v10-widget-ctrl close">✕</div></div>
-        <div class="v10-widget-header">
-          <div>
-            <div class="v10-widget-title">Open Disbursements</div>
-            <div class="v10-widget-sub">Scheduled outflow</div>
-          </div>
-          <span class="v10-widget-badge work">D7</span>
-        </div>
-        <div class="v10-big-number" style="font-size:24px;"><span class="currency">₹</span>14.2<span style="font-size:16px;color:var(--muted);">L</span></div>
-        <div style="font-size:12px;color:var(--muted);">Across 3 categories</div>
-        <div class="v10-list" style="max-height:90px;">
-          <div class="v10-list-item" style="padding:5px 8px;"><div class="ico blue">●</div><div class="body"><div class="ttl">Vendor payments</div></div><div class="right">₹8.4L</div></div>
-          <div class="v10-list-item" style="padding:5px 8px;"><div class="ico green">●</div><div class="body"><div class="ttl">Reimbursements</div></div><div class="right">₹3.8L</div></div>
-          <div class="v10-list-item" style="padding:5px 8px;"><div class="ico amber">●</div><div class="body"><div class="ttl">Advances</div></div><div class="right">₹2.0L</div></div>
-        </div>
-      </div>
 
       <!-- ═══════════════ SECTION E — ALERTS, RISKS & ACTIONS ═══════════════ -->
 
-      <!-- E2: My Approvals Queue -->
+      <!-- E2: Approvals Pending -->
       <div class="v10-widget span-6" data-widget="E2" data-roles="exec,pm,fin,ops,vm">
         <div class="v10-widget-controls"><div class="v10-widget-ctrl close">✕</div></div>
         <div class="v10-widget-header">
           <div>
-            <div class="v10-widget-title">My Approvals Queue</div>
-            <div class="v10-widget-sub">Items awaiting you</div>
+            <div class="v10-widget-title">Approvals Pending</div>
+            <div class="v10-widget-sub">Items awaiting you · across modules</div>
           </div>
           <span class="v10-widget-badge alert">E2</span>
         </div>
-        <div class="v10-list">
-          <div class="v10-list-item"><div class="ico amber">PO</div><div class="body"><div class="ttl">PO-2026-0142 · Steelcraft</div><div class="meta">₹3.2L · 2 days waiting</div></div><div class="right">L1</div></div>
-          <div class="v10-list-item"><div class="ico amber">PO</div><div class="body"><div class="ttl">PO-2026-0143 · UnitedPaint</div><div class="meta">₹1.8L · 1 day waiting</div></div><div class="right">L2</div></div>
-          <div class="v10-list-item"><div class="ico blue">BL</div><div class="body"><div class="ttl">Bill #B-2026-0398 · Mehta</div><div class="meta">₹84,500 · 4 days</div></div><div class="right">L1</div></div>
-          <div class="v10-list-item"><div class="ico purple">WC</div><div class="body"><div class="ttl">WCC #WC-118 · Site-A</div><div class="meta">May 9 work · 22 entries</div></div><div class="right">L2</div></div>
-          <div class="v10-list-item"><div class="ico green">EX</div><div class="body"><div class="ttl">Expense report · Priya S.</div><div class="meta">₹12,400 · travel</div></div><div class="right">PM</div></div>
+        <div class="v10-appr-list">
+          <div class="v10-appr-row" onclick="showPage('approvals-pending','Approvals Pending')" role="button" tabindex="0">
+            <span class="cnt">4</span>
+            <div class="info"><span class="lbl">Attendance</span><span class="sub">Approvals pending</span></div>
+          </div>
+          <div class="v10-appr-row" onclick="showPage('approvals-pending','Approvals Pending')" role="button" tabindex="0">
+            <span class="cnt">3</span>
+            <div class="info"><span class="lbl">Reimbursements</span><span class="sub">Approvals pending</span></div>
+          </div>
+          <div class="v10-appr-row" onclick="showPage('approvals-pending','Approvals Pending')" role="button" tabindex="0">
+            <span class="cnt">3</span>
+            <div class="info"><span class="lbl">Vendor Approvals</span><span class="sub">L1 stage</span></div>
+          </div>
+          <div class="v10-appr-row" onclick="showPage('approvals-pending','Approvals Pending')" role="button" tabindex="0">
+            <span class="cnt">2</span>
+            <div class="info"><span class="lbl">Work Done</span><span class="sub">Ready to submit</span></div>
+          </div>
         </div>
       </div>
 
-      <!-- E3: Documents Expiring -->
-      <div class="v10-widget span-3" data-widget="E3" data-roles="exec,pm,fin,ops,vm">
-        <div class="v10-widget-controls"><div class="v10-widget-ctrl close">✕</div></div>
-        <div class="v10-widget-header">
-          <div>
-            <div class="v10-widget-title">Docs Expiring</div>
-            <div class="v10-widget-sub">Next 30/60/90 days</div>
-          </div>
-          <span class="v10-widget-badge alert">E3</span>
-        </div>
-        <div class="v10-list">
-          <div class="v10-list-item"><div class="ico red">!</div><div class="body"><div class="ttl">Steelcraft GST</div><div class="meta">Expires May 22</div></div></div>
-          <div class="v10-list-item"><div class="ico amber">!</div><div class="body"><div class="ttl">Mehta Insurance</div><div class="meta">Expires Jun 14</div></div></div>
-          <div class="v10-list-item"><div class="ico amber">!</div><div class="body"><div class="ttl">Site safety cert</div><div class="meta">Expires Jul 02</div></div></div>
-        </div>
-      </div>
 
-      <!-- E4: AI Suggestions Preview -->
-      <div class="v10-widget span-3" data-widget="E4" data-roles="exec,pm,fin,ops,vm">
-        <div class="v10-widget-controls"><div class="v10-widget-ctrl close">✕</div></div>
-        <div class="v10-widget-header">
-          <div>
-            <div class="v10-widget-title">AI Suggestions</div>
-            <div class="v10-widget-sub">Top 3 pending</div>
-          </div>
-          <span class="v10-widget-badge alert">E4</span>
-        </div>
-        <div class="v10-list">
-          <div class="v10-list-item"><div class="ico purple">AI</div><div class="body"><div class="ttl">Approve 4 similar bills</div><div class="meta">Saves 15 min</div></div></div>
-          <div class="v10-list-item"><div class="ico purple">AI</div><div class="body"><div class="ttl">Re-route stuck PO</div><div class="meta">L1 on leave</div></div></div>
-          <div class="v10-list-item"><div class="ico purple">AI</div><div class="body"><div class="ttl">Flag rate anomaly</div><div class="meta">RKL Subcon</div></div></div>
-        </div>
-      </div>
 
       <!-- E5: Activity Stream -->
       <div class="v10-widget span-6" data-widget="E5" data-roles="exec,pm,fin,ops,vm">
@@ -17641,11 +17663,12 @@
 
 // Default layouts per role (widget IDs in display order)
 const V10_ROLE_LAYOUTS = {
-  exec: ['B1','B2','B3','B6','B7','C1','C2','C6','C7','D2','D5','E2','E3','E4','E5'],
-  pm:   ['C1','C2','C3','C4','C5','C6','C7','C8','D1','D5','E2','E3','E4'],
-  fin:  ['B1','B2','B3','B4','B5','B6','B7','B8','C4','C5','C8','D5','D7','E2','E3'],
-  ops:  ['D1','D2','D3','D4','D5','D6','D7','C6','E2','E3','E4','E5'],
-  vm:   ['B2','B5','C5','C6','D6','E2','E3','E4','E5'],
+  // Ordered for clean row tiling: 6-wide widgets pair (6+6=12), 4-wide form rows of 3 (4+4+4=12)
+  exec: ['W1','C6','C1','C2','W2','B6','B2','B3','D1','D2','D4','E2','E5'],
+  pm:   ['W1','C6','C1','C2','W2','D1','D2','D4','E2','E5'],
+  fin:  ['B6','B2','B3','C1','C2','W2','C6','E2','E5'],
+  ops:  ['W1','C6','D1','D2','D4','W2','E2','E5'],
+  vm:   ['C6','E2','B2','B3','W2','E5'],
 };
 
 let v10CurrentRole = 'exec';
@@ -17657,28 +17680,259 @@ function v10SwitchRole(role) {
   v10RenderForRole(role);
 }
 
+/* ════════════════════════════════════════════════════════════════
+   APPROVALS PENDING — role-based sections with live listings
+   NOTE: tabs are dev/preview only. In production resolve the
+   logged-in user's role once and call apSwitchRole(userRole),
+   and replace AP_DATA with API data. Counts derive from item arrays.
+   ════════════════════════════════════════════════════════════════ */
+const AP_ICONS = {
+  attendance: '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"/>',
+  reimburse:  '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"/>',
+  vendor:     '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>',
+  workdone:   '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/>',
+  site:       '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>',
+  wcc:        '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>',
+  bill:       '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 14l6-6m-5.5.5h.01m4.99 5h.01M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16l3.5-2 3.5 2 3.5-2 3.5 2z"/>',
+  po:         '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>',
+  transport:  '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17a2 2 0 11-4 0 2 2 0 014 0zM19 17a2 2 0 11-4 0 2 2 0 014 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16V6a1 1 0 00-1-1H4a1 1 0 00-1 1v10a1 1 0 001 1h1m8-1a1 1 0 01-1 1H9m4-1V8a1 1 0 011-1h2.586a1 1 0 01.707.293l3.414 3.414a1 1 0 01.293.707V16a1 1 0 01-1 1h-1m-6-1a1 1 0 001 1h1"/>'
+};
+
+const AP_DATA = {
+  pm: {
+    label: 'Project Manager',
+    sections: [
+      { id:'pm-att', icon:'attendance', name:'Attendance Approvals', meta:'Daily attendance awaiting PM sign-off', page:'attendance', pageName:'Attendance', items:[
+        { t:'Rajesh Kumar',   s:'Site-A · 14 May · Present 9:02 AM', r:'May 14', av:'RK', c:1 },
+        { t:'Priya Sharma',   s:'Site-A · 14 May · Present 8:55 AM', r:'May 14', av:'PS', c:2 },
+        { t:'Amit Patel',     s:'Site-B · 14 May · Half-day',         r:'May 14', av:'AP', c:3 },
+        { t:'Sunita Devi',    s:'Site-B · 13 May · Present 9:10 AM',  r:'May 13', av:'SD', c:4 }
+      ]},
+      { id:'pm-reim', icon:'reimburse', name:'Reimbursement Approvals', meta:'Employee expense claims', page:'reimbursements', pageName:'Reimbursements', items:[
+        { t:'Priya Sharma',  s:'Travel · cab to Site-B',     r:'₹3,200',  av:'PS', c:2 },
+        { t:'Vikram Singh',  s:'Material purchase · cement',  r:'₹8,450',  av:'VS', c:3 },
+        { t:'Amit Patel',    s:'Food · site team lunch',      r:'₹1,800',  av:'AP', c:3 }
+      ]},
+      { id:'pm-vl1', icon:'vendor', name:'Vendor Approvals — L1', meta:'First-level vendor / PO review', page:'po-approvals', pageName:'Approval Queue', items:[
+        { t:'PO-2026-0142 · Steelcraft',   s:'Steel supply · Site-A',     r:'₹3.2L', av:'ST', c:3 },
+        { t:'PO-2026-0143 · UnitedPaint',  s:'Paint & finishing',         r:'₹1.8L', av:'UP', c:2 },
+        { t:'PO-2026-0145 · RKL Subcon',   s:'Labour subcontract',        r:'₹4.6L', av:'RS', c:4 }
+      ]},
+      { id:'pm-wd', icon:'workdone', name:'Work Done — Ready to Submit', meta:'DPR entries ready for submission', page:'work-done', pageName:'Work Done', items:[
+        { t:'Site-A · Foundation',  s:'14 May · 22 entries · 86% progress', r:'Submit', av:'SA', c:1 },
+        { t:'Site-B · Plumbing',    s:'13 May · 8 entries · 64% progress',  r:'Submit', av:'SB', c:2 }
+      ]}
+    ]
+  },
+  ops: {
+    label: 'Operations',
+    sections: [
+      { id:'ops-att', icon:'attendance', name:'Attendance Approvals', meta:'Daily attendance awaiting OPS sign-off', page:'attendance', pageName:'Attendance', items:[
+        { t:'Manoj Yadav',   s:'Site-C · 14 May · Present 9:00 AM', r:'May 14', av:'MY', c:1 },
+        { t:'Deepak Verma',  s:'Site-C · 14 May · Present 8:48 AM', r:'May 14', av:'DV', c:2 },
+        { t:'Ravi Teja',     s:'Site-D · 14 May · Late 10:15 AM',   r:'May 14', av:'RT', c:3 },
+        { t:'Kiran Bala',    s:'Site-D · 13 May · Present 9:05 AM',  r:'May 13', av:'KB', c:4 }
+      ]},
+      { id:'ops-reim', icon:'reimburse', name:'Reimbursement Approvals', meta:'Employee expense claims', page:'reimbursements', pageName:'Reimbursements', items:[
+        { t:'Manoj Yadav',   s:'Travel · inter-site transport', r:'₹2,400', av:'MY', c:1 },
+        { t:'Ravi Teja',     s:'Tools · hand drill',            r:'₹5,600', av:'RT', c:3 }
+      ]},
+      { id:'ops-vl2', icon:'vendor', name:'Vendor Approvals — L2', meta:'Second-level vendor / PO review', page:'po-approvals', pageName:'Approval Queue', items:[
+        { t:'PO-2026-0138 · BuildMart',    s:'Aggregate supply',      r:'₹6.1L', av:'BM', c:4 },
+        { t:'PO-2026-0142 · Steelcraft',   s:'Escalated from L1',     r:'₹3.2L', av:'ST', c:3 },
+        { t:'PO-2026-0140 · ProClean',     s:'Site cleaning contract', r:'₹95K', av:'PC', c:2 }
+      ]},
+      { id:'ops-site', icon:'site', name:'Sites Created by PM', meta:'New sites awaiting OPS verification', page:'site', pageName:'Sites', items:[
+        { t:'Site-E · Whitefield Mall',  s:'Created by Andrew · 12 May', r:'Verify', av:'SE', c:1 }
+      ]}
+    ]
+  },
+  hr: {
+    label: 'Human Resources',
+    sections: [
+      { id:'hr-wcc', icon:'wcc', name:'Work Done — Ready for WCC', meta:'Completed work pending certificate', page:'wcc', pageName:'Work Completion Certificate', items:[
+        { t:'WC-118 · Site-A',  s:'Foundation phase · 22 entries', r:'9 May', av:'WC', c:4 }
+      ]},
+      { id:'hr-att', icon:'attendance', name:'Attendance Approvals', meta:'Attendance records awaiting HR sign-off', page:'attendance', pageName:'Attendance', items:[
+        { t:'Monthly · Site-A',  s:'April cycle · 42 employees', r:'Apr', av:'SA', c:1 }
+      ]}
+    ]
+  },
+  fin: {
+    label: 'Finance',
+    sections: [
+      { id:'fin-bill', icon:'bill', name:'Vendor Bills', meta:'Bills awaiting finance approval', page:'vendor-bills', pageName:'Vendor Bills', items:[
+        { t:'Bill #B-2026-0398 · Mehta', s:'Against PO-0131 · matched', r:'₹84,500', av:'ME', c:3 },
+        { t:'Bill #B-2026-0401 · Steelcraft', s:'Against PO-0142', r:'₹3.2L', av:'ST', c:2 }
+      ]},
+      { id:'fin-po', icon:'po', name:'PO Created by PM', meta:'Purchase orders pending finance review', page:'po-listing', pageName:'Purchase Orders', items:[
+        { t:'PO-2026-0145 · RKL Subcon', s:'Created by Andrew · Site-A', r:'₹4.6L', av:'RS', c:1 },
+        { t:'PO-2026-0146 · BuildMart',  s:'Created by Andrew · Site-C', r:'₹6.1L', av:'BM', c:2 }
+      ]},
+      { id:'fin-trans', icon:'transport', name:'Transport Bills', meta:'Mileage / transport claims', page:'vendor-mileage', pageName:'Transport Bills', items:[
+        { t:'Mileage · Tata Ace KA-01', s:'Apr cycle · 1,240 km', r:'₹18,600', av:'TA', c:3 }
+      ]},
+      { id:'fin-wcc', icon:'wcc', name:'WCC — Ready to Submit', meta:'Work completion certificates pending', page:'wcc', pageName:'Work Completion Certificate', items:[
+        { t:'WC-115 · Site-B', s:'Plumbing phase · client sign-off', r:'Submit', av:'WC', c:4 }
+      ]}
+    ]
+  }
+};
+
+let apCurrentRole = 'pm';
+
+function apEsc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+function apSwitchRole(role) {
+  apCurrentRole = role;
+  document.querySelectorAll('#page-approvals-pending .ap-role-tab').forEach(t => {
+    t.classList.toggle('active', t.dataset.role === role);
+  });
+  apRenderRole(role);
+}
+
+function apRenderRole(role) {
+  const data = AP_DATA[role];
+  if (!data) return;
+  const wrap = document.getElementById('apSections');
+  const title = document.getElementById('apPanelTitle');
+  const sub = document.getElementById('apPanelSub');
+  if (title) title.textContent = data.label + ' — Pending Approvals';
+  if (sub) sub.textContent = 'Each section shows its pending count. Expand to see the list of items awaiting action.';
+
+  let total = 0;
+  let html = '';
+  data.sections.forEach((sec, si) => {
+    const n = sec.items.length;
+    total += n;
+    const open = si === 0 ? ' open' : ''; // first section expanded by default
+    let rows = '';
+    if (n === 0) {
+      rows = '<div class="ap-empty">Nothing pending here. 🎉</div>';
+    } else {
+      sec.items.forEach(it => {
+        rows +=
+          '<div class="ap-row">' +
+            '<div class="ap-row-av alt'+(it.c||1)+'">'+apEsc(it.av)+'</div>' +
+            '<div class="ap-row-main">' +
+              '<div class="ap-row-title">'+apEsc(it.t)+'</div>' +
+              '<div class="ap-row-sub">'+apEsc(it.s)+'</div>' +
+            '</div>' +
+            '<div class="ap-row-amt">'+apEsc(it.r)+'</div>' +
+            '<div class="ap-row-actions">' +
+              '<button class="ap-act-go" title="Go to '+apEsc(sec.pageName)+' to approve" onclick="showPage(\''+sec.page+'\',\''+apEsc(sec.pageName)+'\')">Approve<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M14 5l7 7-7 7M21 12H3"/></svg></button>' +
+            '</div>' +
+          '</div>';
+      });
+    }
+    html +=
+      '<div class="ap-sec'+open+'" data-sec="'+sec.id+'">' +
+        '<div class="ap-sec-head" onclick="apToggleSec(this)">' +
+          '<div class="ap-sec-ico"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24">'+AP_ICONS[sec.icon]+'</svg></div>' +
+          '<div class="ap-sec-titles">' +
+            '<div class="ap-sec-name">'+apEsc(sec.name)+'</div>' +
+            '<div class="ap-sec-meta">'+apEsc(sec.meta)+' · <code>'+apEsc(sec.page)+'</code></div>' +
+          '</div>' +
+          '<span class="ap-sec-count'+(n===0?' zero':'')+'">'+n+'</span>' +
+          '<span class="ap-sec-chev"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M19 9l-7 7-7-7"/></svg></span>' +
+        '</div>' +
+        '<div class="ap-sec-body">' +
+          rows +
+          '<div class="ap-sec-foot">' +
+            '<span>'+n+' item'+(n===1?'':'s')+' pending</span>' +
+            '<button class="ap-sec-open" onclick="showPage(\''+sec.page+'\',\''+apEsc(sec.pageName)+'\')">Open full page<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M14 5l7 7-7 7M21 12H3"/></svg></button>' +
+          '</div>' +
+        '</div>' +
+      '</div>';
+  });
+  if (wrap) wrap.innerHTML = html;
+
+  const tc = document.getElementById('apTotalCount');
+  if (tc) tc.textContent = total + ' pending';
+
+  // keep the active role's tab badge in sync with its real total
+  const activeBadge = document.querySelector('#page-approvals-pending .ap-role-tab.active .badge');
+  if (activeBadge) activeBadge.textContent = total;
+}
+
+function apToggleSec(headEl) {
+  const sec = headEl.closest('.ap-sec');
+  if (sec) sec.classList.toggle('open');
+}
+
+function apAct(btn, kind) {
+  const row = btn.closest('.ap-row');
+  const sec = btn.closest('.ap-sec');
+  if (!row) return;
+  row.style.transition = 'opacity 0.2s';
+  row.style.opacity = '0';
+  setTimeout(() => {
+    row.remove();
+    // update the section count badge + footer after removal
+    if (sec) {
+      const remaining = sec.querySelectorAll('.ap-row').length;
+      const badge = sec.querySelector('.ap-sec-count');
+      const foot = sec.querySelector('.ap-sec-foot span');
+      if (badge) { badge.textContent = remaining; badge.classList.toggle('zero', remaining === 0); }
+      if (foot) foot.textContent = remaining + ' item' + (remaining === 1 ? '' : 's') + ' pending';
+      const body = sec.querySelector('.ap-sec-body');
+      if (remaining === 0 && body && !body.querySelector('.ap-empty')) {
+        const e = document.createElement('div');
+        e.className = 'ap-empty';
+        e.textContent = 'Nothing pending here. 🎉';
+        body.insertBefore(e, body.firstChild);
+      }
+    }
+    // recompute total
+    let total = 0;
+    document.querySelectorAll('#page-approvals-pending .ap-row').forEach(() => total++);
+    const tc = document.getElementById('apTotalCount');
+    if (tc) tc.textContent = total + ' pending';
+    const activeBadge = document.querySelector('#page-approvals-pending .ap-role-tab.active .badge');
+    if (activeBadge) activeBadge.textContent = total;
+  }, 200);
+}
+
 function v10RenderForRole(role) {
   const allowed = V10_ROLE_LAYOUTS[role] || [];
+  const spanOf = (w) => {
+    const c = w.className.match(/span-(\d+)/);
+    return c ? parseInt(c[1], 10) : 4;
+  };
   const widgets = document.querySelectorAll('#v10DashGrid .v10-widget');
+  const visible = [];
   widgets.forEach(w => {
     const wid = w.dataset.widget;
     const roleList = (w.dataset.roles || '').split(',');
     const inRole = roleList.includes(role);
     const inLayout = allowed.includes(wid);
+    w.classList.remove('v10-fill-row'); // reset prior stretch
     if (inRole && inLayout) {
       w.style.display = 'flex';
-      // reorder via flex order
       const idx = allowed.indexOf(wid);
       w.style.order = idx;
+      visible.push({ el: w, idx });
     } else {
       w.style.display = 'none';
     }
   });
-  // Switch grid container from grid to flex for ordering to work, then back
-  const grid = document.getElementById('v10DashGrid');
-  if (grid) {
-    grid.style.display = 'grid';
+  // Stretch the final trailing widget to fill its row if that row is short,
+  // so the bottom edge stays symmetrical (handled via class -> media-query safe).
+  visible.sort((a, b) => a.idx - b.idx);
+  let rowFill = 0, lastEl = null, used = 0;
+  visible.forEach(({ el }) => {
+    const s = spanOf(el);
+    if (rowFill + s > 12) { rowFill = 0; }
+    used = rowFill;
+    rowFill += s;
+    lastEl = el;
+    if (rowFill === 12) rowFill = 0;
+  });
+  if (lastEl && rowFill > 0 && rowFill < 12) {
+    lastEl.classList.add('v10-fill-row');
   }
+  const grid = document.getElementById('v10DashGrid');
+  if (grid) grid.style.display = 'grid';
 }
 
 function v10ToggleCustomize() {
