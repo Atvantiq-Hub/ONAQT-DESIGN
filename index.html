@@ -17323,9 +17323,16 @@
         <div class="v10-widget-header">
           <div>
             <div class="v10-widget-title">Work Done (Planned vs Actual)</div>
-            <div class="v10-widget-sub">Cumulative progress · Planned vs Actual</div>
+            <div class="v10-widget-sub" id="wdSub">Last 30 days · Planned vs Actual</div>
           </div>
-          <span class="v10-widget-badge work">W1</span>
+          <select class="v10-wfilter" id="wdFilter" onchange="w1Render(this.value)" title="Period">
+            <option value="30d">Last 30 Days</option>
+            <option value="7d">Last 7 Days</option>
+            <option value="thisMonth">This Month</option>
+            <option value="lastMonth">Last Month</option>
+            <option value="quarter">This Quarter</option>
+            <option value="year">This Year</option>
+          </select>
         </div>
         <div class="v10-chart-wrap" style="min-height:120px;">
           <svg viewBox="0 0 400 120" preserveAspectRatio="none">
@@ -17333,16 +17340,16 @@
             <line x1="0" y1="60"  x2="400" y2="60"  stroke="#f1f5f4" stroke-width="1"/>
             <line x1="0" y1="90"  x2="400" y2="90"  stroke="#f1f5f4" stroke-width="1"/>
             <!-- planned (dashed) -->
-            <polyline points="0,112 50,100 100,86 150,70 200,54 250,40 300,28 350,20 400,14" fill="none" stroke="#9ca3af" stroke-width="2" stroke-dasharray="4,3"/>
+            <polyline id="wdPlanned" points="0,112 50,100 100,86 150,70 200,54 250,40 300,28 350,20 400,14" fill="none" stroke="#9ca3af" stroke-width="2" stroke-dasharray="4,3"/>
             <!-- actual -->
-            <polyline points="0,112 50,102 100,90 150,76 200,64 250,55 300,49" fill="none" stroke="#0F5132" stroke-width="2.5"/>
-            <circle cx="300" cy="49" r="4" fill="#0F5132"/>
+            <polyline id="wdActual" points="0,112 50,102 100,90 150,76 200,64 250,55 300,49" fill="none" stroke="#0F5132" stroke-width="2.5"/>
+            <circle id="wdDot" cx="300" cy="49" r="4" fill="#0F5132"/>
           </svg>
         </div>
         <div class="v10-twin-legend">
           <span><span class="sw" style="background:#9ca3af;"></span>Planned</span>
           <span><span class="sw" style="background:#0F5132;"></span>Actual</span>
-          <span style="margin-left:auto;color:var(--text);font-weight:700;">88% of plan · 1,420 / 1,610 units</span>
+          <span id="wdSummary" style="margin-left:auto;color:var(--text);font-weight:700;">88% of plan · 1,420 / 1,610 units</span>
         </div>
       </div>
 
@@ -18154,11 +18161,35 @@ function lcRender(monthKey){
 }
 
 // Master render for all dashboard charts
+// Work Done (Planned vs Actual) — period filter
+const W1_DATA = {
+  '30d':       { sub:'Last 30 days · Planned vs Actual',  planned:'0,112 50,100 100,86 150,70 200,54 250,40 300,28 350,20 400,14', actual:'0,112 50,102 100,90 150,76 200,64 250,55 300,49', dot:[300,49], summary:'88% of plan · 1,420 / 1,610 units' },
+  '7d':        { sub:'Last 7 days · Planned vs Actual',    planned:'0,112 65,96 130,80 195,62 260,44 330,26 400,16', actual:'0,112 65,98 130,84 195,68 260,52 330,40 400,30', dot:[400,30], summary:'92% of plan · 358 / 390 units' },
+  'thisMonth': { sub:'This month · Planned vs Actual',     planned:'0,112 60,98 120,82 180,66 240,50 300,34 360,22 400,16', actual:'0,112 60,100 120,86 180,72 240,58 300,46 340,40', dot:[340,40], summary:'81% of plan · 1,180 / 1,455 units' },
+  'lastMonth': { sub:'Last month · Planned vs Actual',     planned:'0,112 50,96 100,80 150,62 200,46 250,32 300,22 350,16 400,12', actual:'0,112 50,98 100,82 150,66 200,50 250,36 300,26 350,18 400,13', dot:[400,13], summary:'97% of plan · 1,560 / 1,610 units' },
+  'quarter':   { sub:'This quarter · Planned vs Actual',   planned:'0,112 66,94 133,74 200,56 266,40 333,26 400,14', actual:'0,112 66,98 133,82 200,66 266,52 333,42 380,36', dot:[380,36], summary:'85% of plan · 3,940 / 4,640 units' },
+  'year':      { sub:'This year · Planned vs Actual',      planned:'0,112 40,98 90,84 140,70 190,56 240,44 290,34 340,24 400,14', actual:'0,112 40,100 90,88 140,76 190,64 240,54 290,46 330,42', dot:[330,42], summary:'78% of plan · 12,300 / 15,800 units' },
+};
+function w1Render(period){
+  const d = W1_DATA[period] || W1_DATA['30d'];
+  const sub = document.getElementById('wdSub');
+  const pl  = document.getElementById('wdPlanned');
+  const ac  = document.getElementById('wdActual');
+  const dot = document.getElementById('wdDot');
+  const sum = document.getElementById('wdSummary');
+  if(sub) sub.textContent = d.sub;
+  if(pl)  pl.setAttribute('points', d.planned);
+  if(ac)  ac.setAttribute('points', d.actual);
+  if(dot){ dot.setAttribute('cx', d.dot[0]); dot.setAttribute('cy', d.dot[1]); }
+  if(sum) sum.textContent = d.summary;
+}
+
 function v10RenderCharts(){
   ieRender();
   phRender();
   atRender();
   lcRender();
+  w1Render(document.getElementById('wdFilter') ? document.getElementById('wdFilter').value : '30d');
 }
 // Back-compat alias (old code calls v10RenderHeatmap)
 function v10RenderHeatmap(){ lcRender(); }
@@ -18196,6 +18227,47 @@ if (typeof showPage === 'function') {
 </script>
 
 
+
+                <div id="page-approvals-pending" class="page-section">
+
+                    <!-- Control Bar -->
+                    <div class="control-bar">
+                        <div style="display:flex;align-items:center;gap:10px;flex-shrink:0;margin-right:4px;">
+                            <span style="display:inline-flex;align-items:center;gap:8px;font-size:15px;font-weight:700;font-family:'Fraunces',serif;white-space:nowrap;color:var(--gray-900);letter-spacing:-0.2px;">
+                                <svg width="15" height="15" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="color:var(--primary);flex-shrink:0;"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                                Approvals Pending
+                            </span>
+                            <span id="apTotalCount" style="font-size:11px;font-weight:600;background:color-mix(in srgb,var(--primary) 10%,transparent);color:var(--primary);border:1px solid color-mix(in srgb,var(--primary) 20%,transparent);border-radius:5px;padding:2px 8px;white-space:nowrap;">12 pending</span>
+                        </div>
+                    </div>
+
+                    <div class="ap-scroll">
+
+                        <!-- Developer note -->
+                        <div class="ap-note">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                            <span><strong>For development reference.</strong> In production only the logged-in user's role panel renders — the tabs below exist so a developer can preview what each role's approval queue contains. Each card links to its existing module page.</span>
+                        </div>
+
+                        <!-- Role tabs -->
+                        <div class="ap-rolebar">
+                            <span class="lbl">Role</span>
+                            <button class="ap-role-tab active" data-role="pm" onclick="apSwitchRole('pm')"><span class="code">PM</span> Project Manager <span class="badge">12</span></button>
+                            <button class="ap-role-tab" data-role="ops" onclick="apSwitchRole('ops')"><span class="code">OPS</span> Operations <span class="badge">10</span></button>
+                            <button class="ap-role-tab" data-role="hr" onclick="apSwitchRole('hr')"><span class="code">HR</span> Human Resources <span class="badge">2</span></button>
+                            <button class="ap-role-tab" data-role="fin" onclick="apSwitchRole('fin')"><span class="code">FIN</span> Finance <span class="badge">6</span></button>
+                        </div>
+
+                        <!-- Active role heading -->
+                        <div class="ap-panel-title" id="apPanelTitle">Project Manager — Pending Approvals</div>
+                        <div class="ap-panel-sub" id="apPanelSub">Each section shows its pending count. Expand to see the list of items awaiting action.</div>
+
+                        <!-- Sections (count + listing) rendered by JS -->
+                        <div class="ap-sections" id="apSections"></div>
+
+                    </div><!-- /ap-scroll -->
+
+                </div><!-- /#page-approvals-pending -->
 
                 <div id="page-reimbursements" class="page-section">
 
@@ -33591,7 +33663,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 'inventory':       function(){ if(typeof invRenderStock==='function'){ invRenderStock(); invRenderLog(); invRenderAlerts(); } },
                 'budgeting':       function(){ if(typeof bdgRender==='function') bdgRender(); },
                 'plan-actual':     function(){ if(typeof rpRenderMonths==='function'){ try{rpRenderMonths();}catch(e){} } if(typeof rpApplyFilter==='function') rpApplyFilter(); },
-                'plan-vs-actual':  function(){ if(typeof pvaRender==='function'){ try{pvaRender();}catch(e){} } }
+                'plan-vs-actual':  function(){ if(typeof pvaRender==='function'){ try{pvaRender();}catch(e){} } },
+                'approvals-pending': function(){ if(typeof apSwitchRole==='function'){ var t=document.querySelector('#page-approvals-pending .ap-role-tab.active'); apSwitchRole(t?t.dataset.role:'pm'); } }
             };
             if (renderMap[pageId]) renderMap[pageId]();
         }
