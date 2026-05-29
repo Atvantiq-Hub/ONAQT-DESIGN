@@ -15186,6 +15186,87 @@
   text-align:center;
 }
 
+/* === Vertical column chart (W2 WCC ageing) === */
+.v10-colchart {
+  display:flex;
+  gap:6px;
+  height:100px;
+  margin-top:8px;
+  align-items:stretch;
+}
+.v10-colchart .v10-col {
+  flex:1;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+}
+.v10-colchart .v10-col-track {
+  flex:1;
+  display:flex;
+  flex-direction:column;
+  justify-content:flex-end;
+  align-items:center;
+  width:100%;
+}
+.v10-colchart .v10-col-val {
+  font-size:11px;
+  font-weight:700;
+  line-height:1;
+  color:var(--text, #1a1a1a);
+  margin-bottom:3px;
+}
+.v10-colchart .v10-col-bar {
+  width:100%;
+  max-width:34px;
+  border-radius:5px 5px 0 0;
+  min-height:2px;
+  background:var(--primary, #2D4A35);
+  transition:height 0.3s ease;
+}
+.v10-colchart .v10-col-bar:hover { filter:brightness(1.12); }
+.v10-colchart .v10-col-lbl {
+  font-size:9px;
+  color:var(--muted, #6b7280);
+  margin-top:5px;
+  white-space:nowrap;
+}
+[data-dark="true"] .v10-colchart .v10-col-bar { background:#3f6b4d; }
+
+/* === Widget date filter (segmented) === */
+.v10-date-filter {
+  display:inline-flex;
+  gap:2px;
+  margin-top:8px;
+  padding:2px;
+  background:var(--accent-light, #f1f5f4);
+  border:1px solid var(--border, #e5e7eb);
+  border-radius:8px;
+}
+.v10-date-filter button {
+  border:none;
+  background:transparent;
+  font-family:inherit;
+  font-size:10px;
+  font-weight:700;
+  letter-spacing:0.02em;
+  color:var(--muted, #6b7280);
+  padding:3px 8px;
+  border-radius:6px;
+  cursor:pointer;
+  white-space:nowrap;
+  transition:background 0.15s, color 0.15s;
+}
+.v10-date-filter button:hover { color:var(--text, #1a1a1a); }
+.v10-date-filter button.active {
+  background:#fff;
+  color:var(--primary, #2D4A35);
+  box-shadow:0 1px 2px rgba(0,0,0,0.08);
+}
+[data-dark="true"] .v10-date-filter button.active {
+  background:rgba(255,255,255,0.14);
+  color:#a7d4b4;
+}
+
 /* === Gauge === */
 .v10-gauges {
   display:flex;
@@ -17363,16 +17444,18 @@
           </div>
           <span class="v10-widget-badge work">W2</span>
         </div>
-        <div class="v10-big-number" style="font-size:24px;">38<span style="font-size:16px;color:var(--muted);"> WCCs</span></div>
-        <div class="v10-bucket-row">
-          <div class="v10-bucket v10-bucket-0" title="0-3 days">14</div>
-          <div class="v10-bucket v10-bucket-1" title="4-7 days">11</div>
-          <div class="v10-bucket v10-bucket-2" title="8-14 days">7</div>
-          <div class="v10-bucket v10-bucket-3" title="15-30 days">4</div>
-          <div class="v10-bucket v10-bucket-4" title="30+ days">2</div>
+        <div class="v10-big-number" style="font-size:24px;"><span id="w2Total">16</span><span style="font-size:16px;color:var(--muted);"> WCCs</span></div>
+        <div class="v10-colchart" id="w2Chart">
+          <div class="v10-col"><div class="v10-col-track"><div class="v10-col-val">3</div><div class="v10-col-bar" style="height:30px"></div></div><div class="v10-col-lbl">Week 1</div></div>
+          <div class="v10-col"><div class="v10-col-track"><div class="v10-col-val">5</div><div class="v10-col-bar" style="height:50px"></div></div><div class="v10-col-lbl">Week 2</div></div>
+          <div class="v10-col"><div class="v10-col-track"><div class="v10-col-val">6</div><div class="v10-col-bar" style="height:60px"></div></div><div class="v10-col-lbl">Week 3</div></div>
+          <div class="v10-col"><div class="v10-col-track"><div class="v10-col-val">2</div><div class="v10-col-bar" style="height:20px"></div></div><div class="v10-col-lbl">Week 4</div></div>
         </div>
-        <div class="v10-bucket-labels">
-          <span>0-3d</span><span>4-7d</span><span>8-14d</span><span>15-30d</span><span>30+d</span>
+        <div class="v10-date-filter" role="group" aria-label="Date range">
+          <button type="button" class="active" onclick="w2FilterAge(this,'month')">Month</button>
+          <button type="button" onclick="w2FilterAge(this,'quarter')">Quarter</button>
+          <button type="button" onclick="w2FilterAge(this,'half')">Half-Yr</button>
+          <button type="button" onclick="w2FilterAge(this,'year')">Year</button>
         </div>
       </div>
 
@@ -17516,16 +17599,15 @@
         <div class="v10-widget-header">
           <div>
             <div class="v10-widget-title">Sign-off / WCC Pipeline</div>
-            <div class="v10-widget-sub">5-stage workflow funnel</div>
+            <div class="v10-widget-sub">4-stage workflow funnel</div>
           </div>
           <span class="v10-widget-badge proj">C6</span>
         </div>
         <div class="v10-funnel">
-          <div class="v10-funnel-row"><div class="v10-funnel-bar" style="width:100%;background:#3b82f6;">Ready · 28</div><div class="v10-funnel-info">avg <strong>1.2d</strong></div></div>
-          <div class="v10-funnel-row"><div class="v10-funnel-bar" style="width:78%;background:#6366f1;">L1 Review · 18</div><div class="v10-funnel-info">avg <strong>2.4d</strong></div></div>
-          <div class="v10-funnel-row"><div class="v10-funnel-bar" style="width:60%;background:#8b5cf6;">L1 Approved · 14</div><div class="v10-funnel-info">avg <strong>1.8d</strong></div></div>
-          <div class="v10-funnel-row"><div class="v10-funnel-bar" style="width:48%;background:#a855f7;">L2 Accepted · 11</div><div class="v10-funnel-info">avg <strong>2.1d</strong></div></div>
-          <div class="v10-funnel-row"><div class="v10-funnel-bar" style="width:34%;background:#10b981;">Billed · 8</div><div class="v10-funnel-info">avg <strong>3.5d</strong></div></div>
+          <div class="v10-funnel-row"><div class="v10-funnel-bar" style="width:100%;background:#3b82f6;">Pending · 28</div><div class="v10-funnel-info">avg <strong>1.2d</strong></div></div>
+          <div class="v10-funnel-row"><div class="v10-funnel-bar" style="width:78%;background:#6366f1;">Submitted · 18</div><div class="v10-funnel-info">avg <strong>2.4d</strong></div></div>
+          <div class="v10-funnel-row"><div class="v10-funnel-bar" style="width:60%;background:#10b981;">Accepted · 14</div><div class="v10-funnel-info">avg <strong>1.8d</strong></div></div>
+          <div class="v10-funnel-row"><div class="v10-funnel-bar" style="width:34%;background:#ef4444;">Rejected · 4</div><div class="v10-funnel-info">avg <strong>2.1d</strong></div></div>
         </div>
       </div>
 
@@ -17966,6 +18048,36 @@ function v10ToggleCustomize() {
       };
     });
   }
+}
+
+/* ---- W2: Pending WCC Ageing — sub-period distribution ----
+   Each filter sub-divides into time buckets (weeks / months / quarters).
+   Mock data; swap counts with API later. */
+const W2_AGE_DATA = {
+  'month':   [{l:'Week 1',c:3},{l:'Week 2',c:5},{l:'Week 3',c:6},{l:'Week 4',c:2}],
+  'quarter': [{l:'Apr',c:9},{l:'May',c:11},{l:'Jun',c:7}],
+  'half':    [{l:'Jan',c:3},{l:'Feb',c:4},{l:'Mar',c:6},{l:'Apr',c:8},{l:'May',c:11},{l:'Jun',c:2}],
+  'year':    [{l:'Q1',c:9},{l:'Q2',c:8},{l:'Q3',c:11},{l:'Q4',c:10}]
+};
+function w2FilterAge(btn, range) {
+  const bars = W2_AGE_DATA[range] || W2_AGE_DATA['month'];
+  const max = Math.max(...bars.map(b => b.c), 1);
+  const MAX_PX = 60; // tallest bar in px; leaves headroom for the value label
+  const chart = document.getElementById('w2Chart');
+  if (chart) {
+    chart.innerHTML = bars.map(b => {
+      const h = b.c === 0 ? 2 : Math.max(6, Math.round(b.c / max * MAX_PX));
+      return '<div class="v10-col"><div class="v10-col-track">'
+           +   '<div class="v10-col-val">' + b.c + '</div>'
+           +   '<div class="v10-col-bar" style="height:' + h + 'px" title="' + b.l + '"></div>'
+           + '</div><div class="v10-col-lbl">' + b.l + '</div></div>';
+    }).join('');
+  }
+  const totalEl = document.getElementById('w2Total');
+  if (totalEl) totalEl.textContent = bars.reduce((a, b) => a + b.c, 0);
+  // toggle active state
+  const group = btn && btn.closest('.v10-date-filter');
+  if (group) group.querySelectorAll('button').forEach(b => b.classList.toggle('active', b === btn));
 }
 
 /* ============================================================
