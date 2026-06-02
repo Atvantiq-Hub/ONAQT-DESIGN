@@ -24469,6 +24469,10 @@ if (typeof showPage === 'function') {
                         <button class="cb-icon-btn" id="projFilterBtn" onclick="projOpenFilterPanel()" title="Filter"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"/></svg><span class="cb-badge" id="projFilterBadge" style="display:none;"></span></button>
                         <button class="cb-icon-btn" onclick="projRefreshTable()" title="Refresh"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg></button>
                         <button class="cb-icon-btn" title="Export"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg></button>
+                        <button class="vh-btn-secondary" onclick="openProjZohoModal()" title="Sync projects with Zoho Books">
+                            <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.2"/></svg>
+                            Sync Zoho
+                        </button>
                         <button class="btn-add-project" onclick="openAddProjectModal()">
                             <svg width="15" height="15" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"/></svg>
                             Add Project
@@ -24507,6 +24511,91 @@ if (typeof showPage === 'function') {
                                 <select class="page-limit-select" id="projPageLimit">
                                     <option value="10">10</option><option value="20" selected>20</option><option value="50">50</option><option value="100">100</option>
                                 </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ══ Zoho Books — Project Sync Modal (preview → sync) ══ -->
+                    <style>
+                        #projZohoModal .vnd-modal-body { padding:14px 20px 16px; }
+                        #projZohoModal .zoho-sync-status { padding:7px 12px; margin-bottom:10px; border-radius:9px; gap:9px; }
+                        #projZohoModal .zoho-sync-status .zoho-sync-dot { width:8px; height:8px; }
+                        #projZohoModal .zoho-sync-lbl { font-size:12px; line-height:1.2; }
+                        #projZohoModal .zoho-sync-time { font-size:10.5px; }
+                        #projZohoModal .zoho-stepper { margin-bottom:12px; gap:6px; }
+                        #projZohoModal .zoho-stepper-item { flex-direction:row; gap:6px; }
+                        #projZohoModal .zoho-stepper-dot { width:20px; height:20px; font-size:10.5px; }
+                        #projZohoModal .zoho-stepper-label { font-size:11px; }
+                        #projZohoModal .zoho-stepper-bar { margin-bottom:0; }
+                        /* shared by the post-sync assign modal */
+                        #projAssignModal .pz-pname { font-size:13px; font-weight:700; color:var(--gray-900); }
+                        #projAssignModal .pz-field { margin-bottom:14px; }
+                        #projAssignModal .pz-lbl { font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:0.4px; color:var(--gray-500); margin-bottom:6px; display:block; }
+                        #projAssignModal .pz-select { width:100%; padding:8px 11px; border:1px solid var(--gray-200); border-radius:8px; font-size:13px; background:var(--white); color:var(--gray-800); }
+                        [data-dark="true"] #projAssignModal .pz-select { background:#252836; border-color:#363b52; color:#d1d5db; }
+                        /* inline row affordance (shown on unassigned synced rows) */
+                        .proj-assign-btn { display:inline-flex; align-items:center; gap:4px; padding:3px 9px; border:1px dashed color-mix(in srgb,var(--primary) 45%,transparent); background:color-mix(in srgb,var(--primary) 7%,transparent); color:var(--primary); border-radius:14px; font-size:10.5px; font-weight:600; cursor:pointer; white-space:nowrap; transition:all 0.15s; }
+                        .proj-assign-btn:hover { background:color-mix(in srgb,var(--primary) 14%,transparent); }
+                    </style>
+                    <div class="vnd-modal-overlay" id="projZohoModal">
+                        <div class="vnd-modal" style="width:min(720px,95vw);">
+                            <div class="vnd-modal-hd">
+                                <div>
+                                    <div class="vnd-modal-title">Zoho Books — Project Sync</div>
+                                    <div class="vnd-modal-sub">Preview, then sync projects from Zoho Books.</div>
+                                </div>
+                                <button class="vnd-modal-close" onclick="closeVndModal('projZohoModal')">✕</button>
+                            </div>
+                            <div class="vnd-modal-body">
+                                <div class="zoho-sync-status">
+                                    <div class="zoho-sync-dot ok"></div>
+                                    <div class="zoho-sync-lbl">Zoho Books connected <span style="font-weight:400;color:var(--gray-400);">· Onaqt Services Pvt Ltd</span></div>
+                                    <div class="zoho-sync-time">Last synced 10:34 AM</div>
+                                </div>
+
+                                <!-- Two-layer flow: Preview → Sync -->
+                                <div class="zoho-stepper">
+                                    <div class="zoho-stepper-item active" id="pzStep1"><div class="zoho-stepper-dot">1</div><div class="zoho-stepper-label">Preview</div></div>
+                                    <div class="zoho-stepper-bar" id="pzBar1"></div>
+                                    <div class="zoho-stepper-item" id="pzStep2"><div class="zoho-stepper-dot">2</div><div class="zoho-stepper-label">Sync</div></div>
+                                </div>
+
+                                <div id="projZohoBody"><!-- dynamic: preview / done --></div>
+                            </div>
+                            <div class="vnd-modal-ft">
+                                <button class="btn-secondary" onclick="closeVndModal('projZohoModal')">Cancel</button>
+                                <button class="btn-primary-modal" id="pzActionBtn" onclick="projZohoConfirmSync()" disabled>Confirm &amp; Sync</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ══ Set Client & Circles Modal (post-sync, per project) ══ -->
+                    <div class="vnd-modal-overlay" id="projAssignModal">
+                        <div class="vnd-modal" style="width:min(440px,95vw);">
+                            <div class="vnd-modal-hd">
+                                <div>
+                                    <div class="vnd-modal-title">Set Client &amp; Circles</div>
+                                    <div class="vnd-modal-sub">Assign for <span class="pz-pname" id="projAssignName">project</span></div>
+                                </div>
+                                <button class="vnd-modal-close" onclick="closeVndModal('projAssignModal')">✕</button>
+                            </div>
+                            <div class="vnd-modal-body">
+                                <div class="pz-field">
+                                    <label class="pz-lbl">Client (single)</label>
+                                    <select class="pz-select" id="projAssignClient"></select>
+                                </div>
+                                <div class="pz-field" style="margin-bottom:0;">
+                                    <label class="pz-lbl">Circles (multiple)</label>
+                                    <div class="circle-select-box" id="projAssignCircleBox" onclick="projAssignToggleDropdown(event)">
+                                        <div class="circle-selected-chips" id="projAssignCircleChips"><span class="circle-placeholder">Select circles…</span></div>
+                                        <svg class="circle-chevron" width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                                    </div>
+                                    <div class="circle-dropdown" id="projAssignCircleDropdown"></div>
+                                </div>
+                            </div>
+                            <div class="vnd-modal-ft">
+                                <button class="btn-secondary" onclick="closeVndModal('projAssignModal')">Cancel</button>
+                                <button class="btn-primary-modal" onclick="projAssignSave()">Save</button>
                             </div>
                         </div>
                     </div>
@@ -33100,9 +33189,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function projRenderRow(p, idx) {
         const active = p.is_active === 1;
-        const circlesHtml = p.circle && p.circle.length
+        const needsAssign = !!p._zohoNew;
+        const circlesHtml = (p.circle && p.circle.length)
             ? `<div class="circle-chips">${p.circle.map(c => `<span class="circle-chip">${c.code}</span>`).join('')}</div>`
-            : `<span style="color:var(--gray-300)">—</span>`;
+            : (needsAssign
+                ? `<button class="proj-assign-btn" onclick="event.stopPropagation();openProjAssignModal(${p.id})"><svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 5v14M5 12h14"/></svg>Set client &amp; circles</button>`
+                : `<span style="color:var(--gray-300)">—</span>`);
         const byName = p.created_by?.name || '—';
         const byInit = byName === '—' ? '?' : byName[0].toUpperCase();
         return `<tr>
@@ -33122,6 +33214,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     <div class="action-menu">
                         <button class="action-menu-item"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>View Details</button>
                         <button class="action-menu-item"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>Edit Project</button>
+                        <button class="action-menu-item" onclick="openProjAssignModal(${p.id})"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 2l9 4.9V17L12 22 3 17V6.9L12 2z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.3 7L12 12l8.7-5M12 12v10"/></svg>Set Client &amp; Circles</button>
                         <button class="action-menu-item"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>View Sites</button>
                         <div class="action-menu-divider"></div>
                         <button class="action-menu-item" onclick="projToggleStatus(${p.id})"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l4-4 4 4m0 6l-4 4-4-4"/></svg>${active ? 'Mark Inactive' : 'Mark Active'}</button>
@@ -33434,6 +33527,228 @@ document.addEventListener('DOMContentLoaded', () => {
             drop.classList.remove('open'); box.classList.remove('open');
         }
     });
+
+    /* ══ PROJECT → ZOHO BOOKS SYNC (preview → sync) ═════════════════════
+       Layer 1  POST /project/sync/zoho/preview  → projects available in Zoho
+       Layer 2  POST /project/sync/zoho          → pulls them into ONAQT (table)
+       Client (single) + Circles (multiple) are NOT set during sync — synced
+       projects land in the table unassigned, then each row exposes a
+       "Set client & circles" action to complete onboarding afterwards.
+       ──────────────────────────────────────────────────────────────────── */
+
+    const PROJ_SYNC_CLIENTS = [
+        { id: 373672710881, name: 'Jio' },
+        { id: 543278181387, name: 'Voult Inc' },
+        { id: 758318306088, name: 'Testing NS' }
+    ];
+    const PROJ_SYNC_CIRCLES = [
+        { code: 'CHD', name: 'Chandigarh',        id: 602883010892 },
+        { code: 'HP',  name: 'Himanchal Pradesh', id: 865140612260 },
+        { code: 'PB',  name: 'Punjab',            id: null },
+        { code: 'UP',  name: 'Uttar Pradesh',     id: null },
+        { code: 'RJ',  name: 'Rajasthan',         id: null }
+    ];
+
+    let projZohoPreview = null;   // [{ zoho_id, name, action }]
+
+    window.openProjZohoModal = function () {
+        const m = document.getElementById('projZohoModal');
+        if (!m) return;
+        m.classList.add('open');
+        projZohoResetSteps();
+        projZohoRunPreview();                 // hit preview API on open
+    };
+
+    function projZohoSetStep(n) {             // 1 preview · 2 sync
+        document.getElementById('pzStep1').className = 'zoho-stepper-item' + (n > 1 ? ' done' : n === 1 ? ' active' : '');
+        document.getElementById('pzStep2').className = 'zoho-stepper-item' + (n === 2 ? ' active' : '');
+        document.getElementById('pzBar1').className  = 'zoho-stepper-bar' + (n > 1 ? ' done' : '');
+    }
+
+    function projZohoResetSteps() {
+        projZohoPreview = null;
+        projZohoSetStep(1);
+        const btn = document.getElementById('pzActionBtn');
+        btn.disabled = true;
+        btn.textContent = 'Confirm & Sync';
+        btn.setAttribute('onclick', 'projZohoConfirmSync()');
+    }
+
+    function projZohoLoading(label, endpoint) {
+        return '<div style="display:flex;flex-direction:column;align-items:center;justify-content:center;padding:38px 0;gap:12px;">' +
+            '<svg width="26" height="26" fill="none" stroke="var(--primary)" stroke-width="2" viewBox="0 0 24 24" style="animation:spin 0.8s linear infinite;"><path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.2"/></svg>' +
+            '<div style="font-size:13px;color:var(--gray-500);font-weight:600;">' + label + '</div>' +
+            '<div style="font-size:11px;color:var(--gray-400);font-family:monospace;">' + endpoint + '</div></div>';
+    }
+
+    // ── LAYER 1: preview ──────────────────────────────────────────────
+    window.projZohoRunPreview = function () {
+        document.getElementById('projZohoBody').innerHTML =
+            projZohoLoading('Fetching preview from Zoho Books…', 'POST /project/sync/zoho/preview');
+        setTimeout(function () {
+            projZohoPreview = [
+                { zoho_id: 'ZB-PRJ-4021', name: '5G-Rollout-Phase2',   action: 'create' },
+                { zoho_id: 'ZB-PRJ-4022', name: 'FTTH-Mohali-Block-C', action: 'create' },
+                { zoho_id: 'ZB-PRJ-4023', name: 'Tower-Audit-2026',    action: 'create' }
+            ];
+            projZohoRenderPreview(projZohoPreview);
+        }, 850);
+    };
+
+    function projZohoRenderPreview(rows) {
+        const trs = rows.map(function (r) {
+            const m = r.action === 'create' ? { label: 'Will create', cls: 'pending' }
+                    : r.action === 'update' ? { label: 'Will update', cls: 'pending' }
+                    : { label: 'In sync', cls: 'synced' };
+            return '<tr><td><div style="font-weight:600;color:var(--gray-800);">' + r.name + '</div></td>' +
+                '<td style="color:var(--gray-500);font-size:11px;font-family:monospace;">' + r.zoho_id + '</td>' +
+                '<td><span class="zoho-chip ' + m.cls + '">' + m.label + '</span></td></tr>';
+        }).join('');
+
+        document.getElementById('projZohoBody').innerHTML =
+            '<div class="vnd-section-hd"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg> Preview — projects to pull from Zoho</div>' +
+            '<table class="zoho-import-table"><thead><tr><th>Project</th><th>Zoho ID</th><th>Action</th></tr></thead><tbody>' + trs + '</tbody></table>';
+
+        const n = rows.filter(r => r.action !== 'in_sync').length;
+        const btn = document.getElementById('pzActionBtn');
+        btn.disabled = n === 0;
+        btn.textContent = n ? 'Confirm & Sync (' + n + ')' : 'Nothing to sync';
+        btn.setAttribute('onclick', 'projZohoConfirmSync()');
+    }
+
+    // ── LAYER 2: commit sync — projects land in the table UNASSIGNED ───
+    window.projZohoConfirmSync = function () {
+        if (!projZohoPreview) return;
+        const btn = document.getElementById('pzActionBtn');
+        btn.disabled = true;
+        btn.textContent = 'Syncing…';
+        projZohoSetStep(2);
+        document.getElementById('projZohoBody').innerHTML =
+            projZohoLoading('Pulling projects into ONAQT…', 'POST /project/sync/zoho');
+        setTimeout(function () {
+            const synced = projZohoPreview.filter(r => r.action !== 'in_sync');
+            const now = new Date().toISOString().replace('T', ' ');
+            synced.forEach(function (r) {           // insert with no client / circles yet
+                allProjects.unshift({
+                    id: Math.floor(100000000000 + Math.random() * 899999999999),
+                    name: r.name,
+                    client: null,
+                    circle: [],
+                    is_active: 1,
+                    created_by: { name: 'Zoho Sync' },
+                    created_at: now,
+                    _zohoNew: true                  // flags "needs client & circles"
+                });
+            });
+            projFiltered = [...allProjects];
+            projCurrentPage = 1;
+            if (typeof projRenderTable === 'function') projRenderTable();   // render table view first
+            projZohoRenderDone(synced.length);
+            if (typeof showToast === 'function')
+                showToast(synced.length + ' project' + (synced.length !== 1 ? 's' : '') + ' synced. Set client & circles from the table.', 'success');
+        }, 1000);
+    };
+
+    function projZohoRenderDone(n) {
+        document.getElementById('projZohoBody').innerHTML =
+            '<div style="display:flex;flex-direction:column;align-items:center;justify-content:center;padding:30px 0 22px;gap:13px;text-align:center;">' +
+            '<div style="width:54px;height:54px;border-radius:50%;background:#d1fae5;display:flex;align-items:center;justify-content:center;">' +
+            '<svg width="27" height="27" fill="none" stroke="#065f46" stroke-width="2.5" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></div>' +
+            '<div><div style="font-size:15px;font-weight:700;color:var(--gray-900);font-family:\'Fraunces\',serif;">Sync complete</div>' +
+            '<div style="font-size:12px;color:var(--gray-500);margin-top:3px;">' + n + ' project' + (n !== 1 ? 's' : '') + ' added to the table</div>' +
+            '<div style="font-size:11px;color:var(--gray-400);margin-top:2px;font-family:monospace;">POST /project/sync/zoho</div></div>' +
+            '<div style="font-size:11.5px;color:var(--gray-600);background:var(--primary-light);border:1px solid color-mix(in srgb,var(--primary) 20%,transparent);border-radius:9px;padding:8px 12px;max-width:340px;">Use <strong>Set client &amp; circles</strong> on each new row to finish onboarding them.</div>' +
+            '</div>';
+        const btn = document.getElementById('pzActionBtn');
+        btn.disabled = false;
+        btn.textContent = 'Done';
+        btn.setAttribute('onclick', "closeVndModal('projZohoModal')");
+    }
+
+    /* ── POST-SYNC: set Client (single) + Circles (multiple) from the table ──
+       Triggered per-project from the inline row button or the ⋮ menu.          */
+    let projAssignTargetId  = null;
+    let projAssignCircleSet = new Set();
+
+    window.openProjAssignModal = function (projId) {
+        const p = allProjects.find(x => String(x.id) === String(projId));
+        if (!p) return;
+        projAssignTargetId = p.id;
+        document.getElementById('projAssignName').textContent = p.name;
+
+        const curClient = p.client ? String(p.client.id) : '';
+        document.getElementById('projAssignClient').innerHTML =
+            '<option value="">— Select client —</option>' +
+            PROJ_SYNC_CLIENTS.map(c => '<option value="' + c.id + '"' + (curClient === String(c.id) ? ' selected' : '') + '>' + c.name + '</option>').join('');
+
+        projAssignCircleSet = new Set((p.circle || []).map(c => c.code));
+        document.getElementById('projAssignCircleDropdown').innerHTML = PROJ_SYNC_CIRCLES.map(c =>
+            '<label class="circle-option' + (projAssignCircleSet.has(c.code) ? ' selected' : '') + '" data-code="' + c.code + '" data-name="' + c.name + '" onclick="projAssignToggleCircle(this)">' +
+            '<span class="circle-option-check"><svg width="10" height="10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/></svg></span>' +
+            '<span class="circle-option-name">' + c.name + '</span><span class="circle-option-code">' + c.code + '</span></label>').join('');
+        projAssignRenderChips();
+
+        document.getElementById('projAssignCircleDropdown').classList.remove('open');
+        document.getElementById('projAssignCircleBox').classList.remove('open');
+        document.getElementById('projAssignModal').classList.add('open');
+    };
+
+    function projAssignRenderChips() {
+        const c = document.getElementById('projAssignCircleChips');
+        if (!c) return;
+        if (projAssignCircleSet.size === 0) { c.innerHTML = '<span class="circle-placeholder">Select circles…</span>'; return; }
+        c.innerHTML = [...projAssignCircleSet].map(code =>
+            '<span class="circle-chip-selected">' + code + '<span class="circle-chip-remove" onclick="event.stopPropagation();projAssignRemoveCircle(\'' + code + '\')"><svg width="9" height="9" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M6 18L18 6M6 6l12 12"/></svg></span></span>').join('');
+    }
+
+    window.projAssignToggleDropdown = function (e) {
+        if (e) e.stopPropagation();
+        const box  = document.getElementById('projAssignCircleBox');
+        const drop = document.getElementById('projAssignCircleDropdown');
+        const open = drop.classList.contains('open');
+        drop.classList.toggle('open', !open);
+        box.classList.toggle('open', !open);
+    };
+    window.projAssignToggleCircle = function (el) {
+        const code = el.dataset.code;
+        if (projAssignCircleSet.has(code)) { projAssignCircleSet.delete(code); el.classList.remove('selected'); }
+        else { projAssignCircleSet.add(code); el.classList.add('selected'); }
+        projAssignRenderChips();
+    };
+    window.projAssignRemoveCircle = function (code) {
+        projAssignCircleSet.delete(code);
+        const opt = document.querySelector('#projAssignCircleDropdown .circle-option[data-code="' + code + '"]');
+        if (opt) opt.classList.remove('selected');
+        projAssignRenderChips();
+    };
+
+    // close the assign circle dropdown on outside click
+    document.addEventListener('click', e => {
+        const box  = document.getElementById('projAssignCircleBox');
+        const drop = document.getElementById('projAssignCircleDropdown');
+        if (box && drop && !box.contains(e.target) && !drop.contains(e.target)) {
+            drop.classList.remove('open'); box.classList.remove('open');
+        }
+    });
+
+    window.projAssignSave = function () {
+        const clientId = document.getElementById('projAssignClient').value;
+        const codes = [...projAssignCircleSet];
+        if (!clientId) { showToast('Select a client.', 'warn'); return; }
+        if (codes.length === 0) { showToast('Select at least one circle.', 'warn'); return; }
+
+        const p = allProjects.find(x => String(x.id) === String(projAssignTargetId));
+        if (!p) return;
+        const cl = PROJ_SYNC_CLIENTS.find(c => String(c.id) === String(clientId));
+        p.client = cl ? { id: cl.id, company_name: cl.name, display_name: cl.name } : null;
+        p.circle = PROJ_SYNC_CIRCLES.filter(c => codes.includes(c.code)).map(c => ({ id: c.id, code: c.code, name: c.name }));
+        p._zohoNew = false;
+
+        projFiltered = [...allProjects];
+        if (typeof projRenderTable === 'function') projRenderTable();
+        closeVndModal('projAssignModal');
+        if (typeof showToast === 'function') showToast('Client & circles set for "' + p.name + '".', 'success');
+    };
 
     document.addEventListener('DOMContentLoaded', () => {
         projBuildFilterOptions();
