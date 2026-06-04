@@ -16204,6 +16204,97 @@
         #page-plan-vs-actual .pva-status.rejected { background: rgba(239,68,68,.12); color: var(--danger); }
         /* Footer totals strip */
         #page-plan-vs-actual .rp-tbl-footer .pva-foot-grp { display: flex; align-items: center; gap: 6px; }
+        /* ── Plan vs Actual styling re-scoped for P&L by Project report (R11) ── */
+        #page-report-R11 { --rp-text: var(--gray-900); --rp-sub: var(--gray-600); --rp-muted: var(--gray-400); --rp-surface: var(--white); --rp-border: rgba(45,40,32,.08); --rp-border-md: rgba(45,40,32,.14); --rp-mono: 'DM Mono','Courier New',monospace; }
+        [data-dark="true"] #page-report-R11 { --rp-text: #f3f4f6; --rp-sub: #c4c9d4; --rp-muted: #6b7280; --rp-surface: #1e2130; --rp-border: rgba(255,255,255,.06); --rp-border-md: rgba(255,255,255,.12); }
+        #page-report-R11 .pva-tbl { width: 100%; border-collapse: collapse; font-size: 12px; }
+        #page-report-R11 .pva-tbl thead th { background: var(--bg); padding: 9px 10px; text-align: right; font-weight: 500; color: var(--rp-muted); font-size: 10px; text-transform: uppercase; letter-spacing: .05em; border-bottom: 1px solid var(--rp-border); white-space: nowrap; cursor: pointer; user-select: none; transition: color .12s; }
+        [data-dark="true"] #page-report-R11 .pva-tbl thead th { background: #1e2130 !important; }
+        #page-report-R11 .pva-tbl thead th:hover { color: var(--rp-text); }
+        #page-report-R11 .pva-tbl thead th.pva-sorted { color: var(--primary); }
+        #page-report-R11 .pva-tbl thead th.pva-sorted::after { content: ' ▾'; font-size: 9px; }
+        #page-report-R11 .pva-tbl tbody tr { border-bottom: 1px solid var(--rp-border); transition: background .1s; cursor: pointer; }
+        #page-report-R11 .pva-tbl tbody tr:last-child { border-bottom: none; }
+        #page-report-R11 .pva-tbl tbody tr:hover { background: var(--gray-50); }
+        [data-dark="true"] #page-report-R11 .pva-tbl tbody tr:hover { background: #252836 !important; }
+        #page-report-R11 .pva-tbl tbody td { padding: 9px 10px; text-align: right; vertical-align: middle; white-space: nowrap; color: var(--rp-text); font-family: var(--rp-mono); }
+        /* Left-align the first five descriptive columns */
+        #page-report-R11 .pva-tbl thead th:nth-child(-n+5),
+        #page-report-R11 .pva-tbl tbody td:nth-child(-n+5) { text-align: left; font-family: inherit; }
+        /* Group header rows */
+        #page-report-R11 .pva-tbl tbody tr.pva-group-row { background: var(--bg); cursor: default; }
+        [data-dark="true"] #page-report-R11 .pva-tbl tbody tr.pva-group-row { background: #1e2130 !important; }
+        #page-report-R11 .pva-tbl tbody tr.pva-group-row:hover { background: var(--bg); }
+        [data-dark="true"] #page-report-R11 .pva-tbl tbody tr.pva-group-row:hover { background: #1e2130 !important; }
+        #page-report-R11 .pva-tbl tbody tr.pva-group-row td { font-size: 10px; text-transform: uppercase; letter-spacing: .06em; color: var(--rp-muted); padding: 7px 10px; font-weight: 700; text-align: left; font-family: inherit; }
+        /* Column min-widths */
+        #page-report-R11 .pva-tbl th:nth-child(1),  #page-report-R11 .pva-tbl td:nth-child(1)  { min-width: 170px; }
+        #page-report-R11 .pva-tbl th:nth-child(2),  #page-report-R11 .pva-tbl td:nth-child(2)  { min-width: 90px; }
+        #page-report-R11 .pva-tbl th:nth-child(3),  #page-report-R11 .pva-tbl td:nth-child(3)  { min-width: 110px; }
+        #page-report-R11 .pva-tbl th:nth-child(4),  #page-report-R11 .pva-tbl td:nth-child(4)  { min-width: 90px; }
+        #page-report-R11 .pva-tbl th:nth-child(5),  #page-report-R11 .pva-tbl td:nth-child(5)  { min-width: 110px; }
+        #page-report-R11 .pva-tbl th:nth-child(9),  #page-report-R11 .pva-tbl td:nth-child(9)  { min-width: 120px; } /* Rev Ach % bar */
+        #page-report-R11 .pva-tbl th:nth-child(13), #page-report-R11 .pva-tbl td:nth-child(13) { min-width: 110px; } /* Margin % bar */
+        /* Project cell */
+        #page-report-R11 .pva-proj-cell { display: flex; align-items: center; gap: 9px; }
+        #page-report-R11 .pva-proj-icon { width: 28px; height: 28px; border-radius: 7px; background: var(--primary-light); color: var(--primary); display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 700; flex-shrink: 0; }
+        #page-report-R11 .pva-proj-name { font-size: 12px; font-weight: 600; color: var(--rp-text); }
+        #page-report-R11 .pva-proj-sub { font-size: 10px; color: var(--rp-muted); font-family: var(--rp-mono); }
+        #page-report-R11 .pva-dim { font-size: 11px; color: var(--rp-sub); }
+        /* Variance value coloring */
+        #page-report-R11 .pva-pos { color: var(--success); font-weight: 600; }
+        #page-report-R11 .pva-neg { color: var(--danger); font-weight: 600; }
+        #page-report-R11 .pva-zero { color: var(--rp-muted); }
+        /* Achievement / margin mini bar */
+        #page-report-R11 .pva-bar-cell { display: flex; align-items: center; gap: 7px; justify-content: flex-end; }
+        #page-report-R11 .pva-bar { height: 5px; border-radius: 3px; background: var(--gray-200); overflow: hidden; width: 56px; flex-shrink: 0; }
+        [data-dark="true"] #page-report-R11 .pva-bar { background: #363b52; }
+        #page-report-R11 .pva-bar-fill { height: 100%; border-radius: 3px; }
+        #page-report-R11 .pva-bar-pct { min-width: 34px; font-size: 11px; font-weight: 600; font-family: var(--rp-mono); }
+        /* Status pill fallback (reuse bdg-status-pill if present) */
+        #page-report-R11 .pva-status { display: inline-block; padding: 3px 9px; border-radius: 20px; font-size: 10px; font-weight: 700; letter-spacing: .02em; }
+        #page-report-R11 .pva-status.approved { background: rgba(16,185,129,.12); color: var(--success); }
+        #page-report-R11 .pva-status.l1approved { background: rgba(59,130,246,.12); color: #3b82f6; }
+        #page-report-R11 .pva-status.submitted { background: rgba(245,158,11,.12); color: var(--warning); }
+        #page-report-R11 .pva-status.draft { background: var(--gray-100); color: var(--rp-sub); }
+        #page-report-R11 .pva-status.rejected { background: rgba(239,68,68,.12); color: var(--danger); }
+        /* Footer totals strip */
+        #page-report-R11 .rp-tbl-footer .pva-foot-grp { display: flex; align-items: center; gap: 6px; }
+        /* Bound the table wrap so the wide PvA table scrolls instead of overflowing the shell.
+           The wrap is a flex child of .rv-shell; min-width:auto would let it expand past the
+           viewport (and rv-shell clips overflow-x), so force it to shrink and let rp-tbl-scroll scroll. */
+        #page-report-R11 .rp-tbl-wrap { width: 100%; min-width: 0; max-width: 100%; }
+        #page-report-R11 .rp-tbl-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+        #page-report-R11 .rv-pva-controls { width: 100%; min-width: 0; }
+
+        /* ── Work Done Submission view re-created inside Work Done Summary report (R53) ── */
+        #page-report-R53 .r53-wd-tabbar { display: flex; align-items: center; gap: 0; background: var(--white); border: 1px solid var(--gray-100); border-bottom: none; border-radius: 14px 14px 0 0; padding: 0 14px; }
+        #page-report-R53 .r53-wd-tab { position: relative; padding: 12px 16px; font-size: 13px; font-weight: 500; color: var(--gray-500); white-space: nowrap; display: flex; align-items: center; gap: 6px; }
+        #page-report-R53 .r53-wd-tab.active { color: var(--primary); font-weight: 600; }
+        #page-report-R53 .r53-wd-tab.active::after { content: ''; position: absolute; bottom: 0; left: 12px; right: 12px; height: 2.5px; background: var(--primary); border-radius: 2px 2px 0 0; }
+        #page-report-R53 .r53-wd-tab .r53-tab-badge { background: var(--gray-100); color: var(--gray-500); border-radius: 20px; padding: 1px 8px; font-size: 11px; font-weight: 700; }
+        #page-report-R53 .r53-wd-tab.active .r53-tab-badge { background: var(--primary-light); color: var(--primary); }
+        #page-report-R53 .r53-wd-wrap { width: 100%; min-width: 0; max-width: 100%; overflow-x: auto; background: var(--white); border: 1px solid var(--gray-100); border-radius: 14px; }
+        #page-report-R53 .r53-wd-table { width: 100%; border-collapse: collapse; font-size: 12px; min-width: 1640px; }
+        #page-report-R53 .r53-wd-table thead th { background: var(--gray-50); text-align: left; padding: 10px 12px; font-size: 10.5px; font-weight: 700; letter-spacing: .03em; color: var(--gray-600); text-transform: uppercase; white-space: nowrap; border-bottom: 2px solid var(--gray-200); }
+        [data-dark="true"] #page-report-R53 .r53-wd-table thead th { background: #1e2130 !important; }
+        #page-report-R53 .r53-wd-table thead th.r53-r { text-align: right; }
+        #page-report-R53 .r53-wd-table thead th.r53-c { text-align: center; }
+        #page-report-R53 .r53-wd-main > td { padding: 9px 12px; border-bottom: 1px solid var(--gray-100); white-space: nowrap; color: var(--gray-800); vertical-align: middle; }
+        #page-report-R53 .r53-wd-main > td.r53-r { text-align: right; font-variant-numeric: tabular-nums; }
+        #page-report-R53 .r53-wd-main > td.r53-c { text-align: center; }
+        #page-report-R53 .r53-wd-main:hover > td { background: var(--gray-50); }
+        [data-dark="true"] #page-report-R53 .r53-wd-main:hover > td { background: #252836 !important; }
+        #page-report-R53 .r53-wd-ctl { width: 48px; }
+        #page-report-R53 .r53-expand-toggle { width: 22px; height: 22px; border-radius: 5px; display: inline-flex; align-items: center; justify-content: center; background: transparent; border: 1px solid var(--gray-200); cursor: pointer; color: var(--gray-500); padding: 0; transition: all .15s; }
+        #page-report-R53 .r53-expand-toggle svg { width: 11px; height: 11px; transition: transform .18s; }
+        #page-report-R53 .r53-expand-toggle.open svg { transform: rotate(180deg); }
+        #page-report-R53 .r53-expand-toggle:hover { background: var(--primary-light); color: var(--primary); border-color: var(--primary); }
+        #page-report-R53 .r53-wd-detail > td { padding: 0; background: color-mix(in srgb, var(--primary) 2%, var(--white)); border-bottom: 2px solid var(--gray-200); }
+        [data-dark="true"] #page-report-R53 .r53-wd-detail > td { background: #1a1d27 !important; border-bottom-color: #363b52 !important; }
+        #page-report-R53 .r53-wd-detail.collapsed { display: none; }
+        #page-report-R53 .site-id-text { font-weight: 600; color: var(--gray-800); font-size: 12.5px; }
+
 
     </style>
 </head>
@@ -21902,7 +21993,7 @@ if (typeof showPage === 'function') {
                             <div>
                                 <div class="rv-id">R3  ·  Priority: <span class="rv-pri rv-pri-high">High</span></div>
                                 <h1 class="rv-name">Vendor Balance Summary</h1>
-                                <p class="rv-desc">Per-vendor net payable position: open bills minus unapplied credits.</p>
+                                <p class="rv-desc">Per-vendor PO position: total committed, billed (paid), work-in-progress, and open balance. Open = Total − Billed − WIP.</p>
                             </div>
                         </div>
                         <div class="rv-filters">
@@ -21913,11 +22004,11 @@ if (typeof showPage === 'function') {
                                 <button class="rv-btn-secondary">Reset</button>
                             </div>
                         </div>
-                        <div class="rv-summary">32 vendors with open balances · Net total payable: ₹ 87.68 L</div>
+                        <div class="rv-summary">32 vendors · Total PO value ₹ 1.62 Cr · Billed ₹ 55.82 L · WIP ₹ 23.10 L · Open ₹ 82.68 L</div>
                         <div class="rv-table-wrap">
                             <table class="rv-table">
-                                <thead><tr><th>Vendor</th><th>Type</th><th>Open Bills</th><th>Open Total</th><th>Unapplied Credits</th><th>Net Payable</th></tr></thead>
-                                <tbody><tr><td class="">Atlas Infrastructure</td><td class="">Service</td><td class="">6</td><td class="">₹ 25,40,000</td><td class="">₹ 0</td><td class="">₹ 25,40,000</td></tr><tr><td class="">Nexus Logistics</td><td class="">Transport</td><td class="">8</td><td class="">₹ 15,60,000</td><td class="">₹ 1,18,000</td><td class="">₹ 14,42,000</td></tr><tr><td class="">Sterling Constructions</td><td class="">Service</td><td class="">2</td><td class="">₹ 8,40,000</td><td class="">₹ 0</td><td class="">₹ 8,40,000</td></tr><tr><td class="">Vertex Materials</td><td class="">Procurement</td><td class="">5</td><td class="">₹ 8,50,000</td><td class="">₹ 0</td><td class="">₹ 8,50,000</td></tr><tr><td class="">BlueWave Transport</td><td class="">Transport</td><td class="">4</td><td class="">₹ 7,18,000</td><td class="">₹ 24,000</td><td class="">₹ 6,94,000</td></tr><tr><td class="">Pinnacle Cables</td><td class="">Procurement</td><td class="">2</td><td class="">₹ 7,00,000</td><td class="">₹ 0</td><td class="">₹ 7,00,000</td></tr><tr><td class="">Orion Electricals</td><td class="">Service</td><td class="">3</td><td class="">₹ 4,80,000</td><td class="">₹ 0</td><td class="">₹ 4,80,000</td></tr><tr><td class="">Crown Steelworks</td><td class="">Procurement</td><td class="">2</td><td class="">₹ 4,00,000</td><td class="">₹ 0</td><td class="">₹ 4,00,000</td></tr><tr><td class="">Vortex Steelworks</td><td class="">Service</td><td class="">3</td><td class="">₹ 4,00,000</td><td class="">₹ 0</td><td class="">₹ 4,00,000</td></tr><tr><td class="">Skyline MEP</td><td class="">Service</td><td class="">1</td><td class="">₹ 2,80,000</td><td class="">₹ 18,000</td><td class="">₹ 2,62,000</td></tr></tbody>
+                                <thead><tr><th>Vendor</th><th>Type</th><th>Total Amount</th><th>Total Billed</th><th>WIP</th><th>Open</th></tr></thead>
+                                <tbody><tr><td class="">Atlas Infrastructure</td><td class="">Service</td><td class="">₹ 42,00,000</td><td class="">₹ 12,60,000</td><td class="">₹ 8,00,000</td><td class="" style="font-weight:600;">₹ 21,40,000</td></tr><tr><td class="">Nexus Logistics</td><td class="">Transport</td><td class="">₹ 28,00,000</td><td class="">₹ 9,40,000</td><td class="">₹ 4,00,000</td><td class="" style="font-weight:600;">₹ 14,60,000</td></tr><tr><td class="">Sterling Constructions</td><td class="">Service</td><td class="">₹ 18,00,000</td><td class="">₹ 6,60,000</td><td class="">₹ 3,00,000</td><td class="" style="font-weight:600;">₹ 8,40,000</td></tr><tr><td class="">Vertex Materials</td><td class="">Procurement</td><td class="">₹ 16,00,000</td><td class="">₹ 5,50,000</td><td class="">₹ 2,00,000</td><td class="" style="font-weight:600;">₹ 8,50,000</td></tr><tr><td class="">BlueWave Transport</td><td class="">Transport</td><td class="">₹ 14,00,000</td><td class="">₹ 5,32,000</td><td class="">₹ 1,50,000</td><td class="" style="font-weight:600;">₹ 7,18,000</td></tr><tr><td class="">Pinnacle Cables</td><td class="">Procurement</td><td class="">₹ 12,00,000</td><td class="">₹ 4,00,000</td><td class="">₹ 1,00,000</td><td class="" style="font-weight:600;">₹ 7,00,000</td></tr><tr><td class="">Orion Electricals</td><td class="">Service</td><td class="">₹ 9,60,000</td><td class="">₹ 3,80,000</td><td class="">₹ 1,00,000</td><td class="" style="font-weight:600;">₹ 4,80,000</td></tr><tr><td class="">Crown Steelworks</td><td class="">Procurement</td><td class="">₹ 8,00,000</td><td class="">₹ 3,20,000</td><td class="">₹ 80,000</td><td class="" style="font-weight:600;">₹ 4,00,000</td></tr><tr><td class="">Vortex Steelworks</td><td class="">Service</td><td class="">₹ 8,00,000</td><td class="">₹ 3,00,000</td><td class="">₹ 1,00,000</td><td class="" style="font-weight:600;">₹ 4,00,000</td></tr><tr><td class="">Skyline MEP</td><td class="">Service</td><td class="">₹ 6,00,000</td><td class="">₹ 2,40,000</td><td class="">₹ 80,000</td><td class="" style="font-weight:600;">₹ 2,80,000</td></tr></tbody>
                             </table>
                         </div>
                         <div class="rv-footer">
@@ -22246,27 +22337,75 @@ if (typeof showPage === 'function') {
                             <div>
                                 <div class="rv-id">R11  ·  Priority: <span class="rv-pri rv-pri-high">High</span></div>
                                 <h1 class="rv-name">P&L by Project</h1>
-                                <p class="rv-desc">Revenue minus direct costs per project. Margin and margin % computed.</p>
+                                <p class="rv-desc">Plan vs Actual by project — revenue, cost &amp; margin variance. Table view only.</p>
                             </div>
                         </div>
-                        <div class="rv-filters">
-                            <div class="rv-filters-head">Filters</div>
-                            <div class="rv-filters-row">
-                                <div class="rv-filter"><label>Date range</label><div class="rv-filter-input"><span class="rv-filter-placeholder">Any</span></div></div><div class="rv-filter"><label>Project status</label><div class="rv-filter-input"><span class="rv-filter-placeholder">Any</span></div></div><div class="rv-filter"><label>Region</label><div class="rv-filter-input"><span class="rv-filter-placeholder">Any</span></div></div><div class="rv-filter"><label>Customer</label><div class="rv-filter-input"><span class="rv-filter-placeholder">Any</span></div></div>
-                                <button class="rv-btn-primary">Apply Filters</button>
-                                <button class="rv-btn-secondary">Reset</button>
+                        <!-- Controls: Plan vs Actual filter strip -->
+                        <div class="rv-pva-controls">
+                          <div class="rp-filter-strip">
+                            <div class="rp-filter-strip-selects">
+                              <span class="rp-group-lbl">Filter</span>
+                              <select class="rp-select" title="Date range">
+                                <option value="all" selected>All Time</option>
+                                <option value="this_month">This Month</option>
+                                <option value="last_month">Last Month</option>
+                                <option value="this_quarter">This Quarter</option>
+                                <option value="this_year">This Year</option>
+                                <option value="last_year">Last Year</option>
+                              </select>
+                              <select class="rp-select" title="Status">
+                                <option value="all">All Status</option>
+                                <option value="Approved">Approved</option>
+                                <option value="L1 Approved">L1 Approved</option>
+                                <option value="Submitted">Submitted</option>
+                                <option value="Draft">Draft</option>
+                                <option value="Rejected">Rejected</option>
+                              </select>
+                              <select class="rp-select" title="Variance">
+                                <option value="all">All Variance</option>
+                                <option value="over">Over budget (cost)</option>
+                                <option value="rev_short">Revenue shortfall</option>
+                                <option value="on_track">On / above plan</option>
+                              </select>
                             </div>
+                            <div style="display:flex;align-items:center;gap:10px;">
+                              <input class="rp-search" placeholder="Search project, client, PM…" />
+                            </div>
+                          </div>
                         </div>
-                        <div class="rv-summary">Portfolio gross margin: 18.4% · 2 projects in loss (Vertex Plant, Crown Plaza)</div>
-                        <div class="rv-table-wrap">
-                            <table class="rv-table">
-                                <thead><tr><th>Project</th><th>Code</th><th>Revenue</th><th>Direct Cost</th><th>Gross Margin</th><th>Margin %</th><th>Status</th></tr></thead>
-                                <tbody><tr><td class="">Atlas Tower</td><td class="">ATL-001</td><td class="">₹ 1.84 Cr</td><td class="">₹ 1.42 Cr</td><td class="">₹ 42 L</td><td class="">22.8%</td><td class="rv-cell-ok">On track</td></tr><tr><td class="">Nexus HQ</td><td class="">NEX-002</td><td class="">₹ 96 L</td><td class="">₹ 71 L</td><td class="">₹ 25 L</td><td class="">26.0%</td><td class="rv-cell-ok">On track</td></tr><tr><td class="">Riverside Mall</td><td class="">RIV-003</td><td class="">₹ 1.24 Cr</td><td class="">₹ 1.08 Cr</td><td class="">₹ 16 L</td><td class="">12.9%</td><td class="rv-cell-warn">At risk</td></tr><tr><td class="">Skyline Phase 2</td><td class="">SKY-004</td><td class="">₹ 62 L</td><td class="">₹ 46 L</td><td class="">₹ 16 L</td><td class="">25.8%</td><td class="rv-cell-ok">On track</td></tr><tr><td class="">Vertex Plant</td><td class="">VER-005</td><td class="">₹ 88 L</td><td class="">₹ 92 L</td><td class="rv-cell-danger">-₹ 4 L</td><td class="rv-cell-danger">-4.5%</td><td class="rv-cell-danger">Critical</td></tr><tr><td class="">Beacon Bridge</td><td class="">BCN-006</td><td class="">₹ 1.42 Cr</td><td class="">₹ 1.06 Cr</td><td class="">₹ 36 L</td><td class="">25.4%</td><td class="rv-cell-ok">On track</td></tr><tr><td class="">Harbor Logistics</td><td class="">HRB-007</td><td class="">₹ 56 L</td><td class="">₹ 48 L</td><td class="">₹ 8 L</td><td class="">14.3%</td><td class="rv-cell-warn">At risk</td></tr><tr><td class="">Pinewood Estate</td><td class="">PIN-008</td><td class="">₹ 1.08 Cr</td><td class="">₹ 78 L</td><td class="">₹ 30 L</td><td class="">27.8%</td><td class="rv-cell-ok">On track</td></tr><tr><td class="">Crown Plaza</td><td class="">CRP-009</td><td class="">₹ 72 L</td><td class="">₹ 84 L</td><td class="rv-cell-danger">-₹ 12 L</td><td class="rv-cell-danger">-16.7%</td><td class="rv-cell-danger">Critical</td></tr></tbody>
+                        <!-- Plan vs Actual table (table data only — charts intentionally excluded) -->
+                        <div class="rp-tbl-wrap" style="margin-top:12px;">
+                          <div class="rp-tbl-scroll">
+                            <table class="pva-tbl">
+                              <thead><tr>
+                                <th>Project</th>
+                                <th>LOB</th>
+                                <th>Client</th>
+                                <th>Circle</th>
+                                <th>PM</th>
+                                <th>Plan Rev</th>
+                                <th>Actual Rev</th>
+                                <th>Var Rev</th>
+                                <th>Rev Ach %</th>
+                                <th>Plan Cost</th>
+                                <th>Actual Cost</th>
+                                <th>Var Cost</th>
+                                <th>Margin %</th>
+                                <th style="text-align:center;">Status</th>
+                              </tr></thead>
+                              <tbody><tr><td><div class="pva-proj-cell"><div class="pva-proj-icon">V</div><div><div class="pva-proj-name">Voult</div><div class="pva-proj-sub">2025-01-08</div></div></div></td><td><span class="pva-dim">Civil</span></td><td><span class="pva-dim">Voult Inc</span></td><td><span class="pva-dim">Chandigarh</span></td><td><span class="pva-dim">Priya Sharma</span></td><td>₹32.0L</td><td style="color:var(--danger);font-weight:600;">₹28.4L</td><td><span class="pva-neg">-₹3.6L</span></td><td><div class="pva-bar-cell"><div class="pva-bar"><div class="pva-bar-fill" style="width:89%;background:var(--warning);"></div></div><span class="pva-bar-pct" style="color:var(--warning);">89%</span></div></td><td>₹24.2L</td><td style="color:var(--success);font-weight:600;">₹22.8L</td><td><span class="pva-neg">-₹1.4L</span></td><td style="color:var(--success);font-weight:600;">20%</td><td style="text-align:center;"><span class="pva-status approved">Approved</span></td></tr>
+                                <tr><td><div class="pva-proj-cell"><div class="pva-proj-icon">A5</div><div><div class="pva-proj-name">Airtel 5G</div><div class="pva-proj-sub">2025-01-15</div></div></div></td><td><span class="pva-dim">MEP</span></td><td><span class="pva-dim">Airtel Networks</span></td><td><span class="pva-dim">Punjab</span></td><td><span class="pva-dim">Ravi Tiwari</span></td><td>₹41.0L</td><td style="color:var(--danger);font-weight:600;">₹35.4L</td><td><span class="pva-neg">-₹5.6L</span></td><td><div class="pva-bar-cell"><div class="pva-bar"><div class="pva-bar-fill" style="width:86%;background:var(--warning);"></div></div><span class="pva-bar-pct" style="color:var(--warning);">86%</span></div></td><td>₹29.8L</td><td style="color:var(--success);font-weight:600;">₹28.2L</td><td><span class="pva-neg">-₹1.6L</span></td><td style="color:var(--success);font-weight:600;">20%</td><td style="text-align:center;"><span class="pva-status approved">Approved</span></td></tr>
+                                <tr><td><div class="pva-proj-cell"><div class="pva-proj-icon">J</div><div><div class="pva-proj-name">jio4g</div><div class="pva-proj-sub">2025-02-12</div></div></div></td><td><span class="pva-dim">Structural</span></td><td><span class="pva-dim">Jio Telecom</span></td><td><span class="pva-dim">Chandigarh</span></td><td><span class="pva-dim">Rajesh Mehta</span></td><td>₹26.0L</td><td style="color:var(--success);font-weight:600;">₹26.2L</td><td><span class="pva-pos">+₹20K</span></td><td><div class="pva-bar-cell"><div class="pva-bar"><div class="pva-bar-fill" style="width:100%;background:var(--success);"></div></div><span class="pva-bar-pct" style="color:var(--success);">101%</span></div></td><td>₹17.6L</td><td style="color:var(--success);font-weight:600;">₹16.9L</td><td><span class="pva-neg">-₹73K</span></td><td style="color:var(--success);font-weight:600;">35%</td><td style="text-align:center;"><span class="pva-status approved">Approved</span></td></tr>
+                                <tr><td><div class="pva-proj-cell"><div class="pva-proj-icon">VP</div><div><div class="pva-proj-name">Voult Phase-2</div><div class="pva-proj-sub">2025-02-22</div></div></div></td><td><span class="pva-dim">Civil</span></td><td><span class="pva-dim">Voult Inc</span></td><td><span class="pva-dim">Ludhiana</span></td><td><span class="pva-dim">Suresh Iyer</span></td><td>₹29.0L</td><td style="color:var(--danger);font-weight:600;">₹27.8L</td><td><span class="pva-neg">-₹1.2L</span></td><td><div class="pva-bar-cell"><div class="pva-bar"><div class="pva-bar-fill" style="width:96%;background:var(--warning);"></div></div><span class="pva-bar-pct" style="color:var(--warning);">96%</span></div></td><td>₹21.4L</td><td style="color:var(--success);font-weight:600;">₹20.5L</td><td><span class="pva-neg">-₹93K</span></td><td style="color:var(--success);font-weight:600;">26%</td><td style="text-align:center;"><span class="pva-status submitted">Submitted</span></td></tr>
+                                <tr><td><div class="pva-proj-cell"><div class="pva-proj-icon">BR</div><div><div class="pva-proj-name">BSNL Rural</div><div class="pva-proj-sub">2025-03-05</div></div></div></td><td><span class="pva-dim">Geotechnical</span></td><td><span class="pva-dim">BSNL Maharashtra</span></td><td><span class="pva-dim">Pune</span></td><td><span class="pva-dim">Vikram Singh</span></td><td>₹22.0L</td><td style="color:var(--danger);font-weight:600;">₹18.2L</td><td><span class="pva-neg">-₹3.8L</span></td><td><div class="pva-bar-cell"><div class="pva-bar"><div class="pva-bar-fill" style="width:83%;background:var(--warning);"></div></div><span class="pva-bar-pct" style="color:var(--warning);">83%</span></div></td><td>₹15.4L</td><td style="color:var(--success);font-weight:600;">₹14.8L</td><td><span class="pva-neg">-₹62K</span></td><td style="color:var(--success);font-weight:600;">19%</td><td style="text-align:center;"><span class="pva-status approved">Approved</span></td></tr>
+                                <tr><td><div class="pva-proj-cell"><div class="pva-proj-icon">A5</div><div><div class="pva-proj-name">Airtel 5G</div><div class="pva-proj-sub">2025-03-18</div></div></div></td><td><span class="pva-dim">MEP</span></td><td><span class="pva-dim">Airtel Networks</span></td><td><span class="pva-dim">Delhi</span></td><td><span class="pva-dim">Rahul Joshi</span></td><td>₹35.0L</td><td style="color:var(--danger);font-weight:600;">₹33.8L</td><td><span class="pva-neg">-₹1.2L</span></td><td><div class="pva-bar-cell"><div class="pva-bar"><div class="pva-bar-fill" style="width:97%;background:var(--warning);"></div></div><span class="pva-bar-pct" style="color:var(--warning);">97%</span></div></td><td>₹24.6L</td><td style="color:var(--success);font-weight:600;">₹23.8L</td><td><span class="pva-neg">-₹80K</span></td><td style="color:var(--success);font-weight:600;">30%</td><td style="text-align:center;"><span class="pva-status l1approved">L1 Approved</span></td></tr>
+                                <tr><td><div class="pva-proj-cell"><div class="pva-proj-icon">J</div><div><div class="pva-proj-name">jio4g</div><div class="pva-proj-sub">2025-04-10</div></div></div></td><td><span class="pva-dim">Operations</span></td><td><span class="pva-dim">Jio Telecom</span></td><td><span class="pva-dim">Chandigarh</span></td><td><span class="pva-dim">Priya Sharma</span></td><td>₹24.0L</td><td style="color:var(--danger);font-weight:600;">₹22.8L</td><td><span class="pva-neg">-₹1.2L</span></td><td><div class="pva-bar-cell"><div class="pva-bar"><div class="pva-bar-fill" style="width:95%;background:var(--warning);"></div></div><span class="pva-bar-pct" style="color:var(--warning);">95%</span></div></td><td>₹16.5L</td><td style="color:var(--success);font-weight:600;">₹16.2L</td><td><span class="pva-neg">-₹32K</span></td><td style="color:var(--success);font-weight:600;">29%</td><td style="text-align:center;"><span class="pva-status submitted">Submitted</span></td></tr>
+                                <tr><td><div class="pva-proj-cell"><div class="pva-proj-icon">V</div><div><div class="pva-proj-name">Voult</div><div class="pva-proj-sub">2025-04-25</div></div></div></td><td><span class="pva-dim">Civil</span></td><td><span class="pva-dim">Voult Inc</span></td><td><span class="pva-dim">Amritsar</span></td><td><span class="pva-dim">Ravi Tiwari</span></td><td>₹27.5L</td><td style="color:var(--rp-muted);font-weight:600;"><span class="pva-zero">—</span></td><td><span class="pva-zero">—</span></td><td><span class="pva-zero">—</span></td><td>₹19.9L</td><td style="color:var(--rp-text);font-weight:600;"><span class="pva-zero">—</span></td><td><span class="pva-zero">—</span></td><td style="color:var(--rp-muted);font-weight:600;">—</td><td style="text-align:center;"><span class="pva-status draft">Draft</span></td></tr>
+                                <tr><td><div class="pva-proj-cell"><div class="pva-proj-icon">T</div><div><div class="pva-proj-name">TestP</div><div class="pva-proj-sub">2025-05-08</div></div></div></td><td><span class="pva-dim">PM</span></td><td><span class="pva-dim">TestClient</span></td><td><span class="pva-dim">Delhi</span></td><td><span class="pva-dim">Kavitha Reddy</span></td><td>₹17.0L</td><td style="color:var(--rp-muted);font-weight:600;"><span class="pva-zero">—</span></td><td><span class="pva-zero">—</span></td><td><span class="pva-zero">—</span></td><td>₹12.1L</td><td style="color:var(--rp-text);font-weight:600;"><span class="pva-zero">—</span></td><td><span class="pva-zero">—</span></td><td style="color:var(--rp-muted);font-weight:600;">—</td><td style="text-align:center;"><span class="pva-status rejected">Rejected</span></td></tr>
+                                <tr><td><div class="pva-proj-cell"><div class="pva-proj-icon">A5</div><div><div class="pva-proj-name">Airtel 5G Phase-3</div><div class="pva-proj-sub">2025-05-20</div></div></div></td><td><span class="pva-dim">Electrical</span></td><td><span class="pva-dim">Airtel Networks</span></td><td><span class="pva-dim">Punjab</span></td><td><span class="pva-dim">Vikram Patel</span></td><td>₹31.0L</td><td style="color:var(--danger);font-weight:600;">₹25.2L</td><td><span class="pva-neg">-₹5.8L</span></td><td><div class="pva-bar-cell"><div class="pva-bar"><div class="pva-bar-fill" style="width:81%;background:var(--warning);"></div></div><span class="pva-bar-pct" style="color:var(--warning);">81%</span></div></td><td>₹22.4L</td><td style="color:var(--success);font-weight:600;">₹19.8L</td><td><span class="pva-neg">-₹2.6L</span></td><td style="color:var(--success);font-weight:600;">21%</td><td style="text-align:center;"><span class="pva-status submitted">Submitted</span></td></tr></tbody>
                             </table>
-                        </div>
-                        <div class="rv-footer">
-                            <div class="rv-footer-info">Showing 9 rows · Last refreshed: just now</div>
-                            <div class="rv-pager"><button class="rv-btn-secondary" disabled>‹ Prev</button><span class="rv-pager-info">Page 1 of 1</span><button class="rv-btn-secondary" disabled>Next ›</button></div>
+                          </div>
+                          <div class="rp-tbl-footer"><span class="pva-foot-grp"><span class="lbl">Totals —</span></span><span class="pva-foot-grp"><span class="lbl">Plan Rev:</span> <span class="val">₹284.5L</span></span><span class="pva-foot-grp"><span class="lbl">Actual Rev:</span> <span class="val">₹217.8L</span></span><span class="pva-foot-grp"><span class="lbl">Rev Var:</span> <span class="val neg">-₹66.7L</span></span><span class="pva-foot-grp"><span class="lbl">Plan Cost:</span> <span class="val">₹204.0L</span></span><span class="pva-foot-grp"><span class="lbl">Actual Cost:</span> <span class="val">₹163.0L</span></span><span class="pva-foot-grp"><span class="lbl">Cost Var:</span> <span class="val ">-₹41.0L</span></span></div>
                         </div>
                     </div>
                 </div>
@@ -22934,7 +23073,7 @@ if (typeof showPage === 'function') {
                             <div>
                                 <div class="rv-id">R29  ·  Priority: <span class="rv-pri rv-pri-high">High</span></div>
                                 <h1 class="rv-name">Open Commitments by Project</h1>
-                                <p class="rv-desc">Outstanding PO commitments per project — future cash outflow pipeline.</p>
+                                <p class="rv-desc">Per project: total PO committed, billed (consumed), open commitment (open activity), and WIP (in-progress site activity). Total Committed = Billed + Open Commitment + WIP.</p>
                             </div>
                         </div>
                         <div class="rv-filters">
@@ -22945,11 +23084,11 @@ if (typeof showPage === 'function') {
                                 <button class="rv-btn-secondary">Reset</button>
                             </div>
                         </div>
-                        <div class="rv-summary">₹ 2.46 Cr total open commitment across 91 active POs</div>
+                        <div class="rv-summary">₹ 7.27 Cr total committed · ₹ 4.81 Cr billed · ₹ 1.50 Cr open commitment · ₹ 96 L WIP</div>
                         <div class="rv-table-wrap">
                             <table class="rv-table">
-                                <thead><tr><th>Project</th><th>Open POs</th><th>Total Committed</th><th>Billed</th><th>Open Commitment</th></tr></thead>
-                                <tbody><tr><td class="">Atlas Tower</td><td class="">18</td><td class="">₹ 1.42 Cr</td><td class="">₹ 84 L</td><td class="">₹ 58 L</td></tr><tr><td class="">Nexus HQ</td><td class="">12</td><td class="">₹ 71 L</td><td class="">₹ 38 L</td><td class="">₹ 33 L</td></tr><tr><td class="">Riverside Mall</td><td class="">14</td><td class="">₹ 1.08 Cr</td><td class="">₹ 62 L</td><td class="">₹ 46 L</td></tr><tr><td class="">Beacon Bridge</td><td class="">16</td><td class="">₹ 1.06 Cr</td><td class="">₹ 64 L</td><td class="">₹ 42 L</td></tr><tr><td class="">Vertex Plant</td><td class="">10</td><td class="">₹ 92 L</td><td class="">₹ 78 L</td><td class="">₹ 14 L</td></tr><tr><td class="">Skyline Phase 2</td><td class="">8</td><td class="">₹ 46 L</td><td class="">₹ 28 L</td><td class="">₹ 18 L</td></tr><tr><td class="">Crown Plaza</td><td class="">6</td><td class="">₹ 84 L</td><td class="">₹ 71 L</td><td class="">₹ 13 L</td></tr><tr><td class="">Pinewood Estate</td><td class="">7</td><td class="">₹ 78 L</td><td class="">₹ 56 L</td><td class="">₹ 22 L</td></tr></tbody>
+                                <thead><tr><th>Project</th><th>Total Committed</th><th>Billed</th><th>Open Commitment</th><th>WIP</th></tr></thead>
+                                <tbody><tr><td class="">Atlas Tower</td><td class="">₹ 1.42 Cr</td><td class="">₹ 84 L</td><td class="" style="font-weight:600;">₹ 36 L</td><td class="">₹ 22 L</td></tr><tr><td class="">Nexus HQ</td><td class="">₹ 71 L</td><td class="">₹ 38 L</td><td class="" style="font-weight:600;">₹ 20 L</td><td class="">₹ 13 L</td></tr><tr><td class="">Riverside Mall</td><td class="">₹ 1.08 Cr</td><td class="">₹ 62 L</td><td class="" style="font-weight:600;">₹ 28 L</td><td class="">₹ 18 L</td></tr><tr><td class="">Beacon Bridge</td><td class="">₹ 1.06 Cr</td><td class="">₹ 64 L</td><td class="" style="font-weight:600;">₹ 26 L</td><td class="">₹ 16 L</td></tr><tr><td class="">Vertex Plant</td><td class="">₹ 92 L</td><td class="">₹ 78 L</td><td class="" style="font-weight:600;">₹ 8 L</td><td class="">₹ 6 L</td></tr><tr><td class="">Skyline Phase 2</td><td class="">₹ 46 L</td><td class="">₹ 28 L</td><td class="" style="font-weight:600;">₹ 11 L</td><td class="">₹ 7 L</td></tr><tr><td class="">Crown Plaza</td><td class="">₹ 84 L</td><td class="">₹ 71 L</td><td class="" style="font-weight:600;">₹ 8 L</td><td class="">₹ 5 L</td></tr><tr><td class="">Pinewood Estate</td><td class="">₹ 78 L</td><td class="">₹ 56 L</td><td class="" style="font-weight:600;">₹ 13 L</td><td class="">₹ 9 L</td></tr></tbody>
                             </table>
                         </div>
                         <div class="rv-footer">
@@ -23966,28 +24105,26 @@ if (typeof showPage === 'function') {
                             <div>
                                 <div class="rv-id">R53  ·  Priority: <span class="rv-pri rv-pri-high">High</span></div>
                                 <h1 class="rv-name">Work Done Summary</h1>
-                                <p class="rv-desc">Per site/project/vendor summary of work signed-off with total value.</p>
+                                <p class="rv-desc">Work Done Submission queue (Execution › Work Done) — sites with submitted activities, expandable to activity-level detail.</p>
                             </div>
                         </div>
-                        <div class="rv-filters">
-                            <div class="rv-filters-head">Filters</div>
-                            <div class="rv-filters-row">
-                                <div class="rv-filter"><label>Period</label><div class="rv-filter-input"><span class="rv-filter-placeholder">Any</span></div></div><div class="rv-filter"><label>Site</label><div class="rv-filter-input"><span class="rv-filter-placeholder">Any</span></div></div><div class="rv-filter"><label>Project</label><div class="rv-filter-input"><span class="rv-filter-placeholder">Any</span></div></div><div class="rv-filter"><label>Vendor</label><div class="rv-filter-input"><span class="rv-filter-placeholder">Any</span></div></div>
-                                <button class="rv-btn-primary">Apply Filters</button>
-                                <button class="rv-btn-secondary">Reset</button>
-                            </div>
+                        <div class="rv-summary">4 sites with submitted work done · 7 submitted activities · ₹ 27,400 submitted value</div>
+                        <!-- Work Done Submission view — reproduced from Execution › Work Done -->
+                        <div class="r53-wd-wrap">
+                          <table class="r53-wd-table">
+                            <thead><tr><th></th><th>Start Date</th><th>End Date</th><th>Site ID</th><th>Circle</th><th>PM</th><th>Project</th><th class="r53-c">Visit</th><th>PO No.</th><th>Status</th><th class="r53-r">W.D</th><th class="r53-r">Vendor</th><th class="r53-r">Claims</th><th class="r53-r">Salary</th><th class="r53-r">Transport</th><th class="r53-r">Material</th><th class="r53-r">Misc</th><th class="r53-r">Total Cost</th><th class="r53-r">Delta</th></tr></thead>
+                            <tbody><tr class="r53-wd-main" data-sid="599302936019"><td class="r53-wd-ctl"><button class="r53-expand-toggle open" onclick="r53ToggleWD(this)"><svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></button></td><td>05-03-2026</td><td>05-03-2026</td><td><div class="site-id-cell"><span class="site-id-text">voultG</span><span class="visit-badge">V1</span></div></td><td>Chandigarh</td><td>pm</td><td>Voult</td><td class="r53-c"><span style="font-weight:600;color:var(--gray-700);">1</span></td><td><span style="font-family:monospace;font-size:12px;color:var(--gray-600);">7800</span></td><td><span class="status-pill status-COMPLETED">COMPLETED</span></td><td class="r53-r"><span class="amount-cell">₹1,500</span></td><td class="r53-r"><span class="null-dash">—</span></td><td class="r53-r"><span class="amount-cell zero">₹0</span></td><td class="r53-r"><span class="amount-cell zero">₹0</span></td><td class="r53-r"><span class="null-dash">—</span></td><td class="r53-r"><span class="null-dash">—</span></td><td class="r53-r"><span class="amount-cell zero">₹0</span></td><td class="r53-r"><span class="amount-cell zero">₹0</span></td><td class="r53-r"><span class="amount-cell zero">₹0</span></td></tr><tr class="r53-wd-detail"><td colspan="19"><div class="sub-table-wrap"><table class="sub-table"><colgroup><col class="col-date"><col class="col-who"><col class="col-type"><col class="col-act"><col class="col-st"><col class="col-wd"><col class="col-amt"></colgroup><thead class="sub-table-header"><tr><th>Start Date</th><th>Assignee</th><th>Type</th><th>Activity</th><th>Status</th><th>WD Status</th><th style="text-align:right;">Amount</th></tr></thead><tbody><tr><td class="meta-text">05-03-2026</td><td><div class="sub-person-cell"><div class="person-avatar">TG</div><span class="person-name">Tashu Goyal</span></div></td><td><span style="font-size:11px;font-weight:600;color:var(--primary);background:var(--primary-light);padding:2px 7px;border-radius:4px;white-space:nowrap;">ATP</span></td><td style="font-size:12px;font-weight:500;color:var(--gray-700);">ATP</td><td><span class="status-pill status-COMPLETED">COMPLETED</span></td><td><span class="wd-pill wd-SUBMITTED">SUBMITTED</span></td><td style="text-align:right;font-weight:700;color:var(--primary);font-variant-numeric:tabular-nums;">₹1,500</td></tr></tbody></table></div></td></tr><tr class="r53-wd-main" data-sid="360402514172"><td class="r53-wd-ctl"><button class="r53-expand-toggle open" onclick="r53ToggleWD(this)"><svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></button></td><td>01-03-2026</td><td>01-03-2026</td><td><div class="site-id-cell"><span class="site-id-text">Test5</span><span class="visit-badge">V1</span></div></td><td>Chandigarh</td><td>pm</td><td>TestP</td><td class="r53-c"><span style="font-weight:600;color:var(--gray-700);">1</span></td><td><span style="font-family:monospace;font-size:12px;color:var(--gray-600);">PO-83962</span></td><td><span class="status-pill status-COMPLETED">COMPLETED</span></td><td class="r53-r"><span class="amount-cell">₹23,490</span></td><td class="r53-r"><span class="null-dash">—</span></td><td class="r53-r"><span class="amount-cell zero">₹0</span></td><td class="r53-r"><span class="amount-cell zero">₹0</span></td><td class="r53-r"><span class="null-dash">—</span></td><td class="r53-r"><span class="null-dash">—</span></td><td class="r53-r"><span class="amount-cell zero">₹0</span></td><td class="r53-r"><span class="amount-cell zero">₹0</span></td><td class="r53-r"><span class="amount-cell zero">₹0</span></td></tr><tr class="r53-wd-detail"><td colspan="19"><div class="sub-table-wrap"><table class="sub-table"><colgroup><col class="col-date"><col class="col-who"><col class="col-type"><col class="col-act"><col class="col-st"><col class="col-wd"><col class="col-amt"></colgroup><thead class="sub-table-header"><tr><th>Start Date</th><th>Assignee</th><th>Type</th><th>Activity</th><th>Status</th><th>WD Status</th><th style="text-align:right;">Amount</th></tr></thead><tbody><tr><td class="meta-text">01-03-2026</td><td><div class="sub-person-cell"><div class="person-avatar">JK</div><span class="person-name">Jaspal Kumar</span></div></td><td><span style="font-size:11px;font-weight:600;color:var(--primary);background:var(--primary-light);padding:2px 7px;border-radius:4px;white-space:nowrap;">5G Small Cell Installation</span></td><td style="font-size:12px;font-weight:500;color:var(--gray-700);">Site Survey</td><td><span class="status-pill status-COMPLETED">COMPLETED</span></td><td><span class="wd-pill wd-SUBMITTED">SUBMITTED</span></td><td style="text-align:right;font-weight:700;color:var(--primary);font-variant-numeric:tabular-nums;">₹23,490</td></tr></tbody></table></div></td></tr><tr class="r53-wd-main" data-sid="657806635474"><td class="r53-wd-ctl"><button class="r53-expand-toggle open" onclick="r53ToggleWD(this)"><svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></button></td><td>19-02-2026</td><td>05-03-2026</td><td><div class="site-id-cell"><span class="site-id-text">JIO7G</span><span class="visit-badge">V2</span></div></td><td>Chandigarh</td><td>pm</td><td>jio4g</td><td class="r53-c"><span style="font-weight:600;color:var(--gray-700);">2</span></td><td><span style="font-family:monospace;font-size:12px;color:var(--gray-600);">JIO-4G</span></td><td><span class="status-pill status-COMPLETED">COMPLETED</span></td><td class="r53-r"><span class="amount-cell">₹2,000</span></td><td class="r53-r"><span class="null-dash">—</span></td><td class="r53-r"><span class="amount-cell zero">₹0</span></td><td class="r53-r"><span class="amount-cell zero">₹0</span></td><td class="r53-r"><span class="null-dash">—</span></td><td class="r53-r"><span class="null-dash">—</span></td><td class="r53-r"><span class="amount-cell zero">₹0</span></td><td class="r53-r"><span class="amount-cell zero">₹0</span></td><td class="r53-r"><span class="amount-cell zero">₹0</span></td></tr><tr class="r53-wd-detail"><td colspan="19"><div class="sub-table-wrap"><table class="sub-table"><colgroup><col class="col-date"><col class="col-who"><col class="col-type"><col class="col-act"><col class="col-st"><col class="col-wd"><col class="col-amt"></colgroup><thead class="sub-table-header"><tr><th>Start Date</th><th>Assignee</th><th>Type</th><th>Activity</th><th>Status</th><th>WD Status</th><th style="text-align:right;">Amount</th></tr></thead><tbody><tr><td class="meta-text">19-02-2026</td><td><div class="sub-person-cell"><div class="person-avatar">JK</div><span class="person-name">Jaspal Kumar</span></div></td><td><span style="font-size:11px;font-weight:600;color:var(--primary);background:var(--primary-light);padding:2px 7px;border-radius:4px;white-space:nowrap;">DSL Connection Troubleshooting</span></td><td style="font-size:12px;font-weight:500;color:var(--gray-700);">Stiches & Screw Fix</td><td><span class="status-pill status-COMPLETED">COMPLETED</span></td><td><span class="wd-pill wd-SUBMITTED">SUBMITTED</span></td><td style="text-align:right;font-weight:700;color:var(--primary);font-variant-numeric:tabular-nums;">₹200</td></tr><tr><td class="meta-text">19-02-2026</td><td><div class="sub-person-cell"><div class="person-avatar">JK</div><span class="person-name">Jaspal Kumar</span></div></td><td><span style="font-size:11px;font-weight:600;color:var(--primary);background:var(--primary-light);padding:2px 7px;border-radius:4px;white-space:nowrap;">DSL Connection Troubleshooting</span></td><td style="font-size:12px;font-weight:500;color:var(--gray-700);">LI-TEL-2001</td><td><span class="status-pill status-COMPLETED">COMPLETED</span></td><td><span class="wd-pill wd-SUBMITTED">SUBMITTED</span></td><td style="text-align:right;font-weight:700;color:var(--primary);font-variant-numeric:tabular-nums;">₹400</td></tr></tbody></table></div></td></tr><tr class="r53-wd-main" data-sid="162437154327"><td class="r53-wd-ctl"><button class="r53-expand-toggle open" onclick="r53ToggleWD(this)"><svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></button></td><td>29-01-2026</td><td>17-02-2026</td><td><div class="site-id-cell"><span class="site-id-text">VoultA</span><span class="visit-badge">V2</span></div></td><td>Chandigarh</td><td>pm</td><td>Voult</td><td class="r53-c"><span style="font-weight:600;color:var(--gray-700);">2</span></td><td><span style="font-family:monospace;font-size:12px;color:var(--gray-600);">0002</span></td><td><span class="status-pill status-COMPLETED">COMPLETED</span></td><td class="r53-r"><span class="amount-cell">₹2,280</span></td><td class="r53-r"><span class="null-dash">—</span></td><td class="r53-r"><span class="amount-cell zero">₹0</span></td><td class="r53-r"><span class="amount-cell zero">₹0</span></td><td class="r53-r"><span class="null-dash">—</span></td><td class="r53-r"><span class="null-dash">—</span></td><td class="r53-r"><span class="amount-cell zero">₹0</span></td><td class="r53-r"><span class="amount-cell zero">₹0</span></td><td class="r53-r"><span class="amount-cell zero">₹0</span></td></tr><tr class="r53-wd-detail"><td colspan="19"><div class="sub-table-wrap"><table class="sub-table"><colgroup><col class="col-date"><col class="col-who"><col class="col-type"><col class="col-act"><col class="col-st"><col class="col-wd"><col class="col-amt"></colgroup><thead class="sub-table-header"><tr><th>Start Date</th><th>Assignee</th><th>Type</th><th>Activity</th><th>Status</th><th>WD Status</th><th style="text-align:right;">Amount</th></tr></thead><tbody><tr><td class="meta-text">29-01-2026</td><td><div class="sub-person-cell"><div class="person-avatar">JK</div><span class="person-name">Jaspal Kumar</span></div></td><td><span style="font-size:11px;font-weight:600;color:var(--primary);background:var(--primary-light);padding:2px 7px;border-radius:4px;white-space:nowrap;">ONT Installation</span></td><td style="font-size:12px;font-weight:500;color:var(--gray-700);">TASK-TEL-1001</td><td><span class="status-pill status-COMPLETED">COMPLETED</span></td><td><span class="wd-pill wd-SUBMITTED">SUBMITTED</span></td><td style="text-align:right;font-weight:700;color:var(--primary);font-variant-numeric:tabular-nums;">₹200</td></tr><tr><td class="meta-text">29-01-2026</td><td><div class="sub-person-cell"><div class="person-avatar">JK</div><span class="person-name">Jaspal Kumar</span></div></td><td><span style="font-size:11px;font-weight:600;color:var(--primary);background:var(--primary-light);padding:2px 7px;border-radius:4px;white-space:nowrap;">ONT Installation</span></td><td style="font-size:12px;font-weight:500;color:var(--gray-700);">LI-TEL-2001</td><td><span class="status-pill status-COMPLETED">COMPLETED</span></td><td><span class="wd-pill wd-SUBMITTED">SUBMITTED</span></td><td style="text-align:right;font-weight:700;color:var(--primary);font-variant-numeric:tabular-nums;">₹1,110</td></tr><tr><td class="meta-text">29-01-2026</td><td><div class="sub-person-cell"><div class="person-avatar">JK</div><span class="person-name">Jaspal Kumar</span></div></td><td><span style="font-size:11px;font-weight:600;color:var(--primary);background:var(--primary-light);padding:2px 7px;border-radius:4px;white-space:nowrap;">Fiber Cable Installation</span></td><td style="font-size:12px;font-weight:500;color:var(--gray-700);">TEL-1001</td><td><span class="status-pill status-COMPLETED">COMPLETED</span></td><td><span class="wd-pill wd-SUBMITTED">SUBMITTED</span></td><td style="text-align:right;font-weight:700;color:var(--primary);font-variant-numeric:tabular-nums;">₹500</td></tr></tbody></table></div></td></tr></tbody>
+                          </table>
                         </div>
-                        <div class="rv-summary">428 work entries this month · ₹ 1.78 Cr total signed-off value</div>
-                        <div class="rv-table-wrap">
-                            <table class="rv-table">
-                                <thead><tr><th>Site</th><th>Project</th><th>Vendor</th><th>Entries</th><th>Total Value</th></tr></thead>
-                                <tbody><tr><td class="">Atlas Tower</td><td class="">Atlas Tower</td><td class="">Atlas Infrastructure</td><td class="">42</td><td class="">₹ 28,40,000</td></tr><tr><td class="">Atlas Tower</td><td class="">Atlas Tower</td><td class="">Sterling Constructions</td><td class="">18</td><td class="">₹ 14,80,000</td></tr><tr><td class="">Nexus HQ</td><td class="">Nexus HQ</td><td class="">Atlas Infrastructure</td><td class="">32</td><td class="">₹ 18,60,000</td></tr><tr><td class="">Nexus HQ</td><td class="">Nexus HQ</td><td class="">Orion Electricals</td><td class="">14</td><td class="">₹ 8,40,000</td></tr><tr><td class="">Riverside Mall</td><td class="">Riverside Mall</td><td class="">BlueWave Transport</td><td class="">28</td><td class="">₹ 12,80,000</td></tr><tr><td class="">Riverside Mall</td><td class="">Riverside Mall</td><td class="">Skyline MEP</td><td class="">16</td><td class="">₹ 11,40,000</td></tr><tr><td class="">Beacon Bridge</td><td class="">Beacon Bridge</td><td class="">Vortex Steelworks</td><td class="">22</td><td class="">₹ 14,60,000</td></tr><tr><td class="">Beacon Bridge</td><td class="">Beacon Bridge</td><td class="">Sterling Constructions</td><td class="">18</td><td class="">₹ 18,40,000</td></tr><tr><td class="">Vertex Plant</td><td class="">Vertex Plant</td><td class="">Vertex Materials</td><td class="">36</td><td class="">₹ 21,80,000</td></tr><tr><td class="">Skyline Phase 2</td><td class="">Skyline Phase 2</td><td class="">Crown Steelworks</td><td class="">24</td><td class="">₹ 14,20,000</td></tr></tbody>
-                            </table>
-                        </div>
-                        <div class="rv-footer">
-                            <div class="rv-footer-info">Showing 10 rows · Last refreshed: just now</div>
-                            <div class="rv-pager"><button class="rv-btn-secondary" disabled>‹ Prev</button><span class="rv-pager-info">Page 1 of 1</span><button class="rv-btn-secondary" disabled>Next ›</button></div>
-                        </div>
+                        <script>
+                          function r53ToggleWD(btn){
+                            var tr = btn.closest('tr');
+                            var detail = tr.nextElementSibling;
+                            if(!detail) return;
+                            var collapsed = detail.classList.toggle('collapsed');
+                            btn.classList.toggle('open', !collapsed);
+                          }
+                        </script>
                     </div>
                 </div>
 
@@ -24020,11 +24157,11 @@ if (typeof showPage === 'function') {
                                 <button class="rv-btn-secondary">Reset</button>
                             </div>
                         </div>
-                        <div class="rv-summary">103 items in pipeline · ₹ 92.4 L value · 8 items stuck in L1 Review > SLA</div>
+                        <div class="rv-summary">103 items in pipeline · ₹ 92.4 L value · 8 items stuck in L1 Review</div>
                         <div class="rv-table-wrap">
                             <table class="rv-table">
-                                <thead><tr><th>Stage</th><th>Count</th><th>Avg Dwell Days</th><th>Total Value</th><th>SLA Status</th></tr></thead>
-                                <tbody><tr><td class="rv-cell-ok">Ready</td><td class="">42</td><td class="">2.4d</td><td class="">₹ 28,40,000</td><td class="rv-cell-ok">✓ Within SLA</td></tr><tr><td class="">L1 Review</td><td class="">28</td><td class="">3.8d</td><td class="">₹ 22,60,000</td><td class="rv-cell-warn">⚠ 8 over SLA</td></tr><tr><td class="">L1 Approved</td><td class="">19</td><td class="">1.6d</td><td class="">₹ 16,80,000</td><td class="rv-cell-ok">✓ Within SLA</td></tr><tr><td class="">L2 Accepted</td><td class="">14</td><td class="">2.2d</td><td class="">₹ 24,60,000</td><td class="rv-cell-ok">✓ Within SLA</td></tr><tr><td class="">Billed</td><td class="">124</td><td class="">—</td><td class="">₹ 84,20,000</td><td class="">✓</td></tr><tr><td class="">Rejected</td><td class="">6</td><td class="">—</td><td class="">₹ 4,80,000</td><td class="">—</td></tr></tbody>
+                                <thead><tr><th>Stage</th><th>Count</th><th>Avg Dwell Days</th><th>Total Value</th></tr></thead>
+                                <tbody><tr><td class="rv-cell-ok">Ready</td><td class="">42</td><td class="">2.4d</td><td class="">₹ 28,40,000</td></tr><tr><td class="">L1 Review</td><td class="">28</td><td class="">3.8d</td><td class="">₹ 22,60,000</td></tr><tr><td class="">L1 Approved</td><td class="">19</td><td class="">1.6d</td><td class="">₹ 16,80,000</td></tr><tr><td class="">L2 Accepted</td><td class="">14</td><td class="">2.2d</td><td class="">₹ 24,60,000</td></tr><tr><td class="">Billed</td><td class="">124</td><td class="">—</td><td class="">₹ 84,20,000</td></tr><tr><td class="">Rejected</td><td class="">6</td><td class="">—</td><td class="">₹ 4,80,000</td></tr></tbody>
                             </table>
                         </div>
                         <div class="rv-footer">
