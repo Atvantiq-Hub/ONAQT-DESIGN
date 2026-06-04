@@ -24550,6 +24550,10 @@ if (typeof showPage === 'function') {
 
                         <button class="cb-icon-btn" onclick="clientRefreshTable()" title="Refresh"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg></button>
                         <button class="cb-icon-btn" title="Export"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg></button>
+                        <button class="vh-btn-secondary" onclick="openClientZohoModal()" title="Sync clients with Zoho Books">
+                            <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.2"/></svg>
+                            Sync Zoho
+                        </button>
                         <button class="btn-add" onclick="openAddClientModal()">
                             <svg width="15" height="15" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"/></svg>
                             Add Client
@@ -24582,6 +24586,51 @@ if (typeof showPage === 'function') {
                                 <select class="page-limit-select" id="clientPageLimit">
                                     <option value="10">10</option><option value="20" selected>20</option><option value="50">50</option><option value="100">100</option>
                                 </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ══ Zoho Books — Client Sync Modal (preview → sync) ══ -->
+                    <style>
+                        #clientZohoModal .vnd-modal-body { padding:14px 20px 16px; }
+                        #clientZohoModal .zoho-sync-status { padding:7px 12px; margin-bottom:10px; border-radius:9px; gap:9px; }
+                        #clientZohoModal .zoho-sync-status .zoho-sync-dot { width:8px; height:8px; }
+                        #clientZohoModal .zoho-sync-lbl { font-size:12px; line-height:1.2; }
+                        #clientZohoModal .zoho-sync-time { font-size:10.5px; }
+                        #clientZohoModal .zoho-stepper { margin-bottom:12px; gap:6px; }
+                        #clientZohoModal .zoho-stepper-item { flex-direction:row; gap:6px; }
+                        #clientZohoModal .zoho-stepper-dot { width:20px; height:20px; font-size:10.5px; }
+                        #clientZohoModal .zoho-stepper-label { font-size:11px; }
+                        #clientZohoModal .zoho-stepper-bar { margin-bottom:0; }
+                    </style>
+                    <div class="vnd-modal-overlay" id="clientZohoModal">
+                        <div class="vnd-modal" style="width:min(720px,95vw);">
+                            <div class="vnd-modal-hd">
+                                <div>
+                                    <div class="vnd-modal-title">Zoho Books — Client Sync</div>
+                                    <div class="vnd-modal-sub">Preview, then sync clients from Zoho Books.</div>
+                                </div>
+                                <button class="vnd-modal-close" onclick="closeVndModal('clientZohoModal')">✕</button>
+                            </div>
+                            <div class="vnd-modal-body">
+                                <div class="zoho-sync-status">
+                                    <div class="zoho-sync-dot ok"></div>
+                                    <div class="zoho-sync-lbl">Zoho Books connected <span style="font-weight:400;color:var(--gray-400);">· Onaqt Services Pvt Ltd</span></div>
+                                    <div class="zoho-sync-time">Last synced 10:34 AM</div>
+                                </div>
+
+                                <!-- Two-layer flow: Preview → Sync -->
+                                <div class="zoho-stepper">
+                                    <div class="zoho-stepper-item active" id="czStep1"><div class="zoho-stepper-dot">1</div><div class="zoho-stepper-label">Preview</div></div>
+                                    <div class="zoho-stepper-bar" id="czBar1"></div>
+                                    <div class="zoho-stepper-item" id="czStep2"><div class="zoho-stepper-dot">2</div><div class="zoho-stepper-label">Sync</div></div>
+                                </div>
+
+                                <div id="clientZohoBody"><!-- dynamic: preview / done --></div>
+                            </div>
+                            <div class="vnd-modal-ft">
+                                <button class="btn-secondary" onclick="closeVndModal('clientZohoModal')">Cancel</button>
+                                <button class="btn-primary-modal" id="czActionBtn" onclick="clientZohoConfirmSync()" disabled>Confirm &amp; Sync</button>
                             </div>
                         </div>
                     </div>
@@ -34050,6 +34099,134 @@ document.addEventListener('DOMContentLoaded', () => {
         const wasOpen = el.classList.contains('active');
         document.querySelectorAll('.action-dropdown.active').forEach(d => d.classList.remove('active'));
         if (!wasOpen) el.classList.add('active');
+    }
+
+    /* ══ CLIENT → ZOHO BOOKS SYNC (preview → sync) ═══════════════════════
+       Layer 1  POST /client/sync/zoho/preview  → clients available in Zoho
+       Layer 2  POST /client/sync/zoho          → pulls them into ONAQT (table)
+       Mirrors the vendor / material-consumption sync pattern.
+       ──────────────────────────────────────────────────────────────────── */
+
+    let clientZohoPreview = null;   // [{ zoho_id, company_name, gst_number, state, action }]
+
+    window.openClientZohoModal = function () {
+        const m = document.getElementById('clientZohoModal');
+        if (!m) return;
+        m.classList.add('open');
+        clientZohoResetSteps();
+        clientZohoRunPreview();                 // hit preview API on open
+    };
+
+    function clientZohoSetStep(n) {             // 1 preview · 2 sync
+        document.getElementById('czStep1').className = 'zoho-stepper-item' + (n > 1 ? ' done' : n === 1 ? ' active' : '');
+        document.getElementById('czStep2').className = 'zoho-stepper-item' + (n === 2 ? ' active' : '');
+        document.getElementById('czBar1').className  = 'zoho-stepper-bar' + (n > 1 ? ' done' : '');
+    }
+
+    function clientZohoResetSteps() {
+        clientZohoPreview = null;
+        clientZohoSetStep(1);
+        const btn = document.getElementById('czActionBtn');
+        btn.disabled = true;
+        btn.textContent = 'Confirm & Sync';
+        btn.setAttribute('onclick', 'clientZohoConfirmSync()');
+    }
+
+    function clientZohoLoading(label, endpoint) {
+        return '<div style="display:flex;flex-direction:column;align-items:center;justify-content:center;padding:38px 0;gap:12px;">' +
+            '<svg width="26" height="26" fill="none" stroke="var(--primary)" stroke-width="2" viewBox="0 0 24 24" style="animation:spin 0.8s linear infinite;"><path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.2"/></svg>' +
+            '<div style="font-size:13px;color:var(--gray-500);font-weight:600;">' + label + '</div>' +
+            '<div style="font-size:11px;color:var(--gray-400);font-family:monospace;">' + endpoint + '</div></div>';
+    }
+
+    // ── LAYER 1: preview ──────────────────────────────────────────────
+    window.clientZohoRunPreview = function () {
+        document.getElementById('clientZohoBody').innerHTML =
+            clientZohoLoading('Fetching preview from Zoho Books…', 'POST /client/sync/zoho/preview');
+        setTimeout(function () {
+            clientZohoPreview = [
+                { zoho_id: 'ZB-CL-7741', company_name: 'Bharti Airtel Ltd',   gst_number: '07AAACB2894G1ZX', state: 'Delhi',   action: 'create' },
+                { zoho_id: 'ZB-CL-7742', company_name: 'Indus Towers Ltd',    gst_number: '06AABCI8765K1ZP', state: 'Haryana', action: 'create' },
+                { zoho_id: 'ZB-CL-7743', company_name: 'Vodafone Idea Ltd',   gst_number: '27AAACV1234M1Z0', state: 'Maharashtra', action: 'create' }
+            ];
+            clientZohoRenderPreview(clientZohoPreview);
+        }, 850);
+    };
+
+    function clientZohoRenderPreview(rows) {
+        const trs = rows.map(function (r) {
+            const m = r.action === 'create' ? { label: 'Will create', cls: 'pending' }
+                    : r.action === 'update' ? { label: 'Will update', cls: 'pending' }
+                    : { label: 'In sync', cls: 'synced' };
+            return '<tr><td><div style="font-weight:600;color:var(--gray-800);">' + r.company_name + '</div></td>' +
+                '<td style="color:var(--gray-500);font-size:11px;font-family:monospace;">' + (r.gst_number || '—') + '</td>' +
+                '<td style="color:var(--gray-500);font-size:11px;font-family:monospace;">' + r.zoho_id + '</td>' +
+                '<td><span class="zoho-chip ' + m.cls + '">' + m.label + '</span></td></tr>';
+        }).join('');
+
+        document.getElementById('clientZohoBody').innerHTML =
+            '<div class="vnd-section-hd"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg> Preview — clients to pull from Zoho</div>' +
+            '<table class="zoho-import-table"><thead><tr><th>Company</th><th>GST</th><th>Zoho ID</th><th>Action</th></tr></thead><tbody>' + trs + '</tbody></table>';
+
+        const n = rows.filter(r => r.action !== 'in_sync').length;
+        const btn = document.getElementById('czActionBtn');
+        btn.disabled = n === 0;
+        btn.textContent = n ? 'Confirm & Sync (' + n + ')' : 'Nothing to sync';
+        btn.setAttribute('onclick', 'clientZohoConfirmSync()');
+    }
+
+    // ── LAYER 2: commit sync — clients land in the table ──────────────
+    window.clientZohoConfirmSync = function () {
+        if (!clientZohoPreview) return;
+        const btn = document.getElementById('czActionBtn');
+        btn.disabled = true;
+        btn.textContent = 'Syncing…';
+        clientZohoSetStep(2);
+        document.getElementById('clientZohoBody').innerHTML =
+            clientZohoLoading('Pulling clients into ONAQT…', 'POST /client/sync/zoho');
+        setTimeout(function () {
+            const synced = clientZohoPreview.filter(r => r.action !== 'in_sync');
+            const now = new Date().toISOString();
+            synced.forEach(function (r) {
+                allClients.unshift({
+                    id: Math.floor(100000000000 + Math.random() * 899999999999),
+                    company_name: r.company_name,
+                    display_name: r.company_name,
+                    gst_number: r.gst_number || null,
+                    state: r.state || '',
+                    address: null,
+                    alternate_address: null,
+                    is_active: 1,
+                    added_by: { id: null, name: 'Zoho Sync' },
+                    created_at: now,
+                    _zohoNew: true
+                });
+            });
+            CLIENT_RAW.data.total_count  += synced.length;
+            CLIENT_RAW.data.total_records += synced.length;
+            clientFiltered = [...allClients];
+            clientCurrentPage = 1;
+            if (clientSortKey) clientApplySort();
+            clientRenderTable();
+            clientZohoRenderDone(synced.length);
+            if (typeof showToast === 'function')
+                showToast(synced.length + ' client' + (synced.length !== 1 ? 's' : '') + ' synced from Zoho Books.', 'success');
+        }, 1000);
+    };
+
+    function clientZohoRenderDone(n) {
+        document.getElementById('clientZohoBody').innerHTML =
+            '<div style="display:flex;flex-direction:column;align-items:center;justify-content:center;padding:30px 0 22px;gap:13px;text-align:center;">' +
+            '<div style="width:54px;height:54px;border-radius:50%;background:#d1fae5;display:flex;align-items:center;justify-content:center;">' +
+            '<svg width="27" height="27" fill="none" stroke="#065f46" stroke-width="2.5" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></div>' +
+            '<div><div style="font-size:15px;font-weight:700;color:var(--gray-900);font-family:\'Fraunces\',serif;">Sync complete</div>' +
+            '<div style="font-size:12px;color:var(--gray-500);margin-top:3px;">' + n + ' client' + (n !== 1 ? 's' : '') + ' added to the table</div>' +
+            '<div style="font-size:11px;color:var(--gray-400);margin-top:2px;font-family:monospace;">POST /client/sync/zoho</div></div>' +
+            '</div>';
+        const btn = document.getElementById('czActionBtn');
+        btn.disabled = false;
+        btn.textContent = 'Done';
+        btn.setAttribute('onclick', "closeVndModal('clientZohoModal')");
     }
 
     document.addEventListener('DOMContentLoaded', () => { clientRenderTable(); });
