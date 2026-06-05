@@ -2513,6 +2513,10 @@
         .s3-tab svg{width:12px;height:12px;flex-shrink:0;}
         .s3-tab.active{background:var(--white);color:var(--primary);box-shadow:0 1px 4px rgba(0,0,0,.1);}
         .s3-tab:hover:not(.active){color:var(--gray-700);}
+        .s3-ven-title{display:flex;align-items:center;gap:6px;margin-bottom:7px;flex-shrink:0;font-size:12px;font-weight:700;color:var(--primary);}
+        .s3-ven-title svg{width:14px;height:14px;flex-shrink:0;}
+        .s3-ven-title-hint{margin-left:auto;font-size:9.5px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;color:var(--gray-500);background:var(--gray-100);border-radius:99px;padding:2px 8px;}
+        [data-dark="true"] .s3-ven-title-hint{background:#252836;color:#9ca3af;}
         .s3-empty-focus{display:flex;flex-direction:column;align-items:center;justify-content:center;flex:1;padding:36px 20px;gap:10px;text-align:center;border:1.5px solid var(--gray-200);border-radius:10px;background:var(--white);}
         .s3-empty-focus svg{width:34px;height:34px;color:var(--gray-300);}
         .s3-empty-focus-txt{font-size:13px;color:var(--gray-600);font-weight:600;}
@@ -26166,8 +26170,12 @@ if (typeof showPage === 'function') {
               </div>
               <!-- PO -->
               <div class="sec-card" id="atScPoCard" style="opacity:.45;pointer-events:none;">
-                <div class="sec-card-head"><div class="sec-card-icon"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg></div><span class="sec-card-title">4 · PO Number</span><span class="sec-card-badge" id="atScPoBadge"><svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg><span id="atScPoName"></span></span></div>
+                <div class="sec-card-head"><div class="sec-card-icon"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg></div><span class="sec-card-title" id="atScPoTitle">4 · SO Number</span><span class="sec-card-badge" id="atScPoBadge"><svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg><span id="atScPoName"></span></span></div>
                 <div class="sec-card-body">
+                  <div class="s3-mode-pillgroup po-type-toggle" role="tablist" aria-label="Order type" style="display:flex;width:100%;margin-bottom:8px;">
+                    <button type="button" class="s3-mode-pill active" id="atPoTypeSO" onclick="atSetOrderType('SO')" role="tab" aria-selected="true" style="flex:1;justify-content:center;">SO</button>
+                    <button type="button" class="s3-mode-pill" id="atPoTypePO" onclick="atSetOrderType('PO')" role="tab" aria-selected="false" style="flex:1;justify-content:center;">PO</button>
+                  </div>
                   <div class="wiz-search-wrap"><svg class="wiz-search-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg><input class="wiz-search" id="atPoSearch" placeholder="Select a project first..." oninput="atFilterList('atPoSearch','atPoList')"/></div>
                   <div class="wiz-list" id="atPoList"><div style="padding:14px;text-align:center;font-size:11.5px;color:var(--gray-400);">Select a project above to see PO numbers</div></div>
                 </div>
@@ -26249,6 +26257,7 @@ if (typeof showPage === 'function') {
                   </div>
                 </div>
                 <div id="atS3VenPane" style="display:none;flex-direction:column;flex:1;min-height:0;">
+                  <div class="s3-ven-title"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1"/></svg><span>Vendors</span><span class="s3-ven-title-hint">Outsourced (PO)</span></div>
                   <div class="wiz-search-wrap"><svg class="wiz-search-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg><input class="wiz-search" id="atVenSearch" placeholder="Search vendors..." oninput="atFilterList('atVenSearch','atVenScrollList')"/></div>
                   <div class="emp-list-scroll" id="atVenScrollList">
                     <div class="wiz-row" onclick="atToggleEmpRow(this,'v001','TechServ Infra','TS','#2D4A35','VEN/001')"><div class="wiz-row-av" style="border-radius:7px;background:#2D4A35;color:#fff;font-size:9px;font-weight:700;">TS</div><div class="wiz-row-body"><div class="wiz-row-name">TechServ Infra</div><div class="wiz-row-sub">VEN/001 · Vendor</div></div><div class="wiz-row-check"><svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg></div></div>
@@ -32139,7 +32148,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function atOpenModal(){atOpenWiz();}
 
     /* ══ WIZARD STATE ══ */
-    var AT_WIZ={step:1,client:null,clientName:'',project:null,projectName:'',circle:null,circleName:'',po:null,poName:'',activities:[],employees:[],empSites:{}};
+    var AT_WIZ={step:1,client:null,clientName:'',project:null,projectName:'',circle:null,circleName:'',orderType:'SO',po:null,poName:'',activities:[],employees:[],empSites:{}};
     var AT_WIZ_DATA={
       clients:{
         '543278181387':{name:'Voult Inc',projects:[{id:'206791603630',name:'Voult',circles:[{id:'602883010892',name:'Chandigarh'},{id:'602883010893',name:'Ludhiana'},{id:'602883010894',name:'Amritsar'}],pos:[{id:'735687017306',name:'7800'},{id:'656989871698',name:'PO-20020'},{id:'238747687648',name:'0002'}],sites:[{id:'962030276020',siteId:'voultG',name:'voultG'},{id:'728940062530',siteId:'VoultF',name:'VoultF'},{id:'136894681062',siteId:'VoultA',name:'VoultA'},{id:'668659122130',siteId:'VoultB',name:'VoultB'},{id:'733922521408',siteId:'VoultC',name:'VoultC'},{id:'211199579099',siteId:'VoultD',name:'VoultD'}]}]},
@@ -32171,7 +32180,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function atWizOverlayClick(e){if(e.target===document.getElementById('atWizOverlay'))atCloseWiz();}
 
     function atResetWiz(){
-      AT_WIZ={step:1,client:null,clientName:'',project:null,projectName:'',circle:null,circleName:'',po:null,poName:'',activities:[],employees:[],empSites:{}};
+      AT_WIZ={step:1,client:null,clientName:'',project:null,projectName:'',circle:null,circleName:'',orderType:'SO',po:null,poName:'',activities:[],employees:[],empSites:{}};
       AT_WIZ_empTypeOverrides={};
       AT_S3_expandedSites={};
       ['atScClient','atStep1Project','atScCircleCard','atScPoCard'].forEach(function(id){var el=document.getElementById(id);if(el)el.classList.remove('done');});
@@ -32191,6 +32200,13 @@ document.addEventListener('DOMContentLoaded', () => {
       AT_TEAM={members:[],sites:[],excludedTypes:[]};
       AT_TEAM_SITES_EXPANDED=false;
       atApplyModePillsUI();
+      /* Reset PO/SO order-type toggle back to SO (default) */
+      var _poP=document.getElementById('atPoTypePO'),_soP=document.getElementById('atPoTypeSO');
+      if(_soP){_soP.classList.add('active');_soP.setAttribute('aria-selected','true');}
+      if(_poP){_poP.classList.remove('active');_poP.setAttribute('aria-selected','false');}
+      var _pt=document.getElementById('atScPoTitle');if(_pt)_pt.textContent='4 · SO Number';
+      var _ps=document.getElementById('atPoSearch');if(_ps){_ps.value='';_ps.placeholder='Select a project first...';}
+      atApplyOrderTypeToStep3();
       atGoWizStep(1);
     }
 
@@ -32212,7 +32228,7 @@ document.addEventListener('DOMContentLoaded', () => {
       var sub=document.getElementById('atWizSubmitBtn');if(sub)sub.style.display=n===4?'':'none';
       var h=document.getElementById('atWizHint');if(h)h.textContent='Step '+n+' of 4';
       if(n===2)atBuildInfoBar('atStep2InfoBar');
-      if(n===3){atBuildInfoBar('atStep3InfoBar');atApplyModePillsUI();atRenderSiteAssign();}
+      if(n===3){atBuildInfoBar('atStep3InfoBar');atApplyOrderTypeToStep3();atApplyModePillsUI();atRenderSiteAssign();}
       if(n===4)atBuildReview();
       atUpdateWizNext();
     }
@@ -32284,15 +32300,78 @@ document.addEventListener('DOMContentLoaded', () => {
           +'<div class="wiz-row-body"><div class="wiz-row-name">'+atEsc(c.name)+'</div></div>'
           +'<div class="wiz-row-check"><svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg></div></div>';
       }).join('');
-      document.getElementById('atPoList').innerHTML=proj.pos.map(function(po){
-        return '<div class="wiz-row" onclick="atSelectPO(this,\''+po.id+'\',\''+atEsc(po.name)+'\')">'
-          +'<div class="wiz-row-av"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg></div>'
-          +'<div class="wiz-row-body"><div class="wiz-row-name">'+atEsc(po.name)+'</div></div>'
-          +'<div class="wiz-row-check"><svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg></div></div>';
-      }).join('');
+      document.getElementById('atPoList').innerHTML='';
+      atRenderOrderList();
+      var _ps2=document.getElementById('atPoSearch');if(_ps2){_ps2.value='';_ps2.placeholder='Search '+AT_WIZ.orderType+' numbers...';}
       if(cc){cc.style.opacity='1';cc.style.pointerEvents='';}
       if(pc){pc.style.opacity='1';pc.style.pointerEvents='';}
       atUpdateWizNext();
+    }
+    /* ── Order-type (PO / SO) helpers ── */
+    function atCurrentProject(){
+      if(!AT_WIZ.client||!AT_WIZ.project)return null;
+      var c=AT_WIZ_DATA.clients[AT_WIZ.client];if(!c)return null;
+      return c.projects.find(function(p){return p.id===AT_WIZ.project;})||null;
+    }
+    function atGetOrderList(proj){
+      if(!proj)return [];
+      if(AT_WIZ.orderType==='SO'){
+        /* Use real SO data if present, otherwise derive service-order numbers from the project's POs */
+        return (proj.sos&&proj.sos.length)?proj.sos
+          :proj.pos.map(function(p){return {id:'so_'+p.id,name:'SO-'+p.name};});
+      }
+      return proj.pos;
+    }
+    function atRenderOrderList(){
+      var list=document.getElementById('atPoList');if(!list)return;
+      var proj=atCurrentProject();
+      if(!proj){
+        list.innerHTML='<div style="padding:14px;text-align:center;font-size:11.5px;color:var(--gray-400);">Select a project above to see '+AT_WIZ.orderType+' numbers</div>';
+        return;
+      }
+      list.innerHTML=atGetOrderList(proj).map(function(o){
+        return '<div class="wiz-row" onclick="atSelectPO(this,\''+o.id+'\',\''+atEsc(o.name)+'\')">'
+          +'<div class="wiz-row-av"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg></div>'
+          +'<div class="wiz-row-body"><div class="wiz-row-name">'+atEsc(o.name)+'</div></div>'
+          +'<div class="wiz-row-check"><svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg></div></div>';
+      }).join('');
+    }
+    /* Toggle between PO (vendor work) and SO (employee work). Drives Step 3 layout. */
+    function atSetOrderType(type){
+      if(type===AT_WIZ.orderType)return;
+      AT_WIZ.orderType=type;
+      /* changing order type invalidates the picked order number + any Step-3 selections */
+      AT_WIZ.po=null;AT_WIZ.poName='';
+      AT_WIZ.employees=[];AT_WIZ.empSites={};AT_WIZ_empTypeOverrides={};AT_S3_expandedSites={};AT_S3_FOCUS_ID=null;
+      AT_TEAM={members:[],sites:[],excludedTypes:[]};AT_TEAM_SITES_EXPANDED=false;
+      document.querySelectorAll('#atWizOverlay .emp-list-scroll .wiz-row.selected').forEach(function(r){r.classList.remove('selected');});
+      /* pill UI */
+      var poP=document.getElementById('atPoTypePO'),soP=document.getElementById('atPoTypeSO');
+      if(poP){poP.classList.toggle('active',type==='PO');poP.setAttribute('aria-selected',type==='PO');}
+      if(soP){soP.classList.toggle('active',type==='SO');soP.setAttribute('aria-selected',type==='SO');}
+      /* card title + clear current badge/selection */
+      var t=document.getElementById('atScPoTitle');if(t)t.textContent='4 · '+type+' Number';
+      var bn=document.getElementById('atScPoName');if(bn)bn.textContent='';
+      var pc=document.getElementById('atScPoCard');if(pc)pc.classList.remove('done');
+      var ps=document.getElementById('atPoSearch');if(ps){ps.value='';ps.placeholder=atCurrentProject()?('Search '+type+' numbers...'):'Select a project first...';}
+      atRenderOrderList();
+      atApplyOrderTypeToStep3();
+      atUpdateWizNext();
+    }
+    /* Show employee options (Individual/Team) for SO, vendor list for PO */
+    function atApplyOrderTypeToStep3(){
+      var modeBar=document.querySelector('#atWp3 .s3-mode-bar');
+      var tabBar=document.querySelector('#atWp3 .s3-tab-bar');
+      if(AT_WIZ.orderType==='SO'){
+        if(modeBar)modeBar.style.display='';
+        if(tabBar)tabBar.style.display='none';
+        atSwitchS3Tab('emp');
+      }else{ /* PO → vendors */
+        if(modeBar)modeBar.style.display='none';
+        if(tabBar)tabBar.style.display='none';
+        if(AT_ASSIGN_MODE!=='individual'){AT_ASSIGN_MODE='individual';atApplyModePillsUI();}
+        atSwitchS3Tab('vendor');
+      }
     }
     function atSelectCircle(el,id,name){
       AT_WIZ.circle=id;AT_WIZ.circleName=name;
@@ -32661,7 +32740,7 @@ document.addEventListener('DOMContentLoaded', () => {
         +'<span class="wiz-ctx-sep">/</span>'
         +'<span class="wiz-ctx-item"><span class="wiz-ctx-label">Circle</span><span class="wiz-ctx-sep">:</span><span class="wiz-ctx-val">'+atEsc(AT_WIZ.circleName)+'</span></span>'
         +'<span class="wiz-ctx-sep">/</span>'
-        +'<span class="wiz-ctx-item"><span class="wiz-ctx-label">PO</span><span class="wiz-ctx-sep">:</span><span class="wiz-ctx-val">'+atEsc(AT_WIZ.poName)+'</span></span>';
+        +'<span class="wiz-ctx-item"><span class="wiz-ctx-label">'+(AT_WIZ.orderType||'PO')+'</span><span class="wiz-ctx-sep">:</span><span class="wiz-ctx-val">'+atEsc(AT_WIZ.poName)+'</span></span>';
     }
 
     function atBuildReview(){
@@ -32674,7 +32753,7 @@ document.addEventListener('DOMContentLoaded', () => {
         +'<div class="rev-summary-divider"></div>'
         +'<div class="rev-summary-item"><div class="rev-summary-lbl">Circle</div><div class="rev-summary-val">'+atEsc(AT_WIZ.circleName)+'</div></div>'
         +'<div class="rev-summary-divider"></div>'
-        +'<div class="rev-summary-item"><div class="rev-summary-lbl">PO</div><div class="rev-summary-val">'+atEsc(AT_WIZ.poName)+'</div></div>'
+        +'<div class="rev-summary-item"><div class="rev-summary-lbl">'+(AT_WIZ.orderType||'PO')+'</div><div class="rev-summary-val">'+atEsc(AT_WIZ.poName)+'</div></div>'
         +'</div>';
       if(selTypes.length){
         html+='<div class="rev-section"><div class="rev-section-head"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"/></svg><span class="rev-section-title">Types</span><span class="rev-section-count">'+selTypes.length+'</span></div>'
