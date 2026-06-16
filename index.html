@@ -1954,6 +1954,40 @@
         @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.35} }
 
         /* ── Sync Zoho Modal (SO / Vendor PO) ─────────────────────────────── */
+        /* ── Selected SO context bar (Edit SO) ── */
+        .po-selected-bar{
+            display:flex;align-items:stretch;gap:0;
+            background:var(--white);border-bottom:1.5px solid var(--gray-100);
+            padding:0;overflow:hidden;
+        }
+        .pob-so-block{
+            display:flex;flex-direction:column;justify-content:center;gap:3px;
+            padding:9px 14px;background:var(--primary);min-width:120px;flex-shrink:0;
+        }
+        .pob-so-num{font-size:14px;font-weight:800;color:#fff;font-family:'Fraunces',serif;letter-spacing:-.3px;}
+        .pob-tag{
+            display:inline-flex;align-items:center;gap:4px;
+            font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;
+            color:rgba(255,255,255,.7);
+        }
+        .pob-tag svg{opacity:.7;}
+        .pob-fields{display:flex;align-items:stretch;flex:1;overflow-x:auto;scrollbar-width:none;}
+        .pob-fields::-webkit-scrollbar{display:none;}
+        .pob-field{
+            display:flex;flex-direction:column;justify-content:center;gap:2px;
+            padding:8px 14px;border-right:1px solid var(--gray-100);flex-shrink:0;
+        }
+        .pob-field:last-child{border-right:none;}
+        .pob-label{font-size:9.5px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--gray-400);}
+        .pob-value{font-size:12.5px;font-weight:600;color:var(--gray-800);white-space:nowrap;}
+        .pob-value.mono{font-family:'Courier New',monospace;color:var(--primary);font-size:13px;font-weight:700;}
+        .pob-chips{display:flex;gap:4px;flex-wrap:nowrap;}
+        .pob-chip{display:inline-flex;align-items:center;font-size:10.5px;font-weight:700;background:var(--primary-light);color:var(--primary);border-radius:5px;padding:2px 7px;}
+        [data-dark="true"] .po-selected-bar{background:#1e2130;border-color:#2d3145;}
+        [data-dark="true"] .pob-field{border-color:#2d3145;}
+        [data-dark="true"] .pob-value{color:#e5e7eb;}
+        [data-dark="true"] .pob-chip{background:#252836;}
+
         .so-sync-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.52);backdrop-filter:blur(3px);z-index:2100;display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;visibility:hidden;transition:opacity .2s,visibility .2s;}
 
         /* ── Custom Columns modal ── */
@@ -20830,10 +20864,6 @@ if (typeof showPage === 'function') {
                     <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.2"/></svg>
                     Sync Zoho
                 </button>
-                <button class="btn-add" onclick="poOpenAddModal()">
-                    <svg width="15" height="15" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"/></svg>
-                    Add SO
-                </button>
             </div>
 
             <!-- Active Filters Bar -->
@@ -20957,10 +20987,13 @@ if (typeof showPage === 'function') {
             <div class="po-create-header-actions">
                 <button class="btn-save" onclick="poSubmitPO()">
                     <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
-                    Create SO
+                    Update SO
                 </button>
             </div>
         </div>
+
+        <!-- Selected SO context (carried from the listing when opened via Edit SO) -->
+        <div class="po-selected-bar" id="poSelectedSOBar" style="display:none;"></div>
 
         <!-- Body: two-column -->
         <div class="po-create-body">
@@ -31018,9 +31051,9 @@ function poRenderRow(po, idx) {
                         <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
                         View Details
                     </button>
-                    <button class="action-menu-item">
+                    <button class="action-menu-item" onclick="poOpenAddModal(${idx})">
                         <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
-                        Edit PO
+                        Edit SO
                     </button>
                     <button class="action-menu-item clone-item" onclick="poOpenCloneModal(${idx},event)">
                         <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
@@ -31497,16 +31530,66 @@ window.ilpToggle = function(idx) {
     ilpRender();
 };
 
-function poOpenAddModal() {
+function poOpenAddModal(idx) {
     poTypes = [];
     window._poCreateZohoTotal = 0;
     poInitDatalists();
     poCloseTypeDropdown();
     const tSearch = document.getElementById('poTypeSearch'); if(tSearch) tSearch.value = '';
+
+    // Selected SO carried from the listing (opened via Edit SO)
+    const so = (typeof idx === 'number' && typeof poFiltered !== 'undefined') ? poFiltered[idx] : null;
+    window._poEditingSO = so || null;
+    poRenderSelectedSOBar(so);
+
+    const titleEl = document.querySelector('#poAddModal .po-create-title');
+    const subEl   = document.querySelector('#poAddModal .po-create-subtitle');
+    if (so) {
+        if (titleEl) titleEl.textContent = 'Edit Sales Order';
+        if (subEl)   subEl.textContent   = 'Tag types & activities for ' + (so.po_number || 'this SO');
+    } else {
+        if (titleEl) titleEl.textContent = 'Sales Order';
+        if (subEl)   subEl.textContent   = 'Add types with activities';
+    }
+
     poRenderTypesPanel();
-    // Seed demo Zoho items — replace with real fetch in production
-    poLoadZohoItems(DEMO_ZOHO_ITEMS);
+    // Load the selected SO's Zoho items (fallback to demo if the SO has none)
+    const items = (so && so.zoho_line_items && so.zoho_line_items.length) ? so.zoho_line_items : DEMO_ZOHO_ITEMS;
+    poLoadZohoItems(items);
     document.getElementById('poAddModal').classList.add('active');
+}
+
+// Populate the top context bar with details carried from the selected SO
+function poRenderSelectedSOBar(so) {
+    const bar = document.getElementById('poSelectedSOBar');
+    if (!bar) return;
+    if (!so) { bar.style.display = 'none'; bar.innerHTML = ''; return; }
+    const circles = (so.circle && so.circle.length)
+        ? so.circle.map(c => `<span class="pob-chip">${c.code}</span>`).join('')
+        : '<span style="color:var(--gray-400)">—</span>';
+    const fld = (label, val, cls) =>
+        `<div class="pob-field"><span class="pob-label">${label}</span><span class="pob-value${cls?' '+cls:''}">${val}</span></div>`;
+    const validity = [so.valid_from ? fmtDate(so.valid_from) : null, so.valid_to ? fmtDate(so.valid_to) : null]
+        .filter(Boolean).join(' → ') || '—';
+    bar.innerHTML = `
+        <div class="pob-so-block">
+            <span class="pob-so-num">${so.po_number || '—'}</span>
+            <span class="pob-tag">
+                <svg width="9" height="9" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.2"/></svg>
+                Synced from Zoho
+            </span>
+        </div>
+        <div class="pob-fields">
+            ${fld('Customer', so.client?.name || '—')}
+            ${fld('Project', so.project?.name || '—')}
+            <div class="pob-field"><span class="pob-label">Circle</span><div class="pob-chips">${circles}</div></div>
+            ${so.location ? fld('Location', so.location) : ''}
+            ${fld('Validity', validity)}
+            ${so.po_date ? fld('SO Date', fmtDate(so.po_date)) : ''}
+            ${so.zoho_items_total ? fld('Zoho Total', fmtCurrency(so.zoho_items_total), 'mono') : ''}
+        </div>
+    `;
+    bar.style.display = 'flex';
 }
 
 function poToggleMilestone() {
