@@ -1952,6 +1952,73 @@
         .status-dot { width: 5px; height: 5px; border-radius: 50%; background: currentColor; flex-shrink: 0; }
         .status-badge.active .status-dot { animation: pulse 2s infinite; }
         @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.35} }
+
+        /* ── Sync Zoho Modal (SO / Vendor PO) ─────────────────────────────── */
+        .so-sync-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.52);backdrop-filter:blur(3px);z-index:2100;display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;visibility:hidden;transition:opacity .2s,visibility .2s;}
+
+        /* ── Custom Columns modal ── */
+        .ucf-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.5);backdrop-filter:blur(3px);z-index:4300;display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;visibility:hidden;transition:opacity .2s,visibility .2s;}
+        .ucf-overlay.active{opacity:1;visibility:visible;}
+        .ucf-box{background:var(--white);border-radius:16px;width:100%;max-width:460px;box-shadow:0 24px 70px rgba(0,0,0,.3);transform:scale(.96);transition:transform .2s;overflow:hidden;}
+        .ucf-overlay.active .ucf-box{transform:scale(1);}
+        [data-dark="true"] .ucf-box{background:#1e2130;}
+        .ucf-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;padding:18px 20px 14px;border-bottom:1px solid var(--gray-100);}
+        [data-dark="true"] .ucf-head{border-color:#2d3145;}
+        .ucf-title{font-size:15px;font-weight:700;color:var(--gray-900);font-family:'Fraunces',serif;}
+        .ucf-sub{font-size:11.5px;color:var(--gray-500);margin-top:4px;line-height:1.5;}
+        .ucf-close{width:32px;height:32px;border:none;background:var(--gray-100);border-radius:8px;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--gray-600);flex-shrink:0;transition:var(--transition);}
+        .ucf-close:hover{background:var(--danger-light);color:var(--danger);}
+        .ucf-body{padding:16px 20px;display:flex;flex-direction:column;gap:11px;}
+        .ucf-field{display:flex;align-items:center;gap:12px;}
+        .ucf-field label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;color:var(--gray-400);width:74px;flex-shrink:0;}
+        .ucf-field input{flex:1;height:38px;border:1px solid var(--gray-200);border-radius:9px;padding:0 12px;font-size:13px;font-family:inherit;background:var(--white);color:var(--gray-800);transition:var(--transition);}
+        .ucf-field input:focus{outline:none;border-color:var(--primary);box-shadow:0 0 0 3px color-mix(in srgb,var(--primary) 12%,transparent);}
+        [data-dark="true"] .ucf-field input{background:#252836;border-color:#363b52;color:#e5e7eb;}
+        .ucf-foot{padding:14px 20px;border-top:1px solid var(--gray-100);display:flex;gap:10px;justify-content:flex-end;}
+        [data-dark="true"] .ucf-foot{border-color:#2d3145;}
+        .ucf-btn-cancel{padding:9px 18px;background:none;border:1px solid var(--gray-200);border-radius:9px;font-size:13px;font-weight:600;color:var(--gray-600);cursor:pointer;}
+        .ucf-btn-cancel:hover{background:var(--gray-50);}
+        .ucf-btn-save{padding:9px 20px;background:var(--primary);color:#fff;border:none;border-radius:9px;font-size:13px;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:7px;transition:var(--transition);}
+        .ucf-btn-save:hover{filter:brightness(1.08);}
+        .so-sync-overlay.active{opacity:1;visibility:visible;}
+        .so-sync-box{background:var(--white);border-radius:18px;box-shadow:0 24px 80px rgba(0,0,0,.28);width:100%;max-width:780px;max-height:90vh;display:flex;flex-direction:column;transform:translateY(16px) scale(.97);transition:transform .25s cubic-bezier(.4,0,.2,1);}
+        .so-sync-overlay.active .so-sync-box{transform:none;}
+        [data-dark="true"] .so-sync-box{background:#1e2130!important;}
+        .so-sync-hd{display:flex;align-items:flex-start;justify-content:space-between;padding:20px 22px 14px;border-bottom:1px solid var(--gray-100);flex-shrink:0;}
+        [data-dark="true"] .so-sync-hd{border-color:#2d3145!important;}
+        .so-sync-title{font-size:16px;font-weight:700;font-family:'Fraunces',serif;color:var(--gray-900);}
+        .so-sync-sub{font-size:12px;color:var(--gray-500);margin-top:3px;}
+        .so-sync-tag{font-size:11px;color:var(--primary);font-weight:600;margin-top:2px;}
+        .so-sync-close{width:30px;height:30px;border:none;background:none;cursor:pointer;border-radius:8px;display:flex;align-items:center;justify-content:center;color:var(--gray-400);transition:var(--transition);flex-shrink:0;}
+        .so-sync-close:hover{background:var(--gray-100);color:var(--gray-700);}
+        .so-sync-tiles{display:flex;gap:10px;padding:16px 22px;flex-shrink:0;flex-wrap:wrap;}
+        .so-sync-tile{flex:1;min-width:90px;background:var(--gray-50);border:1px solid var(--gray-100);border-radius:10px;padding:10px 14px;}
+        [data-dark="true"] .so-sync-tile{background:#252836!important;border-color:#2d3145!important;}
+        .so-sync-tile-lbl{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--gray-400);white-space:nowrap;}
+        .so-sync-tile-val{font-size:22px;font-weight:700;color:var(--gray-800);margin-top:2px;font-family:'Fraunces',serif;}
+        .so-sync-body{flex:1;overflow-y:auto;padding:0 22px 18px;}
+        .so-sync-bucket{margin-bottom:18px;}
+        .so-sync-bucket-hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;padding-top:14px;}
+        .so-sync-bucket-label{display:flex;align-items:center;gap:7px;font-size:13px;font-weight:700;color:var(--gray-800);}
+        .so-sync-bucket-cnt{font-size:12px;font-weight:600;background:var(--gray-100);color:var(--gray-500);padding:1px 8px;border-radius:20px;}
+        .so-sync-bucket-hint{font-size:11px;color:var(--gray-400);}
+        .so-sync-tbl{width:100%;border-collapse:collapse;font-size:12.5px;}
+        .so-sync-tbl th{padding:7px 10px;background:var(--gray-50);font-weight:600;color:var(--gray-500);text-align:left;border-bottom:1px solid var(--gray-100);white-space:nowrap;}
+        .so-sync-tbl td{padding:9px 10px;border-bottom:1px solid var(--gray-50);color:var(--gray-700);vertical-align:middle;}
+        .so-sync-tbl tr:last-child td{border-bottom:none;}
+        [data-dark="true"] .so-sync-tbl th{background:#252836!important;color:#9ca3af!important;border-color:#2d3145!important;}
+        [data-dark="true"] .so-sync-tbl td{color:#d1d5db!important;border-color:#252836!important;}
+        .so-sync-empty{padding:22px 0;text-align:center;color:var(--gray-300);font-size:12.5px;border:1.5px dashed var(--gray-200);border-radius:8px;}
+        [data-dark="true"] .so-sync-empty{border-color:#2d3145!important;color:#4b5563!important;}
+        .so-sync-dash{color:var(--gray-300);}
+        .so-sync-ft{display:flex;justify-content:flex-end;align-items:center;gap:10px;padding:14px 22px;border-top:1px solid var(--gray-100);flex-shrink:0;}
+        [data-dark="true"] .so-sync-ft{border-color:#2d3145!important;}
+        .so-sync-btn-cancel{padding:8px 18px;background:none;border:1px solid var(--gray-200);border-radius:8px;font-size:13px;font-weight:600;color:var(--gray-600);cursor:pointer;transition:var(--transition);}
+        .so-sync-btn-cancel:hover{background:var(--gray-50);}
+        .so-sync-btn-run{padding:8px 20px;background:var(--primary);color:#fff;border:none;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:7px;transition:var(--transition);}
+        .so-sync-btn-run:hover{filter:brightness(1.08);}
+        .so-sync-btn-run:disabled{opacity:.6;cursor:not-allowed;}
+        /* ─────────────────────────────────────────────────────────────────── */
         .added-by-cell { display: flex; align-items: center; gap: 8px; }
         .mini-avatar { width: 24px; height: 24px; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 10px; color: #fff; flex-shrink: 0; background: var(--primary); opacity: 0.85; }
         .added-by-name { font-size: 12.5px; color: var(--gray-700); }
@@ -3165,6 +3232,54 @@
         .activity-name{font-size:12px;color:var(--gray-700);}
         .activity-amount{font-size:12px;font-weight:600;color:var(--success);font-family:'Courier New',monospace;}
 
+        /* ── DRAWER TABS (Zoho Items / Activity Tagging) ── */
+        .drawer-tabs{display:flex;gap:2px;background:var(--gray-100);border-radius:9px;padding:3px;margin-bottom:16px;flex-shrink:0;}
+        .drawer-tab{flex:1;padding:6px 0;border:none;border-radius:7px;font-size:12px;font-weight:600;color:var(--gray-500);background:transparent;cursor:pointer;transition:all .15s;text-align:center;}
+        .drawer-tab.active{background:var(--white);color:var(--primary);box-shadow:0 1px 4px rgba(0,0,0,.10);}
+        [data-dark="true"] .drawer-tabs{background:#252836!important;}
+        [data-dark="true"] .drawer-tab.active{background:#1e2130!important;}
+        /* Zoho Items table */
+        .zi-sync-bar{display:flex;align-items:center;justify-content:space-between;padding:7px 10px;background:var(--gray-50);border:1px solid var(--gray-100);border-radius:8px;margin-bottom:12px;}
+        .zi-sync-label{font-size:11px;font-weight:600;color:var(--gray-400);display:flex;align-items:center;gap:5px;}
+        .zi-sync-ts{font-size:11px;color:var(--gray-400);}
+        .zi-tbl{width:100%;border-collapse:collapse;font-size:12px;}
+        .zi-tbl th{padding:7px 8px;background:var(--gray-50);font-weight:700;color:var(--gray-400);text-align:left;border-bottom:1px solid var(--gray-100);white-space:nowrap;font-size:10.5px;text-transform:uppercase;letter-spacing:.4px;}
+        .zi-tbl td{padding:8px 8px;border-bottom:1px solid var(--gray-50);color:var(--gray-600);vertical-align:middle;}
+        .zi-tbl tr:last-child td{border-bottom:none;}
+        .zi-tbl td.num{text-align:right;font-family:'Courier New',monospace;color:var(--gray-700);}
+        .zi-tbl tfoot td{font-weight:700;color:var(--gray-800);background:var(--gray-50);border-top:1.5px solid var(--gray-200);padding:9px 8px;}
+        .zi-empty{text-align:center;padding:28px;color:var(--gray-300);font-size:12.5px;border:1.5px dashed var(--gray-200);border-radius:8px;}
+        [data-dark="true"] .zi-tbl th{background:#252836!important;color:#6b7280!important;border-color:#2d3145!important;}
+        [data-dark="true"] .zi-tbl td{color:#9ca3af!important;border-color:#252836!important;}
+        [data-dark="true"] .zi-tbl tfoot td{background:#252836!important;color:#d1d5db!important;border-color:#374151!important;}
+        /* Reconciliation bar */
+        .recon-bar{margin-top:14px;padding:12px 14px;border-radius:10px;border:1.5px solid;}
+        .recon-bar.balanced{background:var(--success-light);border-color:color-mix(in srgb,var(--success) 30%,transparent);}
+        .recon-bar.under{background:#fffbeb;border-color:#fde68a;}
+        .recon-bar.over{background:var(--danger-light);border-color:color-mix(in srgb,var(--danger) 30%,transparent);}
+        .recon-bar.no-items{background:var(--gray-50);border-color:var(--gray-200);}
+        .recon-bar-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;}
+        .recon-bar-title{font-size:12px;font-weight:700;}
+        .recon-bar.balanced .recon-bar-title{color:var(--success);}
+        .recon-bar.under .recon-bar-title{color:#92400e;}
+        .recon-bar.over .recon-bar-title{color:var(--danger);}
+        .recon-bar.no-items .recon-bar-title{color:var(--gray-500);}
+        .recon-bar-nums{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:8px;}
+        .recon-num{display:flex;flex-direction:column;gap:1px;}
+        .recon-num-lbl{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;color:var(--gray-400);}
+        .recon-num-val{font-size:13px;font-weight:700;font-family:'Courier New',monospace;}
+        .recon-track{height:6px;background:var(--gray-200);border-radius:99px;overflow:hidden;position:relative;}
+        .recon-fill{height:100%;border-radius:99px;transition:width .4s ease;}
+        .recon-bar.balanced .recon-fill{background:var(--success);}
+        .recon-bar.under .recon-fill{background:#f59e0b;}
+        .recon-bar.over .recon-fill{background:var(--danger);}
+        /* Recon status chip in listing */
+        .recon-chip{display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:5px;font-size:10.5px;font-weight:700;white-space:nowrap;}
+        .recon-chip.balanced{background:var(--success-light);color:var(--success);}
+        .recon-chip.under{background:#fffbeb;color:#92400e;}
+        .recon-chip.over{background:var(--danger-light);color:var(--danger);}
+        .recon-chip.no-items{background:var(--gray-100);color:var(--gray-400);}
+
         /* ── CLONE MODAL ── */
         .clone-modal-box{max-width:440px;}
         .clone-preview{background:var(--gray-50);border-radius:10px;padding:14px 16px;display:flex;flex-direction:column;gap:6px;}
@@ -3375,6 +3490,44 @@
         }
         .btn-add-type:hover{transform:translateY(-1px);filter:brightness(1.08);}
 
+        /* ── Searchable type picker (dropdown + create) ── */
+        /* ── Searchable input pickers (always-visible search + results popover) ── */
+        .ta-type-picker{position:relative;margin-bottom:12px;}
+        .ta-type-search-wrap{position:relative;}
+        .ta-type-search-wrap > svg{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--gray-400);pointer-events:none;}
+        .ta-type-search-wrap input{width:100%;height:40px;border:1px solid var(--gray-200);border-radius:10px;padding:0 12px 0 34px;font-size:13px;font-family:inherit;background:var(--white);color:var(--gray-800);transition:var(--transition);}
+        .ta-type-search-wrap input:focus{outline:none;border-color:var(--primary);box-shadow:0 0 0 3px color-mix(in srgb,var(--primary) 12%,transparent);}
+        .ta-type-dropdown{position:absolute;top:calc(100% + 5px);left:0;right:0;background:var(--white);border:1px solid var(--gray-200);border-radius:11px;box-shadow:0 14px 40px rgba(0,0,0,0.16);z-index:60;opacity:0;visibility:hidden;transform:translateY(-6px);transition:opacity .14s,transform .14s,visibility .14s;overflow:hidden;}
+        .ta-type-picker.open .ta-type-dropdown{opacity:1;visibility:visible;transform:none;}
+        .ta-type-list{max-height:230px;overflow-y:auto;padding:6px;}
+        .ta-type-opt{display:flex;align-items:center;gap:10px;width:100%;padding:8px 11px;border:none;background:none;border-radius:8px;cursor:pointer;font-size:13px;color:var(--gray-700);text-align:left;transition:background .12s;font-family:inherit;}
+        .ta-type-opt:hover{background:var(--primary-light);color:var(--primary);}
+        .ta-type-opt .dot{width:6px;height:6px;border-radius:50%;background:var(--gray-300);flex-shrink:0;}
+        .ta-type-opt:hover .dot{background:var(--primary);}
+        .ta-type-create{display:flex;align-items:center;gap:10px;width:100%;padding:9px 11px;border:none;border-top:1px solid var(--gray-100);background:none;cursor:pointer;font-size:13px;font-weight:600;color:var(--primary);text-align:left;font-family:inherit;}
+        .ta-type-create:hover{background:var(--primary-light);}
+        .ta-type-create .plus{width:20px;height:20px;border-radius:6px;background:var(--primary);color:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+        .ta-type-empty{padding:14px;text-align:center;font-size:12px;color:var(--gray-400);}
+        [data-dark="true"] .ta-type-dropdown{background:#1e2130;border-color:#363b52;}
+        [data-dark="true"] .ta-type-search-wrap input{background:#252836;border-color:#363b52;color:#e5e7eb;}
+        [data-dark="true"] .ta-type-opt{color:#d1d5db;}
+
+        /* ── Activity picker (per card) — same always-visible search pattern ── */
+        .ta-act-row{display:flex;gap:7px;align-items:stretch;padding:8px 0 2px;}
+        .ta-act-picker{position:relative;flex:1;min-width:0;}
+        .ta-act-search-wrap{position:relative;}
+        .ta-act-search-wrap > svg{position:absolute;left:10px;top:50%;transform:translateY(-50%);color:var(--gray-400);pointer-events:none;}
+        .ta-act-search-wrap input{width:100%;height:34px;border:1px solid var(--gray-200);border-radius:8px;padding:0 10px 0 30px;font-size:12.5px;font-family:inherit;background:var(--white);color:var(--gray-800);transition:var(--transition);}
+        .ta-act-search-wrap input:focus{outline:none;border-color:var(--primary);box-shadow:0 0 0 3px color-mix(in srgb,var(--primary) 12%,transparent);}
+        .ta-act-dropdown{position:absolute;top:calc(100% + 5px);left:0;right:0;background:var(--white);border:1px solid var(--gray-200);border-radius:10px;box-shadow:0 14px 40px rgba(0,0,0,0.16);z-index:60;opacity:0;visibility:hidden;transform:translateY(-6px);transition:opacity .14s,transform .14s,visibility .14s;overflow:hidden;}
+        .ta-act-picker.open .ta-act-dropdown{opacity:1;visibility:visible;transform:none;}
+        .ta-act-price{width:118px;flex-shrink:0;height:34px;border:1px solid var(--gray-200);border-radius:8px;padding:0 11px;font-size:12.5px;font-family:inherit;background:var(--white);color:var(--gray-800);}
+        .ta-act-price:focus{outline:none;border-color:var(--primary);box-shadow:0 0 0 3px color-mix(in srgb,var(--primary) 12%,transparent);}
+        .ta-act-add{width:34px;flex-shrink:0;display:flex;align-items:center;justify-content:center;background:var(--primary-light);color:var(--primary);border:none;border-radius:8px;cursor:pointer;transition:var(--transition);}
+        .ta-act-add:hover{background:var(--primary);color:#fff;}
+        [data-dark="true"] .ta-act-search-wrap input,[data-dark="true"] .ta-act-price{background:#252836;border-color:#363b52;color:#e5e7eb;}
+        [data-dark="true"] .ta-act-dropdown{background:#1e2130;border-color:#363b52;}
+
         /* Empty state */
         .ta-empty-state{
             text-align:center;padding:56px 24px;border:2px dashed var(--gray-200);
@@ -3390,13 +3543,15 @@
 
         /* Type block */
         .type-block{
-            background:var(--white);border:1.5px solid var(--gray-200);border-radius:14px;
-            margin-bottom:12px;overflow:hidden;transition:border-color 0.2s;
+            background:var(--white);border:1.5px solid var(--gray-200);border-radius:12px;
+            margin-bottom:8px;position:relative;transition:border-color 0.2s;
         }
         .type-block:hover{border-color:var(--primary);}
+        .type-block:has(.ta-type-picker.open),.type-block:has(.ta-act-picker.open){z-index:40;}
         .type-block-header{
             display:flex;align-items:center;justify-content:space-between;
-            padding:14px 16px;background:var(--gray-50);border-bottom:1px solid var(--gray-100);
+            padding:8px 12px;background:var(--gray-50);border-bottom:1px solid var(--gray-100);
+            border-radius:11px 11px 0 0;
         }
         .type-block-name-wrap{display:flex;align-items:center;gap:10px;}
         .type-block-dot{
@@ -3414,12 +3569,51 @@
         .type-block-btn.add-act:hover{background:var(--primary);color:#fff;}
         .type-block-btn.del-type{background:var(--danger-light);color:var(--danger);}
         .type-block-btn.del-type:hover{background:var(--danger);color:#fff;}
+        .type-block-btn.link-items{background:#fff7ed;color:#c2410c;}
+        .type-block-btn.link-items:hover{background:#c2410c;color:#fff;}
+
+        /* Linked items strip inside type card */
+        .type-linked-items{padding:6px 12px;border-top:1px solid var(--gray-100);display:flex;align-items:flex-start;gap:8px;background:#fffbf5;}
+        .type-linked-items-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:#c2410c;white-space:nowrap;padding-top:3px;flex-shrink:0;}
+        .type-linked-items-chips{display:flex;flex-wrap:wrap;gap:5px;}
+        .type-linked-item-chip{display:inline-flex;align-items:center;gap:4px;background:#fff7ed;border:1px solid #fed7aa;border-radius:5px;padding:2px 7px;font-size:11px;font-weight:600;color:#9a3412;}
+        .type-linked-item-chip button{background:none;border:none;cursor:pointer;color:#c2410c;padding:0;display:flex;align-items:center;line-height:1;opacity:.7;}
+        .type-linked-item-chip button:hover{opacity:1;}
+        .type-linked-none{font-size:11.5px;color:var(--gray-400);font-style:italic;}
+
+        /* Item badge on Zoho Items table — shows which type(s) it's tagged to */
+        .zi-type-tag{display:inline-flex;align-items:center;gap:3px;background:var(--primary-light);color:var(--primary);border-radius:4px;padding:1px 6px;font-size:10px;font-weight:700;margin-left:4px;}
+
+        /* Item link picker drawer */
+        .ilp-overlay{position:fixed;inset:0;z-index:3600;opacity:0;visibility:hidden;pointer-events:none;transition:opacity .2s,visibility .2s;}
+        .ilp-overlay.active{opacity:1;visibility:visible;pointer-events:auto;}
+        .ilp-backdrop{position:absolute;inset:0;background:rgba(0,0,0,.35);}
+        .ilp-panel{position:absolute;right:0;top:0;bottom:0;width:360px;background:var(--white);display:flex;flex-direction:column;box-shadow:-8px 0 32px rgba(0,0,0,.18);transform:translateX(100%);transition:transform .25s cubic-bezier(.4,0,.2,1);}
+        .ilp-overlay.active .ilp-panel{transform:translateX(0);}
+        .ilp-header{padding:18px 18px 14px;border-bottom:1px solid var(--gray-100);flex-shrink:0;}
+        .ilp-title{font-size:14px;font-weight:700;color:var(--gray-900);}
+        .ilp-sub{font-size:11.5px;color:var(--gray-500);margin-top:2px;}
+        .ilp-list{flex:1;overflow-y:auto;padding:10px 0;}
+        .ilp-item{display:flex;align-items:flex-start;gap:10px;padding:12px 18px;cursor:pointer;transition:background .12s;border-bottom:1px solid var(--gray-50);}
+        .ilp-item:hover{background:var(--gray-50);}
+        .ilp-item.selected{background:#fff7ed;}
+        .ilp-checkbox{width:18px;height:18px;border-radius:5px;border:2px solid var(--gray-300);flex-shrink:0;margin-top:1px;display:flex;align-items:center;justify-content:center;transition:all .12s;}
+        .ilp-item.selected .ilp-checkbox{background:#c2410c;border-color:#c2410c;}
+        .ilp-item-body{flex:1;min-width:0;}
+        .ilp-item-desc{font-size:12.5px;font-weight:600;color:var(--gray-800);}
+        .ilp-item-meta{font-size:11px;color:var(--gray-500);margin-top:2px;}
+        .ilp-item-amount{font-size:12px;font-weight:700;color:var(--gray-700);font-family:'Courier New',monospace;white-space:nowrap;}
+        .ilp-item-tags{margin-top:4px;display:flex;flex-wrap:wrap;gap:3px;}
+        .ilp-footer{padding:14px 18px;border-top:1px solid var(--gray-100);display:flex;gap:8px;flex-shrink:0;}
+        [data-dark="true"] .ilp-panel{background:#1e2130!important;}
+        [data-dark="true"] .ilp-item.selected{background:#2d1f0e!important;}
+
 
         /* Activity rows */
-        .type-activities{padding:0 16px;}
+        .type-activities{padding:0 12px;}
         .activity-entry{
             display:flex;align-items:center;justify-content:space-between;
-            padding:10px 0;border-bottom:1px solid var(--gray-100);
+            padding:6px 0;border-bottom:1px solid var(--gray-100);
         }
         .activity-entry:last-child{border-bottom:none;}
         .activity-entry-left{display:flex;align-items:center;gap:8px;}
@@ -3447,8 +3641,8 @@
         .add-activity-btn:hover{color:var(--primary-dark);}
         .type-block-total{
             display:flex;justify-content:flex-end;align-items:center;gap:6px;
-            padding:10px 16px;background:var(--gray-50);border-top:1px solid var(--gray-100);
-            font-size:12px;
+            padding:7px 12px;background:var(--gray-50);border-top:1px solid var(--gray-100);
+            font-size:12px;border-radius:0 0 11px 11px;
         }
         .type-block-total-label{color:var(--gray-500);font-weight:500;}
         .type-block-total-amount{font-weight:800;color:var(--primary);font-family:'Courier New',monospace;}
@@ -12437,6 +12631,7 @@
         #page-vendor-bills.page-section.active,
         #page-vendor-mileage.page-section.active,
         #page-vendor-material.page-section.active,
+        #page-vendor-po.page-section.active,
         #page-inventory.page-section.active {
             display: flex;
             flex-direction: column;
@@ -12448,6 +12643,7 @@
         #page-vendor-bills .table-card,
         #page-vendor-mileage .table-card,
         #page-vendor-material .table-card,
+        #page-vendor-po .table-card,
         #page-inventory .table-card {
             flex: 1;
             min-height: 0;
@@ -12459,6 +12655,7 @@
         #page-vendor-bills .premium-table-wrapper,
         #page-vendor-mileage .premium-table-wrapper,
         #page-vendor-material .premium-table-wrapper,
+        #page-vendor-po .premium-table-wrapper,
         #page-inventory .premium-table-wrapper {
             flex: 1;
             overflow-x: auto;
@@ -12485,6 +12682,7 @@
         #page-vendor-bills .control-bar,
         #page-vendor-mileage .control-bar,
         #page-vendor-material .control-bar,
+        #page-vendor-po .control-bar,
         #page-inventory .control-bar {
             flex-shrink: 0;
         }
@@ -16313,10 +16511,11 @@
                         </svg>
                     </button>
                     <div class="nav-submenu">
-                        <a href="#" class="nav-submenu-link" id="nav-vendor-insights" onclick="showPage('vendor-overview','Vendor Overview');return false;">Overview</a>
+                        <a href="#" class="nav-submenu-link" onclick="showPage('vendor-overview','Vendor Overview');return false;">Overview</a>
                         <a href="#" class="nav-submenu-link" onclick="showPage('vendor','Vendors');return false;">Vendors</a>
                         <a href="#" class="nav-submenu-link" onclick="showPage('vendor-bills','Bills');return false;">Bills</a>
                         <a href="#" class="nav-submenu-link" onclick="showPage('vendor-mileage','Mileage');return false;">Mileage</a>
+                        <a href="#" class="nav-submenu-link" onclick="showPage('vendor-po','PO Listing');return false;">PO Listing</a>
                     </div>
                 </div>
 
@@ -16657,6 +16856,7 @@
                         <div class="cb-divider"></div>
                         <button class="cb-icon-btn" onclick="openFilterPanel()" title="Filter"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"/></svg></button>
                         <button class="cb-icon-btn" onclick="openColumnCustomizer()" title="Customize Columns"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 17V7m0 10a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h2a2 2 0 012 2m0 10a2 2 0 002 2h2a2 2 0 002-2M9 7a2 2 0 012-2h2a2 2 0 012 2m0 10V7m0 10a2 2 0 002 2h2a2 2 0 002-2V7a2 2 0 00-2-2h-2a2 2 0 00-2 2"/></svg></button>
+                        <button class="cb-icon-btn" onclick="ucfOpen('attendance')" title="Custom Columns (rename &amp; fill your own fields)"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg></button>
                         <button class="cb-icon-btn" title="Refresh"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg></button>
                         <button class="cb-icon-btn" onclick="attOpenImportModal()" title="Import Attendance (backfill missed entries)"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/></svg></button>
                         <button class="cb-icon-btn" onclick="openExportModal()" title="Export"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg></button>
@@ -18591,6 +18791,9 @@ if (typeof showPage === 'function') {
                       <button class="cb-icon-btn" title="Refresh">
                         <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
                       </button>
+                      <button class="cb-icon-btn" onclick="ucfOpen('reimbursement')" title="Custom Columns (rename &amp; fill your own fields)">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg>
+                      </button>
                       <button class="cb-create-claim-btn" onclick="ccOpenCreateClaim()" title="Create new expense claim">
                         <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M12 4v16m8-8H4"/></svg>
                         <span>Create Claim</span>
@@ -20064,6 +20267,67 @@ if (typeof showPage === 'function') {
                     </div>
                 </div>
 
+                <!-- ════════════════════════════════ PAGE: VENDOR PO LISTING ════════════════════════════ -->
+                <div id="page-vendor-po" class="page-section">
+
+                    <!-- Control Bar -->
+                    <div class="control-bar">
+                        <div style="display:flex;align-items:center;gap:8px;flex-shrink:0;margin-right:8px;">
+                            <span style="display:inline-flex;align-items:center;gap:7px;font-size:13px;font-weight:700;font-family:'Fraunces',serif;white-space:nowrap;background:linear-gradient(90deg,var(--primary),color-mix(in srgb,var(--primary) 60%,var(--cta)));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">
+                                <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="-webkit-text-fill-color:initial;color:var(--primary);flex-shrink:0;"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+                                PO Listing
+                            </span>
+                            <span id="vndPORecordCount" style="font-size:11px;font-weight:600;background:color-mix(in srgb,var(--primary) 12%,transparent);color:var(--primary);border:1px solid color-mix(in srgb,var(--primary) 22%,transparent);border-radius:5px;padding:2px 7px;white-space:nowrap;">6 records</span>
+                        </div>
+                        <div class="search-container">
+                            <span class="search-icon"><svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg></span>
+                            <input type="text" class="search-input" id="vndPOSearchInput" placeholder="Search by PO number, vendor, project…" oninput="vndPOHandleSearch(this.value)">
+                        </div>
+                        <button class="cb-icon-btn" title="Refresh" onclick="vndPORenderTable()"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg></button>
+                        <button class="cb-icon-btn" title="Export"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg></button>
+                        <button class="btn-add" style="background:var(--gray-100);color:var(--primary);box-shadow:none;border:1.5px solid color-mix(in srgb,var(--primary) 25%,transparent);" onclick="vndPOOpenSyncModal()">
+                            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.2"/></svg>
+                            Sync Zoho
+                        </button>
+                        <button class="btn-add" onclick="showToast('New Vendor PO — coming soon.','info')">
+                            <svg width="15" height="15" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"/></svg>
+                            New PO
+                        </button>
+                    </div>
+
+                    <!-- Table -->
+                    <div class="table-card">
+                        <div class="premium-table-wrapper">
+                            <table class="premium-table">
+                                <thead>
+                                    <tr>
+                                        <th>PO Number</th>
+                                        <th>Zoho PO #</th>
+                                        <th>Vendor</th>
+                                        <th>Project</th>
+                                        <th style="text-align:right;">Amount</th>
+                                        <th>Status</th>
+                                        <th>Zoho Sync</th>
+                                        <th style="width:46px;"></th>
+                                    </tr>
+                                </thead>
+                                <tbody id="vndPOTableBody"></tbody>
+                            </table>
+                        </div>
+                        <div class="table-footer">
+                            <div class="pagination-info" id="vndPOPaginationInfo"></div>
+                            <div class="pagination-controls" id="vndPOPaginationControls"></div>
+                            <div class="page-limit-selector">
+                                <span class="page-limit-label">Rows per page:</span>
+                                <select class="page-limit-select" id="vndPOPageLimit" onchange="vndPORenderTable()">
+                                    <option value="20" selected>20</option><option value="50">50</option><option value="100">100</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                </div><!-- /#page-vendor-po -->
+
                 <!-- ════════════════════════════════ PAGE: VENDOR MATERIAL PURCHASE ════════════════════════════ -->
                 <div id="page-vendor-material" class="page-section">
 
@@ -20562,6 +20826,10 @@ if (typeof showPage === 'function') {
                 <button class="cb-icon-btn" onclick="poRefreshTable()" title="Refresh"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg></button>
                 <button class="cb-icon-btn" onclick="poExportCSV()" title="Export"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg></button>
                 <button class="cb-icon-btn" onclick="poOpenImportModal()" title="Import"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/></svg></button>
+                <button class="btn-add" style="background:var(--gray-100);color:var(--primary);box-shadow:none;border:1.5px solid color-mix(in srgb,var(--primary) 25%,transparent);" onclick="soOpenSyncModal()">
+                    <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.2"/></svg>
+                    Sync Zoho
+                </button>
                 <button class="btn-add" onclick="poOpenAddModal()">
                     <svg width="15" height="15" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"/></svg>
                     Add SO
@@ -20593,6 +20861,8 @@ if (typeof showPage === 'function') {
                                 <th>Validity</th>
                                 <th>Location</th>
                                 <th class="sortable" onclick="poSortBy('date')">PO Date <span class="sort-icon" id="po-si-date"></span></th>
+                                <th>Zoho Items</th>
+                                <th>Reconciliation</th>
                                 <th style="width:46px;"></th>
                             </tr>
                         </thead>
@@ -20694,91 +20964,8 @@ if (typeof showPage === 'function') {
 
         <!-- Body: two-column -->
         <div class="po-create-body">
-            <!-- LEFT: Basic Info -->
+            <!-- LEFT: SO Summary -->
             <div class="po-create-left">
-                <div class="po-section-card">
-                    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
-                        <div class="po-section-title" style="margin-bottom:0;">
-                            <div class="po-section-icon">
-                                <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
-                            </div>
-                            Basic Details
-                        </div>
-                        <span style="font-size:10.5px;color:var(--gray-400);"><span style="color:var(--danger);">*</span> Required</span>
-                    </div>
-                    <div class="form-grid">
-                        <div class="form-group">
-                            <label class="form-label">SO Number <span class="required">*</span></label>
-                            <input type="text" class="form-input" id="poFPONumber" placeholder="e.g. SO-300">
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label">SO Date <span class="required">*</span></label>
-                            <input type="date" class="form-input" id="poFPODate">
-                        </div>
-                    </div>
-                    <div class="form-grid">
-                        <div class="form-group">
-                            <label class="form-label">Client <span class="required">*</span></label>
-                            <select class="form-input" id="poFClient">
-                                <option value="">Select client…</option>
-                                <option>Voult Inc</option>
-                                <option>TestNS</option>
-                                <option>Jio</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label">Project <span class="required">*</span></label>
-                            <select class="form-input" id="poFProject">
-                                <option value="">Select project…</option>
-                                <option>Voult</option>
-                                <option>TestP</option>
-                                <option>jio4g</option>
-                                <option>jio-two</option>
-                                <option>Carle</option>
-                                <option>4G-upgrade-punjab</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-grid">
-                        <div class="form-group">
-                            <label class="form-label">Circle</label>
-                            <select class="form-input" id="poFCircle">
-                                <option value="">Select circle…</option>
-                                <option value="CHD">CHD – Chandigarh</option>
-                                <option value="HP">HP – Himachal Pradesh</option>
-                                <option value="PB">PB – Punjab</option>
-                                <option value="HR">HR – Haryana</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label">Location</label>
-                            <input type="text" class="form-input" id="poFLocation" placeholder="e.g. Chandigarh">
-                        </div>
-                    </div>
-                    <div class="form-grid">
-                        <div class="form-group">
-                            <label class="form-label">Valid From</label>
-                            <input type="date" class="form-input" id="poFValidFrom">
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label">Valid To</label>
-                            <input type="date" class="form-input" id="poFValidTo">
-                        </div>
-                    </div>
-                    <div class="form-grid">
-                        <div class="form-group">
-                            <label class="form-label">Quantity</label>
-                            <input type="number" class="form-input" id="poFQty" placeholder="0" min="0" oninput="poRenderSummary()">
-                        </div>
-                        <div class="form-group" style="justify-content:flex-end;padding-top:20px;">
-                            <label class="milestone-toggle" onclick="poToggleMilestone()">
-                                <div class="milestone-check" id="poMilestoneCheck"></div>
-                                <span>Milestone SO</span>
-                            </label>
-                        </div>
-                    </div>
-                </div>
-
                 <!-- SO Summary -->
                 <div class="po-summary-card" id="poSummaryCard">
                     <div class="po-section-title">
@@ -20788,12 +20975,12 @@ if (typeof showPage === 'function') {
                         SO Summary
                     </div>
                     <div id="poSummaryContent">
-                        <div class="summary-empty">Add types & activities on the right to see the cost summary here.</div>
+                        <div class="summary-empty">Add types & activities to see the cost summary here.</div>
                     </div>
                 </div>
             </div>
 
-            <!-- RIGHT: Types & Activities -->
+            <!-- RIGHT: Types & Activities only -->
             <div class="po-create-right">
                 <div class="po-section-card" style="min-height:100%;">
                     <div class="po-ta-header">
@@ -20804,11 +20991,19 @@ if (typeof showPage === 'function') {
                             Types &amp; Activities
                             <span id="poTaCountBadge" style="display:none;background:var(--primary-light);color:var(--primary);border-radius:5px;padding:1px 7px;font-size:10.5px;font-weight:700;font-family:'DM Sans',sans-serif;margin-left:4px;"></span>
                         </div>
-                        <button class="btn-add-type" onclick="poAddNewType()">
-                            <svg width="13" height="13" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"/></svg>
-                            Add Type
-                        </button>
                     </div>
+
+                    <!-- Searchable type picker: always-visible search; focus shows options, type filters, + creates -->
+                    <div class="ta-type-picker" id="poTypePicker">
+                        <div class="ta-type-search-wrap">
+                            <svg width="15" height="15" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+                            <input id="poTypeSearch" placeholder="Search or add a work type…" autocomplete="off" onfocus="poOpenTypeResults()" oninput="poRenderTypeDropdownList()" onkeydown="poTypeSearchKey(event)">
+                        </div>
+                        <div class="ta-type-dropdown" id="poTypeDropdown">
+                            <div class="ta-type-list" id="poTypeDropdownList"></div>
+                        </div>
+                    </div>
+                    <datalist id="poActDatalist"></datalist>
 
                     <div id="poTypesContainer"></div>
 
@@ -20818,11 +21013,7 @@ if (typeof showPage === 'function') {
                                 <svg width="28" height="28" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/></svg>
                             </div>
                             <div class="ta-empty-title">No types added yet</div>
-                            <div class="ta-empty-sub">Click "Add Type" to define work categories and their activities with pricing</div>
-                            <button class="btn-add-type" style="margin-top:12px;" onclick="poAddNewType()">
-                                <svg width="13" height="13" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"/></svg>
-                                Add First Type
-                            </button>
+                            <div class="ta-empty-sub">Type a work type in the box above and press Enter — then add activities inline on the card</div>
                         </div>
                     </div>
                 </div>
@@ -24845,6 +25036,7 @@ if (typeof showPage === 'function') {
                                     <tr>
                                         <th class="sortable" onclick="circSortBy('code')">Code <span class="sort-icon" id="circ-si-code"></span></th>
                                         <th class="sortable" onclick="circSortBy('name')">Circle Name <span class="sort-icon" id="circ-si-name"></span></th>
+                                        <th class="sortable" onclick="circSortBy('location')" title="Location synced from Zoho">Location <span class="sort-icon" id="circ-si-location"></span></th>
                                         <th>Status</th>
                                         <th class="sortable" onclick="circSortBy('added_by')">Added By <span class="sort-icon" id="circ-si-added_by"></span></th>
                                         <th class="sortable" onclick="circSortBy('date')">Created <span class="sort-icon" id="circ-si-date"></span></th>
@@ -28677,8 +28869,19 @@ if (typeof showPage === 'function') {
             ];
 
             // ── Grid Options ───────────────────────────────────────────────
+            // Build full column set = base columns + org custom columns (before Actions)
+            window.__attColDefs = function(){
+                const base = columnDefs.slice();
+                let ai = base.findIndex(c => c.headerName === 'Actions');
+                if (ai < 0) ai = base.length;
+                const custom = (typeof window.ucfColDefs === 'function')
+                    ? window.ucfColDefs('attendance', function(p){ return p.data; })
+                    : [];
+                base.splice(ai, 0, ...custom);
+                return base;
+            };
             const gridOptions = {
-                columnDefs: columnDefs,
+                columnDefs: window.__attColDefs(),
                 rowData: attendanceData.data.records,
                 defaultColDef: {
                     sortable: true,
@@ -30474,8 +30677,20 @@ if (typeof showPage === 'function') {
       ];
 
       // ── Grid Options ────────────────────────────────────────────────
+      // Full column set = base columns + org custom columns (before Actions)
+      window.__reimColDefs = function(){
+        var base = columnDefs.slice();
+        var ai = -1;
+        for (var i = 0; i < base.length; i++){ if (base[i].headerName === 'Actions'){ ai = i; break; } }
+        if (ai < 0) ai = base.length;
+        var custom = (typeof window.ucfColDefs === 'function')
+          ? window.ucfColDefs('reimbursement', function(p){ return p.data ? p.data.claim : null; })
+          : [];
+        Array.prototype.splice.apply(base, [ai, 0].concat(custom));
+        return base;
+      };
       var gridOptions = {
-        columnDefs: columnDefs,
+        columnDefs: window.__reimColDefs(),
         rowData: rowData,
         defaultColDef: { sortable: true, filter: true, resizable: true },
         pagination: true,
@@ -30682,6 +30897,58 @@ if (typeof showPage === 'function') {
 const RAW = {"code":200,"message":"Purchase Orders fetched successfully.","data":{"page":1,"page_size":10,"total_count":24,"total_records":10,"total_pages":3,"purchase_orders":[{"id":529281481193,"po_number":"PO-200","po_date":"2026-02-18","circle":[],"client":{"id":543278181387,"name":"Voult Inc"},"project":{"id":206791603630,"name":"Voult"},"quantity":20,"valid_from":"2026-02-18","valid_to":"2026-02-18","location":"chandigarh","created_at":"2026-02-19T07:09:17.748330","types":[{"id":915280904378,"name":"Network Outage","activities":[{"id":379797372097,"name":"Stiches & Screw Fix","amount":20.0}]},{"id":537291264679,"name":"5G Small Cell Installation","activities":[{"id":379797372097,"name":"Stiches & Screw Fix","amount":20.0},{"id":725017274944,"name":"Site Survey","amount":20.0}]},{"id":387888710486,"name":"ONT Installation","activities":[{"id":379797372097,"name":"Stiches & Screw Fix","amount":20.0},{"id":725017274944,"name":"Site Survey","amount":20.0}]}],"is_milestone_po":0},{"id":145642603224,"po_number":"PO-83962","po_date":"2025-12-08","circle":[],"client":{"id":758318306088,"name":"TestNS"},"project":{"id":106652450867,"name":"TestP"},"quantity":112,"valid_from":"2025-12-08","valid_to":"2026-02-17","location":"Phase7","created_at":"2026-02-19T06:44:46.933440","types":[{"id":537291264679,"name":"5G Small Cell Installation","activities":[{"id":725017274944,"name":"Site Survey","amount":23490.0}]},{"id":915280904378,"name":"Network Outage","activities":[{"id":725017274944,"name":"Site Survey","amount":3456.0}]}],"is_milestone_po":0},{"id":493713228834,"po_number":"PO-83961","po_date":"2025-12-08","circle":[],"client":{"id":758318306088,"name":"TestNS"},"project":{"id":106652450867,"name":"TestP"},"quantity":112,"valid_from":"2025-12-08","valid_to":"2026-02-17","location":"Phase7","created_at":"2026-02-19T06:39:21.978703","types":[{"id":218272036123,"name":"Fiber Cable Installation","activities":[{"id":332716348509,"name":"TEL-1001","amount":1023.0},{"id":725017274944,"name":"Site Survey","amount":345.0}]}],"is_milestone_po":0},{"id":258110690997,"po_number":"PO-83959","po_date":"2025-12-08","circle":[],"client":{"id":758318306088,"name":"TestNS"},"project":{"id":106652450867,"name":"TestP"},"quantity":112,"valid_from":"2025-12-08","valid_to":"2026-02-17","location":"Phase7","created_at":"2026-02-19T06:28:18.509398","types":[{"id":218272036123,"name":"Fiber Cable Installation","activities":[{"id":332716348509,"name":"TEL-1001","amount":1023.0}]}],"is_milestone_po":0},{"id":477326208126,"po_number":"123456","po_date":"2026-02-06","circle":[{"id":865140612260,"name":"Himanchal pardesh","code":"HP"}],"client":{"id":373672710881,"name":"Jio"},"project":{"id":315868042937,"name":"jio-two"},"quantity":12,"valid_from":"2026-02-27","valid_to":"2026-02-28","location":"Mohali","created_at":"2026-02-19T06:10:23.398760","types":[{"id":879351724063,"name":"DSL Connection Troubleshooting","activities":[{"id":633358020751,"name":"LI-TEL-2001","amount":234.0}]},{"id":537291264679,"name":"5G Small Cell Installation","activities":[{"id":379797372097,"name":"Stiches & Screw Fix","amount":123.0}]}],"is_milestone_po":0},{"id":758721982978,"po_number":"PO-20021","po_date":"2026-02-18","circle":[],"client":{"id":543278181387,"name":"Voult Inc"},"project":{"id":206791603630,"name":"Voult"},"quantity":20,"valid_from":"2025-12-08","valid_to":"2025-12-08","location":"Chandigarh","created_at":"2026-02-19T05:44:02.155853","types":[{"id":915280904378,"name":"Network Outage","activities":[{"id":379797372097,"name":"Stiches & Screw Fix","amount":20.0}]}],"is_milestone_po":0},{"id":656989871698,"po_number":"PO-20020","po_date":"2026-02-18","circle":[],"client":{"id":543278181387,"name":"Voult Inc"},"project":{"id":206791603630,"name":"Voult"},"quantity":20,"valid_from":"2025-12-08","valid_to":"2025-12-08","location":"Chandigarh","created_at":"2026-02-19T05:39:15.681908","types":[{"id":915280904378,"name":"Network Outage","activities":[{"id":379797372097,"name":"Stiches & Screw Fix","amount":20.0}]}],"is_milestone_po":0},{"id":835969282796,"po_number":"PO-83958","po_date":"2025-12-09","circle":[],"client":{"id":758318306088,"name":"TestNS"},"project":{"id":106652450867,"name":"TestP"},"quantity":123,"valid_from":"2025-12-09","valid_to":"2026-02-17","location":"Phase7","created_at":"2026-02-17T07:27:03.325429","types":[{"id":387888710486,"name":"ONT Installation","activities":[{"id":725017274944,"name":"Site Survey","amount":345.0}]}],"is_milestone_po":0},{"id":470794628683,"po_number":"PO-83957","po_date":"2025-12-08","circle":[],"client":{"id":758318306088,"name":"TestNS"},"project":{"id":106652450867,"name":"TestP"},"quantity":112,"valid_from":"2025-12-08","valid_to":"2026-02-17","location":"Phase7","created_at":"2026-02-17T07:27:01.396435","types":[{"id":218272036123,"name":"Fiber Cable Installation","activities":[{"id":332716348509,"name":"TEL-1001","amount":1230.0}]}],"is_milestone_po":0},{"id":434536660631,"po_number":"555","po_date":"2026-02-11","circle":[{"id":865140612260,"name":"Himanchal pardesh","code":"HP"}],"client":{"id":543278181387,"name":"Voult Inc"},"project":{"id":933997691523,"name":"Carle"},"quantity":50,"valid_from":"2026-02-11","valid_to":"2026-02-11","location":"Chandigarh","created_at":"2026-02-11T07:20:20.730090","types":[{"id":879351724063,"name":"DSL Connection Troubleshooting","activities":[{"id":332716348509,"name":"TEL-1001","amount":800.0},{"id":633358020751,"name":"LI-TEL-2001","amount":200.0}]}],"is_milestone_po":0}]}};
 
 const allPOs = RAW.data.purchase_orders;
+
+/* ── ZOHO LINE ITEMS DEMO DATA ──────────────────────────────────────────────
+   In production these come from the sync endpoint.
+   Seeded on first 6 POs to demonstrate all reconciliation states.           */
+const ZI_DEMO = {
+  529281481193: { synced_at:'2026-06-15 09:14', items:[
+    { desc:'Tower Installation Service', hsn:'998731', qty:1, unit:'Job', rate:80, tax_pct:18, amount:80 },
+    { desc:'Cable Laying',               hsn:'998731', qty:2, unit:'Job', rate:10, tax_pct:18, amount:20 },
+  ]},  /* tagged=100, zoho_total=100 → balanced */
+  145642603224: { synced_at:'2026-06-15 09:14', items:[
+    { desc:'5G Small Cell Supply',       hsn:'851762', qty:1, unit:'Nos', rate:20000, tax_pct:18, amount:20000 },
+    { desc:'Network Planning Service',   hsn:'998732', qty:1, unit:'Job', rate:10000, tax_pct:18, amount:10000 },
+  ]},  /* tagged=26946, zoho_total=30000 → under */
+  493713228834: { synced_at:'2026-06-15 09:14', items:[
+    { desc:'Fiber Cable (Per Mtr)',      hsn:'854470', qty:100, unit:'Mtr', rate:12, tax_pct:18, amount:1200 },
+    { desc:'OFC Splicing Labour',        hsn:'998733', qty:2,   unit:'Job', rate:50, tax_pct:18, amount:100  },
+  ]},  /* tagged=1368, zoho_total=1300 → over */
+  258110690997: { synced_at:'2026-06-15 09:14', items:[
+    { desc:'Fiber Cable Supply',         hsn:'854470', qty:50,  unit:'Mtr', rate:20, tax_pct:18, amount:1000 },
+    { desc:'Installation Labour',        hsn:'998733', qty:1,   unit:'Job', rate:23, tax_pct:18, amount:23   },
+  ]},  /* tagged=1023, zoho_total=1023 → balanced */
+  477326208126: { synced_at:'2026-06-14 16:30', items:[
+    { desc:'DSL Equipment',              hsn:'851769', qty:1,   unit:'Nos', rate:357, tax_pct:18, amount:357 },
+  ]},  /* tagged=357, zoho_total=357 → balanced */
+  /* 758721982978 no items → no_items state */
+};
+
+allPOs.forEach(p => {
+  const zi = ZI_DEMO[p.id];
+  if (zi) {
+    p.zoho_line_items = zi.items;
+    p.zoho_items_synced_at = zi.synced_at;
+    p.zoho_items_total = zi.items.reduce((s, i) => s + i.amount, 0);
+  } else {
+    p.zoho_line_items = [];
+    p.zoho_items_total = 0;
+    p.zoho_items_synced_at = null;
+  }
+  // tagged_total = sum of all activity amounts across all types
+  p.tagged_total = (p.types||[]).reduce((s,t) =>
+    s + (t.activities||[]).reduce((ss,a) => ss + a.amount, 0), 0);
+  // reconciliation_status
+  if (!p.zoho_line_items.length) {
+    p.reconciliation_status = 'no_items';
+    p.reconciliation_gap = 0;
+  } else {
+    const gap = Math.round((p.zoho_items_total - p.tagged_total) * 100) / 100;
+    p.reconciliation_gap = gap;
+    p.reconciliation_status = gap === 0 ? 'balanced' : gap > 0 ? 'under' : 'over';
+  }
+});
+
 let poFiltered = [...allPOs];
 let poSortKey = null, poSortDir = 1;
 const PO_PAGE_SIZE = 10;
@@ -30708,6 +30975,20 @@ function poRenderRow(po, idx) {
           (po.types.length > 2 ? `<span class="type-pill" style="background:var(--gray-100);color:var(--gray-500);">+${po.types.length-2}</span>` : '')
         : '—';
 
+    // Zoho Items summary cell
+    const ziCount = (po.zoho_line_items||[]).length;
+    const ziCell = ziCount > 0
+        ? `<span style="display:inline-flex;align-items:center;gap:4px;font-size:11.5px;font-weight:600;color:var(--primary);cursor:pointer;text-decoration:underline;text-underline-offset:2px;" onclick="event.stopPropagation();poOpenDrawer(${idx},'items')">${ziCount} item${ziCount!==1?'s':''} · ${fmtCurrency(po.zoho_items_total)}</span>`
+        : `<span style="font-size:11.5px;color:var(--gray-300);">—</span>`;
+
+    // Reconciliation chip
+    const rs = po.reconciliation_status;
+    const reconLabel = rs==='balanced' ? '✓ Balanced'
+        : rs==='under'    ? `⚠ ${fmtCurrency(po.reconciliation_gap)} untagged`
+        : rs==='over'     ? `⛔ Over by ${fmtCurrency(Math.abs(po.reconciliation_gap))}`
+        : '— No items';
+    const reconCell = `<span class="recon-chip ${rs}">${reconLabel}</span>`;
+
     return `<tr style="cursor:pointer;" onclick="poOpenDrawer(${idx})">
         <td>
             <div class="po-number">${po.po_number}</div>
@@ -30725,6 +31006,8 @@ function poRenderRow(po, idx) {
         </td>
         <td><span class="location-text">${po.location || '—'}</span></td>
         <td><div class="date-main">${fmtDate(po.po_date)}</div></td>
+        <td>${ziCell}</td>
+        <td>${reconCell}</td>
         <td onclick="event.stopPropagation()">
             <div class="action-dropdown" id="podd-${idx}">
                 <button class="action-trigger" onclick="poToggleDropdown('podd-${idx}',event)">
@@ -30842,118 +31125,179 @@ function poRefreshTable() {
 }
 
 // ── DETAIL DRAWER ─────────────────────────────────────
-function poOpenDrawer(idx) {
-    const po = poFiltered[idx];
-    if (!po) return;
+/* ── helpers ── */
+function poZohoItemsHTML(po) {
+    const items = po.zoho_line_items || [];
+    if (!items.length) return `<div class="zi-empty">No Zoho line items synced yet.<br><span style="font-size:11px;margin-top:4px;display:block;">Tagging amounts are unvalidated until items are synced.</span></div>`;
+    const rows = items.map(i => {
+        const taxAmt = Math.round(i.amount * i.tax_pct / 100 * 100) / 100;
+        const total  = i.amount + taxAmt;
+        return `<tr>
+            <td>${i.desc}</td>
+            <td>${i.hsn||'—'}</td>
+            <td class="num">${i.qty}</td>
+            <td>${i.unit}</td>
+            <td class="num">${fmtCurrency(i.rate)}</td>
+            <td class="num">${fmtCurrency(i.amount)}</td>
+            <td class="num">${i.tax_pct}%</td>
+            <td class="num">${fmtCurrency(taxAmt)}</td>
+            <td class="num" style="font-weight:700;color:var(--gray-800);">${fmtCurrency(total)}</td>
+        </tr>`;
+    }).join('');
+    const grossTotal = items.reduce((s,i)=>s+i.amount,0);
+    const taxTotal   = items.reduce((s,i)=>s+Math.round(i.amount*i.tax_pct/100*100)/100,0);
+    const netTotal   = grossTotal + taxTotal;
+    return `<table class="zi-tbl">
+        <thead><tr>
+            <th>Description</th><th>HSN/SAC</th><th>Qty</th><th>Unit</th>
+            <th>Rate</th><th>Amount</th><th>Tax%</th><th>Tax Amt</th><th>Total</th>
+        </tr></thead>
+        <tbody>${rows}</tbody>
+        <tfoot><tr>
+            <td colspan="5" style="font-weight:700;font-size:11px;text-transform:uppercase;letter-spacing:.4px;">Total</td>
+            <td class="num">${fmtCurrency(grossTotal)}</td>
+            <td></td>
+            <td class="num">${fmtCurrency(taxTotal)}</td>
+            <td class="num">${fmtCurrency(netTotal)}</td>
+        </tr></tfoot>
+    </table>`;
+}
 
-    document.getElementById('poDrawerPONumber').textContent = po.po_number;
-    document.getElementById('poDrawerPOSub').textContent =
-        `${po.client?.name || ''} · ${po.project?.name || ''} · ${po.location || ''}`;
+function poReconBarHTML(po) {
+    const rs = po.reconciliation_status;
+    if (rs === 'no_items') return `<div class="recon-bar no-items"><div class="recon-bar-row"><span class="recon-bar-title">No Zoho Items synced</span></div><div style="font-size:11.5px;color:var(--gray-400);">Sync Zoho line items first to enable reconciliation validation.</div></div>`;
+    const zohoTotal   = po.zoho_items_total;
+    const taggedTotal = po.tagged_total;
+    const gap         = po.reconciliation_gap;
+    const pct         = zohoTotal > 0 ? Math.min(100, Math.round(taggedTotal / zohoTotal * 100)) : 0;
+    const title = rs==='balanced' ? '✓ Balanced — all Zoho items tagged'
+        : rs==='under' ? `⚠ ${fmtCurrency(gap)} untagged — activities don't cover the full Zoho total`
+        : `⛔ Over-tagged by ${fmtCurrency(Math.abs(gap))} — reduce activity amounts`;
+    return `<div class="recon-bar ${rs}">
+        <div class="recon-bar-row"><span class="recon-bar-title">${title}</span></div>
+        <div class="recon-bar-nums">
+            <div class="recon-num"><span class="recon-num-lbl">Zoho Total</span><span class="recon-num-val">${fmtCurrency(zohoTotal)}</span></div>
+            <div class="recon-num"><span class="recon-num-lbl">Tagged</span><span class="recon-num-val">${fmtCurrency(taggedTotal)}</span></div>
+            ${rs!=='balanced'?`<div class="recon-num"><span class="recon-num-lbl">${rs==='under'?'Untagged':'Over by'}</span><span class="recon-num-val">${fmtCurrency(Math.abs(gap))}</span></div>`:''}
+        </div>
+        <div class="recon-track"><div class="recon-fill" style="width:${pct}%"></div></div>
+    </div>`;
+}
 
-    const circles = po.circle?.length
-        ? po.circle.map(c=>`<span class="circle-chip">${c.code} — ${c.name}</span>`).join(' ')
-        : '—';
-
-    // Total activities amount
-    let grandTotal = 0;
-    (po.types||[]).forEach(t => (t.activities||[]).forEach(a => grandTotal += a.amount));
-
-    const typesHTML = (po.types||[]).map((t, ti) => {
+function poActivityTagHTML(po, idx) {
+    const grandTotal = po.tagged_total;
+    const typesHTML = (po.types||[]).map(t => {
         const acts = (t.activities||[]).map(a =>
             `<div class="activity-item">
                 <span class="activity-name">${a.name}</span>
                 <span class="activity-amount">${fmtCurrency(a.amount)}</span>
             </div>`
         ).join('');
-        const typeTotal = (t.activities||[]).reduce((s,a)=>s+a.amount, 0);
+        const typeTotal = (t.activities||[]).reduce((s,a)=>s+a.amount,0);
         return `<div class="type-card">
             <div class="type-card-header" onclick="poToggleTypeCard(this)">
                 <div>
                     <div class="type-card-name">${t.name}</div>
-                    <div class="type-card-count">${t.activities?.length || 0} activit${t.activities?.length === 1 ? 'y' : 'ies'} · ${fmtCurrency(typeTotal)}</div>
+                    <div class="type-card-count">${t.activities?.length||0} activit${t.activities?.length===1?'y':'ies'} · ${fmtCurrency(typeTotal)}</div>
                 </div>
-                <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="transition:transform 0.2s;color:var(--gray-400)"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="transition:transform .2s;color:var(--gray-400)"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
             </div>
             <div class="type-card-body" style="display:none;">${acts}</div>
         </div>`;
     }).join('');
-
-    document.getElementById('poDrawerBody').innerHTML = `
-        <div class="drawer-section">
-            <div class="drawer-section-title">PO Details</div>
-            <div class="drawer-meta-grid">
-                <div class="drawer-meta-item">
-                    <div class="drawer-meta-label">PO Number</div>
-                    <div class="drawer-meta-value primary">${po.po_number}</div>
-                </div>
-                <div class="drawer-meta-item">
-                    <div class="drawer-meta-label">PO Date</div>
-                    <div class="drawer-meta-value">${fmtDate(po.po_date)}</div>
-                </div>
-                <div class="drawer-meta-item">
-                    <div class="drawer-meta-label">Client</div>
-                    <div class="drawer-meta-value">${po.client?.name || '—'}</div>
-                </div>
-                <div class="drawer-meta-item">
-                    <div class="drawer-meta-label">Project</div>
-                    <div class="drawer-meta-value">${po.project?.name || '—'}</div>
-                </div>
-                <div class="drawer-meta-item">
-                    <div class="drawer-meta-label">Quantity</div>
-                    <div class="drawer-meta-value">${po.quantity}</div>
-                </div>
-                <div class="drawer-meta-item">
-                    <div class="drawer-meta-label">Location</div>
-                    <div class="drawer-meta-value">${po.location || '—'}</div>
-                </div>
-                <div class="drawer-meta-item">
-                    <div class="drawer-meta-label">Valid From</div>
-                    <div class="drawer-meta-value">${fmtDate(po.valid_from)}</div>
-                </div>
-                <div class="drawer-meta-item">
-                    <div class="drawer-meta-label">Valid To</div>
-                    <div class="drawer-meta-value">${fmtDate(po.valid_to)}</div>
-                </div>
-            </div>
+    return `
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
+            <span style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.7px;color:var(--gray-400);">Activity Tagging</span>
+            <span style="font-size:11px;font-weight:700;color:var(--success);background:var(--success-light);padding:2px 8px;border-radius:6px;">${fmtCurrency(grandTotal)} tagged</span>
         </div>
-        ${po.circle?.length ? `
-        <div class="drawer-section">
-            <div class="drawer-section-title">Circles</div>
-            <div style="display:flex;flex-wrap:wrap;gap:6px;">${circles}</div>
-        </div>` : ''}
-        <div class="drawer-section">
-            <div class="drawer-section-title" style="display:flex;align-items:center;justify-content:space-between;">
-                <span>Types & Activities</span>
-                <span style="font-size:11px;font-weight:700;color:var(--success);background:var(--success-light);padding:2px 8px;border-radius:6px;">${fmtCurrency(grandTotal)} total</span>
-            </div>
-            ${typesHTML || '<div style="color:var(--gray-400);font-size:12px;">No types defined</div>'}
-        </div>
-        <div class="drawer-section">
-            <div class="drawer-section-title">Timeline</div>
-            <div class="drawer-meta-grid">
-                <div class="drawer-meta-item">
-                    <div class="drawer-meta-label">Created At</div>
-                    <div class="drawer-meta-value">${fmtDate(po.created_at)}</div>
-                </div>
-                <div class="drawer-meta-item">
-                    <div class="drawer-meta-label">Milestone PO</div>
-                    <div class="drawer-meta-value">${po.is_milestone_po ? 'Yes' : 'No'}</div>
-                </div>
-            </div>
-        </div>
-        <div style="padding-top:8px;display:flex;gap:10px;">
+        ${typesHTML || '<div style="color:var(--gray-400);font-size:12px;padding:16px 0;">No types defined</div>'}
+        ${poReconBarHTML(po)}
+        <div style="margin-top:14px;display:flex;gap:10px;">
             <button class="btn-clone-confirm" style="flex:1;justify-content:center;" onclick="poCloseDrawer();poOpenCloneModal(${idx},null)">
                 <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
                 Clone this PO
             </button>
-            <button class="btn-save" style="flex:1;justify-content:center;">
-                <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
-                Edit PO
+            <button class="btn-save" style="flex:1;justify-content:center;" onclick="poSaveTagging(${idx})">
+                <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                Save Tagging
             </button>
         </div>`;
+}
 
+let _poDrawerCurrentIdx = null;
+
+function poOpenDrawer(idx, startTab) {
+    _poDrawerCurrentIdx = idx;
+    const po = poFiltered[idx];
+    if (!po) return;
+
+    document.getElementById('poDrawerPONumber').textContent = po.po_number;
+    document.getElementById('poDrawerPOSub').textContent =
+        `${po.client?.name||''} · ${po.project?.name||''} · ${po.location||''}`;
+
+    const circles = po.circle?.length
+        ? po.circle.map(c=>`<span class="circle-chip">${c.code} — ${c.name}</span>`).join(' ')
+        : '—';
+
+    const detailsHTML = `
+        <div class="drawer-section">
+            <div class="drawer-section-title">PO Details</div>
+            <div class="drawer-meta-grid">
+                <div class="drawer-meta-item"><div class="drawer-meta-label">PO Number</div><div class="drawer-meta-value primary">${po.po_number}</div></div>
+                <div class="drawer-meta-item"><div class="drawer-meta-label">PO Date</div><div class="drawer-meta-value">${fmtDate(po.po_date)}</div></div>
+                <div class="drawer-meta-item"><div class="drawer-meta-label">Client</div><div class="drawer-meta-value">${po.client?.name||'—'}</div></div>
+                <div class="drawer-meta-item"><div class="drawer-meta-label">Project</div><div class="drawer-meta-value">${po.project?.name||'—'}</div></div>
+                <div class="drawer-meta-item"><div class="drawer-meta-label">Quantity</div><div class="drawer-meta-value">${po.quantity}</div></div>
+                <div class="drawer-meta-item"><div class="drawer-meta-label">Location</div><div class="drawer-meta-value">${po.location||'—'}</div></div>
+                <div class="drawer-meta-item"><div class="drawer-meta-label">Valid From</div><div class="drawer-meta-value">${fmtDate(po.valid_from)}</div></div>
+                <div class="drawer-meta-item"><div class="drawer-meta-label">Valid To</div><div class="drawer-meta-value">${fmtDate(po.valid_to)}</div></div>
+                <div class="drawer-meta-item"><div class="drawer-meta-label">Created At</div><div class="drawer-meta-value">${fmtDate(po.created_at)}</div></div>
+                <div class="drawer-meta-item"><div class="drawer-meta-label">Milestone PO</div><div class="drawer-meta-value">${po.is_milestone_po?'Yes':'No'}</div></div>
+            </div>
+        </div>
+        ${po.circle?.length?`<div class="drawer-section"><div class="drawer-section-title">Circles</div><div style="display:flex;flex-wrap:wrap;gap:6px;">${circles}</div></div>`:''}`;
+
+    const ziSyncBar = po.zoho_items_synced_at
+        ? `<div class="zi-sync-bar"><span class="zi-sync-label"><svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.2"/></svg>Synced from Zoho · Read only</span><span class="zi-sync-ts">${po.zoho_items_synced_at}</span></div>`
+        : '';
+
+    document.getElementById('poDrawerBody').innerHTML = `
+        <div class="drawer-tabs" id="poDrawerTabs">
+            <button class="drawer-tab" data-tab="details" onclick="poSwitchDrawerTab('details')">PO Details</button>
+            <button class="drawer-tab" data-tab="items" onclick="poSwitchDrawerTab('items')">Zoho Items</button>
+            <button class="drawer-tab" data-tab="tagging" onclick="poSwitchDrawerTab('tagging')">Activity Tagging</button>
+        </div>
+        <div id="poDrawerTabDetails">${detailsHTML}</div>
+        <div id="poDrawerTabItems" style="display:none;">${ziSyncBar}${poZohoItemsHTML(po)}</div>
+        <div id="poDrawerTabTagging" style="display:none;">${poActivityTagHTML(po,idx)}</div>`;
+
+    poSwitchDrawerTab(startTab || 'details');
     document.getElementById('poDrawerOverlay').classList.add('active');
 }
+
+window.poSwitchDrawerTab = function(tab) {
+    ['details','items','tagging'].forEach(t => {
+        const el = document.getElementById('poDrawerTab'+t.charAt(0).toUpperCase()+t.slice(1));
+        if (el) el.style.display = t===tab ? '' : 'none';
+    });
+    document.querySelectorAll('#poDrawerTabs .drawer-tab').forEach(b =>
+        b.classList.toggle('active', b.dataset.tab===tab));
+};
+
+window.poSaveTagging = function(idx) {
+    const po = poFiltered[idx];
+    if (!po) return;
+    const rs = po.reconciliation_status;
+    if (rs === 'over') {
+        showToast(`Cannot save — over-tagged by ${fmtCurrency(Math.abs(po.reconciliation_gap))}. Activities must sum to exactly the Zoho total.`, 'error');
+        return;
+    }
+    if (rs === 'under') {
+        showToast(`Cannot save — ${fmtCurrency(po.reconciliation_gap)} is still untagged. Activities must sum to exactly the Zoho total.`, 'error');
+        return;
+    }
+    showToast('Activity tagging saved.', 'success');
+};
 
 function poCloseDrawer() {
     document.getElementById('poDrawerOverlay').classList.remove('active');
@@ -30998,24 +31342,171 @@ function poSubmitClone() {
 
 // ── ADD PO ────────────────────────────────────────────
 // ── CREATE PO STATE ──────────────────────────────────
-let poTypes = []; // [{id, name, activities:[{id, name, price}]}]
+let poTypes = []; // [{id, name, linked_item_indices:[], activities:[{id, name, price}]}]
 let isMilestone = false;
 let currentTypeModalId = null; // for activity modal
 
+/* ── ZOHO ITEMS DEMO (replace with real API fetch on SO number / Zoho link) ── */
+const DEMO_ZOHO_ITEMS = [
+    { desc:'Tower Installation Service', hsn:'998731', qty:1,  unit:'Job', rate:45000, tax_pct:18, amount:45000 },
+    { desc:'Cable Laying Labour',         hsn:'998731', qty:3,  unit:'Job', rate:8000,  tax_pct:18, amount:24000 },
+    { desc:'OFC Splicing',                hsn:'998733', qty:2,  unit:'Job', rate:5500,  tax_pct:18, amount:11000 },
+];
+window._poCreateZohoTotal = 0;
+
+function poLoadZohoItems(items) {
+    window._poCreateZohoItems = items;
+    window._poCreateZohoTotal = items.reduce((s,i) => s + i.amount, 0);
+    poRenderZohoItemsWithTags();
+    const totalRow  = document.getElementById('poCreateZohoTotalRow');
+    const totalAmt  = document.getElementById('poCreateZohoTotalAmt');
+    if (totalRow) totalRow.style.display = items.length ? 'flex' : 'none';
+    if (totalAmt && items.length) totalAmt.textContent = '₹' + window._poCreateZohoTotal.toLocaleString('en-IN', {minimumFractionDigits:2});
+    poRenderSummary();
+}
+
+/* Re-render the Zoho Items panel with live type-tag badges */
+function poRenderZohoItemsWithTags() {
+    const items = window._poCreateZohoItems || [];
+    const container = document.getElementById('poCreateZohoItems');
+    if (!container) return;
+    if (!items.length) {
+        container.innerHTML = '<div class="zi-empty">No Zoho line items — items will appear after sync.</div>';
+        return;
+    }
+
+    // Build a map: item index → type names linked to it
+    const itemTypeTags = {}; // { itemIdx: [typeName, …] }
+    poTypes.forEach(t => {
+        (t.linked_item_indices || []).forEach(i => {
+            if (!itemTypeTags[i]) itemTypeTags[i] = [];
+            itemTypeTags[i].push(t.name);
+        });
+    });
+
+    container.innerHTML = `<table class="zi-tbl">
+        <thead><tr>
+            <th>#</th><th>Description</th><th>HSN</th><th>Qty</th><th>Unit</th><th>Rate</th><th>Amount</th><th>Tax%</th><th>Linked Type</th>
+        </tr></thead>
+        <tbody>${items.map((item, idx) => {
+            const tags = itemTypeTags[idx] || [];
+            const tagHtml = tags.length
+                ? tags.map(n => `<span class="zi-type-tag">${escHtml(n)}</span>`).join('')
+                : `<span style="font-size:11px;color:var(--gray-300);">—</span>`;
+            const rowBg = tags.length ? 'background:#fffbf5;' : '';
+            return `<tr style="${rowBg}">
+                <td style="color:var(--gray-400);font-size:11px;">${idx+1}</td>
+                <td style="font-weight:500;">${item.desc}</td>
+                <td style="color:var(--gray-400);font-size:11px;">${item.hsn||'—'}</td>
+                <td class="num">${item.qty}</td>
+                <td>${item.unit}</td>
+                <td class="num">₹${item.rate.toLocaleString('en-IN')}</td>
+                <td class="num" style="font-weight:700;color:var(--gray-800);">₹${item.amount.toLocaleString('en-IN')}</td>
+                <td class="num">${item.tax_pct}%</td>
+                <td>${tagHtml}</td>
+            </tr>`;
+        }).join('')}</tbody>
+    </table>`;
+}
+
+/* Remove a single item link from a type */
+window.poUnlinkItem = function(typeId, itemIdx) {
+    const t = poTypes.find(x => x.id === typeId);
+    if (!t) return;
+    t.linked_item_indices = (t.linked_item_indices || []).filter(i => i !== itemIdx);
+    poRenderTypesPanel();
+};
+
+/* ── ITEM LINK PICKER (ilp) ────────────────────────────────────────────────── */
+let _ilpTypeId = null;
+let _ilpSelected = new Set();
+
+window.ilpOpen = function(typeId) {
+    // Guard: only valid inside an open Create SO/PO modal with items loaded
+    const modal = document.getElementById('poAddModal');
+    if (!modal || !modal.classList.contains('active')) return;
+    const items = window._poCreateZohoItems || [];
+    if (!items.length) {
+        poShowToast('No Zoho items available to link yet.', 'error');
+        return;
+    }
+    _ilpTypeId = typeId;
+    const t = poTypes.find(x => x.id === typeId);
+    if (!t) return;
+    _ilpSelected = new Set(t.linked_item_indices || []);
+    const sub = document.getElementById('ilpSub');
+    if (sub) sub.textContent = `Type: ${t.name}`;
+    ilpRender();
+    document.getElementById('ilpOverlay').classList.add('active');
+};
+
+window.ilpClose = function() {
+    document.getElementById('ilpOverlay').classList.remove('active');
+    _ilpTypeId = null;
+};
+
+window.ilpConfirm = function() {
+    const t = poTypes.find(x => x.id === _ilpTypeId);
+    if (t) t.linked_item_indices = [..._ilpSelected];
+    ilpClose();
+    poRenderTypesPanel();
+};
+
+function ilpRender() {
+    const items = window._poCreateZohoItems || [];
+    const list  = document.getElementById('ilpList');
+    if (!list) return;
+
+    if (!items.length) {
+        list.innerHTML = '<div style="padding:24px;text-align:center;color:var(--gray-400);font-size:12.5px;">No Zoho items loaded yet.</div>';
+        return;
+    }
+
+    // Build type-tag map for showing existing links on other types
+    const otherLinks = {}; // { itemIdx: [typeName] } for types OTHER than current
+    poTypes.forEach(t => {
+        if (t.id === _ilpTypeId) return;
+        (t.linked_item_indices || []).forEach(i => {
+            if (!otherLinks[i]) otherLinks[i] = [];
+            otherLinks[i].push(t.name);
+        });
+    });
+
+    list.innerHTML = items.map((item, idx) => {
+        const sel = _ilpSelected.has(idx);
+        const others = otherLinks[idx] || [];
+        const otherTags = others.map(n => `<span class="zi-type-tag">${escHtml(n)}</span>`).join('');
+        const checkSvg = sel ? `<svg width="11" height="11" fill="none" stroke="#fff" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>` : '';
+        return `<div class="ilp-item${sel?' selected':''}" onclick="ilpToggle(${idx})">
+            <div class="ilp-checkbox">${checkSvg}</div>
+            <div class="ilp-item-body">
+                <div style="display:flex;align-items:baseline;justify-content:space-between;gap:8px;">
+                    <span class="ilp-item-desc">${escHtml(item.desc)}</span>
+                    <span class="ilp-item-amount">₹${item.amount.toLocaleString('en-IN')}</span>
+                </div>
+                <div class="ilp-item-meta">HSN ${item.hsn||'—'} · ${item.qty} ${item.unit} × ₹${item.rate.toLocaleString('en-IN')} · Tax ${item.tax_pct}%</div>
+                ${otherTags ? `<div class="ilp-item-tags"><span style="font-size:10px;color:var(--gray-400);">Also in:</span> ${otherTags}</div>` : ''}
+            </div>
+        </div>`;
+    }).join('');
+}
+
+window.ilpToggle = function(idx) {
+    if (_ilpSelected.has(idx)) _ilpSelected.delete(idx);
+    else _ilpSelected.add(idx);
+    ilpRender();
+};
+
 function poOpenAddModal() {
     poTypes = [];
-    isMilestone = false;
-    document.getElementById('poMilestoneCheck').classList.remove('active');
-    // clear form
-    ['poFPONumber','poFClient','poFProject','poFCircle','poFLocation','poFValidFrom','poFValidTo','poFQty']
-        .forEach(id => { const el = document.getElementById(id); if(el) el.value = ''; });
-    // Default PO date to today
-    const today = new Date().toISOString().slice(0,10);
-    document.getElementById('poFPODate').value = today;
+    window._poCreateZohoTotal = 0;
+    poInitDatalists();
+    poCloseTypeDropdown();
+    const tSearch = document.getElementById('poTypeSearch'); if(tSearch) tSearch.value = '';
     poRenderTypesPanel();
+    // Seed demo Zoho items — replace with real fetch in production
+    poLoadZohoItems(DEMO_ZOHO_ITEMS);
     document.getElementById('poAddModal').classList.add('active');
-    // Auto-focus first field
-    setTimeout(() => document.getElementById('poFPONumber').focus(), 120);
 }
 
 function poToggleMilestone() {
@@ -31109,7 +31600,7 @@ function poRenderTypeList() {
 }
 
 function poSelectType(name) {
-    poTypes.push({ id: Date.now(), name, activities: [] });
+    poTypes.push({ id: Date.now(), name, linked_item_indices: [], activities: [] });
     poCloseTypeDrawer();
     poRenderTypesPanel();
     setTimeout(() => poOpenActivityModal(poTypes[poTypes.length - 1].id), 200);
@@ -31310,6 +31801,141 @@ function poDeleteActivity(typeId, actId) {
 }
 
 // ── RENDER ────────────────────────────────────────────
+/* ── Inline creation (no drawer) ── */
+function poInitDatalists() {
+    const ad = document.getElementById('poActDatalist');
+    if (ad) ad.innerHTML = API_ACTIVITIES.map(a => `<option value="${escHtml(a)}"></option>`).join('');
+}
+
+/* Searchable type dropdown */
+function poOpenTypeResults() {
+    const p = document.getElementById('poTypePicker');
+    if (p) p.classList.add('open');
+    poRenderTypeDropdownList();
+}
+function poCloseTypeDropdown() {
+    const p = document.getElementById('poTypePicker');
+    if (p) p.classList.remove('open');
+}
+function poRenderTypeDropdownList() {
+    const q  = document.getElementById('poTypeSearch').value.trim();
+    const ql = q.toLowerCase();
+    const added = new Set(poTypes.map(t => t.name.toLowerCase()));
+    const matches = API_TYPES.filter(t => !added.has(t.toLowerCase()) && (!ql || t.toLowerCase().includes(ql)));
+    let html = matches.map(name =>
+        `<button type="button" class="ta-type-opt" data-name="${escHtml(name)}" onclick="poPickType(this.dataset.name)"><span class="dot"></span>${escHtml(name)}</button>`
+    ).join('');
+    const exact = API_TYPES.some(t => t.toLowerCase() === ql);
+    if (q && !exact && !added.has(ql)) {
+        html += `<button type="button" class="ta-type-create" data-name="${escHtml(q)}" onclick="poPickType(this.dataset.name)"><span class="plus"><svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M12 4v16m8-8H4"/></svg></span>Create &ldquo;${escHtml(q)}&rdquo;</button>`;
+    }
+    if (!html) html = `<div class="ta-type-empty">${added.size ? 'All types already added' : 'No types found'}</div>`;
+    document.getElementById('poTypeDropdownList').innerHTML = html;
+}
+function poTypeSearchKey(e) {
+    if (e.key === 'Enter') {
+        e.preventDefault();
+        const q = document.getElementById('poTypeSearch').value.trim();
+        if (q) poPickType(q);
+    } else if (e.key === 'Escape') {
+        e.preventDefault();
+        poCloseTypeDropdown();
+        document.getElementById('poTypeSearch').blur();
+    }
+}
+function poPickType(name) {
+    name = (name || '').trim();
+    if (!name) return;
+    if (poTypes.some(t => t.name.toLowerCase() === name.toLowerCase())) {
+        poShowToast('That type is already added.', 'error');
+        return;
+    }
+    if (!API_TYPES.some(t => t.toLowerCase() === name.toLowerCase())) API_TYPES.unshift(name);
+    const newType = { id: Date.now(), name, linked_item_indices: [], activities: [] };
+    poTypes.push(newType);
+    const si = document.getElementById('poTypeSearch'); if (si) si.value = '';
+    poCloseTypeDropdown();
+    poRenderTypesPanel();
+    // jump into the new card's activity search (auto-opens its options)
+    setTimeout(() => { const el = document.getElementById('actsearch-' + newType.id); if (el) el.focus(); }, 80);
+}
+/* close type & activity result panels on outside click */
+document.addEventListener('click', e => {
+    const picker = document.getElementById('poTypePicker');
+    if (picker && picker.classList.contains('open') && !picker.contains(e.target)) picker.classList.remove('open');
+    document.querySelectorAll('.ta-act-picker.open').forEach(p => { if (!p.contains(e.target)) p.classList.remove('open'); });
+});
+
+/* Per-card activity picker — same always-visible search pattern */
+function poOpenActResults(typeId) {
+    poCloseTypeDropdown();
+    document.querySelectorAll('.ta-act-picker.open').forEach(p => { if (p.id !== 'actpicker-' + typeId) p.classList.remove('open'); });
+    const picker = document.getElementById('actpicker-' + typeId);
+    if (picker) picker.classList.add('open');
+    poRenderActDropdownList(typeId);
+}
+function poCloseActDropdowns() {
+    document.querySelectorAll('.ta-act-picker.open').forEach(p => p.classList.remove('open'));
+}
+function poRenderActDropdownList(typeId) {
+    const sEl = document.getElementById('actsearch-' + typeId);
+    const q  = sEl ? sEl.value.trim() : '';
+    const ql = q.toLowerCase();
+    const t = poTypes.find(x => x.id === typeId);
+    const used = new Set((t ? t.activities : []).map(a => a.name.toLowerCase()));
+    const avail = API_ACTIVITIES.filter(a => !used.has(a.toLowerCase()) && (!ql || a.toLowerCase().includes(ql)));
+    let html = avail.map(name =>
+        `<button type="button" class="ta-type-opt" data-name="${escHtml(name)}" onclick="poPickActivity(${typeId},this.dataset.name)"><span class="dot"></span>${escHtml(name)}</button>`
+    ).join('');
+    const exact = API_ACTIVITIES.some(a => a.toLowerCase() === ql);
+    if (q && !exact && !used.has(ql)) {
+        html += `<button type="button" class="ta-type-create" data-name="${escHtml(q)}" onclick="poPickActivity(${typeId},this.dataset.name)"><span class="plus"><svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M12 4v16m8-8H4"/></svg></span>Create &ldquo;${escHtml(q)}&rdquo;</button>`;
+    }
+    if (!html) html = `<div class="ta-type-empty">No activities found</div>`;
+    const list = document.getElementById('actlist-' + typeId);
+    if (list) list.innerHTML = html;
+}
+function poActSearchKey(e, typeId) {
+    if (e.key === 'Enter') {
+        e.preventDefault();
+        const s = document.getElementById('actsearch-' + typeId);
+        const q = s ? s.value.trim() : '';
+        if (q) poPickActivity(typeId, q);
+    } else if (e.key === 'Escape') {
+        e.preventDefault();
+        poCloseActDropdowns();
+    }
+}
+function poPickActivity(typeId, name) {
+    name = (name || '').trim();
+    if (!name) return;
+    if (!API_ACTIVITIES.some(a => a.toLowerCase() === name.toLowerCase())) API_ACTIVITIES.unshift(name);
+    const s = document.getElementById('actsearch-' + typeId); if (s) s.value = name;
+    poCloseActDropdowns();
+    setTimeout(() => { const p = document.getElementById('actprice-' + typeId); if (p) p.focus(); }, 50);
+}
+
+function poInlineAddActivity(typeId) {
+    const sEl = document.getElementById('actsearch-' + typeId);
+    const priceEl = document.getElementById('actprice-' + typeId);
+    const name = sEl ? sEl.value.trim() : '';
+    if (!name) { poShowToast('Enter or pick an activity first.', 'error'); if (sEl) sEl.focus(); return; }
+    if (!priceEl) return;
+    const price = parseFloat(priceEl.value);
+    if (isNaN(price) || price < 0) { showMiniError('actprice-' + typeId); return; }
+    const t = poTypes.find(t => t.id === typeId);
+    if (!t) return;
+    if (t.activities.some(a => a.name.toLowerCase() === name.toLowerCase())) {
+        poShowToast('That activity is already in this type.', 'error');
+        return;
+    }
+    if (!API_ACTIVITIES.some(a => a.toLowerCase() === name.toLowerCase())) API_ACTIVITIES.unshift(name);
+    t.activities.push({ id: Date.now(), name, price });
+    poRenderTypesPanel();
+    // focus the activity search again so the next one adds fast
+    setTimeout(() => { const el = document.getElementById('actsearch-' + typeId); if (el) el.focus(); }, 60);
+}
+
 function poRenderTypesPanel() {
     const container = document.getElementById('poTypesContainer');
     const empty = document.getElementById('poTaEmptyState');
@@ -31318,14 +31944,34 @@ function poRenderTypesPanel() {
         container.innerHTML = '';
         empty.style.display = '';
         poRenderSummary();
+        poRenderZohoItemsWithTags(); // refresh item badges
         return;
     }
 
     empty.style.display = 'none';
 
+    const zohoItems = window._poCreateZohoItems || [];
+
     let html = '';
     poTypes.forEach(t => {
         const typeTotal = t.activities.reduce((s, a) => s + a.price, 0);
+
+        // Linked items chips
+        const linked = (t.linked_item_indices || []);
+        const linkedChips = linked.length
+            ? linked.map(i => {
+                const item = zohoItems[i];
+                const label = item ? item.desc.substring(0, 28) + (item.desc.length > 28 ? '…' : '') : `Item ${i+1}`;
+                return `<span class="type-linked-item-chip">
+                    <svg width="9" height="9" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg>
+                    ${escHtml(label)}
+                    <button onclick="poUnlinkItem(${t.id},${i})" title="Remove link">
+                        <svg width="9" height="9" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg>
+                    </button>
+                </span>`;
+            }).join('')
+            : `<span class="type-linked-none">No items linked — click <strong>Link Items</strong> to connect Zoho items to this type</span>`;
+
         const actHtml = t.activities.map(a => `
             <div class="activity-entry">
                 <div class="activity-entry-left">
@@ -31349,20 +31995,39 @@ function poRenderTypesPanel() {
                     <span class="type-block-count">${t.activities.length} activit${t.activities.length===1?'y':'ies'}</span>
                 </div>
                 <div class="type-block-actions">
-                    <button class="type-block-btn add-act" onclick="poOpenActivityModal(${t.id})" title="Add Activity">
-                        <svg width="13" height="13" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"/></svg>
+                    <button class="type-block-btn link-items" onclick="ilpOpen(${t.id})" title="Link Zoho Items to this type">
+                        <svg width="13" height="13" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg>
                     </button>
                     <button class="type-block-btn del-type" onclick="poDeleteType(${t.id})" title="Remove Type">
                         <svg width="13" height="13" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
                     </button>
                 </div>
             </div>
+            <!-- Linked Zoho items strip -->
+            <div class="type-linked-items">
+                <span class="type-linked-items-label">
+                    <svg width="9" height="9" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" style="display:inline;vertical-align:middle;"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg>
+                    Items
+                </span>
+                <div class="type-linked-items-chips">${linkedChips}</div>
+            </div>
             <div class="type-activities">
-                ${actHtml || '<div style="padding:12px 0;font-size:12px;color:var(--gray-400);text-align:center;">No activities yet — click + to add one</div>'}
-                <button class="add-activity-btn" onclick="poOpenActivityModal(${t.id})">
-                    <svg width="12" height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"/></svg>
-                    Add Activity
-                </button>
+                ${actHtml}
+                <div class="ta-act-row">
+                    <div class="ta-act-picker" id="actpicker-${t.id}">
+                        <div class="ta-act-search-wrap">
+                            <svg width="13" height="13" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+                            <input id="actsearch-${t.id}" placeholder="Search or add activity…" autocomplete="off" onfocus="poOpenActResults(${t.id})" oninput="poRenderActDropdownList(${t.id})" onkeydown="poActSearchKey(event,${t.id})">
+                        </div>
+                        <div class="ta-act-dropdown" id="actdrop-${t.id}">
+                            <div class="ta-type-list" id="actlist-${t.id}"></div>
+                        </div>
+                    </div>
+                    <input class="ta-act-price" type="number" id="actprice-${t.id}" placeholder="₹ Amount" min="0" step="0.01" onkeydown="if(event.key==='Enter'){event.preventDefault();poInlineAddActivity(${t.id});}">
+                    <button class="ta-act-add" onclick="poInlineAddActivity(${t.id})" title="Add activity">
+                        <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"/></svg>
+                    </button>
+                </div>
             </div>
             <div class="type-block-total">
                 <span class="type-block-total-label">Type Total</span>
@@ -31372,6 +32037,7 @@ function poRenderTypesPanel() {
     });
 
     container.innerHTML = html;
+
     // Update badge
     const badge = document.getElementById('poTaCountBadge');
     if (badge) {
@@ -31380,12 +32046,13 @@ function poRenderTypesPanel() {
         badge.style.display = poTypes.length ? 'inline' : 'none';
     }
     poRenderSummary();
+    poRenderZohoItemsWithTags(); // keep Zoho panel badges in sync
 }
 
 function poRenderSummary() {
     const sc = document.getElementById('poSummaryContent');
     if (poTypes.length === 0) {
-        sc.innerHTML = '<div class="summary-empty">Add types &amp; activities on the right to see the cost summary here.</div>';
+        sc.innerHTML = '<div class="summary-empty">Add types &amp; activities below to see the cost summary here.</div>';
         return;
     }
     let grandTotal = 0;
@@ -31409,23 +32076,32 @@ function poRenderSummary() {
     });
 
     html += `<div class="summary-grand-total">
-        <span class="summary-total-label">Grand Total</span>
+        <span class="summary-total-label">Grand Total (Tagged)</span>
         <span class="summary-total-amount">₹${Number(grandTotal).toLocaleString('en-IN',{minimumFractionDigits:2})}</span>
     </div>`;
 
-    // Total PO Value = Grand Total × Quantity
-    const qty = parseFloat(document.getElementById('poFQty')?.value) || 0;
-    const poValue = grandTotal * qty;
-    const qtyTag = qty > 0
-        ? `<span class="qty-tag">× ${qty}</span>`
-        : `<span style="color:var(--gray-400);">enter quantity above</span>`;
-    html += `<div class="summary-po-value">
-        <div class="summary-po-value-left">
-            <span class="summary-po-value-label">Total PO Value</span>
-            <span class="summary-po-value-sub">Grand Total&nbsp;${qtyTag}</span>
-        </div>
-        <span class="summary-po-value-amount">${qty > 0 ? '₹' + Number(poValue).toLocaleString('en-IN',{minimumFractionDigits:2}) : '—'}</span>
-    </div>`;
+    // ── Live reconciliation bar vs Zoho Items ────────────────────────
+    const zohoTotal = window._poCreateZohoTotal || 0;
+    if (zohoTotal > 0) {
+        const gap = Math.round((zohoTotal - grandTotal) * 100) / 100;
+        const rs  = gap === 0 ? 'balanced' : gap > 0 ? 'under' : 'over';
+        const pct = Math.min(100, Math.round(grandTotal / zohoTotal * 100));
+        const title = rs === 'balanced'
+            ? '✓ Tagged amount matches Zoho total'
+            : rs === 'under'
+            ? `⚠ ₹${Math.abs(gap).toLocaleString('en-IN',{minimumFractionDigits:2})} untagged — activities don't cover Zoho total`
+            : `⛔ Over-tagged by ₹${Math.abs(gap).toLocaleString('en-IN',{minimumFractionDigits:2})} — reduce activity amounts`;
+        html += `<div class="recon-bar ${rs}" style="margin-top:12px;">
+            <div class="recon-bar-row"><span class="recon-bar-title">${title}</span></div>
+            <div class="recon-bar-nums">
+                <div class="recon-num"><span class="recon-num-lbl">Zoho Total</span><span class="recon-num-val">₹${zohoTotal.toLocaleString('en-IN',{minimumFractionDigits:2})}</span></div>
+                <div class="recon-num"><span class="recon-num-lbl">Tagged</span><span class="recon-num-val">₹${grandTotal.toLocaleString('en-IN',{minimumFractionDigits:2})}</span></div>
+                ${rs !== 'balanced' ? `<div class="recon-num"><span class="recon-num-lbl">${rs==='under'?'Untagged':'Over by'}</span><span class="recon-num-val">₹${Math.abs(gap).toLocaleString('en-IN',{minimumFractionDigits:2})}</span></div>` : ''}
+            </div>
+            <div class="recon-track"><div class="recon-fill" style="width:${pct}%"></div></div>
+        </div>`;
+    }
+    // ─────────────────────────────────────────────────────────────────
 
     sc.innerHTML = html;
 }
@@ -31435,37 +32111,42 @@ function escHtml(s) {
 }
 
 function poSubmitPO() {
-    const num = document.getElementById('poFPONumber').value.trim();
-    const dt  = document.getElementById('poFPODate').value;
-    const cl  = document.getElementById('poFClient').value;
-    const pr  = document.getElementById('poFProject').value;
-    let hasErr = false;
-    if (!num) { poShowFieldError('poFPONumber'); hasErr = true; }
-    if (!dt)  { poShowFieldError('poFPODate');   hasErr = true; }
-    if (!cl)  { poShowFieldError('poFClient');   hasErr = true; }
-    if (!pr)  { poShowFieldError('poFProject');  hasErr = true; }
-    if (hasErr) {
-        // Scroll to first error
-        const first = document.querySelector('.form-input[style*="border-color"]');
-        if (first) first.scrollIntoView({behavior:'smooth', block:'center'});
+    // PO header comes from the fetched Zoho SO — no basic-details entry here.
+    // Validate that work has been tagged.
+    if (!poTypes.length || !poTypes.some(t => t.activities.length)) {
+        poShowToast('Add at least one type with an activity before saving.', 'error');
         return;
     }
 
-    // Build PO object
-    const po = {
-        po_number: num, po_date: dt, client: cl, project: pr,
-        circle: document.getElementById('poFCircle').value,
-        location: document.getElementById('poFLocation').value,
-        valid_from: document.getElementById('poFValidFrom').value,
-        valid_to: document.getElementById('poFValidTo').value,
-        quantity: document.getElementById('poFQty').value || 0,
-        is_milestone_po: isMilestone ? 1 : 0,
-        types: poTypes
+    // ── Reconciliation check (strict: only an exact match can save) ───────────
+    const zohoTotal = window._poCreateZohoTotal || 0;
+    if (zohoTotal > 0) {
+        const taggedTotal = poTypes.reduce((s,t) => s + t.activities.reduce((ss,a) => ss + a.price, 0), 0);
+        const gap = Math.round((zohoTotal - taggedTotal) * 100) / 100;
+        if (gap > 0) {
+            poShowToast(`Cannot save — ₹${gap.toLocaleString('en-IN',{minimumFractionDigits:2})} of the Zoho total (₹${zohoTotal.toLocaleString('en-IN',{minimumFractionDigits:2})}) is still untagged. Activities must sum to exactly the Zoho total.`, 'error');
+            return;
+        }
+        if (gap < 0) {
+            poShowToast(`Cannot save — over-tagged by ₹${Math.abs(gap).toLocaleString('en-IN',{minimumFractionDigits:2})}. Activities must sum to exactly the Zoho total of ₹${zohoTotal.toLocaleString('en-IN',{minimumFractionDigits:2})}.`, 'error');
+            return;
+        }
+    }
+    // ─────────────────────────────────────────────────────────────────────────
+
+    // Payload: tagging applied on top of the fetched Zoho SO
+    const payload = {
+        zoho_items: window._poCreateZohoItems || [],
+        zoho_items_total: zohoTotal,
+        types: poTypes.map(t => ({
+            name: t.name,
+            linked_item_indices: t.linked_item_indices || [],
+            activities: t.activities,
+        })),
     };
-    console.log('PO created:', po);
+    console.log('SO tagging saved:', payload);
     document.getElementById('poAddModal').classList.remove('active');
-    // success toast
-    poShowToast('Purchase Order created successfully!');
+    poShowToast('Sales Order saved with type & activity tagging.');
 }
 
 function poShowFieldError(id) {
@@ -31489,7 +32170,12 @@ function poShowToast(msg, type='success') {
 
 
 // ── MODALS ────────────────────────────────────────────
-function poCloseModal(id) { document.getElementById(id).classList.remove('active'); }
+function poCloseModal(id) {
+    document.getElementById(id).classList.remove('active');
+    // never leave the item-link picker floating over another page
+    const ilp = document.getElementById('ilpOverlay');
+    if (ilp) ilp.classList.remove('active');
+}
 function poHandleModalBg(e, id) { if (e.target === document.getElementById(id)) poCloseModal(id); }
 
 // ── EXPORT ────────────────────────────────────────────
@@ -34403,7 +35089,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     <!-- ══ CIRCLE PAGE JAVASCRIPT ══ -->
     <script>
-    const CIRC_RAW = {"code":200,"message":"Circles fetched successfully.","data":{"page":1,"page_size":10,"total_count":2,"total_records":2,"total_pages":1,"circles":[{"id":865140612260,"code":"HP","name":"Himanchal pardesh","is_active":1,"created_by":{"id":294511379152,"name":"Adminnew"},"created_at":"2026-01-27T08:20:40.825686"},{"id":602883010892,"code":"CHD","name":"Chandigarh","is_active":1,"created_by":{"id":294511379152,"name":"Adminnew"},"created_at":"2026-01-08T12:08:37.772425"}]}};
+    const CIRC_RAW = {"code":200,"message":"Circles fetched successfully.","data":{"page":1,"page_size":10,"total_count":2,"total_records":2,"total_pages":1,"circles":[{"id":865140612260,"code":"HP","name":"Himanchal pardesh","is_active":1,"zoho_location":"Himachal Pradesh, India","created_by":{"id":294511379152,"name":"Adminnew"},"created_at":"2026-01-27T08:20:40.825686"},{"id":602883010892,"code":"CHD","name":"Chandigarh","is_active":1,"zoho_location":"Chandigarh, India","created_by":{"id":294511379152,"name":"Adminnew"},"created_at":"2026-01-08T12:08:37.772425"}]}};
 
     const allCircles = CIRC_RAW.data.circles;
     let circFiltered = [...allCircles];
@@ -34420,12 +35106,23 @@ document.addEventListener('DOMContentLoaded', () => {
         return `<div class="date-main">${date}</div><div class="date-sub">${time}</div>`;
     }
 
+    // Location is synced from Zoho (zoho_location). Real fetch swaps the seeded value.
+    function circLocationCell(c) {
+        const loc = (c.zoho_location || '').trim();
+        if (!loc) return '<span style="color:var(--gray-400);font-size:12px;">—</span>';
+        return `<span style="display:inline-flex;align-items:center;gap:5px;font-size:12.5px;color:var(--gray-700);">
+            <svg width="12" height="12" fill="none" stroke="var(--gray-400)" viewBox="0 0 24 24" style="flex-shrink:0;"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a2 2 0 01-2.828 0l-4.243-4.243a8 8 0 1111.314 0z"/><circle cx="12" cy="11" r="2.5" stroke-width="2"/></svg>
+            ${loc}
+        </span>`;
+    }
+
     function circRenderRow(c, idx) {
         const active = c.is_active === 1;
         const byName = c.created_by?.name || '—';
         return `<tr>
             <td><span class="code-badge">${c.code}</span></td>
             <td><span class="circle-name-text">${c.name}</span></td>
+            <td>${circLocationCell(c)}</td>
             <td><span class="status-badge ${active ? 'active' : 'inactive'}"><span class="status-dot"></span>${active ? 'Active' : 'Inactive'}</span></td>
             <td><div class="added-by-cell"><div class="mini-avatar">${byName[0]?.toUpperCase() || '?'}</div><span class="added-by-name">${byName}</span></div></td>
             <td>${circFormatDate(c.created_at)}</td>
@@ -34453,7 +35150,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!tbody) return;
         tbody.innerHTML = page.length
             ? page.map((c, i) => circRenderRow(c, start + i)).join('')
-            : `<tr><td colspan="6" style="text-align:center;padding:60px;color:var(--gray-400);"><div style="font-size:32px;margin-bottom:8px;">🌐</div>No circles found</td></tr>`;
+            : `<tr><td colspan="7" style="text-align:center;padding:60px;color:var(--gray-400);"><div style="font-size:32px;margin-bottom:8px;">🌐</div>No circles found</td></tr>`;
         circRenderPagination();
         const rc = document.getElementById('circRecordCount');
         if (rc) rc.textContent = `${circFiltered.length} record${circFiltered.length !== 1 ? 's' : ''}`;
@@ -34483,14 +35180,14 @@ document.addEventListener('DOMContentLoaded', () => {
     function circHandleSearch(val) {
         const q = val.toLowerCase().trim();
         circFiltered = q
-            ? allCircles.filter(c => [c.code, c.name, c.created_by?.name].filter(Boolean).join(' ').toLowerCase().includes(q))
+            ? allCircles.filter(c => [c.code, c.name, c.zoho_location, c.created_by?.name].filter(Boolean).join(' ').toLowerCase().includes(q))
             : [...allCircles];
         circCurrentPage = 1;
         if (circSortKey) circApplySort();
         circRenderTable();
     }
 
-    const CIRC_SORT_KEYS = ['code','name','added_by','date'];
+    const CIRC_SORT_KEYS = ['code','name','location','added_by','date'];
     function circSortBy(key) {
         circSortDir = circSortKey === key ? circSortDir * -1 : 1;
         circSortKey = key;
@@ -34513,6 +35210,7 @@ document.addEventListener('DOMContentLoaded', () => {
             switch (circSortKey) {
                 case 'code':     av = a.code || ''; bv = b.code || ''; break;
                 case 'name':     av = a.name || ''; bv = b.name || ''; break;
+                case 'location': av = a.zoho_location || ''; bv = b.zoho_location || ''; break;
                 case 'added_by': av = a.created_by?.name || ''; bv = b.created_by?.name || ''; break;
                 case 'date':     av = a.created_at || ''; bv = b.created_at || ''; break;
             }
@@ -35145,6 +35843,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 'vendor-overview': function(){ if(typeof ovwRender==='function') ovwRender(); },
                 'vendor-bills':    function(){ if(typeof billRender==='function') billRender(); },
                 'vendor-mileage':  function(){ if(typeof mlgRender==='function') mlgRender(); },
+                'vendor-po':       function(){ if(typeof vndPORenderTable==='function') vndPORenderTable(); },
                 'vendor-material': function(){ if(typeof matRender==='function') matRender(); },
                 'inventory':       function(){ if(typeof invRenderStock==='function'){ invRenderStock(); invRenderLog(); invRenderAlerts(); } },
                 'budgeting':       function(){ if(typeof bdgRender==='function') bdgRender(); },
@@ -41918,6 +42617,295 @@ document.addEventListener('DOMContentLoaded',function(){
 })();
 </script>
 
+    <!-- ═══════════ USER CUSTOM COLUMNS (Attendance + Expense) SCRIPTS ═══════════ -->
+    <script>
+/* Org/tenant-level custom column labels (blank = hidden). 5 per section.
+   In production: persist these to a tenant config table; values live per record (record._cf). */
+window.ORG_CUSTOM_COLUMNS = window.ORG_CUSTOM_COLUMNS || {
+    attendance:    ['', '', '', '', ''],
+    reimbursement: ['', '', '', '', ''],
+};
+
+/* Build AG-Grid colDefs for the labeled custom columns of a section.
+   dataPath(p) returns the object on which values are stored under ._cf */
+window.ucfColDefs = function(section, dataPath){
+    return (window.ORG_CUSTOM_COLUMNS[section] || [])
+        .map(function(label, i){ return { label: (label || '').trim(), n: i + 1 }; })
+        .filter(function(c){ return c.label; })
+        .map(function(c){
+            return {
+                headerName: c.label,
+                colId: 'ucf_' + c.n,
+                width: 160,
+                sortable: true,
+                filter: 'agTextColumnFilter',
+                editable: function(p){ return !(p.data && p.data._type === 'detail'); },
+                valueGetter: function(p){ var o = dataPath(p); return (o && o._cf) ? (o._cf[c.n] || '') : ''; },
+                valueSetter: function(p){ var o = dataPath(p); if (!o) return false; if (!o._cf) o._cf = {}; o._cf[c.n] = p.newValue; return true; },
+                cellStyle: { color: 'var(--gray-700)' },
+                headerTooltip: 'Custom column · click a cell to edit',
+            };
+        });
+};
+
+window.ucfActiveSection = null;
+window.ucfOpen = function(section){
+    window.ucfActiveSection = section;
+    var labels = window.ORG_CUSTOM_COLUMNS[section] || ['', '', '', '', ''];
+    var t = document.getElementById('ucfTitle');
+    if (t) t.textContent = (section === 'attendance' ? 'Attendance' : 'Expense Reports') + ' — Custom Columns';
+    for (var i = 0; i < 5; i++){ var el = document.getElementById('ucfInput' + (i + 1)); if (el) el.value = labels[i] || ''; }
+    document.getElementById('ucfModal').classList.add('active');
+    setTimeout(function(){ var f = document.getElementById('ucfInput1'); if (f) f.focus(); }, 80);
+};
+window.ucfClose = function(){ document.getElementById('ucfModal').classList.remove('active'); };
+window.ucfSave = function(){
+    var section = window.ucfActiveSection;
+    if (!section) return;
+    var labels = [];
+    for (var i = 0; i < 5; i++){ var el = document.getElementById('ucfInput' + (i + 1)); labels.push(el ? el.value.trim() : ''); }
+    window.ORG_CUSTOM_COLUMNS[section] = labels;
+    if (section === 'attendance' && window.__attendanceGridApi && window.__attColDefs) {
+        window.__attendanceGridApi.setGridOption('columnDefs', window.__attColDefs());
+    }
+    if (section === 'reimbursement' && window.__reimGridApi && window.__reimColDefs) {
+        window.__reimGridApi.setGridOption('columnDefs', window.__reimColDefs());
+    }
+    window.ucfClose();
+    if (typeof showToast === 'function') showToast('Custom columns updated.', 'success');
+};
+    </script>
+
+    <!-- ═══════════ SO SYNC ZOHO SCRIPTS ═══════════ -->
+    <script>
+(function(){
+'use strict';
+
+/* Buckets mirror the original SO sync preview. Demo data uses the SO listing rows. */
+function soBuildSyncData() {
+    const rows = (typeof allPOs !== 'undefined' ? allPOs : []);
+    const mk = po => ({
+        wfms_po: po.po_number, zoho_so: null,
+        customer: po.client?.name || '—', end_customer: '—',
+        circle: (po.circle||[]).map(c=>c.code).join(', ') || '—', notes: '—'
+    });
+    return {
+        already_linked: rows.slice(0, 2).map(mk),
+        to_link:        [],
+        to_insert:      [],
+        conflicts:      [],
+        no_tag:         [],
+        unlinked_local: rows.slice(2, 8).map(mk),
+    };
+}
+
+window.soOpenSyncModal = function() {
+    soRenderSyncModal(soBuildSyncData());
+    document.getElementById('soSyncOverlay').classList.add('active');
+};
+window.soCloseSyncModal = function() {
+    document.getElementById('soSyncOverlay').classList.remove('active');
+};
+
+function soRenderSyncModal(data) {
+    const tiles = [
+        { label:'Already Linked',  val: data.already_linked.length },
+        { label:'To Link',         val: data.to_link.length },
+        { label:'To Insert',       val: data.to_insert.length },
+        { label:'Conflicts',       val: data.conflicts.length },
+        { label:'No Tag',          val: data.no_tag.length },
+        { label:'Unlinked Local',  val: data.unlinked_local.length },
+    ];
+    document.getElementById('soSyncTiles').innerHTML = tiles.map(t =>
+        `<div class="so-sync-tile"><div class="so-sync-tile-lbl">${t.label}</div><div class="so-sync-tile-val">${t.val}</div></div>`
+    ).join('');
+
+    const cols = `<tr><th>WFMS PO #</th><th>ZOHO SO #</th><th>CUSTOMER</th><th>END CUSTOMER</th><th>CIRCLE</th><th>NOTES</th></tr>`;
+    function tblRows(rows) {
+        if (!rows.length) return `<div class="so-sync-empty">No rows in this bucket.</div>`;
+        return `<table class="so-sync-tbl"><thead>${cols}</thead><tbody>` +
+            rows.map(r => `<tr>
+                <td>${r.wfms_po||'—'}</td>
+                <td><span class="so-sync-dash">${r.zoho_so||'—'}</span></td>
+                <td>${r.customer||'—'}</td>
+                <td>${r.end_customer||'—'}</td>
+                <td>${r.circle||'—'}</td>
+                <td>${r.notes||'—'}</td>
+            </tr>`).join('') +
+        `</tbody></table>`;
+    }
+    const buckets = [
+        { key:'already_linked', label:'Already linked', hint:'Already bridged — sync will refresh header + circle' },
+        { key:'to_link',        label:'To link',        hint:'WFMS PO matched a Zoho SO by po_number — sync will link &amp; refresh' },
+        { key:'to_insert',      label:'To insert',      hint:'No WFMS match — sync will INSERT a new PO' },
+        { key:'conflicts',      label:'Conflicts',      hint:"PO's number matches a SO but is already linked elsewhere" },
+        { key:'no_tag',         label:'No tag',         hint:'SO is missing the "Onaqt sync = yes" tag — excluded from sync' },
+        { key:'unlinked_local', label:'Unlinked local', hint:'Active WFMS POs with no Zoho counterpart (informational only)' },
+    ];
+    document.getElementById('soSyncBody').innerHTML = buckets.map(b => `
+        <div class="so-sync-bucket">
+            <div class="so-sync-bucket-hd">
+                <span class="so-sync-bucket-label">${b.label}<span class="so-sync-bucket-cnt">${data[b.key].length}</span></span>
+                <span class="so-sync-bucket-hint">${b.hint}</span>
+            </div>
+            ${tblRows(data[b.key])}
+        </div>`).join('');
+}
+
+window.soRunSync = function() {
+    const btn = document.getElementById('soSyncRunBtn');
+    if (btn) { btn.disabled = true; btn.innerHTML = '<svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="animation:spin 1s linear infinite"><path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.2"/></svg> Syncing…'; }
+    setTimeout(() => {
+        soCloseSyncModal();
+        if (btn) { btn.disabled = false; btn.innerHTML = '<svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.2"/></svg> Run Sync'; }
+        if (typeof showToast === 'function') showToast('Sales Orders synced with Zoho successfully.', 'success');
+    }, 1800);
+};
+})();
+    </script>
+
+    <!-- ═══════════ VENDOR PO LISTING SCRIPTS ═══════════ -->
+    <script>
+(function(){
+'use strict';
+
+/* ── DATA ─────────────────────────────────────────────────────────────────── */
+const VND_PO_ALL = [
+  { id:'VPO-001', zoho_po:'ZPO-2026-001', vendor_id:1, vendor:'Sharma Infra Pvt Ltd',    project:'jio-two',      amount:85000, status:'approved', zoho_synced:true,  date:'2026-04-10' },
+  { id:'VPO-002', zoho_po:'ZPO-2026-002', vendor_id:1, vendor:'Sharma Infra Pvt Ltd',    project:'TestP',         amount:32000, status:'draft',    zoho_synced:false, date:'2026-04-12' },
+  { id:'VPO-003', zoho_po:null,           vendor_id:2, vendor:'Punjab Express Transport', project:'jio4g',         amount:18000, status:'approved', zoho_synced:false, date:'2026-04-08' },
+  { id:'VPO-004', zoho_po:'ZPO-2026-004', vendor_id:3, vendor:'Delhi Cab Services',       project:'4G-upgrade',    amount:44000, status:'approved', zoho_synced:true,  date:'2026-04-05' },
+  { id:'VPO-005', zoho_po:null,           vendor_id:4, vendor:'Raj Civil Contractors',    project:'Voult',          amount:28000, status:'draft',    zoho_synced:false, date:'2026-04-15' },
+  { id:'VPO-006', zoho_po:'ZPO-2026-006', vendor_id:7, vendor:'Jaipur Cab Rentals',       project:'Carle',          amount:62000, status:'approved', zoho_synced:true,  date:'2026-04-01' },
+];
+
+let vndPOQuery = '';
+let vndPOFiltered = [...VND_PO_ALL];
+
+/* ── TABLE RENDER ─────────────────────────────────────────────────────────── */
+window.vndPORenderTable = function() {
+  vndPOFiltered = VND_PO_ALL.filter(p => {
+    if (!vndPOQuery) return true;
+    return [p.id, p.zoho_po||'', p.vendor, p.project].join(' ').toLowerCase().includes(vndPOQuery);
+  });
+  const body = document.getElementById('vndPOTableBody');
+  if (!body) return;
+  const statusColor = { approved:'var(--success)', draft:'var(--gray-400)', pending:'var(--warning)' };
+  body.innerHTML = vndPOFiltered.length ? vndPOFiltered.map(p => `<tr>
+    <td style="font-family:'Courier New',monospace;font-size:12px;font-weight:600;">${p.id}</td>
+    <td style="font-size:12px;color:var(--gray-500);">${p.zoho_po || '<span style="color:var(--gray-300);">—</span>'}</td>
+    <td style="font-weight:500;">${p.vendor}</td>
+    <td style="font-size:12px;color:var(--gray-600);">${p.project}</td>
+    <td style="text-align:right;font-weight:600;">₹${p.amount.toLocaleString('en-IN')}</td>
+    <td><span class="status-badge ${p.status==='approved'?'active':'inactive'}"><span class="status-dot"></span>${p.status.charAt(0).toUpperCase()+p.status.slice(1)}</span></td>
+    <td>${p.zoho_synced
+      ? '<span style="display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:600;color:var(--success);"><svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Synced</span>'
+      : '<span style="display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:600;color:var(--gray-400);">Pending</span>'}</td>
+    <td style="text-align:center;">
+      <div style="position:relative;display:inline-block;">
+        <button class="action-btn" onclick="this.nextElementSibling.classList.toggle('active');event.stopPropagation()">
+          <svg width="15" height="15" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="5" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="12" cy="19" r="1"/></svg>
+        </button>
+        <div class="action-menu">
+          <button class="action-menu-item" onclick="showToast('View PO detail — coming soon.','info')">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
+            View Details
+          </button>
+          <button class="action-menu-item" onclick="showToast('Edit PO — coming soon.','info')">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
+            Edit
+          </button>
+        </div>
+      </div>
+    </td>
+  </tr>`).join('')
+  : '<tr><td colspan="8" style="text-align:center;padding:40px;color:var(--gray-400);font-size:13px;">No purchase orders found</td></tr>';
+
+  const cnt = document.getElementById('vndPORecordCount');
+  if (cnt) cnt.textContent = vndPOFiltered.length + ' record' + (vndPOFiltered.length !== 1 ? 's' : '');
+
+  // close menus on outside click
+  document.addEventListener('click', () => {
+    document.querySelectorAll('#page-vendor-po .action-menu.active').forEach(m => m.classList.remove('active'));
+  }, { once: true });
+};
+
+window.vndPOHandleSearch = function(val) {
+  vndPOQuery = val.toLowerCase().trim();
+  vndPORenderTable();
+};
+
+/* ── SYNC MODAL ───────────────────────────────────────────────────────────── */
+window.vndPOOpenSyncModal = function() {
+  vndPORenderSyncModal();
+  document.getElementById('vndPOListingSyncOverlay').classList.add('active');
+};
+window.vndPOCloseSyncModal = function() {
+  document.getElementById('vndPOListingSyncOverlay').classList.remove('active');
+};
+
+function vndPORenderSyncModal() {
+  const already_linked = VND_PO_ALL.filter(p =>  p.zoho_po && p.zoho_synced);
+  const to_link        = [];
+  const to_insert      = VND_PO_ALL.filter(p => !p.zoho_po);
+  const conflicts      = [];
+  const no_tag         = [];
+  const unlinked_local = VND_PO_ALL.filter(p =>  p.zoho_po && !p.zoho_synced);
+  const data = { already_linked, to_link, to_insert, conflicts, no_tag, unlinked_local };
+
+  const tiles = [
+    { label:'Already Linked',  val: already_linked.length },
+    { label:'To Link',         val: to_link.length },
+    { label:'To Insert',       val: to_insert.length },
+    { label:'Conflicts',       val: conflicts.length },
+    { label:'No Tag',          val: no_tag.length },
+    { label:'Unlinked Local',  val: unlinked_local.length },
+  ];
+  document.getElementById('vndPOListingSyncTiles').innerHTML = tiles.map(t =>
+    `<div class="so-sync-tile"><div class="so-sync-tile-lbl">${t.label}</div><div class="so-sync-tile-val">${t.val}</div></div>`
+  ).join('');
+
+  const cols = `<tr><th>ONAQT PO #</th><th>ZOHO PO #</th><th>VENDOR</th><th>PROJECT</th><th>AMOUNT</th><th>STATUS</th></tr>`;
+  function tblRows(rows) {
+    if (!rows.length) return `<div class="so-sync-empty">No rows in this bucket.</div>`;
+    return `<table class="so-sync-tbl"><thead>${cols}</thead><tbody>` +
+      rows.map(r => `<tr>
+        <td>${r.id}</td><td><span class="so-sync-dash">${r.zoho_po||'—'}</span></td>
+        <td>${r.vendor}</td><td>${r.project}</td>
+        <td>₹${r.amount.toLocaleString('en-IN')}</td><td>${r.status}</td>
+      </tr>`).join('') + `</tbody></table>`;
+  }
+  const buckets = [
+    { key:'already_linked', label:'Already linked', hint:'Already bridged — sync will refresh header' },
+    { key:'to_link',        label:'To link',        hint:'ONAQT PO matched a Zoho PO by number — sync will link &amp; refresh' },
+    { key:'to_insert',      label:'To insert',      hint:'No Zoho match — sync will INSERT a new PO in Zoho' },
+    { key:'conflicts',      label:'Conflicts',      hint:'PO number matches a Zoho PO already linked elsewhere' },
+    { key:'no_tag',         label:'No tag',         hint:'Zoho PO missing the "onaqt sync = yes" tag — excluded' },
+    { key:'unlinked_local', label:'Unlinked local', hint:'ONAQT POs with Zoho reference not yet confirmed (informational only)' },
+  ];
+  document.getElementById('vndPOListingSyncBody').innerHTML = buckets.map(b => `
+    <div class="so-sync-bucket">
+      <div class="so-sync-bucket-hd">
+        <span class="so-sync-bucket-label">${b.label}<span class="so-sync-bucket-cnt">${data[b.key].length}</span></span>
+        <span class="so-sync-bucket-hint">${b.hint}</span>
+      </div>
+      ${tblRows(data[b.key])}
+    </div>`).join('');
+}
+
+window.vndPORunSync = function() {
+  const btn = document.getElementById('vndPOListingSyncRunBtn');
+  if (btn) { btn.disabled = true; btn.innerHTML = '<svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="animation:spin 1s linear infinite"><path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.2"/></svg> Syncing…'; }
+  setTimeout(() => {
+    vndPOCloseSyncModal();
+    if (btn) { btn.disabled = false; btn.innerHTML = '<svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.2"/></svg> Run Sync'; }
+    if (typeof showToast === 'function') showToast('Vendor Purchase Orders synced with Zoho.', 'success');
+  }, 1800);
+};
+
+})();
+    </script>
+
     <!-- ═══════════ MATERIAL PURCHASE / STOCK REGISTER SCRIPTS ═══════════ -->
     <script>
 (function(){
@@ -46573,6 +47561,106 @@ if (document.readyState === 'loading'){
 
 })();
 </script>
+<!-- ══ VENDOR PO LISTING — SYNC MODAL (body-level, escapes overflow:hidden) ══ -->
+<div class="so-sync-overlay" id="vndPOListingSyncOverlay" onclick="if(event.target===this)vndPOCloseSyncModal()">
+  <div class="so-sync-box">
+    <div class="so-sync-hd">
+      <div>
+        <div class="so-sync-title">Sync Purchase Orders from Zoho</div>
+        <div class="so-sync-tag">Reporting tag: <code style="font-size:11px;">onaqt sync</code></div>
+        <div class="so-sync-sub">Only Zoho Purchase Orders with reporting tag <em>onaqt sync = yes</em> are synced. Vendor must already exist in ONAQT.</div>
+      </div>
+      <button class="so-sync-close" onclick="vndPOCloseSyncModal()" aria-label="Close">
+        <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+      </button>
+    </div>
+    <div class="so-sync-tiles" id="vndPOListingSyncTiles"></div>
+    <div class="so-sync-body" id="vndPOListingSyncBody"></div>
+    <div class="so-sync-ft">
+      <button class="so-sync-btn-cancel" onclick="vndPOCloseSyncModal()">Cancel</button>
+      <button class="so-sync-btn-run" id="vndPOListingSyncRunBtn" onclick="vndPORunSync()">
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.2"/></svg>
+        Run Sync
+      </button>
+    </div>
+  </div>
+</div>
+<!-- ══ ITEM LINK PICKER — links Zoho items to an ONAQT type ══ -->
+<div class="ilp-overlay" id="ilpOverlay">
+  <div class="ilp-backdrop" onclick="ilpClose()"></div>
+  <div class="ilp-panel">
+    <div class="ilp-header">
+      <div style="display:flex;align-items:center;justify-content:space-between;">
+        <div>
+          <div class="ilp-title">Link Zoho Items</div>
+          <div class="ilp-sub" id="ilpSub">Select items to link to this type</div>
+        </div>
+        <button class="so-sync-close" onclick="ilpClose()">
+          <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+        </button>
+      </div>
+    </div>
+    <div class="ilp-list" id="ilpList"></div>
+    <div class="ilp-footer">
+      <button class="so-sync-btn-cancel" style="flex:1;" onclick="ilpClose()">Cancel</button>
+      <button class="btn-save" style="flex:1;justify-content:center;" onclick="ilpConfirm()">
+        <svg width="13" height="13" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+        Confirm Links
+      </button>
+    </div>
+  </div>
+</div><!-- ══ SO SYNC ZOHO MODAL (body-level) ══ -->
+<div class="so-sync-overlay" id="soSyncOverlay" onclick="if(event.target===this)soCloseSyncModal()">
+  <div class="so-sync-box">
+    <div class="so-sync-hd">
+      <div>
+        <div class="so-sync-title">Sync Sales Orders from Zoho</div>
+        <div class="so-sync-tag">Reporting tag: <code style="font-size:11px;">onaqt sync</code></div>
+        <div class="so-sync-sub">Only Zoho Sales Orders with reporting tag <em>onaqt sync = yes</em> are synced. Also required per SO: <em>End Customer</em> and <em>Location</em> tags.</div>
+      </div>
+      <button class="so-sync-close" onclick="soCloseSyncModal()" aria-label="Close">
+        <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+      </button>
+    </div>
+    <div class="so-sync-tiles" id="soSyncTiles"></div>
+    <div class="so-sync-body" id="soSyncBody"></div>
+    <div class="so-sync-ft">
+      <button class="so-sync-btn-cancel" onclick="soCloseSyncModal()">Cancel</button>
+      <button class="so-sync-btn-run" id="soSyncRunBtn" onclick="soRunSync()">
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.2"/></svg>
+        Run Sync
+      </button>
+    </div>
+  </div>
+</div>
+<!-- ══ CUSTOM COLUMNS MODAL (Attendance / Expense) ══ -->
+<div class="ucf-overlay" id="ucfModal" onclick="if(event.target===this)ucfClose()">
+  <div class="ucf-box">
+    <div class="ucf-head">
+      <div>
+        <div class="ucf-title" id="ucfTitle">Custom Columns</div>
+        <div class="ucf-sub">Name up to 5 extra columns. Leave a name blank to hide that column. Labels apply to all records; fill values inline in the table.</div>
+      </div>
+      <button class="ucf-close" onclick="ucfClose()" aria-label="Close">
+        <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+      </button>
+    </div>
+    <div class="ucf-body">
+      <div class="ucf-field"><label>Column 1</label><input id="ucfInput1" placeholder="e.g. Shift Type" autocomplete="off"></div>
+      <div class="ucf-field"><label>Column 2</label><input id="ucfInput2" placeholder="e.g. Travel Mode" autocomplete="off"></div>
+      <div class="ucf-field"><label>Column 3</label><input id="ucfInput3" placeholder="e.g. Site Code" autocomplete="off"></div>
+      <div class="ucf-field"><label>Column 4</label><input id="ucfInput4" placeholder="(unused)" autocomplete="off"></div>
+      <div class="ucf-field"><label>Column 5</label><input id="ucfInput5" placeholder="(unused)" autocomplete="off"></div>
+    </div>
+    <div class="ucf-foot">
+      <button class="ucf-btn-cancel" onclick="ucfClose()">Cancel</button>
+      <button class="ucf-btn-save" onclick="ucfSave()">
+        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>
+        Save Columns
+      </button>
+    </div>
+  </div>
+</div>
 
 </body>
 </html>
