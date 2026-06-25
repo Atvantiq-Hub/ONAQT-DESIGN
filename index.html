@@ -6084,6 +6084,8 @@
         /* ══ APPROVALS PAGE CSS ══ */
         #page-po-approvals.page-section { display: none; }
         #page-po-approvals.page-section.active { display: flex; flex-direction: column; flex: 1; min-height: 0; overflow: hidden; }
+        #page-wcc-details.page-section { display: none; }
+        #page-wcc-details.page-section.active { display: flex; flex-direction: column; flex: 1; min-height: 0; overflow: hidden; }
         #page-po-approvals .control-bar { flex-shrink: 0; }
         #page-po-approvals .appr-tabs { display: flex; align-items: center; gap: 0; background: var(--white); border-radius: 12px 12px 0 0; padding: 0 12px; border: 1px solid var(--gray-100); border-bottom: none; flex-shrink: 0; box-shadow: 0 -1px 6px rgba(0,0,0,.02); }
         [data-dark="true"] #page-po-approvals .appr-tabs { background: #1e2130 !important; border-color: #2d3145 !important; }
@@ -16585,6 +16587,7 @@
                             <span>SO Approvals</span>
                             <span id="navApprovalsBadge" style="margin-left:auto;display:inline-flex;align-items:center;justify-content:center;min-width:18px;height:18px;padding:0 5px;background:var(--cta);color:#fff;border-radius:9px;font-size:10px;font-weight:700;">0</span>
                         </a>
+                        <a href="#" class="nav-submenu-link" onclick="showPage('wcc-details','WCC Details');return false;">WCC Details</a>
                         <a href="#" class="nav-submenu-link" onclick="showPage('wcc','Sign-off');return false;">Sign-off &amp; Certification</a>
                     </div>
                 </div>
@@ -26955,6 +26958,10 @@ if (typeof showPage === 'function') {
                     [data-dark="true"] #page-agent-performance .agentperf-scroll::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.12); }
                     #page-agent-performance .agentperf-card:hover { border-color: rgba(125,90,210,0.4); box-shadow: 0 4px 16px rgba(125,90,210,0.08); transform: translateY(-1px); }
                 </style>
+
+                <div id="page-wcc-details" class="page-section">
+                    <iframe src="wcc-pipeline.html" title="WCC Details" style="flex:1;width:100%;height:100%;border:0;min-height:0;"></iframe>
+                </div>
 
             </main>
         </div>

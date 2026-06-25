@@ -1,0 +1,1559 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WCC Pipeline — ONAQT</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=DM+Mono:wght@400;500&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,600;0,9..144,700;1,9..144,400&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * { font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif; font-size: 13px; }
+        h1, h2, h3, .stats-banner-value { font-family: 'Fraunces', serif; }
+
+        /* ── THEME VARIABLES ── */
+        :root {
+            --primary: #2D4A35; --primary-dark: #1e3326; --primary-light: #e6f0e8;
+            --cta: #C8837A; --cta-shadow: rgba(200,131,122,0.35);
+            --success: #4a7c59; --success-light: #eaf2ec;
+            --warning: #b8893a; --warning-light: #fdf4e7;
+            --danger: #b85c52; --danger-light: #faeeed;
+            --info: #5a7fa8; --info-light: #eef3f9;
+            --white: #ffffff; --surface: #FDFCFA; --bg: #EDE9E2;
+            --gray-50: #F5F2EC; --gray-100: #ECE8E1; --gray-200: #DDD9D0;
+            --gray-300: #C5C0B5; --gray-400: #A09890; --gray-500: #7A7268;
+            --gray-600: #5C5650; --gray-700: #3E3A35; --gray-800: #2A2722; --gray-900: #1A1714;
+            --shadow-sm: 0 1px 3px rgba(45,40,32,0.06);
+            --shadow-md: 0 4px 16px rgba(45,40,32,0.08),0 1px 4px rgba(45,40,32,0.04);
+            --shadow-card: 0 2px 12px rgba(45,40,32,0.07),0 0 0 1px rgba(45,40,32,0.04);
+            --shadow-xl: 0 24px 48px rgba(45,40,32,0.18), 0 8px 16px rgba(45,40,32,0.10);
+            --border-radius: 16px; --border-radius-sm: 12px;
+            --transition: all 0.25s cubic-bezier(0.4,0,0.2,1);
+        }
+
+        body {
+            font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg);
+            color: var(--gray-900);
+            font-size: 13px;
+            line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
+            min-height: 100vh;
+        }
+
+        .page-wrapper {
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            overflow: hidden;
+            padding: 16px;
+            gap: 0;
+            box-sizing: border-box;
+        }
+
+        /* ── HEADER ── */
+        .page-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 0 14px 0;
+            flex-shrink: 0;
+        }
+        .page-header-left { display: flex; flex-direction: column; gap: 2px; }
+        .breadcrumb { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--gray-500); }
+        .breadcrumb-sep { color: var(--gray-300); }
+        .breadcrumb-current { color: var(--gray-700); font-weight: 600; }
+        .page-title { font-family: 'Fraunces', serif; font-size: 22px; font-weight: 700; color: var(--gray-900); line-height: 1.1; }
+
+        /* ── STATS BANNER ── */
+        .stats-banner {
+            display: flex; align-items: stretch;
+            background: linear-gradient(120deg, var(--primary) 0%, color-mix(in srgb, var(--primary) 60%, var(--cta)) 60%, var(--cta) 100%);
+            border-radius: 14px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.14), 0 1px 4px rgba(0,0,0,0.06);
+            overflow: hidden;
+            margin-bottom: 14px;
+            position: relative;
+            flex-shrink: 0;
+        }
+        .stats-banner::before {
+            content: ''; position: absolute; inset: 0;
+            background: linear-gradient(180deg, rgba(255,255,255,0.10) 0%, transparent 100%);
+            pointer-events: none;
+        }
+        .stats-banner-item {
+            flex: 1; display: flex; align-items: center; gap: 10px;
+            padding: 12px 18px; position: relative; transition: var(--transition);
+            cursor: pointer;
+        }
+        .stats-banner-item:not(:last-child)::after {
+            content: ''; position: absolute; right: 0; top: 15%; bottom: 15%;
+            width: 1px; background: rgba(255,255,255,0.2);
+        }
+        .stats-banner-item:hover { background: rgba(255,255,255,0.1); }
+        .stats-banner-icon {
+            width: 34px; height: 34px; border-radius: 9px;
+            display: flex; align-items: center; justify-content: center;
+            flex-shrink: 0; background: rgba(255,255,255,0.18); color: #fff;
+        }
+        .stats-banner-icon svg { width: 17px; height: 17px; }
+        .stats-banner-content { display: flex; flex-direction: column; gap: 1px; }
+        .stats-banner-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.7px; color: rgba(255,255,255,0.72); }
+        .stats-banner-value { font-size: 20px; font-weight: 700; font-family: 'Fraunces', serif; color: #fff; line-height: 1; }
+        .stats-banner-sub { font-size: 9px; color: rgba(255,255,255,0.5); }
+
+        /* ── TAB BAR ── */
+        .tab-bar {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 0 16px 0 20px;
+            background: var(--white);
+            border-radius: 14px 14px 0 0;
+            border: 1px solid var(--gray-100);
+            border-bottom: none;
+            flex-shrink: 0;
+            gap: 8px;
+        }
+        .tab-list { display: flex; align-items: center; gap: 0; flex-shrink: 0; }
+        .tab-item {
+            position: relative; padding: 12px 16px;
+            font-size: 13px; font-weight: 500; color: var(--gray-500);
+            cursor: pointer; transition: var(--transition); white-space: nowrap;
+            display: flex; align-items: center; gap: 6px;
+        }
+        .tab-item:hover { color: var(--gray-800); }
+        .tab-item.active { color: var(--primary); font-weight: 600; }
+        .tab-item.active::after {
+            content: ''; position: absolute; bottom: 0; left: 12px; right: 12px;
+            height: 2.5px; background: var(--primary); border-radius: 2px 2px 0 0;
+        }
+        .tab-badge {
+            display: inline-flex; align-items: center; justify-content: center;
+            min-width: 18px; height: 18px; padding: 0 5px;
+            background: var(--gray-100); color: var(--gray-600);
+            border-radius: 9px; font-size: 11px; font-weight: 600;
+        }
+        .tab-item.active .tab-badge { background: var(--primary-light); color: var(--primary); }
+        .tab-actions { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+        .toolbar-title-wrap { display: flex; align-items: center; gap: 8px; padding: 12px 0; flex-shrink: 0; }
+        .toolbar-title { font-family: 'Fraunces', serif; font-size: 15px; font-weight: 600; color: var(--gray-900); }
+        .toolbar-count { display: inline-flex; align-items: center; justify-content: center; min-width: 22px; height: 20px; padding: 0 7px; background: var(--gray-100); color: var(--gray-600); border-radius: 10px; font-size: 11px; font-weight: 600; }
+
+        /* ── SEARCH ── */
+        .wd-search-wrap { position: relative; }
+        .wd-search-input {
+            width: 190px; padding: 6px 10px 6px 30px;
+            background: var(--gray-50); border: 1px solid var(--gray-200);
+            border-radius: 8px; color: var(--gray-800); outline: none;
+            transition: var(--transition);
+        }
+        .wd-search-input:focus { border-color: var(--primary); background: var(--white); box-shadow: 0 0 0 3px var(--primary-light); }
+        .wd-search-icon { position: absolute; left: 9px; top: 50%; transform: translateY(-50%); color: var(--gray-400); pointer-events: none; }
+        .wd-search-icon svg { width: 13px; height: 13px; }
+
+        /* ── ICON BTNS ── */
+        .cb-icon-btn {
+            width: 34px; height: 34px; padding: 0;
+            display: inline-flex; align-items: center; justify-content: center;
+            background: var(--white); border: 1.5px solid var(--gray-200);
+            border-radius: 8px; color: var(--gray-600); cursor: pointer;
+            transition: var(--transition); flex-shrink: 0;
+            box-shadow: var(--shadow-sm);
+        }
+        .cb-icon-btn svg { width: 15px; height: 15px; stroke-width: 1.8; }
+        .cb-icon-btn:hover { border-color: var(--primary); color: var(--primary); background: var(--primary-light); }
+
+        /* ── DATE RANGE FILTER (inline in tab-actions) ── */
+        .date-range-wrap {
+            display: flex; align-items: center; gap: 5px;
+            background: var(--gray-50); border: 1px solid var(--gray-200);
+            border-radius: 8px; padding: 0 8px; height: 34px;
+            flex-shrink: 0;
+        }
+        .date-range-label {
+            font-size: 10px; font-weight: 700; text-transform: uppercase;
+            letter-spacing: 0.5px; color: var(--gray-400); white-space: nowrap;
+        }
+        .date-range-input {
+            border: none; background: transparent; outline: none;
+            font-size: 12px; font-weight: 500; color: var(--gray-800);
+            cursor: pointer; width: 90px;
+            font-family: 'DM Sans', sans-serif;
+        }
+        .date-range-input::-webkit-calendar-picker-indicator { opacity: 0.5; cursor: pointer; width: 12px; }
+        .date-range-sep {
+            color: var(--gray-300); font-size: 12px; flex-shrink: 0;
+        }
+        .date-range-wrap:focus-within {
+            border-color: var(--primary); background: var(--white);
+            box-shadow: 0 0 0 3px var(--primary-light);
+        }
+
+        /* ── SO SELECT ── */
+        .so-select-wrap { position: relative; display: flex; align-items: center; }
+        .so-select {
+            padding: 6px 28px 6px 10px;
+            background: var(--gray-50); border: 1px solid var(--gray-200);
+            border-radius: 8px; color: var(--gray-800); outline: none;
+            font-size: 12px; font-weight: 500; cursor: pointer;
+            transition: var(--transition); height: 34px;
+            appearance: none; -webkit-appearance: none;
+            font-family: 'DM Sans', sans-serif;
+        }
+        .so-select:focus { border-color: var(--primary); background: var(--white); box-shadow: 0 0 0 3px var(--primary-light); }
+        .so-select-icon {
+            position: absolute; right: 8px; top: 50%; transform: translateY(-50%);
+            color: var(--gray-400); pointer-events: none;
+        }
+        .so-select-icon svg { width: 12px; height: 12px; }
+
+        /* ── TABLE CARD ── */
+        .table-card {
+            background: var(--white);
+            border-radius: 0 0 14px 14px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08), 0 1px 4px rgba(0,0,0,0.04);
+            border: 1px solid rgba(0,0,0,0.06);
+            border-top: none;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            min-height: 0;
+            overflow: hidden;
+        }
+
+        /* ── FUNNEL STRIP ── */
+        .funnel-strip {
+            display: flex; align-items: center; gap: 0;
+            padding: 6px 20px;
+            background: var(--white);
+            border-bottom: 1px solid var(--gray-100);
+            flex-shrink: 0; overflow-x: auto;
+        }
+        .funnel-step { display: flex; align-items: center; gap: 0; flex-shrink: 0; }
+        .funnel-arrow { color: var(--gray-300); padding: 0 6px; font-size: 14px; }
+        .funnel-btn {
+            display: flex; align-items: center; gap: 8px;
+            padding: 5px 12px; border-radius: 8px;
+            border: 1.5px solid transparent; cursor: pointer;
+            transition: var(--transition); background: transparent;
+        }
+        .funnel-btn:hover { background: var(--gray-50); border-color: var(--gray-200); }
+        .funnel-btn.f-active { background: var(--primary-light); border-color: var(--primary); }
+        .funnel-meta { display: flex; flex-direction: column; gap: 2px; }
+        .funnel-count { font-size: 15px; font-weight: 700; font-family: 'Fraunces', serif; color: var(--gray-900); line-height: 1; }
+        .funnel-btn.f-active .funnel-count { color: var(--primary); }
+        .funnel-label { font-size: 10px; font-weight: 600; color: var(--gray-500); white-space: nowrap; text-transform: uppercase; letter-spacing: 0.4px; }
+        .funnel-btn.f-active .funnel-label { color: var(--primary); }
+        .funnel-bar-wrap { width: 4px; border-radius: 2px; align-self: stretch; min-height: 24px; }
+        .fbar-all       { background: var(--primary); }
+        .fbar-pending   { background: #3b82f6; }
+        .fbar-submitted { background: #0ea5e9; }
+        .fbar-accepted  { background: var(--success); }
+        .fbar-rejected  { background: var(--danger); }
+        .fbar-modified  { background: var(--warning); }
+
+        /* ── STATUS PILLS ── */
+        .status-pill {
+            display: inline-flex; align-items: center; gap: 4px;
+            padding: 3px 9px; border-radius: 6px; font-size: 11px; font-weight: 600; white-space: nowrap;
+        }
+        .status-pill::before { content: ''; width: 5px; height: 5px; border-radius: 50%; flex-shrink: 0; }
+        .s-Pending    { background: #dbeafe; color: #1d4ed8; } .s-Pending::before    { background: #1d4ed8; }
+        .s-Submitted  { background: #e0f2fe; color: #0369a1; } .s-Submitted::before  { background: #0369a1; }
+        .s-Accepted   { background: var(--success-light); color: var(--success); } .s-Accepted::before { background: var(--success); }
+        .s-Rejected   { background: var(--danger-light); color: var(--danger); }   .s-Rejected::before { background: var(--danger); }
+        .s-Rejected_with_modification { background: var(--warning-light); color: var(--warning); }
+        .s-Rejected_with_modification::before { background: var(--warning); }
+
+        /* ── MISC CELL ── */
+        .amount-cell { font-weight: 600; color: var(--gray-800); font-variant-numeric: tabular-nums; }
+        .amount-cell.zero { color: var(--gray-400); font-weight: 400; }
+        .null-dash { color: var(--gray-300); font-size: 14px; }
+        .meta-text { font-size: 12px; color: var(--gray-600); }
+        .mono-tag {
+            display: inline-flex; padding: 2px 7px; border-radius: 4px;
+            font-size: 10px; font-weight: 700; white-space: nowrap; font-family: monospace;
+        }
+        .mono-so  { background: var(--primary-light); color: var(--primary); }
+        .mono-grn { background: var(--success-light); color: var(--success); }
+        .remark-cell { font-size: 11px; color: var(--warning); font-style: italic; }
+
+        /* ── NAME CELL ── */
+        .name-cell { display: flex; align-items: center; gap: 7px; min-width: 0; }
+        .name-avatar {
+            width: 22px; height: 22px; border-radius: 5px; flex-shrink: 0;
+            display: flex; align-items: center; justify-content: center;
+            color: #fff; font-weight: 700; font-size: 8.5px; letter-spacing: 0.2px;
+        }
+        .av-emp    { background: var(--primary); }
+        .av-vendor { background: var(--cta); }
+        .name-meta { display: flex; flex-direction: column; gap: 1px; min-width: 0; }
+        .name-text { font-weight: 600; font-size: 11.5px; color: var(--gray-800); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; line-height: 1.1; }
+        .name-badge { font-size: 8.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.4px; line-height: 1; }
+        .nb-emp    { color: var(--primary); }
+        .nb-vendor { color: var(--cta); }
+
+        /* ── AG GRID ── */
+        /* ── NATIVE TABLE (mirrors Plan vs Actual employee table) ── */
+        .tbl-scroll { flex: 1; min-height: 0; overflow: auto; }
+        .tbl-scroll::-webkit-scrollbar { width: 9px; height: 9px; }
+        .tbl-scroll::-webkit-scrollbar-thumb { background: var(--gray-300); border-radius: 5px; }
+        .tbl-scroll::-webkit-scrollbar-track { background: transparent; }
+        table.wcc-table { width: 100%; border-collapse: separate; border-spacing: 0; min-width: 1700px; }
+        table.wcc-table thead th {
+            position: sticky; top: 0; z-index: 5;
+            background: var(--bg);
+            padding: 9px 10px; text-align: left;
+            font-size: 10px; font-weight: 500; color: var(--gray-400);
+            text-transform: uppercase; letter-spacing: 0.05em;
+            white-space: nowrap; cursor: pointer; user-select: none;
+            border-bottom: 1px solid rgba(45,40,32,.10);
+            transition: color .12s;
+        }
+        table.wcc-table thead th:hover { color: var(--gray-700); }
+        table.wcc-table thead th.sorted { color: var(--primary); }
+        table.wcc-table thead th.th-right { text-align: right; }
+        table.wcc-table thead th.th-center { text-align: center; }
+        .th-arrow { display: inline-block; width: 0; opacity: 0; margin-left: 3px; font-size: 9px; transition: opacity .12s; }
+        table.wcc-table thead th.sorted .th-arrow { width: auto; opacity: 1; }
+        table.wcc-table tbody td {
+            padding: 7px 10px; vertical-align: middle; white-space: nowrap;
+            border-bottom: 1px solid rgba(45,40,32,.06);
+        }
+        table.wcc-table tbody td.td-right { text-align: right; }
+        table.wcc-table tbody td.td-center { text-align: center; }
+        table.wcc-table tbody tr { transition: background .1s; cursor: pointer; }
+        table.wcc-table tbody tr:hover td { background: var(--gray-50); }
+        table.wcc-table tbody tr:last-child td { border-bottom: none; }
+        .tbl-empty { padding: 48px; text-align: center; color: var(--gray-400); font-size: 13px; }
+
+        /* table footer (count + pagination) */
+        .tbl-footer {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 10px 16px; border-top: 1px solid rgba(45,40,32,.08);
+            background: var(--white); flex-shrink: 0; gap: 12px;
+        }
+        .tbl-count { font-size: 11.5px; color: var(--gray-500); font-family: 'DM Mono', monospace; }
+        .tbl-pager { display: flex; align-items: center; gap: 6px; }
+        .tbl-pg-btn {
+            width: 30px; height: 30px; display: inline-flex; align-items: center; justify-content: center;
+            border: 1.5px solid var(--gray-200); background: var(--white); border-radius: 8px;
+            color: var(--gray-600); cursor: pointer; transition: var(--transition);
+        }
+        .tbl-pg-btn svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 2; }
+        .tbl-pg-btn:hover:not(:disabled) { border-color: var(--primary); color: var(--primary); background: var(--primary-light); }
+        .tbl-pg-btn:disabled { opacity: .4; cursor: not-allowed; }
+        .tbl-pg-info { font-size: 12px; color: var(--gray-700); font-weight: 500; min-width: 90px; text-align: center; }
+        .tbl-pg-size { display: flex; align-items: center; gap: 6px; font-size: 11.5px; color: var(--gray-500); }
+        .tbl-pg-size select {
+            padding: 4px 24px 4px 8px; border: 1.5px solid var(--gray-200); border-radius: 7px;
+            background: var(--white); color: var(--gray-800); font-size: 12px; cursor: pointer; outline: none;
+            appearance: none; -webkit-appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%237A7268' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+            background-repeat: no-repeat; background-position: right 7px center;
+        }
+
+        /* WCC aging pill */
+        .aging-pill { display: inline-flex; align-items: center; gap: 4px; padding: 3px 9px; border-radius: 99px; font-size: 11px; font-weight: 600; font-family: 'DM Mono', monospace; white-space: nowrap; }
+        .aging-pill .ad { font-family: 'DM Sans', sans-serif; font-weight: 400; font-size: 9.5px; opacity: .7; }
+        .aging-good { background: var(--success-light); color: var(--success); }
+        .aging-warn { background: var(--warning-light); color: var(--warning); }
+        .aging-bad  { background: var(--danger-light); color: var(--danger); }
+        .aging-open { background: var(--gray-100); color: var(--gray-500); }
+        .aging-open.aging-warn { background: var(--warning-light); color: var(--warning); }
+        .aging-open.aging-bad  { background: var(--danger-light); color: var(--danger); }
+
+        /* ── PvA-style cell helpers (mirrors Plan vs Actual employee table) ── */
+        .rp-emp-cell { display: flex; align-items: center; gap: 8px; overflow: hidden; min-width: 0; }
+        .rp-avatar { width: 30px; height: 30px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; flex-shrink: 0; color: #fff; }
+        .rp-av-emp { background: var(--primary); }
+        .rp-av-ven { background: var(--cta); }
+        .rp-av-site { background: var(--info); }
+        .rp-emp-info { min-width: 0; display: flex; flex-direction: column; }
+        .rp-emp-name { font-weight: 500; font-size: 12px; color: var(--gray-900); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; line-height: 1.2; }
+        .rp-emp-role { font-size: 10px; color: var(--gray-400); margin-top: 1px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .rp-site-bold { font-weight: 700; font-size: 12px; color: var(--gray-900); white-space: nowrap; }
+        .rp-pm-name { font-family: 'DM Sans', sans-serif; font-size: 12px; font-weight: 400; color: var(--gray-600); white-space: nowrap; }
+        .rp-cell-text { font-family: 'DM Sans', sans-serif; font-size: 12px; font-weight: 400; color: var(--gray-700); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .rp-cell-bold { font-family: 'DM Sans', sans-serif; font-size: 12px; font-weight: 400; color: var(--gray-800); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .rp-num { font-family: 'DM Mono', 'Courier New', monospace; font-size: 12px; font-weight: 400; color: var(--gray-800); }
+        .rp-num.muted { color: var(--gray-400); }
+        .rp-num .rs { font-family: 'DM Sans', sans-serif; }
+        .rp-mono-tag { display: inline-block; font-size: 10px; padding: 2px 7px; border-radius: 4px; background: var(--primary-light); color: var(--primary); font-family: 'DM Mono', monospace; font-weight: 500; white-space: nowrap; }
+        .rp-mono-tag.grn { background: var(--success-light); color: var(--success); }
+        .rp-badge { display: inline-flex; align-items: center; gap: 4px; padding: 3px 9px; border-radius: 99px; font-size: 10px; font-weight: 500; white-space: nowrap; }
+        .rp-badge::before { content: ''; width: 5px; height: 5px; border-radius: 50%; }
+        .rp-b-Pending    { background: #dbeafe; color: #1d4ed8; } .rp-b-Pending::before    { background: #1d4ed8; }
+        .rp-b-Submitted  { background: #e0f2fe; color: #0369a1; } .rp-b-Submitted::before  { background: #0369a1; }
+        .rp-b-Accepted   { background: var(--success-light); color: var(--success); } .rp-b-Accepted::before   { background: var(--success); }
+        .rp-b-Rejected   { background: var(--danger-light); color: var(--danger); }   .rp-b-Rejected::before   { background: var(--danger); }
+        .rp-b-Rejected_with_modification { background: var(--warning-light); color: var(--warning); } .rp-b-Rejected_with_modification::before { background: var(--warning); }
+        .rp-item-tag { display: inline-flex; align-items: center; font-size: 10.5px; font-weight: 600; color: var(--info); background: var(--info-light); border-radius: 5px; padding: 2px 8px; white-space: nowrap; }
+        .rp-circle-chip { display: inline-flex; font-size: 10px; font-weight: 700; color: var(--gray-600); background: var(--gray-100); border-radius: 4px; padding: 2px 7px; letter-spacing: .02em; }
+
+        /* ════════ DETAIL DRAWER ════════ */
+        .drawer-overlay { position: fixed; inset: 0; z-index: 1500; pointer-events: none; }
+        .drawer-overlay.active { pointer-events: auto; }
+        .drawer-backdrop { position: absolute; inset: 0; background: rgba(0,0,0,0.4); backdrop-filter: blur(2px); opacity: 0; transition: opacity .3s; }
+        .drawer-overlay.active .drawer-backdrop { opacity: 1; }
+        .detail-drawer {
+            position: absolute; top: 0; right: 0; bottom: 0;
+            width: 620px; max-width: 96vw; background: var(--white);
+            box-shadow: -8px 0 40px rgba(0,0,0,0.14);
+            display: flex; flex-direction: column;
+            transform: translateX(100%); transition: transform .32s cubic-bezier(0.4,0,0.2,1);
+        }
+        .drawer-overlay.active .detail-drawer { transform: translateX(0); }
+        .drawer-header {
+            padding: 18px 22px; border-bottom: 1px solid var(--gray-100);
+            display: flex; align-items: flex-start; justify-content: space-between;
+            flex-shrink: 0; gap: 14px;
+        }
+        .drawer-title { font-family: 'Fraunces', serif; font-size: 21px; font-weight: 700; color: var(--primary); letter-spacing: -0.4px; line-height: 1.2; }
+        .drawer-sub { font-size: 12px; color: var(--gray-500); margin-top: 4px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+        .drawer-close { width: 32px; height: 32px; display: grid; place-items: center; border: 0; background: var(--gray-100); border-radius: 8px; cursor: pointer; color: var(--gray-600); flex-shrink: 0; transition: var(--transition); }
+        .drawer-close:hover { background: var(--danger-light); color: var(--danger); }
+        .drawer-close svg { width: 16px; height: 16px; stroke: currentColor; fill: none; stroke-width: 2.2; }
+        .drawer-body { flex: 1; overflow-y: auto; padding: 20px 22px; }
+        .drawer-footer { padding: 14px 22px; border-top: 1px solid var(--gray-100); display: flex; gap: 8px; justify-content: flex-end; flex-shrink: 0; background: var(--gray-50); }
+
+        /* drawer header status pill */
+        .dh-status { display: inline-flex; }
+
+        /* summary band */
+        .dr-summary { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; background: var(--gray-50); border: 1px solid var(--gray-100); border-radius: 12px; overflow: hidden; margin-bottom: 20px; }
+        .dr-summary-item { padding: 12px 14px; position: relative; }
+        .dr-summary-item:not(:last-child)::after { content: ''; position: absolute; right: 0; top: 18%; bottom: 18%; width: 1px; background: var(--gray-200); }
+        .dr-summary-label { font-size: 9.5px; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; color: var(--gray-400); margin-bottom: 4px; }
+        .dr-summary-value { font-size: 16px; font-weight: 700; font-family: 'Fraunces', serif; color: var(--gray-900); line-height: 1; }
+        .dr-summary-value.green { color: var(--primary); }
+        .dr-summary-value.coral { color: var(--cta); }
+
+        /* sections */
+        .dr-section { padding-bottom: 20px; margin-bottom: 20px; border-bottom: 1px solid var(--gray-100); }
+        .dr-section:last-child { border-bottom: 0; margin-bottom: 0; padding-bottom: 0; }
+        .dr-section-title { font-size: 10.5px; font-weight: 700; text-transform: uppercase; letter-spacing: .07em; color: var(--gray-400); margin-bottom: 12px; display: flex; align-items: center; gap: 7px; }
+        .dr-section-title .ct { font-weight: 700; color: var(--gray-500); background: var(--gray-100); border-radius: 20px; padding: 1px 8px; font-size: 10px; letter-spacing: 0; text-transform: none; }
+        .dr-section-title .amt-chip { margin-left: auto; font-weight: 700; color: var(--primary); background: var(--primary-light); border-radius: 20px; padding: 2px 9px; font-size: 11px; letter-spacing: 0; text-transform: none; }
+
+        /* meta grid */
+        .dr-meta-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+        .dr-meta-item { display: flex; flex-direction: column; gap: 3px; }
+        .dr-meta-label { font-size: 10.5px; color: var(--gray-400); font-weight: 600; text-transform: uppercase; letter-spacing: .04em; }
+        .dr-meta-value { font-size: 13px; color: var(--gray-800); font-weight: 500; }
+        .dr-meta-value.primary { color: var(--primary); font-weight: 700; }
+        .dr-meta-value.code { font-family: 'Courier New', monospace; font-weight: 700; font-size: 12px; }
+
+        /* activity timeline (by date) */
+        .act-list { display: flex; flex-direction: column; gap: 9px; }
+        .act-row { display: flex; align-items: center; gap: 12px; padding: 10px 12px; background: var(--gray-50); border: 1px solid var(--gray-100); border-radius: 10px; }
+        .act-date { display: flex; flex-direction: column; align-items: center; min-width: 42px; flex-shrink: 0; }
+        .act-date-d { font-size: 16px; font-weight: 700; font-family: 'Fraunces', serif; color: var(--primary); line-height: 1; }
+        .act-date-m { font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; color: var(--gray-400); margin-top: 2px; }
+        .act-divider { width: 1px; align-self: stretch; background: var(--gray-200); }
+        .act-main { flex: 1; min-width: 0; }
+        .act-type-tag { display: inline-flex; font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; color: var(--info); background: var(--info-light); border-radius: 4px; padding: 2px 7px; }
+        .act-activity { font-size: 12.5px; font-weight: 600; color: var(--gray-800); }
+        .act-who { font-size: 11px; color: var(--gray-500); margin-top: 3px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+        .act-who.res-names { font-size: 11px; color: var(--gray-600); }
+        .act-vendor-cost { font-size: 10px; font-weight: 600; color: var(--cta); background: color-mix(in srgb, var(--cta) 12%, transparent); border-radius: 4px; padding: 1px 6px; }
+        .act-amt-wrap { display: flex; flex-direction: column; align-items: flex-end; flex-shrink: 0; }
+        .act-amt { font-size: 13px; font-weight: 700; color: var(--gray-800); font-variant-numeric: tabular-nums; line-height: 1.1; }
+        .act-amt-label { font-size: 8.5px; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; color: var(--gray-400); margin-top: 1px; }
+
+        /* type group: type header outside, activities below */
+        .type-group { margin-bottom: 14px; }
+        .type-group:last-child { margin-bottom: 0; }
+        .type-group-head { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+        .type-group-amt { margin-left: auto; font-size: 11px; font-weight: 700; color: var(--gray-500); font-variant-numeric: tabular-nums; }
+
+        /* revenue head group (parent of type) */
+        .rh-group { margin-bottom: 18px; padding-left: 12px; border-left: 2px solid var(--primary-light); }
+        .rh-group:last-child { margin-bottom: 0; }
+        .rh-head { display: flex; align-items: center; gap: 9px; margin-bottom: 12px; }
+        .rh-label { font-size: 8.5px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: var(--gray-400); background: var(--gray-100); border-radius: 4px; padding: 2px 7px; flex-shrink: 0; }
+        .rh-name { font-family: 'Fraunces', serif; font-size: 14px; font-weight: 700; color: var(--primary); }
+        .rh-amt { margin-left: auto; font-size: 12px; font-weight: 700; color: var(--primary); font-variant-numeric: tabular-nums; }
+
+        /* resource lock button in section title */
+        .res-lock-btn { margin-left: auto; width: 26px; height: 26px; border-radius: 7px; border: 1.5px solid var(--gray-200); background: var(--white); color: var(--gray-500); display: grid; place-items: center; cursor: pointer; transition: var(--transition); flex-shrink: 0; }
+        .res-lock-btn svg { width: 13px; height: 13px; stroke: currentColor; fill: none; stroke-width: 2; }
+        .res-lock-btn:hover { border-color: var(--primary); color: var(--primary); background: var(--primary-light); }
+        .res-lock-btn.unlocked { border-color: var(--success); color: var(--success); background: var(--success-light); }
+        .dr-section-title .res-lock-btn { margin-left: 8px; }
+
+        /* locked resources placeholder */
+        .res-locked { display: flex; align-items: center; gap: 12px; padding: 13px 14px; background: var(--warning-light); border: 1px dashed color-mix(in srgb, var(--warning) 40%, transparent); border-radius: 11px; cursor: pointer; transition: var(--transition); }
+        .res-locked:hover { background: color-mix(in srgb, var(--warning-light) 80%, var(--warning) 6%); }
+        .res-locked-icon { width: 34px; height: 34px; border-radius: 9px; background: var(--warning); color: #fff; display: grid; place-items: center; flex-shrink: 0; }
+        .res-locked-icon svg { width: 16px; height: 16px; stroke: currentColor; fill: none; stroke-width: 2; }
+        .res-locked-text { flex: 1; display: flex; flex-direction: column; gap: 2px; }
+        .res-locked-text b { font-size: 12px; color: var(--gray-800); font-weight: 700; }
+        .res-locked-text span { font-size: 10.5px; color: var(--gray-500); line-height: 1.4; }
+        .res-unlock-pill { font-size: 11px; font-weight: 700; color: #fff; background: var(--warning); border-radius: 7px; padding: 6px 12px; flex-shrink: 0; }
+
+        /* ════════ OTP MODAL ════════ */
+        .otp-overlay { position: fixed; inset: 0; z-index: 1700; background: rgba(0,0,0,.45); backdrop-filter: blur(2px); display: none; align-items: center; justify-content: center; padding: 18px; }
+        .otp-overlay.active { display: flex; }
+        .otp-modal { background: var(--white); border-radius: 18px; box-shadow: var(--shadow-xl); width: min(420px, 96vw); display: flex; flex-direction: column; animation: otpIn .22s cubic-bezier(.4,0,.2,1); }
+        @keyframes otpIn { from { transform: scale(.94); opacity: 0; } to { transform: none; opacity: 1; } }
+        .otp-head { display: flex; align-items: center; gap: 12px; padding: 18px 20px; border-bottom: 1px solid var(--gray-100); }
+        .otp-lock { width: 38px; height: 38px; border-radius: 10px; background: var(--primary); color: #fff; display: grid; place-items: center; flex-shrink: 0; }
+        .otp-lock svg { width: 18px; height: 18px; stroke: currentColor; fill: none; stroke-width: 2; }
+        .otp-title { font-family: 'Fraunces', serif; font-size: 16px; font-weight: 700; color: var(--gray-900); }
+        .otp-subtitle { font-size: 11px; color: var(--gray-500); margin-top: 1px; }
+        .otp-body { padding: 18px 20px; display: flex; flex-direction: column; gap: 14px; }
+        .otp-field { display: flex; flex-direction: column; gap: 6px; }
+        .otp-field label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; color: var(--gray-500); }
+        .otp-field input { padding: 10px 12px; border: 1.5px solid var(--gray-200); border-radius: 9px; font-size: 14px; color: var(--gray-800); outline: none; transition: var(--transition); background: var(--gray-50); }
+        .otp-field input:focus { border-color: var(--primary); background: var(--white); box-shadow: 0 0 0 3px var(--primary-light); }
+        #otpCode { letter-spacing: 4px; font-weight: 700; text-align: center; }
+        .otp-err { display: none; font-size: 11.5px; color: var(--danger); font-weight: 600; background: var(--danger-light); border-radius: 7px; padding: 7px 10px; }
+        .otp-hint { font-size: 11px; color: var(--gray-500); line-height: 1.4; }
+        .otp-hint b { color: var(--gray-700); font-weight: 700; }
+        .otp-foot { padding: 14px 20px; border-top: 1px solid var(--gray-100); display: flex; gap: 8px; justify-content: flex-end; background: var(--gray-50); border-radius: 0 0 18px 18px; }
+
+        /* person chip */
+        .p-chip { display: inline-flex; align-items: center; gap: 5px; }
+        .p-dot { width: 16px; height: 16px; border-radius: 4px; display: grid; place-items: center; color: #fff; font-size: 7.5px; font-weight: 700; flex-shrink: 0; }
+        .p-emp { background: var(--primary); }
+        .p-ven { background: var(--cta); }
+        .p-type { font-size: 8.5px; font-weight: 700; text-transform: uppercase; letter-spacing: .03em; }
+        .p-type.t-emp { color: var(--primary); }
+        .p-type.t-ven { color: var(--cta); }
+
+        /* cost line items */
+        .li-list { display: flex; flex-direction: column; gap: 0; }
+        .li-row { display: flex; align-items: center; gap: 10px; padding: 9px 2px; border-bottom: 1px solid var(--gray-100); }
+        .li-row:last-child { border-bottom: 0; }
+        .li-icon { width: 26px; height: 26px; border-radius: 7px; display: grid; place-items: center; flex-shrink: 0; }
+        .li-icon svg { width: 13px; height: 13px; stroke-width: 2; fill: none; }
+        .li-icon.mat { background: var(--info-light); color: var(--info); }
+        .li-icon.clm { background: var(--warning-light); color: var(--warning); }
+        .li-icon.oth { background: var(--gray-100); color: var(--gray-500); }
+        .li-icon.ven { background: color-mix(in srgb, var(--cta) 16%, transparent); color: var(--cta); }
+        .li-main { flex: 1; min-width: 0; }
+        .li-name { font-size: 12.5px; font-weight: 600; color: var(--gray-800); }
+        .li-meta { font-size: 11px; color: var(--gray-500); margin-top: 1px; }
+        .li-amt { font-size: 13px; font-weight: 700; color: var(--gray-800); font-variant-numeric: tabular-nums; flex-shrink: 0; }
+        .li-empty { font-size: 12px; color: var(--gray-400); font-style: italic; padding: 8px 2px; }
+
+        /* invoice card */
+        .inv-card { background: var(--primary-light); border: 1px solid color-mix(in srgb, var(--primary) 20%, transparent); border-radius: 12px; padding: 14px 16px; display: flex; align-items: center; gap: 14px; }
+        .inv-card.unbilled { background: var(--warning-light); border-color: color-mix(in srgb, var(--warning) 24%, transparent); }
+        .inv-icon { width: 38px; height: 38px; border-radius: 10px; background: var(--primary); color: #fff; display: grid; place-items: center; flex-shrink: 0; }
+        .inv-card.unbilled .inv-icon { background: var(--warning); }
+        .inv-icon svg { width: 18px; height: 18px; stroke: currentColor; fill: none; stroke-width: 2; }
+        .inv-main { flex: 1; }
+        .inv-no { font-size: 14px; font-weight: 700; color: var(--gray-900); font-family: 'Courier New', monospace; }
+        .inv-sub { font-size: 11px; color: var(--gray-500); margin-top: 2px; }
+        .inv-amt { font-size: 18px; font-weight: 700; font-family: 'Fraunces', serif; color: var(--primary); }
+        .inv-card.unbilled .inv-amt { color: var(--warning); }
+
+        /* footer btns */
+        .dr-btn { display: inline-flex; align-items: center; gap: 6px; padding: 8px 16px; border-radius: 8px; font-size: 12px; font-weight: 600; cursor: pointer; transition: var(--transition); border: 1.5px solid transparent; }
+        .dr-btn svg { width: 13px; height: 13px; stroke: currentColor; fill: none; stroke-width: 2; }
+        .dr-btn.ghost { background: var(--white); border-color: var(--gray-200); color: var(--gray-700); }
+        .dr-btn.ghost:hover { border-color: var(--primary); color: var(--primary); background: var(--primary-light); }
+        .dr-btn.solid { background: var(--primary); color: #fff; }
+        .dr-btn.solid:hover { background: var(--primary-dark); }
+
+        /* status banner inside drawer */
+        .dr-info-banner { display: flex; align-items: center; gap: 8px; background: var(--info-light); border: 1px solid color-mix(in srgb, var(--info) 22%, transparent); border-radius: 10px; padding: 9px 12px; font-size: 11.5px; color: var(--info); margin-bottom: 18px; }
+        .dr-info-banner svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 2; flex-shrink: 0; }
+    </style>
+</head>
+<body>
+
+<div class="page-wrapper">
+
+    <!-- PAGE HEADER -->
+    <div class="page-header">
+        <div class="page-header-left">
+            <div class="breadcrumb">
+                <span>Execution</span>
+                <span class="breadcrumb-sep">›</span>
+                <span>Sales Orders</span>
+                <span class="breadcrumb-sep">›</span>
+                <span class="breadcrumb-current">WCC Pipeline</span>
+            </div>
+            <div class="page-title">WCC Pipeline</div>
+        </div>
+    </div>
+
+    <!-- STATS BANNER -->
+    <div class="stats-banner">
+        <div class="stats-banner-item" onclick="wccTab('all')">
+            <div class="stats-banner-icon">
+                <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
+            </div>
+            <div class="stats-banner-content">
+                <div class="stats-banner-label">Total Sites</div>
+                <div class="stats-banner-value" id="svTotal">—</div>
+                <div class="stats-banner-sub" id="svTotalSub">In period</div>
+            </div>
+        </div>
+        <div class="stats-banner-item" onclick="wccTab('Pending')">
+            <div class="stats-banner-icon">
+                <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            </div>
+            <div class="stats-banner-content">
+                <div class="stats-banner-label">Pending</div>
+                <div class="stats-banner-value" id="svPending">—</div>
+                <div class="stats-banner-sub">Awaiting WCC submission</div>
+            </div>
+        </div>
+        <div class="stats-banner-item" onclick="wccTab('Submitted')">
+            <div class="stats-banner-icon">
+                <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M22 2L11 13"/><path d="M22 2L15 22 11 13 2 9l20-7z"/></svg>
+            </div>
+            <div class="stats-banner-content">
+                <div class="stats-banner-label">Submitted</div>
+                <div class="stats-banner-value" id="svSubmitted">—</div>
+                <div class="stats-banner-sub">WCC sent to client</div>
+            </div>
+        </div>
+        <div class="stats-banner-item" onclick="wccTab('Accepted')">
+            <div class="stats-banner-icon">
+                <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+            </div>
+            <div class="stats-banner-content">
+                <div class="stats-banner-label">Accepted</div>
+                <div class="stats-banner-value" id="svAccepted">—</div>
+                <div class="stats-banner-sub">Approved by client</div>
+            </div>
+        </div>
+        <div class="stats-banner-item" onclick="wccTab('Rejected')">
+            <div class="stats-banner-icon">
+                <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
+            </div>
+            <div class="stats-banner-content">
+                <div class="stats-banner-label">Rejected</div>
+                <div class="stats-banner-value" id="svRejected">—</div>
+                <div class="stats-banner-sub">Needs re-submission</div>
+            </div>
+        </div>
+        <div class="stats-banner-item" onclick="wccTab('all')">
+            <div class="stats-banner-icon">
+                <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+            </div>
+            <div class="stats-banner-content">
+                <div class="stats-banner-label">GRN Amount</div>
+                <div class="stats-banner-value" id="svRecAmt">—</div>
+                <div class="stats-banner-sub">Accepted WCCs only</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- TAB BAR -->
+    <div class="tab-bar">
+        <div class="tab-list">
+            <div class="tab-item active" data-tab="all" onclick="wccTab('all')">All <span class="tab-badge" id="bdgAll">0</span></div>
+            <div class="tab-item" data-tab="Pending"    onclick="wccTab('Pending')">Pending <span class="tab-badge" id="bdgPending">0</span></div>
+            <div class="tab-item" data-tab="Submitted"  onclick="wccTab('Submitted')">Submitted <span class="tab-badge" id="bdgSubmitted">0</span></div>
+            <div class="tab-item" data-tab="Accepted"   onclick="wccTab('Accepted')">Accepted <span class="tab-badge" id="bdgAccepted">0</span></div>
+            <div class="tab-item" data-tab="Rejected"   onclick="wccTab('Rejected')">Rejected <span class="tab-badge" id="bdgRejected">0</span></div>
+            <div class="tab-item" data-tab="Rejected_with_modification" onclick="wccTab('Rejected_with_modification')">Rej. w/ Mod. <span class="tab-badge" id="bdgModified">0</span></div>
+        </div>
+        <div class="tab-actions">
+            <!-- Date Range Filter -->
+            <div class="date-range-wrap">
+                <span class="date-range-label">From</span>
+                <input class="date-range-input" type="date" id="dateFrom" onchange="wccRender()">
+                <span class="date-range-sep">–</span>
+                <span class="date-range-label">To</span>
+                <input class="date-range-input" type="date" id="dateTo" onchange="wccRender()">
+            </div>
+            <!-- SO Filter -->
+            <div class="so-select-wrap">
+                <select class="so-select" id="soFilter" onchange="wccRender()">
+                    <option value="">All SOs</option>
+                </select>
+                <span class="so-select-icon">
+                    <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+                </span>
+            </div>
+            <!-- Search -->
+            <div class="wd-search-wrap">
+                <span class="wd-search-icon">
+                    <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                </span>
+                <input class="wd-search-input" id="wccSearch" type="text" placeholder="Search site, SO, client, item…" oninput="wccRender()">
+            </div>
+            <!-- Export -->
+            <button class="cb-icon-btn" title="Export CSV" onclick="wccExport()">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+            </button>
+            <!-- Refresh -->
+            <button class="cb-icon-btn" title="Refresh" onclick="wccRender()">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+            </button>
+        </div>
+    </div>
+
+    <!-- TABLE CARD -->
+    <div class="table-card">
+        <div class="tbl-scroll">
+            <table class="wcc-table">
+                <thead id="wccHead"></thead>
+                <tbody id="wccBody"></tbody>
+            </table>
+        </div>
+        <div class="tbl-footer" id="wccFooter"></div>
+    </div>
+
+</div>
+
+<!-- ════════ SITE DETAIL DRAWER ════════ -->
+<div class="drawer-overlay" id="siteDrawer">
+    <div class="drawer-backdrop" onclick="closeDrawer()"></div>
+    <aside class="detail-drawer">
+        <div class="drawer-header">
+            <div>
+                <div class="drawer-title" id="drwTitle">—</div>
+                <div class="drawer-sub" id="drwSub">—</div>
+            </div>
+            <button class="drawer-close" onclick="closeDrawer()">
+                <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+            </button>
+        </div>
+        <div class="drawer-body" id="drwBody"></div>
+        <div class="drawer-footer">
+            <button class="dr-btn ghost" onclick="closeDrawer()">Close</button>
+            <button class="dr-btn solid" id="drwInvoiceBtn">
+                <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+                <span id="drwInvoiceBtnLabel">Generate Invoice</span>
+            </button>
+        </div>
+    </aside>
+</div>
+
+<!-- ════════ OTP MODAL (gate for resource salary breakdown) ════════ -->
+<div class="otp-overlay" id="otpModal">
+    <div class="otp-modal">
+        <div class="otp-head">
+            <div class="otp-lock">
+                <svg viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="2"/><path stroke-linecap="round" stroke-linejoin="round" d="M8 11V7a4 4 0 118 0v4"/></svg>
+            </div>
+            <div>
+                <div class="otp-title">Unlock salary breakdown</div>
+                <div class="otp-subtitle">Admin verification required</div>
+            </div>
+            <button class="drawer-close" onclick="closeOtpModal()" style="margin-left:auto;">
+                <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+            </button>
+        </div>
+        <div class="otp-body">
+            <div class="otp-field" id="otpEmailRow">
+                <label>Admin Email</label>
+                <input type="email" id="otpEmail" placeholder="admin@atvantiq.com" autocomplete="email">
+            </div>
+            <div class="otp-field" id="otpCodeRow" style="display:none;">
+                <label>One-Time Password</label>
+                <input type="text" id="otpCode" placeholder="6-digit code" inputmode="numeric" maxlength="6">
+            </div>
+            <div class="otp-err" id="otpErr"></div>
+            <div class="otp-hint" id="otpHint"></div>
+        </div>
+        <div class="otp-foot">
+            <button class="dr-btn ghost" onclick="closeOtpModal()">Cancel</button>
+            <button class="dr-btn solid" id="otpPrimaryBtn" onclick="otpPrimary()">Send OTP</button>
+        </div>
+    </div>
+</div>
+
+<script>
+/* ─── MOCK DATA — replace body of wccFetchData() with real API call ─── */
+const WCC_DATA = [
+    { so_number:'SO/25-26/0008', client:'Reliance Industries Limited-HP',               project:'RJIO-HP-JIO-MDS',      circle:'HP', site_id:'HP-MDS-001', date:'2026-06-10', name:'Jaspal Kumar',  name_type:'employee', work_done:48000, wcc_submit_date:'2026-06-11', wcc_receive_date:'2026-06-14', wcc_status:'Accepted',                   grn_no:'GRN-2001', grn_amount:48000,  invoice_no:'INV-4501', remarks:'' },
+    { so_number:'SO/25-26/0008', client:'Reliance Industries Limited-HP',               project:'RJIO-HP-JIO-MDS',      circle:'HP', site_id:'HP-MDS-002', date:'2026-06-11', name:'Inder Jeet',    name_type:'employee', work_done:36000, wcc_submit_date:'2026-06-12', wcc_receive_date:null,          wcc_status:'Submitted',                  grn_no:null,       grn_amount:null,   invoice_no:null,       remarks:'' },
+    { so_number:'SO/25-26/0008', client:'Reliance Industries Limited-HP',               project:'RJIO-HP-JIO-MDS',      circle:'HP', site_id:'HP-MDS-003', date:'2026-06-15', name:null,            name_type:null,       work_done:0,     wcc_submit_date:null,         wcc_receive_date:null,          wcc_status:'Pending',                    grn_no:null,       grn_amount:null,   invoice_no:null,       remarks:'' },
+    { so_number:'SO/25-26/0008', client:'Reliance Industries Limited-HP',               project:'RJIO-HP-JIO-MDS',      circle:'HP', site_id:'HP-MDS-004', date:'2026-06-17', name:'Tashu Goyal',   name_type:'employee', work_done:42000, wcc_submit_date:'2026-06-18', wcc_receive_date:'2026-06-20', wcc_status:'Rejected',                   grn_no:null,       grn_amount:null,   invoice_no:null,       remarks:'Sign-off sheet missing' },
+    { so_number:'SO/25-26/0009', client:'Reliance Industries Limited-HP',               project:'RJIO-HP-JIO-AIRFIBER', circle:'HP', site_id:'HP-AF-101',  date:'2026-05-20', name:'Sharma Infra',  name_type:'vendor',   work_done:55000, wcc_submit_date:'2026-05-21', wcc_receive_date:'2026-05-25', wcc_status:'Accepted',                   grn_no:'GRN-2101', grn_amount:55000,  invoice_no:'INV-4601', remarks:'' },
+    { so_number:'SO/25-26/0009', client:'Reliance Industries Limited-HP',               project:'RJIO-HP-JIO-AIRFIBER', circle:'HP', site_id:'HP-AF-102',  date:'2026-05-22', name:'Jaspal Kumar',  name_type:'employee', work_done:48000, wcc_submit_date:'2026-05-23', wcc_receive_date:null,          wcc_status:'Submitted',                  grn_no:null,       grn_amount:null,   invoice_no:null,       remarks:'' },
+    { so_number:'SO/25-26/0009', client:'Reliance Industries Limited-HP',               project:'RJIO-HP-JIO-AIRFIBER', circle:'HP', site_id:'HP-AF-103',  date:'2026-05-28', name:null,            name_type:null,       work_done:0,     wcc_submit_date:null,         wcc_receive_date:null,          wcc_status:'Pending',                    grn_no:null,       grn_amount:null,   invoice_no:null,       remarks:'' },
+    { so_number:'SO/25-26/0004', client:'CONEXXION TECH INDIA PRIVATE LIMITED',         project:'CONN-UK-CISCO-CSS',    circle:'UK', site_id:'UK-CSS-001', date:'2026-05-10', name:'Vega Telecom',  name_type:'vendor',   work_done:72000, wcc_submit_date:'2026-05-12', wcc_receive_date:'2026-05-16', wcc_status:'Accepted',                   grn_no:'GRN-3001', grn_amount:72000,  invoice_no:'INV-5001', remarks:'' },
+    { so_number:'SO/25-26/0004', client:'CONEXXION TECH INDIA PRIVATE LIMITED',         project:'CONN-UK-CISCO-CSS',    circle:'UK', site_id:'UK-CSS-002', date:'2026-05-14', name:'Simarpreet S.', name_type:'employee', work_done:60000, wcc_submit_date:'2026-05-15', wcc_receive_date:'2026-05-18', wcc_status:'Rejected_with_modification', grn_no:null,       grn_amount:null,   invoice_no:null,       remarks:'Documentation revision needed' },
+    { so_number:'SO/25-26/0004', client:'CONEXXION TECH INDIA PRIVATE LIMITED',         project:'CONN-UK-CISCO-CSS',    circle:'UK', site_id:'UK-CSS-003', date:'2026-06-01', name:null,            name_type:null,       work_done:0,     wcc_submit_date:null,         wcc_receive_date:null,          wcc_status:'Pending',                    grn_no:null,       grn_amount:null,   invoice_no:null,       remarks:'' },
+    { so_number:'5011725191',    client:'Nokia Solutions and Networks India Pvt Ltd_MH', project:'NOKIA-MH-RJIO-GPON',  circle:'MH', site_id:'MH-GPON-001',date:'2026-05-02', name:'Jaspal Kumar',  name_type:'employee', work_done:38500, wcc_submit_date:'2026-05-05', wcc_receive_date:'2026-05-10', wcc_status:'Accepted',                   grn_no:'GRN-4001', grn_amount:38500,  invoice_no:'INV-6001', remarks:'' },
+    { so_number:'5011725191',    client:'Nokia Solutions and Networks India Pvt Ltd_MH', project:'NOKIA-MH-RJIO-GPON',  circle:'MH', site_id:'MH-GPON-002',date:'2026-05-08', name:'Inder Jeet',    name_type:'employee', work_done:31000, wcc_submit_date:'2026-05-10', wcc_receive_date:null,          wcc_status:'Submitted',                  grn_no:null,       grn_amount:null,   invoice_no:null,       remarks:'' },
+    { so_number:'5011725200',    client:'Nokia Solutions and Networks India Pvt Ltd_MH', project:'NOKIA-MH-RJIO-GPON',  circle:'MH', site_id:'MH-GPON-003',date:'2026-04-20', name:'BSP Networks',  name_type:'vendor',   work_done:21000, wcc_submit_date:'2026-04-22', wcc_receive_date:'2026-04-28', wcc_status:'Accepted',                   grn_no:'GRN-4002', grn_amount:21000,  invoice_no:'INV-6002', remarks:'' },
+    { so_number:'5011725200',    client:'Nokia Solutions and Networks India Pvt Ltd_MH', project:'NOKIA-MH-RJIO-GPON',  circle:'MH', site_id:'MH-GPON-004',date:'2026-06-05', name:null,            name_type:null,       work_done:0,     wcc_submit_date:null,         wcc_receive_date:null,          wcc_status:'Pending',                    grn_no:null,       grn_amount:null,   invoice_no:null,       remarks:'' },
+    { so_number:'5011725200',    client:'Nokia Solutions and Networks India Pvt Ltd_MH', project:'NOKIA-MH-RJIO-GPON',  circle:'MH', site_id:'MH-GPON-005',date:'2026-06-08', name:null,            name_type:null,       work_done:0,     wcc_submit_date:null,         wcc_receive_date:null,          wcc_status:'Pending',                    grn_no:null,       grn_amount:null,   invoice_no:null,       remarks:'' },
+    { so_number:'5011582386',    client:'Nokia Solutions and Networks India Pvt Ltd_MH', project:'NOKIA-MH-RJIO-GPON',  circle:'MH', site_id:'MH-GPON-010',date:'2026-06-02', name:'Tashu Goyal',   name_type:'employee', work_done:29000, wcc_submit_date:'2026-06-03', wcc_receive_date:'2026-06-07', wcc_status:'Rejected',                   grn_no:null,       grn_amount:null,   invoice_no:null,       remarks:'Photo evidence unclear' },
+    { so_number:'5011582386',    client:'Nokia Solutions and Networks India Pvt Ltd_MH', project:'NOKIA-MH-RJIO-GPON',  circle:'MH', site_id:'MH-GPON-011',date:'2026-06-10', name:'Jaspal Kumar',  name_type:'employee', work_done:33000, wcc_submit_date:null,         wcc_receive_date:null,          wcc_status:'Pending',                    grn_no:null,       grn_amount:null,   invoice_no:null,       remarks:'' },
+    { so_number:'SO/25-26/0010', client:'Reliance Industries Limited-HP',               project:'RJIO-HP-JIO-UBR',      circle:'HP', site_id:'HP-UBR-001', date:'2026-06-03', name:'Sharma Infra',  name_type:'vendor',   work_done:32000, wcc_submit_date:'2026-06-04', wcc_receive_date:'2026-06-09', wcc_status:'Accepted',                   grn_no:'GRN-2201', grn_amount:32000,  invoice_no:'INV-4701', remarks:'' },
+    { so_number:'SO/25-26/0010', client:'Reliance Industries Limited-HP',               project:'RJIO-HP-JIO-UBR',      circle:'HP', site_id:'HP-UBR-002', date:'2026-06-14', name:null,            name_type:null,       work_done:0,     wcc_submit_date:null,         wcc_receive_date:null,          wcc_status:'Pending',                    grn_no:null,       grn_amount:null,   invoice_no:null,       remarks:'' },
+];
+
+/* ─── ITEM = Revenue Head (Onaqt), mapped from the Zoho Service Item / project ─── */
+/* Replace with the real mapping from your Zoho Item ↔ Revenue Head table. */
+const PROJECT_TO_ITEM = {
+    'RJIO-HP-JIO-MDS':      'JIO MDS Services',
+    'RJIO-HP-JIO-AIRFIBER': 'JIO AirFiber Services',
+    'RJIO-HP-JIO-UBR':      'JIO UBR Services',
+    'CONN-UK-CISCO-CSS':    'Cisco CSS Services',
+    'CONN-HP-CISCO-CSS':    'Cisco CSS Services',
+    'NOKIA-MH-RJIO-GPON':   'GPON I&C Services',
+};
+WCC_DATA.forEach(r => { r.item = PROJECT_TO_ITEM[r.project] || '—'; });
+
+/* ─── PERSON ROLE / DESIGNATION (employee or vendor) ─── */
+const PERSON_ROLE = {
+    'Jaspal Kumar':'Sr. Field Engineer', 'Inder Jeet':'Field Engineer',
+    'Tashu Goyal':'Integration Engineer', 'Simarpreet S.':'RF Engineer',
+    'Sharma Infra':'I&C Subcontractor', 'Vega Telecom':'Telecom Vendor',
+    'BSP Networks':'Network Vendor',
+};
+/* ─── PROJECT MANAGER per project ─── */
+const PROJECT_PM = {
+    'RJIO-HP-JIO-MDS':'Karanvir Singh', 'RJIO-HP-JIO-AIRFIBER':'Karanvir Singh',
+    'RJIO-HP-JIO-UBR':'Karanvir Singh', 'CONN-UK-CISCO-CSS':'Rohit Mehra',
+    'CONN-HP-CISCO-CSS':'Rohit Mehra', 'NOKIA-MH-RJIO-GPON':'Anil Kapoor',
+};
+/* ─── soft-tinted avatar palette (mirrors PvA RP_AVATAR_COLORS) ─── */
+const AVATAR_COLORS = [
+    ['#DBEAFE','#1E40AF'],['#EDE9FE','#5B21B6'],['#D1FAE5','#065F46'],
+    ['#FEF3C7','#92400E'],['#FCE7F3','#9D174D'],['#CFFAFE','#155E75'],
+    ['#ECFCCB','#365314'],['#E0E7FF','#3730A3'],['#FEE2E2','#991B1B'],
+    ['#CCFBF1','#134E4A'],['#FEF9C3','#713F12'],['#F3F4F6','#374151'],
+];
+function avatarColor(name) {
+    let h = 0; for (let i=0;i<(name||'').length;i++) h = (h*31 + name.charCodeAt(i)) % AVATAR_COLORS.length;
+    return AVATAR_COLORS[h];
+}
+WCC_DATA.forEach(r => {
+    r.role = r.name ? (PERSON_ROLE[r.name] || (r.name_type==='vendor'?'Vendor':'Field Engineer')) : null;
+    r.pm   = PROJECT_PM[r.project] || '—';
+    // invoice raised a few days after WCC receive (only for invoiced rows) → closes aging
+    if (r.invoice_no && r.wcc_receive_date) {
+        const d = new Date(r.wcc_receive_date); d.setDate(d.getDate() + 3);
+        r.invoice_date = d.toISOString().slice(0,10);
+    } else {
+        r.invoice_date = null;
+    }
+});
+
+/* ─── SITE-LEVEL DETAIL BREAKDOWN (keyed by site_id) ───
+   A site has Activities. Each activity belongs to a TYPE and has a BOQ Rate =
+   REVENUE (set per Project/SO, NOT the Zoho item rate). The person who performed
+   it is an employee or a vendor. If a VENDOR did it, vendor_cost is what WE PAY
+   the vendor (a COST, separate from and usually lower than the BOQ revenue).
+   Margin = revenue − vendor_cost.
+   Replace with: GET /api/wcc/site/{site_id}/breakdown */
+const SITE_DETAIL = {
+    'HP-MDS-001': {
+        revenue_head: 'JIO MDS Services',
+        activities: [
+            { date:'2026-06-08', revenue_head:'JIO MDS Services', type:'Site Survey',     activity:'Site Survey & Report Submission', person:'Jaspal Kumar', ptype:'employee', boq_rate:5000,  vendor_cost:null  },
+            { date:'2026-06-09', revenue_head:'JIO MDS Services', type:'I&C Integration', activity:'Installation',                    person:'Inder Jeet',   ptype:'employee', boq_rate:28000, vendor_cost:null  },
+            { date:'2026-06-09', revenue_head:'JIO MDS Services', type:'I&C Integration', activity:'Integration',                     person:'Sharma Infra', ptype:'vendor',   boq_rate:15000, vendor_cost:10000 },
+        ],
+        // Resources = field employees deployed per visit, with their daily salary cost
+        resources: [
+            { date:'2026-06-08', employees:[ { name:'Jaspal Kumar', daily_cost:1800 } ] },
+            { date:'2026-06-09', employees:[ { name:'Inder Jeet',   daily_cost:1600 } ] },
+        ],
+        claims: [
+            { name:'Travel & Conveyance', by:'Inder Jeet',   date:'2026-06-09', amount:1200 },
+            { name:'Site Boarding',       by:'Jaspal Kumar', date:'2026-06-08', amount:2500 },
+        ],
+        materials: [
+            { name:'Optical Fiber Cable', qty:'250 m', rate:25, amount:6250 },
+            { name:'Splice Closure',      qty:'2 nos', rate:900, amount:1800 },
+            { name:'Patch Cords',         qty:'6 nos', rate:150, amount:900 },
+        ],
+        other_costs: [
+            { name:'Crane Hire (half-day)', note:'Tower mount', amount:3500 },
+        ],
+        invoice: { no:'INV-4501', date:'2026-06-15', amount:48000, status:'raised' },
+    },
+    'HP-MDS-003': {
+        activities: [], resources: [], claims: [], materials: [], other_costs: [], invoice: null,
+    },
+};
+/* fallback: derive a minimal breakdown from the row when no full detail loaded */
+function getSiteDetail(row) {
+    if (SITE_DETAIL[row.site_id]) return SITE_DETAIL[row.site_id];
+    return {
+        activities: row.name ? [{ date: row.date, revenue_head: row.project, type:'—', activity:'Work Done', person: row.name, ptype: row.name_type, boq_rate: row.work_done, vendor_cost: row.name_type==='vendor' ? Math.round(row.work_done*0.7) : null }] : [],
+        resources: [], claims: [], materials: [], other_costs: [],
+        invoice: row.invoice_no ? { no: row.invoice_no, date: row.wcc_receive_date, amount: row.grn_amount, status:'raised' } : null,
+    };
+}
+
+/* ─── INIT DATES: default to current month ─── */
+function initDates() {
+    const now = new Date();
+    const y = now.getFullYear(), m = now.getMonth();
+    const from = new Date(y, m, 1);
+    const to   = new Date(y, m + 1, 0);
+    document.getElementById('dateFrom').value = fmt(from);
+    document.getElementById('dateTo').value   = fmt(to);
+}
+function fmt(d) {
+    return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+}
+function fmtDisp(s) {
+    if (!s) return null;
+    const p = s.split('-');            // [yyyy, mm, dd]
+    const MON_S = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    return `${p[2]}-${MON_S[parseInt(p[1])-1]}-${p[0].slice(2)}`;  // dd-Mmm-yy
+}
+function fmtAmt(a) {
+    if (a === null || a === undefined) return null;
+    if (a === 0) return '<span class="amount-cell zero">₹0</span>';
+    return `<span class="amount-cell">₹${a.toLocaleString('en-IN')}</span>`;
+}
+
+/* ─── FILTER ─── */
+function getFiltered() {
+    const from = document.getElementById('dateFrom').value;
+    const to   = document.getElementById('dateTo').value;
+    const so   = document.getElementById('soFilter').value;
+    const q    = (document.getElementById('wccSearch').value || '').toLowerCase();
+
+    return WCC_DATA.filter(r => {
+        if (from && r.date && r.date < from) return false;
+        if (to   && r.date && r.date > to)   return false;
+        if (curTab !== 'all' && r.wcc_status !== curTab) return false;
+        if (so && r.so_number !== so) return false;
+        if (q && !`${r.site_id} ${r.so_number} ${r.client} ${r.project} ${r.circle} ${r.item} ${r.name} ${r.pm}`.toLowerCase().includes(q)) return false;
+        return true;
+    });
+}
+function getPeriodAll() {
+    const from = document.getElementById('dateFrom').value;
+    const to   = document.getElementById('dateTo').value;
+    const so   = document.getElementById('soFilter').value;
+    return WCC_DATA.filter(r => {
+        if (from && r.date && r.date < from) return false;
+        if (to   && r.date && r.date > to)   return false;
+        if (so && r.so_number !== so) return false;
+        return true;
+    });
+}
+
+/* ─── SO DROPDOWN ─── */
+function populateSO() {
+    const from = document.getElementById('dateFrom').value;
+    const to   = document.getElementById('dateTo').value;
+    const cur  = document.getElementById('soFilter').value;
+    const sos  = [...new Set(
+        WCC_DATA.filter(r => {
+            if (from && r.date && r.date < from) return false;
+            if (to   && r.date && r.date > to)   return false;
+            return true;
+        }).map(r => r.so_number)
+    )].sort();
+    const sel = document.getElementById('soFilter');
+    sel.innerHTML = '<option value="">All SOs</option>' + sos.map(s => `<option value="${s}"${s===cur?' selected':''}>${s}</option>`).join('');
+}
+
+/* ─── STATS + FUNNEL ─── */
+function updateStats() {
+    const all  = getPeriodAll();
+    const cnt  = s => all.filter(r => r.wcc_status === s).length;
+    const p = cnt('Pending'), sb = cnt('Submitted'), ac = cnt('Accepted'),
+          rj = cnt('Rejected'), md = cnt('Rejected_with_modification');
+    const tot  = all.length;
+    const recA = all.filter(r => r.wcc_status === 'Accepted').reduce((s,r) => s + (r.grn_amount||0), 0);
+
+    const set = (id, v) => { const e = document.getElementById(id); if(e) e.textContent = v; };
+    set('svTotal',    tot);
+    set('svTotalSub', [...new Set(all.map(r=>r.so_number))].length + ' SOs');
+    set('svPending',  p);
+    set('svSubmitted',sb);
+    set('svAccepted', ac);
+    set('svRejected', rj);
+    set('svRecAmt',   recA > 0 ? '₹'+recA.toLocaleString('en-IN') : '₹0');
+    // tab badges
+    set('bdgAll',      tot);
+    set('bdgPending',  p);
+    set('bdgSubmitted',sb);
+    set('bdgAccepted', ac);
+    set('bdgRejected', rj);
+    set('bdgModified', md);
+}
+
+/* ─── STATUS FILTER (driven by top tabs) ─── */
+function wccTab(tab) {
+    curTab = tab;
+    document.querySelectorAll('.tab-item').forEach(el => {
+        el.classList.toggle('active', el.dataset.tab === tab);
+    });
+    wccRender();
+}
+
+/* ─── GRID RENDER ─── */
+/* ─── COLUMN DEFINITIONS (native table) ─── */
+const COLUMNS = [
+    { key:'so_number',        label:'SO Number',        align:'left',   cell:c_so },
+    { key:'client',           label:'Client',           align:'left',   cell:c_client },
+    { key:'project',          label:'Project',          align:'left',   cell:c_text },
+    { key:'circle',           label:'Circle',           align:'center', cell:c_circle },
+    { key:'item',             label:'Item',             align:'left',   cell:c_item },
+    { key:'pm',               label:'PM',               align:'left',   cell:c_pm },
+    { key:'date',             label:'Date',             align:'center', cell:c_date, sortVal:r=>dateVal(r.date) },
+    { key:'site_id',          label:'Site ID',          align:'left',   cell:c_site },
+    { key:'name',             label:'Name',             align:'left',   cell:c_name },
+    { key:'work_done',        label:'Work Done',        align:'right',  cell:c_amt },
+    { key:'wcc_submit_date',  label:'WCC Submit Date',  align:'center', cell:c_date, sortVal:r=>dateVal(r.wcc_submit_date) },
+    { key:'wcc_receive_date', label:'WCC Receive Date', align:'center', cell:c_date, sortVal:r=>dateVal(r.wcc_receive_date) },
+    { key:'wcc_status',       label:'WCC Status',       align:'left',   cell:c_status },
+    { key:'grn_no',           label:'GRN No.',          align:'left',   cell:c_grn },
+    { key:'grn_amount',       label:'GRN Amt',          align:'right',  cell:c_amt },
+    { key:'invoice_no',       label:'Invoice No.',      align:'left',   cell:c_text },
+    { key:'wcc_aging',        label:'WCC Aging',        align:'center', cell:c_aging, sortVal:r=>agingDays(r) ?? -1 },
+    { key:'remarks',          label:'Remarks',          align:'left',   cell:c_remark },
+];
+
+/* ─── CELL BUILDERS (return inner HTML for a <td>) ─── */
+function dval(v){ return (v===null||v===undefined||v==='') ? null : v; }
+function c_text(r){ return dval(r[this.key]) ? `<span class="rp-cell-text">${r[this.key]}</span>` : '<span class="rp-num muted">—</span>'; }
+function c_client(r){ return dval(r.client) ? `<span class="rp-cell-bold">${r.client}</span>` : '<span class="rp-num muted">—</span>'; }
+function c_so(r){ return dval(r.so_number) ? `<span class="rp-mono-tag">${r.so_number}</span>` : '<span class="rp-num muted">—</span>'; }
+function c_grn(r){ return dval(r.grn_no) ? `<span class="rp-mono-tag grn">${r.grn_no}</span>` : '<span class="rp-num muted">—</span>'; }
+function c_item(r){ return dval(r.item) && r.item!=='—' ? `<span class="rp-item-tag">${r.item}</span>` : '<span class="rp-num muted">—</span>'; }
+function c_circle(r){ return dval(r.circle) && r.circle!=='—' ? `<span class="rp-circle-chip">${r.circle}</span>` : '<span class="rp-num muted">—</span>'; }
+function c_pm(r){ return dval(r.pm) && r.pm!=='—' ? `<span class="rp-pm-name">${r.pm}</span>` : '<span class="rp-num muted">—</span>'; }
+function c_date(r){ const v = fmtDisp(r[this.key]); return v ? `<span class="rp-num">${v}</span>` : '<span class="rp-num muted">—</span>'; }
+function c_amt(r){
+    const a = r[this.key];
+    if (a === null || a === undefined) return '<span class="rp-num muted">—</span>';
+    if (a === 0) return '<span class="rp-num muted"><span class="rs">₹</span>0</span>';
+    return `<span class="rp-num"><span class="rs">₹</span>${a.toLocaleString('en-IN')}</span>`;
+}
+function c_remark(r){ return dval(r.remarks) ? `<span class="remark-cell">${r.remarks}</span>` : '<span class="rp-num muted">—</span>'; }
+function c_status(r){
+    const v = r.wcc_status || '';
+    const labels = { Pending:'Pending', Submitted:'Submitted', Accepted:'Accepted', Rejected:'Rejected', Rejected_with_modification:'Rej. w/ Mod.' };
+    return `<span class="rp-badge rp-b-${v}">${labels[v]||v}</span>`;
+}
+function c_site(r){ return dval(r.site_id) ? `<span class="rp-site-bold">${r.site_id}</span>` : '<span class="rp-num muted">—</span>'; }
+function c_name(r){
+    if (!dval(r.name)) return '<span class="rp-num muted">—</span>';
+    const init = r.name.split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2);
+    const col = avatarColor(r.name);
+    return `<div class="rp-emp-cell">
+        <div class="rp-avatar" style="background:${col[0]};color:${col[1]};">${init}</div>
+        <div class="rp-emp-info">
+            <span class="rp-emp-name">${r.name}</span>
+            <span class="rp-emp-role">${r.role||''}</span>
+        </div>
+    </div>`;
+}
+
+/* ─── WCC AGING: days from site completion until invoiced (or until today if open) ─── */
+function dateVal(s){ return s ? new Date(s).getTime() : 0; }
+function daysBetween(a, b){ return Math.round((new Date(b) - new Date(a)) / 86400000); }
+function agingDays(r){
+    if (!r.date) return null;                       // no completion date → n/a
+    if (r.invoice_no && r.invoice_date) return daysBetween(r.date, r.invoice_date); // closed
+    if (r.invoice_no && r.wcc_receive_date) return daysBetween(r.date, r.wcc_receive_date);
+    // not invoiced yet → still accruing from completion to today
+    return daysBetween(r.date, new Date());
+}
+function c_aging(r){
+    const d = agingDays(r);
+    if (d === null) return '<span class="rp-num muted">—</span>';
+    const closed = !!r.invoice_no;
+    const bucket = d <= 30 ? (closed ? 'aging-good' : 'aging-open') : d <= 60 ? 'aging-warn' : 'aging-bad';
+    return `<span class="aging-pill ${bucket}">${d}<span class="ad">days</span></span>`;
+}
+
+/* ─── SORT + PAGINATION STATE ─── */
+let curTab = 'all';                      // active status filter (All / Pending / …)
+let sortState = { key: null, dir: 1 };   // dir: 1 asc, -1 desc
+let pageSize = 20;
+let pageNum = 1;
+
+function sortRows(rows) {
+    if (!sortState.key) return rows;
+    const col = COLUMNS.find(c => c.key === sortState.key);
+    const getV = col && col.sortVal ? col.sortVal : (r => r[sortState.key]);
+    return [...rows].sort((a, b) => {
+        let va = getV(a), vb = getV(b);
+        if (va === null || va === undefined || va === '') va = (typeof vb === 'number') ? -Infinity : '';
+        if (vb === null || vb === undefined || vb === '') vb = (typeof va === 'number') ? -Infinity : '';
+        if (typeof va === 'number' && typeof vb === 'number') return (va - vb) * sortState.dir;
+        return String(va).localeCompare(String(vb)) * sortState.dir;
+    });
+}
+function wccSort(key) {
+    if (sortState.key === key) sortState.dir *= -1;
+    else { sortState.key = key; sortState.dir = 1; }
+    wccRender();
+}
+
+/* ─── RENDER NATIVE TABLE ─── */
+function wccRender() {
+    populateSO();
+    updateStats();
+    let rows = getFiltered();
+    rows = sortRows(rows);
+
+    // header
+    const head = document.getElementById('wccHead');
+    if (head) {
+        head.innerHTML = '<tr>' + COLUMNS.map(c => {
+            const cls = (c.align === 'right' ? 'th-right' : c.align === 'center' ? 'th-center' : '')
+                      + (sortState.key === c.key ? ' sorted' : '');
+            const arrow = sortState.key === c.key ? (sortState.dir === 1 ? '▲' : '▼') : '';
+            return `<th class="${cls}" onclick="wccSort('${c.key}')">${c.label}<span class="th-arrow">${arrow}</span></th>`;
+        }).join('') + '</tr>';
+    }
+
+    // pagination slice
+    const total = rows.length;
+    const pages = Math.max(1, Math.ceil(total / pageSize));
+    if (pageNum > pages) pageNum = pages;
+    const start = (pageNum - 1) * pageSize;
+    const pageRows = rows.slice(start, start + pageSize);
+
+    // body
+    const body = document.getElementById('wccBody');
+    if (body) {
+        if (!pageRows.length) {
+            body.innerHTML = `<tr><td colspan="${COLUMNS.length}"><div class="tbl-empty">No WCC records found for this period. Adjust the date range or filters.</div></td></tr>`;
+        } else {
+            body.innerHTML = pageRows.map((r, i) => {
+                const idx = start + i;
+                const tds = COLUMNS.map(c => {
+                    const tdCls = c.align === 'right' ? 'td-right' : c.align === 'center' ? 'td-center' : '';
+                    return `<td class="${tdCls}">${c.cell.call(c, r)}</td>`;
+                }).join('');
+                return `<tr onclick="openDrawerByIndex(${idx})" data-ri="${idx}">${tds}</tr>`;
+            }).join('');
+        }
+    }
+    // stash the sorted+filtered set so row clicks resolve to the right record
+    window.__viewRows = rows;
+
+    // footer
+    const footer = document.getElementById('wccFooter');
+    if (footer) {
+        const from = total ? start + 1 : 0;
+        const to = Math.min(start + pageSize, total);
+        footer.innerHTML = `
+            <div class="tbl-count">${from}–${to} of ${total} records</div>
+            <div class="tbl-pager">
+                <div class="tbl-pg-size">Rows
+                    <select onchange="wccSetPageSize(this.value)">
+                        ${[10,20,50,100].map(n=>`<option value="${n}"${n===pageSize?' selected':''}>${n}</option>`).join('')}
+                    </select>
+                </div>
+                <button class="tbl-pg-btn" onclick="wccPage(-1)" ${pageNum<=1?'disabled':''}>
+                    <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+                </button>
+                <span class="tbl-pg-info">Page ${pageNum} / ${pages}</span>
+                <button class="tbl-pg-btn" onclick="wccPage(1)" ${pageNum>=pages?'disabled':''}>
+                    <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+                </button>
+            </div>`;
+    }
+}
+function openDrawerByIndex(i) {
+    const r = (window.__viewRows || [])[i];
+    if (r) openDrawer(r);
+}
+function wccPage(dir) { pageNum += dir; wccRender(); }
+function wccSetPageSize(n) { pageSize = parseInt(n); pageNum = 1; wccRender(); }
+
+
+/* ─── EXPORT (CSV from current filtered+sorted view) ─── */
+function wccExport() {
+    const rows = sortRows(getFiltered());
+    const headers = COLUMNS.map(c => c.label);
+    const lines = [headers.join(',')];
+    rows.forEach(r => {
+        const cells = COLUMNS.map(c => {
+            let v;
+            if (c.key === 'wcc_aging') v = (agingDays(r) ?? '');
+            else v = r[c.key];
+            if (v === null || v === undefined) v = '';
+            v = String(v).replace(/"/g, '""');
+            return /[",\n]/.test(v) ? `"${v}"` : v;
+        });
+        lines.push(cells.join(','));
+    });
+    const blob = new Blob([lines.join('\n')], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url; a.download = 'wcc-pipeline.csv';
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+}
+
+/* ─── RESOURCES SALARY GATE (admin email + OTP) ─── */
+let RES_UNLOCKED = false;          // session flag — once unlocked, stays unlocked
+let __otpStep = 'email';           // 'email' | 'otp'
+let __otpSent = null;              // demo: the code we "sent"
+const DEMO_OTP = '123456';         // demo only — real flow verifies server-side
+
+function openOtpModal() {
+    __otpStep = 'email';
+    __otpSent = null;
+    document.getElementById('otpEmail').value = '';
+    document.getElementById('otpCode').value = '';
+    renderOtpStep();
+    document.getElementById('otpModal').classList.add('active');
+}
+function closeOtpModal() {
+    document.getElementById('otpModal').classList.remove('active');
+}
+function renderOtpStep() {
+    const emailRow = document.getElementById('otpEmailRow');
+    const codeRow  = document.getElementById('otpCodeRow');
+    const primary  = document.getElementById('otpPrimaryBtn');
+    const hint     = document.getElementById('otpHint');
+    if (__otpStep === 'email') {
+        emailRow.style.display = '';
+        codeRow.style.display = 'none';
+        primary.textContent = 'Send OTP';
+        hint.textContent = 'An OTP will be sent to your registered admin email.';
+    } else {
+        emailRow.style.display = '';
+        codeRow.style.display = '';
+        primary.textContent = 'Verify & Unlock';
+        hint.innerHTML = `OTP sent to <b>${document.getElementById('otpEmail').value}</b>. Demo code: <b>${DEMO_OTP}</b>.`;
+    }
+    document.getElementById('otpErr').style.display = 'none';
+}
+function otpPrimary() {
+    const err = document.getElementById('otpErr');
+    if (__otpStep === 'email') {
+        const email = document.getElementById('otpEmail').value.trim();
+        if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) {
+            err.textContent = 'Enter a valid email address.';
+            err.style.display = 'block';
+            return;
+        }
+        // simulate sending OTP
+        __otpSent = DEMO_OTP;
+        __otpStep = 'otp';
+        renderOtpStep();
+        document.getElementById('otpCode').focus();
+    } else {
+        const code = document.getElementById('otpCode').value.trim();
+        if (code !== __otpSent) {
+            err.textContent = 'Incorrect OTP. Try again.';
+            err.style.display = 'block';
+            return;
+        }
+        RES_UNLOCKED = true;
+        closeOtpModal();
+        if (window.__drawerRow) openDrawer(window.__drawerRow); // re-render with rows visible
+    }
+}
+function lockResources() {
+    RES_UNLOCKED = false;
+    if (window.__drawerRow) openDrawer(window.__drawerRow);
+}
+
+/* ─── DRAWER ─── */
+const MON = ['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'];
+function rupee(n) { return '₹' + (n||0).toLocaleString('en-IN'); }
+function personChip(name, ptype) {
+    const t = ptype === 'vendor' ? 'ven' : 'emp';
+    const init = (name||'?').split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2);
+    const label = ptype === 'vendor' ? 'Vendor' : 'Employee';
+    return `<span class="p-chip"><span class="p-dot p-${t}">${init}</span>${name}`
+         + `<span class="p-type t-${t}">${label}</span></span>`;
+}
+function statusPillHTML(v) {
+    const labels = { Pending:'Pending', Submitted:'Submitted', Accepted:'Accepted', Rejected:'Rejected', Rejected_with_modification:'Rej. w/ Mod.' };
+    return `<span class="status-pill dh-status s-${v}">${labels[v]||v}</span>`;
+}
+
+function openDrawer(row) {
+    window.__drawerRow = row;
+    const d = getSiteDetail(row);
+
+    // header
+    document.getElementById('drwTitle').textContent = row.site_id || '—';
+    document.getElementById('drwSub').innerHTML =
+        `${row.so_number} · ${row.project} ${statusPillHTML(row.wcc_status)}`;
+
+    // ── totals ──
+    // Revenue = sum of BOQ rates (what the client pays us). GRN & Invoice match this.
+    const revenue    = d.activities.reduce((s,a)=>s+(a.boq_rate||0),0);
+    // Costs we incur
+    const vendorCost   = d.activities.reduce((s,a)=>s+(a.vendor_cost||0),0);
+    const resourceCost = (d.resources||[]).reduce((s,v)=>s+v.employees.reduce((e,emp)=>e+(emp.daily_cost||0),0),0);
+    const claimTotal   = d.claims.reduce((s,c)=>s+(c.amount||0),0);
+    const matTotal     = d.materials.reduce((s,m)=>s+(m.amount||0),0);
+    const otherTotal   = d.other_costs.reduce((s,o)=>s+(o.amount||0),0);
+    const totalCost    = vendorCost + resourceCost + claimTotal + matTotal + otherTotal;
+    const margin       = revenue - totalCost;
+
+    // GRN & Invoice should equal revenue
+    const grnAmt = revenue;
+    const visits = (d.resources||[]).length;
+
+    // people & vendor presence
+    const people = [...new Set(d.activities.map(a=>a.person).filter(Boolean))];
+    const vendorActs = d.activities.filter(a => a.ptype==='vendor' && a.vendor_cost!=null);
+
+    let html = '';
+
+    // info banner
+    html += `<div class="dr-info-banner">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+        <span><b>Revenue</b> = sum of BOQ rates. GRN &amp; Invoice match revenue. <b>Cost</b> = resources + vendor + materials + claims + other.</span>
+    </div>`;
+
+    // summary band: Revenue / Cost / Margin / GRN
+    const marginColor = margin >= 0 ? 'green' : 'coral';
+    html += `<div class="dr-summary">
+        <div class="dr-summary-item"><div class="dr-summary-label">Revenue (BOQ)</div><div class="dr-summary-value green">${rupee(revenue)}</div></div>
+        <div class="dr-summary-item"><div class="dr-summary-label">Total Cost</div><div class="dr-summary-value">${rupee(totalCost)}</div></div>
+        <div class="dr-summary-item"><div class="dr-summary-label">Margin</div><div class="dr-summary-value ${marginColor}">${rupee(margin)}</div></div>
+        <div class="dr-summary-item"><div class="dr-summary-label">GRN Amount</div><div class="dr-summary-value">${rupee(grnAmt)}</div></div>
+    </div>`;
+
+    // SITE META
+    html += `<div class="dr-section">
+        <div class="dr-section-title">Site Details</div>
+        <div class="dr-meta-grid">
+            <div class="dr-meta-item"><div class="dr-meta-label">Client</div><div class="dr-meta-value">${row.client}</div></div>
+            <div class="dr-meta-item"><div class="dr-meta-label">Project Manager</div><div class="dr-meta-value">${row.pm||'—'}</div></div>
+            <div class="dr-meta-item"><div class="dr-meta-label">Circle</div><div class="dr-meta-value">${row.circle||'—'}</div></div>
+            <div class="dr-meta-item"><div class="dr-meta-label">Item (Revenue Head)</div><div class="dr-meta-value primary">${row.item||'—'}</div></div>
+            <div class="dr-meta-item"><div class="dr-meta-label">SO Number</div><div class="dr-meta-value code primary">${row.so_number}</div></div>
+            <div class="dr-meta-item"><div class="dr-meta-label">WCC Status</div><div class="dr-meta-value">${statusPillHTML(row.wcc_status)}</div></div>
+            <div class="dr-meta-item"><div class="dr-meta-label">WCC Submit Date</div><div class="dr-meta-value">${fmtDisp(row.wcc_submit_date)||'—'}</div></div>
+            <div class="dr-meta-item"><div class="dr-meta-label">WCC Receive Date</div><div class="dr-meta-value">${fmtDisp(row.wcc_receive_date)||'—'}</div></div>
+            <div class="dr-meta-item"><div class="dr-meta-label">GRN No.</div><div class="dr-meta-value code">${row.grn_no||'—'}</div></div>
+            <div class="dr-meta-item"><div class="dr-meta-label">GRN Amount</div><div class="dr-meta-value primary">${rupee(grnAmt)}</div></div>
+        </div>
+    </div>`;
+
+    // ACTIVITIES — hierarchy: Revenue Head > Type > Activities
+    const byRH = [];
+    d.activities.forEach(a => {
+        const rhName = a.revenue_head || '—';
+        let rh = byRH.find(x => x.rh === rhName);
+        if (!rh) { rh = { rh: rhName, types: [] }; byRH.push(rh); }
+        let t = rh.types.find(x => x.type === a.type);
+        if (!t) { t = { type: a.type, acts: [] }; rh.types.push(t); }
+        t.acts.push(a);
+    });
+    html += `<div class="dr-section">
+        <div class="dr-section-title">Activities <span class="ct">${d.activities.length}</span>
+            ${people.length>1?`<span class="ct">${people.length} people</span>`:''}
+            <span class="amt-chip">${rupee(revenue)} rev</span>
+        </div>`;
+    if (byRH.length) {
+        byRH.forEach(rh => {
+            const rhTotal = rh.types.reduce((s,t)=>s+t.acts.reduce((x,a)=>x+(a.boq_rate||0),0),0);
+            // Revenue Head header (parent of Type)
+            html += `<div class="rh-group">
+                <div class="rh-head">
+                    <span class="rh-label">Revenue Head</span>
+                    <span class="rh-name">${rh.rh}</span>
+                    <span class="rh-amt">${rupee(rhTotal)}</span>
+                </div>`;
+            rh.types.forEach(g => {
+                const gTotal = g.acts.reduce((s,a)=>s+(a.boq_rate||0),0);
+                html += `<div class="type-group">
+                    <div class="type-group-head">
+                        <span class="act-type-tag">${g.type}</span>
+                        <span class="type-group-amt">${rupee(gTotal)}</span>
+                    </div>
+                    <div class="act-list">`;
+                g.acts.forEach(a => {
+                    const dt = a.date ? a.date.split('-') : null;
+                    const venLine = (a.ptype==='vendor' && a.vendor_cost!=null)
+                        ? `<span class="act-vendor-cost">vendor cost ${rupee(a.vendor_cost)}</span>` : '';
+                    html += `<div class="act-row">
+                        <div class="act-date">
+                            <div class="act-date-d">${dt?dt[2]:'—'}</div>
+                            <div class="act-date-m">${dt?MON[parseInt(dt[1])-1]:''}</div>
+                        </div>
+                        <div class="act-divider"></div>
+                        <div class="act-main">
+                            <div class="act-activity">${a.activity}</div>
+                            <div class="act-who">${personChip(a.person, a.ptype)} ${venLine}</div>
+                        </div>
+                        <div class="act-amt-wrap">
+                            <div class="act-amt">${rupee(a.boq_rate)}</div>
+                            <div class="act-amt-label">BOQ</div>
+                        </div>
+                    </div>`;
+                });
+                html += `</div></div>`;
+            });
+            html += `</div>`; // .rh-group
+        });
+    } else {
+        html += '<div class="li-empty">No activities logged yet for this site.</div>';
+    }
+    html += '</div>';
+
+    // RESOURCES COST — collective always visible; per-employee breakdown gated by admin OTP
+    html += `<div class="dr-section">
+        <div class="dr-section-title">Resources Cost <span class="ct">${visits} visit${visits===1?'':'s'}</span>`;
+    if (resourceCost) html += `<span class="amt-chip">${rupee(resourceCost)}</span>`;
+    // lock / unlock toggle
+    if (visits) {
+        if (RES_UNLOCKED) {
+            html += `<button class="res-lock-btn unlocked" onclick="lockResources()" title="Hide salary breakdown">
+                <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 11V7a4 4 0 018 0m-9 4h10a2 2 0 012 2v5a2 2 0 01-2 2H7a2 2 0 01-2-2v-5a2 2 0 012-2z"/></svg>
+            </button>`;
+        } else {
+            html += `<button class="res-lock-btn" onclick="openOtpModal()" title="Unlock salary breakdown (admin + OTP)">
+                <svg viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="2"/><path stroke-linecap="round" stroke-linejoin="round" d="M8 11V7a4 4 0 118 0v4"/></svg>
+            </button>`;
+        }
+    }
+    html += `</div>`;
+    if (visits) {
+        if (RES_UNLOCKED) {
+            html += '<div class="act-list">';
+            (d.resources||[]).forEach(v => {
+                const dt = v.date ? v.date.split('-') : null;
+                const dayTotal = v.employees.reduce((s,e)=>s+(e.daily_cost||0),0);
+                const names = v.employees.map(e => `${e.name} (${rupee(e.daily_cost)})`).join(' · ');
+                html += `<div class="act-row">
+                    <div class="act-date">
+                        <div class="act-date-d">${dt?dt[2]:'—'}</div>
+                        <div class="act-date-m">${dt?MON[parseInt(dt[1])-1]:''}</div>
+                    </div>
+                    <div class="act-divider"></div>
+                    <div class="act-main">
+                        <div class="act-activity">${v.employees.length} employee${v.employees.length===1?'':'s'} on site</div>
+                        <div class="act-who res-names">${names}</div>
+                    </div>
+                    <div class="act-amt-wrap">
+                        <div class="act-amt">${rupee(dayTotal)}</div>
+                        <div class="act-amt-label">Day cost</div>
+                    </div>
+                </div>`;
+            });
+            html += '</div>';
+        } else {
+            html += `<div class="res-locked" onclick="openOtpModal()">
+                <div class="res-locked-icon"><svg viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="2"/><path stroke-linecap="round" stroke-linejoin="round" d="M8 11V7a4 4 0 118 0v4"/></svg></div>
+                <div class="res-locked-text">
+                    <b>Per-employee salary breakdown is restricted.</b>
+                    <span>You can see the collective cost (${rupee(resourceCost)}). Unlock the day-by-day employee salaries with admin email + OTP.</span>
+                </div>
+                <span class="res-unlock-pill">Unlock</span>
+            </div>`;
+        }
+    } else {
+        html += '<div class="li-empty">No resource deployment recorded for this site.</div>';
+    }
+    html += '</div>';
+
+    // CLAIMS (moved up — kept near Resources Cost)
+    html += sectionLineItems('Claims for this Site', d.claims, 'clm',
+        '<path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>',
+        c => ({ name: c.name, meta: `${c.by} · ${fmtDisp(c.date)||''}`, amount: c.amount }),
+        'No claims raised for this site.');
+
+    // VENDOR COST (only when a vendor performed work — distinct from revenue)
+    if (vendorActs.length) {
+        html += `<div class="dr-section">
+            <div class="dr-section-title">Vendor Cost <span class="ct">${vendorActs.length}</span><span class="amt-chip">${rupee(vendorCost)}</span></div>
+            <div class="li-list">`;
+        vendorActs.forEach(a => {
+            const m = (a.boq_rate||0) - (a.vendor_cost||0);
+            html += `<div class="li-row">
+                <div class="li-icon ven"><svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2H5a2 2 0 00-2-2z"/><path d="M16 3v4M8 3v4"/></svg></div>
+                <div class="li-main">
+                    <div class="li-name">${a.person}</div>
+                    <div class="li-meta">${a.activity} · billed ${rupee(a.boq_rate)} · margin ${rupee(m)}</div>
+                </div>
+                <div class="li-amt">${rupee(a.vendor_cost)}</div>
+            </div>`;
+        });
+        html += '</div></div>';
+    }
+
+    // MATERIALS
+    html += sectionLineItems('Material Used for this Site', d.materials, 'mat',
+        '<path stroke-linecap="round" stroke-linejoin="round" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/>',
+        m => ({ name: m.name, meta: m.rate?`${m.qty} × ${rupee(m.rate)}`:m.qty, amount: m.amount }),
+        'No material consumption recorded.');
+
+    // OTHER COSTS
+    html += sectionLineItems('Other Costs for this Site', d.other_costs, 'oth',
+        '<path stroke-linecap="round" stroke-linejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1"/>',
+        o => ({ name: o.name, meta: o.note||'', amount: o.amount }),
+        'No other costs for this site.');
+
+    // INVOICE
+    html += `<div class="dr-section"><div class="dr-section-title">Invoice</div>`;
+    if (d.invoice) {
+        html += `<div class="inv-card">
+            <div class="inv-icon"><svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg></div>
+            <div class="inv-main">
+                <div class="inv-no">${d.invoice.no}</div>
+                <div class="inv-sub">Raised ${fmtDisp(d.invoice.date)||'—'}</div>
+            </div>
+            <div class="inv-amt">${rupee(revenue)}</div>
+        </div>`;
+    } else {
+        html += `<div class="inv-card unbilled">
+            <div class="inv-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></div>
+            <div class="inv-main">
+                <div class="inv-no" style="font-family:'DM Sans';color:var(--warning);">Not yet invoiced</div>
+                <div class="inv-sub">Invoice can be raised once WCC is accepted.</div>
+            </div>
+        </div>`;
+    }
+    html += `</div>`;
+
+    document.getElementById('drwBody').innerHTML = html;
+
+    const btnLabel = document.getElementById('drwInvoiceBtnLabel');
+    btnLabel.textContent = d.invoice ? 'View Invoice' : 'Generate Invoice';
+
+    document.getElementById('siteDrawer').classList.add('active');
+    document.body.style.overflow = 'hidden';
+}
+
+function sectionLineItems(title, arr, iconClass, iconPath, mapFn, emptyMsg) {
+    const total = arr.reduce((s,x)=>s+(mapFn(x).amount||0),0);
+    let h = `<div class="dr-section"><div class="dr-section-title">${title} <span class="ct">${arr.length}</span>`;
+    if (arr.length) h += `<span class="amt-chip">${rupee(total)}</span>`;
+    h += `</div>`;
+    if (arr.length) {
+        h += '<div class="li-list">';
+        arr.forEach(x => {
+            const m = mapFn(x);
+            h += `<div class="li-row">
+                <div class="li-icon ${iconClass}"><svg viewBox="0 0 24 24">${iconPath}</svg></div>
+                <div class="li-main"><div class="li-name">${m.name}</div>${m.meta?`<div class="li-meta">${m.meta}</div>`:''}</div>
+                <div class="li-amt">${rupee(m.amount)}</div>
+            </div>`;
+        });
+        h += '</div>';
+    } else {
+        h += `<div class="li-empty">${emptyMsg}</div>`;
+    }
+    h += '</div>';
+    return h;
+}
+
+function closeDrawer() {
+    document.getElementById('siteDrawer').classList.remove('active');
+    document.body.style.overflow = '';
+}
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeDrawer(); });
+
+/* ─── BOOT ─── */
+function wccBoot() {
+    initDates();
+    wccRender();
+}
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', wccBoot);
+} else {
+    wccBoot();
+}
+</script>
+</body>
+</html>
