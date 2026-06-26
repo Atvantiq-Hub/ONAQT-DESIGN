@@ -152,6 +152,11 @@ table.wcc-table tbody tr:last-child td { border-bottom:none; }
 /* Visit badge */
 .visit-badge { display:inline-flex; width:24px; height:24px; align-items:center; justify-content:center; border-radius:6px; background:var(--gray-100); color:var(--gray-700); font-size:11px; font-weight:700; }
 .visit-badge.has { background:var(--primary-light); color:var(--primary); }
+
+/* ── EMBEDDED MODE (inside DPR & Work Done tab): show only the table ── */
+.page-header, .stats-banner, .tab-bar { display:none !important; }
+.page-wrapper { padding:0 !important; }
+.table-card { border-radius:14px !important; border-top:1px solid rgba(0,0,0,0.06) !important; }
 </style>
 </head>
 <body>
