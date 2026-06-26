@@ -21684,6 +21684,7 @@ if (typeof showPage === 'function') {
                     <!-- Tab Bar — outside table card -->
                     <div class="tab-bar" style="background:var(--white);border-radius:14px 14px 0 0;border:1px solid var(--gray-100);border-bottom:none;flex-shrink:0;">
                       <div class="tab-list">
+                        <div class="tab-item" data-tab="dpr" onclick="wdSwitchTab('dpr')">DPR</div>
                         <div class="tab-item active" data-tab="all" onclick="wdSwitchTab('all')">All Sites <span class="tab-badge" id="wdBadgeAll">20</span></div>
                         <div class="tab-item" data-tab="completed" onclick="wdSwitchTab('completed')">Completed <span class="tab-badge" id="wdBadgeCompleted">0</span></div>
                         <div class="tab-item" data-tab="pending" onclick="wdSwitchTab('pending')">Pending <span class="tab-badge" id="wdBadgePending">0</span></div>
@@ -21710,6 +21711,11 @@ if (typeof showPage === 'function') {
 
                       <!-- AG Grid container -->
                       <div id="workDoneAgGrid" class="ag-theme-quartz"></div>
+                    </div>
+
+                    <!-- DPR Tab Panel -->
+                    <div id="wdDprPanel" style="display:none;flex:1;min-height:0;">
+                      <iframe src="dpr-standalone.html" title="DPR" style="width:100%;height:100%;border:0;border-radius:14px;"></iframe>
                     </div>
 
                 </div><!-- /#page-work-done -->
@@ -33053,6 +33059,21 @@ document.addEventListener('DOMContentLoaded', () => {
     function wdSwitchTab(tab){
       wdCurrentTab=tab;wdWccSelected.clear();
       document.querySelectorAll('#page-work-done .tab-item').forEach(el=>{el.classList.toggle('active',el.dataset.tab===tab);});
+      var dpr=document.getElementById('wdDprPanel');
+      var card=document.querySelector('#page-work-done .table-card');
+      var banner=document.querySelector('#page-work-done .stats-banner');
+      var actions=document.querySelector('#page-work-done .tab-actions');
+      if(tab==='dpr'){
+        if(dpr)dpr.style.display='flex';
+        if(card)card.style.display='none';
+        if(banner)banner.style.display='none';
+        if(actions)actions.style.display='none';
+        return;
+      }
+      if(dpr)dpr.style.display='none';
+      if(card)card.style.display='flex';
+      if(banner)banner.style.display='flex';
+      if(actions)actions.style.display='flex';
       wdRender();
     }
     function wdFilterTable(){ wdSearchQ=document.getElementById('wdSearchInput').value; wdRender(); }
