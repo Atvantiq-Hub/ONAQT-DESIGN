@@ -2858,7 +2858,6 @@
         #page-work-done .wcc-action-bar { flex-shrink:0; }
         #page-work-done > .tab-bar { flex-shrink:0; border-bottom:none !important; }
         #page-work-done .wd-dpr-panel { display:none; }
-        #page-work-done.wd-dpr-active .stats-banner { display:none !important; }
         #page-work-done.wd-dpr-active .tab-actions { display:none !important; }
         #page-work-done.wd-dpr-active .table-card { display:none !important; }
         #page-work-done.wd-dpr-active .wd-dpr-panel { display:flex !important; }
@@ -21720,7 +21719,7 @@ if (typeof showPage === 'function') {
 
                     <!-- DPR Tab Panel -->
                     <div id="wdDprPanel" class="wd-dpr-panel" style="flex:1;min-height:0;">
-                      <iframe src="dpr-standalone.html" title="DPR" style="width:100%;height:100%;border:0;border-radius:14px;"></iframe>
+                      <iframe src="dpr-standalone.html" title="DPR" style="width:100%;height:100%;border:0;border-radius:0 0 14px 14px;"></iframe>
                     </div>
 
                 </div><!-- /#page-work-done -->
