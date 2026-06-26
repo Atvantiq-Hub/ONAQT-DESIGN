@@ -2857,6 +2857,11 @@
         #page-work-done .table-footer { flex-shrink:0; }
         #page-work-done .wcc-action-bar { flex-shrink:0; }
         #page-work-done > .tab-bar { flex-shrink:0; border-bottom:none !important; }
+        #page-work-done .wd-dpr-panel { display:none; }
+        #page-work-done.wd-dpr-active .stats-banner { display:none !important; }
+        #page-work-done.wd-dpr-active .tab-actions { display:none !important; }
+        #page-work-done.wd-dpr-active .table-card { display:none !important; }
+        #page-work-done.wd-dpr-active .wd-dpr-panel { display:flex !important; }
         /* Status pills */
         .status-pill{display:inline-flex;align-items:center;gap:4px;padding:3px 9px;border-radius:6px;font-size:11px;font-weight:600;white-space:nowrap;}
         .status-pill::before{content:'';width:5px;height:5px;border-radius:50%;flex-shrink:0;}
@@ -16629,7 +16634,7 @@
                         </svg>
                     </button>
                     <div class="nav-submenu">
-                        <a href="#" class="nav-submenu-link" onclick="showPage('work-done','Work Done');return false;">Work Done</a>
+                        <a href="#" class="nav-submenu-link" onclick="showPage('work-done','DPR');return false;">DPR</a>
                         <a href="#" class="nav-submenu-link" onclick="showPage('daily-logs','Daily Site Logs');return false;">Daily Site Logs</a>
                         <a href="#" class="nav-submenu-link" onclick="showPage('site-performance','Site Performance');return false;">Site Performance</a>
                         <a href="#" class="nav-submenu-link" onclick="showPage('alerts','Real-time Alerts');return false;">Real-time Alerts</a>
@@ -21670,7 +21675,7 @@ if (typeof showPage === 'function') {
                     </div>
                 </div><!-- /#page-salary-management -->
 
-                <div id="page-work-done" class="page-section">
+                <div id="page-work-done" class="page-section wd-dpr-active">
 
                     <!-- Stats Banner -->
                     <div class="stats-banner" style="flex-shrink:0;margin-bottom:12px;">
@@ -21684,8 +21689,8 @@ if (typeof showPage === 'function') {
                     <!-- Tab Bar — outside table card -->
                     <div class="tab-bar" style="background:var(--white);border-radius:14px 14px 0 0;border:1px solid var(--gray-100);border-bottom:none;flex-shrink:0;">
                       <div class="tab-list">
-                        <div class="tab-item" data-tab="dpr" onclick="wdSwitchTab('dpr')">DPR</div>
-                        <div class="tab-item active" data-tab="all" onclick="wdSwitchTab('all')">All Sites <span class="tab-badge" id="wdBadgeAll">20</span></div>
+                        <div class="tab-item active" data-tab="dpr" onclick="wdSwitchTab('dpr')">DPR</div>
+                        <div class="tab-item" data-tab="all" onclick="wdSwitchTab('all')">All Sites <span class="tab-badge" id="wdBadgeAll">20</span></div>
                         <div class="tab-item" data-tab="completed" onclick="wdSwitchTab('completed')">Completed <span class="tab-badge" id="wdBadgeCompleted">0</span></div>
                         <div class="tab-item" data-tab="pending" onclick="wdSwitchTab('pending')">Pending <span class="tab-badge" id="wdBadgePending">0</span></div>
                         <div class="tab-item" data-tab="unassigned" onclick="wdSwitchTab('unassigned')">Unassigned <span class="tab-badge" id="wdBadgeUnassigned">0</span></div>
@@ -21714,7 +21719,7 @@ if (typeof showPage === 'function') {
                     </div>
 
                     <!-- DPR Tab Panel -->
-                    <div id="wdDprPanel" style="display:none;flex:1;min-height:0;">
+                    <div id="wdDprPanel" class="wd-dpr-panel" style="flex:1;min-height:0;">
                       <iframe src="dpr-standalone.html" title="DPR" style="width:100%;height:100%;border:0;border-radius:14px;"></iframe>
                     </div>
 
@@ -32755,7 +32760,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const wdSelectedActivities = new Set();
     const wdWccSelected = new Set();
     const wdWccSubmitted = new Set();
-    let wdCurrentTab = 'all';
+    let wdCurrentTab = 'dpr';
     let wdSearchQ = '';
 
     function wdFmtDate(d){ if(!d) return '<span class="null-dash">—</span>'; const p=d.split('-'); return `${p[2]}-${p[1]}-${p[0]}`; }
@@ -33059,21 +33064,9 @@ document.addEventListener('DOMContentLoaded', () => {
     function wdSwitchTab(tab){
       wdCurrentTab=tab;wdWccSelected.clear();
       document.querySelectorAll('#page-work-done .tab-item').forEach(el=>{el.classList.toggle('active',el.dataset.tab===tab);});
-      var dpr=document.getElementById('wdDprPanel');
-      var card=document.querySelector('#page-work-done .table-card');
-      var banner=document.querySelector('#page-work-done .stats-banner');
-      var actions=document.querySelector('#page-work-done .tab-actions');
-      if(tab==='dpr'){
-        if(dpr)dpr.style.display='flex';
-        if(card)card.style.display='none';
-        if(banner)banner.style.display='none';
-        if(actions)actions.style.display='none';
-        return;
-      }
-      if(dpr)dpr.style.display='none';
-      if(card)card.style.display='flex';
-      if(banner)banner.style.display='flex';
-      if(actions)actions.style.display='flex';
+      var wd=document.getElementById('page-work-done');
+      if(tab==='dpr'){ if(wd)wd.classList.add('wd-dpr-active'); return; }
+      if(wd)wd.classList.remove('wd-dpr-active');
       wdRender();
     }
     function wdFilterTable(){ wdSearchQ=document.getElementById('wdSearchInput').value; wdRender(); }
@@ -35960,7 +35953,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 'budgeting':       function(){ if(typeof bdgRender==='function') bdgRender(); },
                 'plan-actual':     function(){ if(typeof rpRenderMonths==='function'){ try{rpRenderMonths();}catch(e){} } if(typeof rpApplyFilter==='function') rpApplyFilter(); },
                 'plan-vs-actual':  function(){ if(typeof pvaRender==='function'){ try{pvaRender();}catch(e){} } },
-                'approvals-pending': function(){ if(typeof apSwitchRole==='function'){ var t=document.querySelector('#page-approvals-pending .ap-role-tab.active'); apSwitchRole(t?t.dataset.role:'pm'); } }
+                'approvals-pending': function(){ if(typeof apSwitchRole==='function'){ var t=document.querySelector('#page-approvals-pending .ap-role-tab.active'); apSwitchRole(t?t.dataset.role:'pm'); } },
+                'work-done':       function(){ if(typeof wdSwitchTab==='function') wdSwitchTab('dpr'); }
             };
             if (renderMap[pageId]) renderMap[pageId]();
         }
