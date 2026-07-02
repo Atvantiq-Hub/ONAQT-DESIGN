@@ -1,0 +1,952 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Onaqt · Zoho Item &amp; Activity Mapping</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=Fraunces:opsz,wght@9..144,500;9..144,600&display=swap" rel="stylesheet">
+<style>
+/* ============ ONAQT TOKENS (mirrored from admin-unified_v10_2.html) ============ */
+:root{
+  --primary:#2D4A35;--primary-dark:#1e3326;--primary-light:#e6f0e8;
+  --cta:#C8837A;--cta-shadow:rgba(200,131,122,0.35);
+  --success:#4a7c59;--success-light:#eaf2ec;
+  --warning:#b8893a;--warning-light:#fdf4e7;
+  --danger:#b85c52;--danger-light:#faeeed;
+  --info:#5a7fa8;--info-light:#eef3f9;
+  --white:#fff;--surface:#FDFCFA;--bg:#EDE9E2;
+  --gray-50:#F5F2EC;--gray-100:#ECE8E1;--gray-200:#DDD9D0;--gray-300:#C8C2B6;
+  --gray-400:#A39C8E;--gray-500:#857E70;--gray-600:#5C5650;--gray-700:#3E3A35;--gray-800:#2A2722;--gray-900:#1A1714;
+  --shadow-sm:0 1px 3px rgba(45,40,32,0.06);
+  --shadow-md:0 4px 16px rgba(45,40,32,0.08),0 1px 4px rgba(45,40,32,0.04);
+  --shadow-lg:0 12px 32px rgba(45,40,32,0.10),0 4px 8px rgba(45,40,32,0.05);
+  --shadow-xl:0 24px 48px rgba(45,40,32,0.12);
+  --shadow-card:0 2px 12px rgba(45,40,32,0.07),0 0 0 1px rgba(45,40,32,0.04);
+  --border-radius:16px;--border-radius-sm:12px;--transition:all 0.25s cubic-bezier(0.4,0,0.2,1);
+}
+*{box-sizing:border-box;margin:0;padding:0;font-family:'DM Sans',sans-serif;-webkit-tap-highlight-color:transparent}
+body{background:var(--bg);color:var(--gray-800);font-size:13px;min-height:100vh}
+
+/* ============ CHROME (breadcrumb, page-header, table-card, drawer, modal) ============ */
+.app{max-width:1340px;margin:0 auto;padding:22px 22px 60px}
+.cap{color:var(--gray-500);font-size:12.5px;text-align:center;margin-bottom:14px}
+.cap b{color:var(--gray-700)}
+
+.breadcrumb{display:flex;align-items:center;gap:8px;font-size:12.5px;color:var(--gray-500);margin-bottom:10px}
+.breadcrumb-link{color:var(--gray-500);text-decoration:none}
+.breadcrumb-link:hover{color:var(--primary)}
+.breadcrumb-separator{width:11px;height:11px;color:var(--gray-300);stroke:currentColor;fill:none;stroke-width:2.2}
+.breadcrumb-current{color:var(--gray-800);font-weight:600}
+
+.page-header{margin-bottom:14px}
+.page-title-section{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.page-title{font-family:'Fraunces',serif;font-size:24px;font-weight:600;color:var(--gray-900);letter-spacing:-0.3px}
+.page-subtitle{font-size:13px;color:var(--gray-500);margin-top:3px}
+.page-actions{display:flex;gap:8px;align-items:center}
+
+/* primary action button */
+.btn{display:inline-flex;align-items:center;gap:7px;height:38px;padding:0 16px;border:0;border-radius:11px;font-size:13px;font-weight:600;cursor:pointer;transition:var(--transition);font-family:'DM Sans',sans-serif}
+.btn svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:2.2}
+.btn-primary{background:var(--cta);color:#fff;box-shadow:0 4px 12px var(--cta-shadow)}
+.btn-primary:hover{filter:brightness(.94)}
+.btn-secondary{background:var(--white);border:1px solid var(--gray-200);color:var(--gray-700)}
+.btn-secondary:hover{background:var(--gray-50)}
+.btn-ghost{background:transparent;color:var(--gray-600)}
+.btn-ghost:hover{background:var(--gray-100)}
+
+/* ============ TABS (mirroring v10-role-tab) ============ */
+.tabs{display:flex;gap:4px;padding:4px;background:var(--gray-50);border:1px solid var(--gray-200);border-radius:13px;margin-bottom:16px;width:fit-content}
+.tab{display:inline-flex;align-items:center;gap:7px;padding:8px 16px;border-radius:9px;font-size:13px;font-weight:600;color:var(--gray-500);background:transparent;border:0;cursor:pointer;transition:var(--transition);white-space:nowrap}
+.tab:hover:not(.active){background:var(--white);color:var(--gray-700)}
+.tab.active{background:var(--primary);color:#fff;box-shadow:0 2px 6px rgba(45,74,53,.18)}
+.tab .ct{font-size:11px;font-weight:700;background:rgba(0,0,0,.08);border-radius:20px;padding:1px 7px}
+.tab.active .ct{background:rgba(255,255,255,.22);color:#fff}
+
+/* ============ TABLE-CARD ============ */
+.table-card{background:var(--white);border-radius:var(--border-radius);box-shadow:var(--shadow-card);overflow:hidden;border:1px solid rgba(0,0,0,.04)}
+.table-card-header{padding:14px 18px;border-bottom:1px solid rgba(0,0,0,.06);display:flex;align-items:center;gap:12px;flex-wrap:wrap;background:var(--white)}
+.table-card-title{font-family:'Fraunces',serif;font-size:14.5px;font-weight:600;color:var(--gray-900);display:flex;align-items:center;gap:8px}
+.table-card-title .rec{font-family:'DM Sans',sans-serif;font-size:11px;font-weight:700;color:var(--gray-500);background:var(--gray-100);border-radius:20px;padding:2px 9px}
+
+.tch-actions{margin-left:auto;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+
+/* search */
+.search-wrap{position:relative}
+.search-input{height:34px;width:240px;border:1px solid var(--gray-200);border-radius:9px;background:var(--white);padding:0 10px 0 32px;font-size:12.5px;color:var(--gray-800);outline:none;transition:var(--transition)}
+.search-input:focus{border-color:var(--primary);box-shadow:0 0 0 3px var(--primary-light)}
+.search-icon{position:absolute;left:11px;top:50%;transform:translateY(-50%);width:14px;height:14px;color:var(--gray-400);stroke:currentColor;fill:none;stroke-width:2;pointer-events:none}
+
+/* filter pills */
+.filter-row{display:flex;gap:6px;flex-wrap:wrap;padding:10px 18px 0;background:var(--white);border-bottom:1px solid rgba(0,0,0,.04)}
+.filter-row:last-of-type{padding-bottom:10px}
+.fpill{height:28px;padding:0 11px;border:1px solid var(--gray-200);border-radius:20px;background:var(--white);font-size:11.5px;font-weight:600;color:var(--gray-600);cursor:pointer;display:inline-flex;align-items:center;gap:5px;transition:var(--transition)}
+.fpill:hover{border-color:var(--gray-300);color:var(--gray-800)}
+.fpill.active{background:var(--primary);border-color:var(--primary);color:#fff}
+.fpill .ct{font-size:10px;font-weight:700;color:var(--gray-400);background:var(--gray-100);border-radius:20px;padding:0 6px}
+.fpill.active .ct{background:rgba(255,255,255,.22);color:#fff}
+
+/* table */
+.tw{overflow-x:auto}
+table.t{width:100%;border-collapse:separate;border-spacing:0;min-width:920px}
+.t thead th{text-align:left;font-size:10.5px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--gray-400);padding:12px;border-bottom:1px solid var(--gray-200);background:var(--white);position:sticky;top:0}
+.t tbody td{padding:11px 12px;border-bottom:1px solid var(--gray-100);font-size:13px;color:var(--gray-800);vertical-align:middle}
+.t tbody tr:hover{background:var(--gray-50);cursor:pointer}
+
+/* generic cells */
+.t .nm{font-weight:600}
+.t .nm .sub{display:block;color:var(--gray-400);font-weight:500;font-size:11.5px;margin-top:1px}
+.t .code{font-family:'Courier New',monospace;font-size:11.5px;font-weight:700;color:var(--gray-700);background:var(--gray-50);border:1px solid var(--gray-200);border-radius:6px;padding:2px 7px;display:inline-block}
+.t .gl{font-size:12px;color:var(--info);font-weight:600}
+.t .gl .glsub{display:block;color:var(--gray-400);font-weight:500;font-size:10.5px;margin-top:1px;font-family:'DM Sans',sans-serif}
+
+/* status pills */
+.pill{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:700;border-radius:20px;padding:3px 9px;letter-spacing:.01em}
+.pill .dot{width:6px;height:6px;border-radius:50%;background:currentColor}
+.pill.ok{color:var(--success);background:var(--success-light)}
+.pill.warn{color:var(--warning);background:var(--warning-light)}
+.pill.muted{color:var(--gray-500);background:var(--gray-100)}
+.pill.danger{color:var(--danger);background:var(--danger-light)}
+.pill.info{color:var(--info);background:var(--info-light)}
+.pill.cta{color:var(--cta);background:color-mix(in srgb,var(--cta) 12%,var(--surface))}
+
+/* classification badge */
+.cls{display:inline-flex;align-items:center;gap:5px;font-size:10.5px;font-weight:700;border-radius:7px;padding:3px 8px;text-transform:uppercase;letter-spacing:.04em}
+.cls.svc{color:var(--info);background:var(--info-light);border:1px solid color-mix(in srgb,var(--info) 25%,transparent)}
+.cls.inv{color:var(--warning);background:var(--warning-light);border:1px solid color-mix(in srgb,var(--warning) 28%,transparent)}
+.cls.both{color:var(--primary);background:var(--primary-light);border:1px solid color-mix(in srgb,var(--primary) 28%,transparent)}
+
+/* revenue head linked chip (pair pill, same as Regions page) */
+.linked{display:inline-flex;align-items:stretch;border-radius:20px;overflow:hidden;height:24px;font-size:11px;font-weight:700;background:var(--white);border:1px solid var(--gray-200);box-shadow:0 1px 2px rgba(45,40,32,.04)}
+.linked-l{background:var(--primary);color:#fff;padding:0 8px;display:flex;align-items:center;letter-spacing:.04em}
+.linked-r{padding:0 10px;display:flex;align-items:center;color:var(--gray-700);font-weight:600}
+.linked.empty{border-style:dashed;color:var(--gray-400);background:var(--gray-50)}
+.linked.empty .linked-r{padding:0 12px;font-weight:500;color:var(--gray-400)}
+
+/* row actions */
+.row-acts{display:flex;gap:4px;align-items:center;justify-content:flex-end}
+.row-act{width:28px;height:28px;border-radius:8px;border:1px solid transparent;background:transparent;color:var(--gray-500);cursor:pointer;display:grid;place-items:center;transition:var(--transition)}
+.row-act:hover{background:var(--gray-100);color:var(--gray-800)}
+.row-act svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:2}
+.row-act.more{color:var(--gray-400)}
+
+/* table footer */
+.table-footer{padding:11px 18px;border-top:1px solid var(--gray-100);display:flex;align-items:center;justify-content:space-between;background:var(--white);color:var(--gray-500);font-size:12px;flex-wrap:wrap;gap:8px}
+
+/* ============ DRAWER ============ */
+.drawer-overlay{position:fixed;inset:0;z-index:1500;pointer-events:none}
+.drawer-overlay.active{pointer-events:auto}
+.drawer-backdrop{position:absolute;inset:0;background:rgba(0,0,0,0.4);backdrop-filter:blur(2px);opacity:0;transition:opacity .3s}
+.drawer-overlay.active .drawer-backdrop{opacity:1}
+.detail-drawer{position:absolute;top:0;right:0;bottom:0;width:540px;max-width:96vw;background:var(--white);box-shadow:-8px 0 40px rgba(0,0,0,0.14);display:flex;flex-direction:column;transform:translateX(100%);transition:transform .32s cubic-bezier(0.4,0,0.2,1)}
+.drawer-overlay.active .detail-drawer{transform:translateX(0)}
+.drawer-header{padding:18px 22px;border-bottom:1px solid var(--gray-100);display:flex;align-items:flex-start;justify-content:space-between;flex-shrink:0;gap:14px}
+.drawer-title{font-family:'Fraunces',serif;font-size:21px;font-weight:600;color:var(--primary);letter-spacing:-0.4px;line-height:1.2}
+.drawer-sub{font-size:12px;color:var(--gray-500);margin-top:4px}
+.drawer-close{width:32px;height:32px;display:grid;place-items:center;border:0;background:var(--gray-100);border-radius:8px;cursor:pointer;color:var(--gray-600);flex-shrink:0;transition:var(--transition)}
+.drawer-close:hover{background:var(--danger-light);color:var(--danger)}
+.drawer-close svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2.2}
+.drawer-body{flex:1;overflow-y:auto;padding:20px 22px}
+.drawer-section{padding-bottom:18px;margin-bottom:18px;border-bottom:1px solid var(--gray-100)}
+.drawer-section:last-child{border-bottom:0;margin-bottom:0;padding-bottom:0}
+.drawer-section-title{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--gray-400);margin-bottom:11px;display:flex;align-items:center;gap:7px}
+.drawer-section-title .ct{font-family:'DM Sans',sans-serif;font-weight:700;color:var(--gray-500);background:var(--gray-100);border-radius:20px;padding:1px 7px;font-size:10px;letter-spacing:0;text-transform:none}
+.drawer-meta-grid{display:grid;grid-template-columns:1fr 1fr;gap:13px}
+.drawer-meta-item{display:flex;flex-direction:column;gap:3px}
+.drawer-meta-label{font-size:10.5px;color:var(--gray-400);font-weight:600;text-transform:uppercase;letter-spacing:.04em}
+.drawer-meta-value{font-size:13px;color:var(--gray-800);font-weight:500}
+.drawer-meta-value.primary{color:var(--primary);font-weight:700;font-family:'Fraunces',serif}
+.drawer-meta-value.code{font-family:'Courier New',monospace;font-weight:700;font-size:12px}
+.drawer-footer{padding:14px 22px;border-top:1px solid var(--gray-100);display:flex;gap:8px;justify-content:flex-end;flex-shrink:0;background:var(--gray-50)}
+
+/* read-only badge for Zoho-sourced data */
+.ro-tag{display:inline-flex;align-items:center;gap:4px;font-size:9.5px;font-weight:700;color:var(--gray-500);background:var(--gray-100);border-radius:5px;padding:2px 6px;text-transform:uppercase;letter-spacing:.04em;margin-left:6px}
+.ro-tag svg{width:9px;height:9px;stroke:currentColor;fill:none;stroke-width:2.4}
+
+/* zoho-source banner inside drawer */
+.zoho-banner{display:flex;align-items:center;gap:8px;background:var(--info-light);border:1px solid color-mix(in srgb,var(--info) 22%,transparent);border-radius:10px;padding:9px 11px;font-size:11.5px;color:var(--info);margin-bottom:14px}
+.zoho-banner svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;flex-shrink:0}
+.zoho-banner b{font-weight:700}
+
+/* ============ MODAL ============ */
+.modal-overlay{position:fixed;inset:0;z-index:1600;background:rgba(0,0,0,.42);backdrop-filter:blur(2px);display:none;align-items:center;justify-content:center;padding:18px}
+.modal-overlay.active{display:flex}
+.modal{background:var(--white);border-radius:18px;box-shadow:var(--shadow-xl);width:min(540px,96vw);max-height:90vh;display:flex;flex-direction:column;animation:mIn .22s cubic-bezier(.4,0,.2,1)}
+@keyframes mIn{from{transform:scale(.94);opacity:0}to{transform:none;opacity:1}}
+.modal-header{padding:17px 22px;border-bottom:1px solid var(--gray-100);display:flex;align-items:center;justify-content:space-between;gap:10px}
+.modal-title{font-family:'Fraunces',serif;font-size:18px;font-weight:600;color:var(--gray-900)}
+.modal-body{padding:18px 22px;flex:1;overflow-y:auto}
+.modal-footer{padding:13px 22px;border-top:1px solid var(--gray-100);display:flex;gap:8px;justify-content:flex-end;background:var(--gray-50)}
+
+/* form fields */
+.field{display:flex;flex-direction:column;gap:5px;margin-bottom:14px}
+.field label{font-size:11.5px;font-weight:600;color:var(--gray-600)}
+.field label .req{color:var(--cta);margin-left:1px}
+.field input,.field select,.field textarea{height:38px;border:1px solid var(--gray-200);border-radius:9px;background:var(--white);padding:0 11px;font-size:13px;color:var(--gray-800);outline:none;font-family:'DM Sans',sans-serif;transition:var(--transition)}
+.field textarea{height:auto;min-height:64px;padding:9px 11px;resize:vertical}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--primary);box-shadow:0 0 0 3px var(--primary-light)}
+.field .hint{font-size:11px;color:var(--gray-500)}
+.field .err{font-size:11px;color:var(--danger);background:var(--danger-light);border-left:3px solid var(--danger);padding:5px 9px;border-radius:5px;margin-top:5px;display:none}
+.field.has-err input,.field.has-err select{border-color:var(--danger);box-shadow:0 0 0 3px var(--danger-light)}
+.field.has-err .err{display:block}
+.field-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+
+/* ============ TAB 2 LAYOUT SWITCHER (preview only) ============ */
+.layout-switch{display:flex;align-items:center;gap:8px;background:var(--warning-light);border:1px dashed color-mix(in srgb,var(--warning) 45%,transparent);border-radius:11px;padding:9px 12px;margin-bottom:14px;font-size:12px;color:var(--gray-700)}
+.layout-switch .lbl{font-weight:700;color:var(--warning)}
+.layout-switch .seg{display:inline-flex;background:var(--white);border:1px solid var(--gray-200);border-radius:9px;padding:2px}
+.layout-switch .seg button{border:0;background:transparent;font-size:11.5px;font-weight:600;color:var(--gray-500);padding:5px 11px;border-radius:7px;cursor:pointer}
+.layout-switch .seg button.on{background:var(--primary);color:#fff}
+.layout-switch .spacer{flex:1}
+.layout-switch .note{font-size:11px;color:var(--gray-500)}
+
+/* ============ TAB 2 LAYOUTS ============ */
+.l2-view{display:none}.l2-view.on{display:block}
+
+/* Layout A: Tree + table side-by-side */
+.l2a{display:grid;grid-template-columns:300px 1fr;gap:14px}
+.l2-tree{background:var(--white);border-radius:var(--border-radius);box-shadow:var(--shadow-card);overflow:hidden;border:1px solid rgba(0,0,0,.04);display:flex;flex-direction:column}
+.l2-tree-h{padding:13px 14px;border-bottom:1px solid var(--gray-100);display:flex;align-items:center;justify-content:space-between}
+.l2-tree-h .t{font-family:'Fraunces',serif;font-size:13px;font-weight:600;color:var(--gray-900)}
+.l2-tree-h .add{width:26px;height:26px;border-radius:7px;background:var(--primary-light);color:var(--primary);border:0;display:grid;place-items:center;cursor:pointer}
+.l2-tree-h .add svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2.4}
+.l2-tree-body{flex:1;overflow-y:auto;padding:8px}
+.tree-node{margin-bottom:2px}
+.tree-rh{display:flex;align-items:center;gap:7px;padding:8px 10px;border-radius:9px;cursor:pointer;font-size:12.5px;font-weight:700;color:var(--gray-800);position:relative}
+.tree-rh:hover{background:var(--gray-50)}
+.tree-rh.active{background:var(--primary-light);color:var(--primary)}
+.tree-rh .caret{width:11px;height:11px;color:var(--gray-400);stroke:currentColor;fill:none;stroke-width:2.4;transition:transform .15s}
+.tree-rh.collapsed .caret{transform:rotate(-90deg)}
+.tree-rh .ico{width:14px;height:14px;color:var(--gray-400);stroke:currentColor;fill:none;stroke-width:2}
+.tree-rh.active .ico{color:var(--primary)}
+.tree-rh .ct{margin-left:auto;font-size:9.5px;font-weight:700;color:var(--gray-500);background:var(--gray-100);border-radius:20px;padding:1px 6px}
+.tree-rh.active .ct{background:var(--white);color:var(--primary)}
+.tree-types{padding:2px 0 4px 18px;display:block}
+.tree-rh.collapsed + .tree-types{display:none}
+.tree-type{display:flex;align-items:center;gap:6px;padding:6px 10px;border-radius:8px;cursor:pointer;font-size:12px;color:var(--gray-700)}
+.tree-type:hover{background:var(--gray-50)}
+.tree-type.active{background:var(--primary-light);color:var(--primary);font-weight:600}
+.tree-type .dot{width:5px;height:5px;border-radius:50%;background:var(--gray-300);flex-shrink:0}
+.tree-type.active .dot{background:var(--primary)}
+.tree-type .ct{margin-left:auto;font-size:9.5px;color:var(--gray-400)}
+.tree-type.active .ct{color:var(--primary)}
+
+.l2-detail{display:flex;flex-direction:column;gap:14px}
+.rh-summary{background:var(--white);border-radius:var(--border-radius);box-shadow:var(--shadow-card);border:1px solid rgba(0,0,0,.04);padding:16px 18px;display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+.rh-summary .rh-name{font-family:'Fraunces',serif;font-size:17px;font-weight:600;color:var(--primary)}
+.rh-summary .rh-meta{display:flex;flex-direction:column;gap:2px;font-size:11.5px;color:var(--gray-500)}
+.rh-summary .rh-meta b{color:var(--gray-800);font-size:12px;font-weight:600}
+.rh-summary .sep{width:1px;height:32px;background:var(--gray-200)}
+.rh-summary .rh-act{margin-left:auto;display:flex;gap:6px}
+
+/* Layout B: flat with breadcrumb */
+.l2b-bread{display:flex;flex-wrap:wrap;gap:6px;padding:0 0 12px}
+.l2b-bread .step{display:inline-flex;align-items:center;gap:5px;font-size:11.5px;font-weight:600;color:var(--gray-600);background:var(--white);border:1px solid var(--gray-200);border-radius:20px;padding:4px 10px;cursor:pointer}
+.l2b-bread .step.on{background:var(--primary);color:#fff;border-color:var(--primary)}
+.l2b-bread .step .ico{width:11px;height:11px;color:currentColor;stroke:currentColor;fill:none;stroke-width:2.4}
+.l2b-bread .sep{align-self:center;color:var(--gray-300);font-size:11px}
+
+/* Layout C: sub-tabs */
+.l2c-subtabs{display:flex;gap:4px;padding:3px;background:var(--gray-50);border:1px solid var(--gray-200);border-radius:11px;width:fit-content;margin-bottom:14px}
+.l2c-subtab{padding:6px 13px;border-radius:8px;font-size:12px;font-weight:600;color:var(--gray-500);background:transparent;border:0;cursor:pointer}
+.l2c-subtab.on{background:var(--primary);color:#fff}
+.l2c-sub{display:none}.l2c-sub.on{display:block}
+
+/* hierarchy block (used in B,C) */
+.hier-card{background:var(--white);border-radius:var(--border-radius);box-shadow:var(--shadow-card);overflow:hidden;border:1px solid rgba(0,0,0,.04);margin-bottom:14px}
+.hier-card .row{padding:14px 18px;border-bottom:1px solid var(--gray-100);display:flex;align-items:center;gap:12px}
+.hier-card .row:last-child{border-bottom:0}
+.hier-card .rh-name{font-family:'Fraunces',serif;font-size:15px;font-weight:600;color:var(--primary);flex:1}
+.hier-card .types{padding:6px 18px 14px;display:flex;flex-wrap:wrap;gap:6px}
+.hier-type-chip{display:inline-flex;align-items:center;gap:6px;font-size:11.5px;font-weight:600;color:var(--gray-700);background:var(--gray-50);border:1px solid var(--gray-200);border-radius:8px;padding:5px 10px;cursor:pointer}
+.hier-type-chip:hover{background:var(--primary-light);border-color:color-mix(in srgb,var(--primary) 30%,transparent);color:var(--primary)}
+.hier-type-chip .ct{font-size:9.5px;color:var(--gray-400);background:var(--white);border-radius:20px;padding:1px 6px}
+.hier-type-chip:hover .ct{background:var(--white);color:var(--primary)}
+
+/* ============ TAB 3 MATERIAL specifics ============ */
+.stock-bar{display:flex;align-items:center;gap:8px;min-width:130px}
+.stock-bar .bar{flex:1;height:5px;border-radius:3px;background:var(--gray-100);overflow:hidden}
+.stock-bar .fill{height:100%;background:var(--success);border-radius:3px}
+.stock-bar .fill.low{background:var(--warning)}
+.stock-bar .fill.crit{background:var(--danger)}
+.stock-bar .n{font-size:11.5px;font-weight:700;color:var(--gray-700);min-width:80px;text-align:right}
+.stock-bar .n .u{color:var(--gray-400);font-weight:500;margin-left:2px}
+
+/* linked activities count chip */
+.linked-acts{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:700;color:var(--cta);background:color-mix(in srgb,var(--cta) 11%,var(--surface));border:1px solid color-mix(in srgb,var(--cta) 28%,transparent);border-radius:20px;padding:2px 9px}
+.linked-acts svg{width:11px;height:11px;stroke:currentColor;fill:none;stroke-width:2.4}
+
+/* link-material modal: activity list */
+.lm-act-list{display:flex;flex-direction:column;gap:8px;max-height:240px;overflow-y:auto;border:1px solid var(--gray-200);border-radius:10px;padding:8px;background:var(--gray-50)}
+.lm-act-row{display:grid;grid-template-columns:1fr 80px 120px 80px 32px;gap:8px;align-items:center;background:var(--white);border:1px solid var(--gray-200);border-radius:9px;padding:8px 11px}
+.lm-act-row .nm{font-size:12px;font-weight:600;color:var(--gray-800)}
+.lm-act-row input[type="number"],.lm-act-row select{height:30px;border:1px solid var(--gray-200);border-radius:7px;padding:0 8px;font-size:12px;outline:none}
+.lm-act-row .rem{width:28px;height:28px;border-radius:7px;border:1px solid var(--gray-200);background:var(--white);color:var(--gray-400);display:grid;place-items:center;cursor:pointer;justify-self:end}
+.lm-act-row .rem:hover{background:var(--danger-light);color:var(--danger);border-color:var(--danger)}
+
+/* toast */
+.toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(8px);background:var(--success);color:#fff;padding:11px 22px;border-radius:50px;font-size:13px;font-weight:600;box-shadow:var(--shadow-lg);z-index:9999;opacity:0;transition:all .28s;display:flex;align-items:center;gap:7px;pointer-events:none}
+.toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
+.toast svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2.5}
+
+/* tab page wrapper */
+.tab-page{display:none}.tab-page.on{display:block}
+
+.muted{color:var(--gray-400)}
+.note-row{background:var(--info-light);border:1px solid color-mix(in srgb,var(--info) 22%,transparent);border-radius:10px;padding:10px 13px;font-size:11.5px;color:var(--info);margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.note-row svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;flex-shrink:0}
+</style></head>
+<body>
+<div class="app">
+  <p class="cap">Onaqt · standalone preview — <b>Zoho Item &amp; Activity Mapping</b> (drops into <code>admin-unified_v10_2.html</code>; styled with Onaqt patterns).</p>
+
+  <!-- breadcrumb -->
+  <div class="breadcrumb">
+    <a class="breadcrumb-link" href="#">Home</a>
+    <svg class="breadcrumb-separator" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="m9 5 7 7-7 7"/></svg>
+    <a class="breadcrumb-link" href="#">Setup &amp; Integration</a>
+    <svg class="breadcrumb-separator" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="m9 5 7 7-7 7"/></svg>
+    <span class="breadcrumb-current">Zoho Item &amp; Activity Mapping</span>
+  </div>
+
+  <!-- page header -->
+  <div class="page-header">
+    <div class="page-title-section">
+      <div>
+        <div class="page-title">Zoho Item &amp; Activity Mapping</div>
+        <div class="page-subtitle">Map Zoho <b>Service items</b> to Revenue Heads and build the Activity hierarchy with standard material templates. Inventory master &amp; stock live on the <b>Material Consumption</b> page.</div>
+      </div>
+      <div class="page-actions">
+        <button class="btn btn-secondary" onclick="syncFromZoho()"><svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 4v6h6M20 20v-6h-6M5.5 9A7 7 0 0118.4 8M18.5 15A7 7 0 015.6 16"/></svg>Sync from Zoho</button>
+        <button class="btn btn-primary" onclick="openModal('mAddRH')"><svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 5v14M5 12h14"/></svg>Add Revenue Head</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- tabs -->
+  <div class="tabs" role="tablist">
+    <button class="tab active" id="tab1" onclick="setTab(1)">Service Items &amp; GL<span class="ct" id="t1ct">0</span></button>
+    <button class="tab" id="tab2" onclick="setTab(2)">Revenue Head, Types &amp; Activities<span class="ct" id="t2ct">0</span></button>
+  </div>
+
+  <!-- ===================== TAB 1: ITEMS & GL ===================== -->
+  <div class="tab-page on" id="p1">
+    <div class="table-card">
+      <div class="table-card-header">
+        <span class="table-card-title">Service Items<span class="rec" id="t1Rec">0 records</span></span>
+        <div class="tch-actions">
+          <div class="search-wrap"><svg class="search-icon" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg><input class="search-input" id="t1Search" oninput="renderT1()" placeholder="Search item, code or GL…"></div>
+        </div>
+      </div>
+      <div class="filter-row" id="t1Filters">
+        <button class="fpill active" data-f="all">All<span class="ct" id="ct_all">0</span></button>
+        <button class="fpill" data-f="svc">Service<span class="ct" id="ct_svc">0</span></button>
+        <button class="fpill" data-f="both">Both<span class="ct" id="ct_both">0</span></button>
+        <button class="fpill" data-f="mapped">Mapped<span class="ct" id="ct_mapped">0</span></button>
+        <button class="fpill" data-f="unmapped">Unmapped<span class="ct" id="ct_unmapped">0</span></button>
+        <button class="fpill" data-f="active">Active<span class="ct" id="ct_active">0</span></button>
+        <button class="fpill" data-f="inactive">Inactive<span class="ct" id="ct_inactive">0</span></button>
+      </div>
+      <div class="tw">
+        <table class="t">
+          <thead><tr>
+            <th style="min-width:200px">Item Name</th>
+            <th>Code</th>
+            <th>Class</th>
+            <th>Unit</th>
+            <th>Sales GL</th>
+            <th>Linked Revenue Head</th>
+            <th style="text-align:center">Sync</th>
+            <th style="text-align:center">Status</th>
+            <th style="text-align:right;min-width:120px">Actions</th>
+          </tr></thead>
+          <tbody id="t1Body"></tbody>
+        </table>
+      </div>
+      <div class="table-footer"><span id="t1Footer">Showing 0 of 0 items</span><span class="muted">Source · Zoho Books · Service &amp; Both items only</span></div>
+    </div>
+  </div>
+
+  <!-- ===================== TAB 2: REVENUE HEAD / TYPES / ACTIVITIES ===================== -->
+  <div class="tab-page" id="p2">
+    <div class="l2a">
+      <div class="l2-tree">
+        <div class="l2-tree-h"><span class="t">Hierarchy</span><button class="add" onclick="openModal('mAddRH')" title="Add Revenue Head"><svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 5v14M5 12h14"/></svg></button></div>
+        <div class="l2-tree-body" id="l2aTree"></div>
+      </div>
+      <div class="l2-detail">
+        <div class="rh-summary" id="l2aSummary"></div>
+        <div class="table-card">
+          <div class="table-card-header">
+            <span class="table-card-title">Activities<span class="rec" id="l2aActCt">0</span></span>
+            <div class="tch-actions">
+              <button class="btn btn-secondary" onclick="openModal('mAddType')"><svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 5v14M5 12h14"/></svg>Add Type</button>
+              <button class="btn btn-primary" onclick="openModal('mAddActivity')"><svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 5v14M5 12h14"/></svg>Add Activity</button>
+            </div>
+          </div>
+          <div class="tw">
+            <table class="t">
+              <thead><tr><th>Activity Code</th><th>Activity Name</th><th>Type</th><th>Unit</th><th style="text-align:right">BOQ Rate</th><th>Sales GL</th><th style="text-align:center">Materials</th><th style="text-align:center">Status</th><th style="text-align:right">Actions</th></tr></thead>
+              <tbody id="l2aBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================== TAB 3: MATERIALS ===================== -->
+  <!-- ===================== TAB 3 REMOVED — Materials live on the existing Material Consumption page. Activity-side material templates moved to Tab 2 Activity rows. ===================== -->
+</div>
+
+<!-- ============ DRAWERS ============ -->
+<!-- Item detail drawer (Tab 1) -->
+<div class="drawer-overlay" id="drwItem"><div class="drawer-backdrop" onclick="closeDrawer('drwItem')"></div>
+  <aside class="detail-drawer">
+    <div class="drawer-header">
+      <div>
+        <div class="drawer-title" id="drwItemName">—</div>
+        <div class="drawer-sub" id="drwItemSub">—</div>
+      </div>
+      <button class="drawer-close" onclick="closeDrawer('drwItem')"><svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg></button>
+    </div>
+    <div class="drawer-body" id="drwItemBody"></div>
+    <div class="drawer-footer">
+      <button class="btn btn-ghost" onclick="closeDrawer('drwItem')">Close</button>
+      <button class="btn btn-secondary" id="drwItemMapBtn" onclick="openMapRH()"><svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg>Map Revenue Head</button>
+    </div>
+  </aside>
+</div>
+
+<!-- Material detail drawer removed — material master lives on the Material Consumption page -->
+
+<!-- ============ MODALS ============ -->
+<!-- Map Revenue Head modal -->
+<div class="modal-overlay" id="mMapRH">
+  <div class="modal">
+    <div class="modal-header"><span class="modal-title">Map Revenue Head</span><button class="row-act" onclick="closeModal('mMapRH')"><svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg></button></div>
+    <div class="modal-body">
+      <div class="zoho-banner"><svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3m0 4h.01M21 12c0 5-4 9-9 9s-9-4-9-9 4-9 9-9 9 4 9 9z"/></svg>Each Zoho Service Item can map to <b>only one</b> Revenue Head. Items shown as inactive in Zoho cannot be selected.</div>
+      <div class="field"><label>Zoho Service Item<span class="req">*</span></label>
+        <input type="text" id="mrhItem" readonly>
+        <span class="hint" id="mrhItemSub">—</span>
+      </div>
+      <div class="field" id="mrhRHField">
+        <label>Revenue Head<span class="req">*</span></label>
+        <select id="mrhRH" onchange="checkRHDuplicate()">
+          <option value="">— Select or create new —</option>
+        </select>
+        <span class="err" id="mrhErr">This Revenue Head is already mapped to another Item. Choose a different one.</span>
+        <span class="hint">Or create a new one from the Revenue Heads tab.</span>
+      </div>
+      <div class="field"><label>Auto-derived Sales GL</label>
+        <input type="text" id="mrhGL" readonly>
+        <span class="hint">Sourced from the Zoho Item — cannot be edited here.</span>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeModal('mMapRH')">Cancel</button>
+      <button class="btn btn-primary" onclick="confirmMapRH()">Save mapping</button>
+    </div>
+  </div>
+</div>
+
+<!-- Add Revenue Head modal -->
+<div class="modal-overlay" id="mAddRH">
+  <div class="modal">
+    <div class="modal-header"><span class="modal-title">Add Revenue Head</span><button class="row-act" onclick="closeModal('mAddRH')"><svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg></button></div>
+    <div class="modal-body">
+      <div class="field"><label>Revenue Head Name<span class="req">*</span></label><input type="text" id="arhName" placeholder="e.g. JIO UBR Services"></div>
+      <div class="field"><label>Linked Zoho Service Item<span class="req">*</span></label>
+        <select id="arhItem">
+          <option value="">— Select an active Service / Both item —</option>
+        </select>
+        <span class="hint">Inactive items aren't listed. Sales GL is auto-derived.</span>
+      </div>
+      <div class="field"><label>Auto-derived Sales GL</label><input type="text" id="arhGL" readonly></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeModal('mAddRH')">Cancel</button>
+      <button class="btn btn-primary" onclick="confirmAddRH()">Create</button>
+    </div>
+  </div>
+</div>
+
+<!-- Add Type modal -->
+<div class="modal-overlay" id="mAddType">
+  <div class="modal">
+    <div class="modal-header"><span class="modal-title">Add Type</span><button class="row-act" onclick="closeModal('mAddType')"><svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg></button></div>
+    <div class="modal-body">
+      <div class="field"><label>Revenue Head<span class="req">*</span></label><select id="atRH"></select></div>
+      <div class="field"><label>Type Name<span class="req">*</span></label><input type="text" id="atName" placeholder="e.g. Site Survey"></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeModal('mAddType')">Cancel</button>
+      <button class="btn btn-primary" onclick="confirmAddType()">Create</button>
+    </div>
+  </div>
+</div>
+
+<!-- Add Activity modal -->
+<div class="modal-overlay" id="mAddActivity">
+  <div class="modal">
+    <div class="modal-header"><span class="modal-title">Add Activity</span><button class="row-act" onclick="closeModal('mAddActivity')"><svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg></button></div>
+    <div class="modal-body">
+      <div class="field-row">
+        <div class="field"><label>Revenue Head<span class="req">*</span></label><select id="aaRH" onchange="aaPopulateTypes()"></select></div>
+        <div class="field"><label>Type<span class="req">*</span></label><select id="aaType"></select></div>
+      </div>
+      <div class="field"><label>Activity Name<span class="req">*</span></label><input type="text" id="aaName" placeholder="e.g. Fiber Cable Installation"></div>
+      <div class="field-row">
+        <div class="field"><label>Unit<span class="req">*</span></label>
+          <select id="aaUnit">
+            <option>Site</option><option>Metre</option><option>Hour</option><option>Day</option><option>Each</option>
+          </select>
+        </div>
+        <div class="field"><label>BOQ Rate (₹)<span class="req">*</span></label><input type="number" id="aaRate" placeholder="0"></div>
+      </div>
+      <div class="note-row"><svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 16v-4M12 8h.01M22 12c0 5.5-4.5 10-10 10S2 17.5 2 12 6.5 2 12 2s10 4.5 10 10z"/></svg>BOQ Rate belongs to the Project / Sales Order. It is <b>not</b> taken from the Zoho Item rate.</div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeModal('mAddActivity')">Cancel</button>
+      <button class="btn btn-primary" onclick="confirmAddActivity()">Create</button>
+    </div>
+  </div>
+</div>
+
+<!-- Link Activity → Materials modal (activity-centric: pick materials for this activity) -->
+<div class="modal-overlay" id="mLinkActMat">
+  <div class="modal" style="width:min(740px,96vw)">
+    <div class="modal-header">
+      <div>
+        <span class="modal-title">Standard materials for activity</span>
+        <div class="muted" style="font-size:12px;margin-top:2px" id="lmaSub">—</div>
+      </div>
+      <button class="row-act" onclick="closeModal('mLinkActMat')"><svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg></button>
+    </div>
+    <div class="modal-body">
+      <div class="zoho-banner"><svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3m0 4h.01M21 12c0 5-4 9-9 9s-9-4-9-9 4-9 9-9 9 4 9 9z"/></svg>This is a <b>suggested template</b> that pre-fills the task sign-off form. Field employees still enter <b>actual</b> consumption.</div>
+      <div class="field"><label>Activity</label><input type="text" id="lmaAct" readonly></div>
+      <div class="field"><label>Effective Date</label><input type="date" id="lmaDate"></div>
+      <div class="field"><label>Standard materials &amp; quantities</label>
+        <div class="lm-act-list" id="lmaList"></div>
+        <span class="hint">Set standard quantity, allowed variance (%) and whether each material is mandatory or optional.</span>
+      </div>
+      <div class="field"><label>Add material</label>
+        <div id="lmaAvail" style="display:flex;flex-wrap:wrap;gap:6px"></div>
+        <span class="hint">Only active Inventory / Both items from Zoho are listed. Service-only items cannot be consumed as material.</span>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeModal('mLinkActMat')">Cancel</button>
+      <button class="btn btn-primary" onclick="confirmLinkActMat()">Save template</button>
+    </div>
+  </div>
+</div>
+
+<!-- toast -->
+<div class="toast" id="toast"><svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg><span id="toastMsg">Saved</span></div>
+
+<script>
+/* ====================================================================
+   DUMMY DATA — mirrors the spec; one prod hook = replace this region.
+   ==================================================================== */
+var ZOHO_ITEMS=[
+  // SERVICE
+  {id:'Z-101',name:'JIO UBR Services',code:'SRV-JIO-UBR',cls:'svc',unit:'Site',salesGL:'Telecom Services Revenue',purGL:null,invGL:null,salesRate:1000,cost:null,hsn:'998313',tax:'GST 18%',trackInv:false,sync:'ok',lastSync:'11 Jun 26 · 11:14 PM',active:true,stock:null,warehouse:null},
+  {id:'Z-102',name:'Tower Erection Service',code:'SRV-TWR-ERC',cls:'svc',unit:'Site',salesGL:'Tower Services Revenue',purGL:null,invGL:null,salesRate:25000,cost:null,hsn:'998314',tax:'GST 18%',trackInv:false,sync:'ok',lastSync:'11 Jun 26 · 11:14 PM',active:true,stock:null,warehouse:null},
+  {id:'Z-103',name:'Network Configuration',code:'SRV-NET-CFG',cls:'svc',unit:'Hour',salesGL:'Network Services Revenue',purGL:null,invGL:null,salesRate:1500,cost:null,hsn:'998313',tax:'GST 18%',trackInv:false,sync:'ok',lastSync:'11 Jun 26 · 11:14 PM',active:true,stock:null,warehouse:null},
+  {id:'Z-104',name:'Preventive Maintenance',code:'SRV-PM-001',cls:'svc',unit:'Site',salesGL:'Maintenance Revenue',purGL:null,invGL:null,salesRate:3500,cost:null,hsn:'998313',tax:'GST 18%',trackInv:false,sync:'pending',lastSync:'09 Jun 26 · 02:18 PM',active:true,stock:null,warehouse:null},
+  {id:'Z-105',name:'Decommissioning (legacy)',code:'SRV-DECOM',cls:'svc',unit:'Site',salesGL:'Other Services Revenue',purGL:null,invGL:null,salesRate:8000,cost:null,hsn:'998313',tax:'GST 18%',trackInv:false,sync:'ok',lastSync:'01 Apr 26 · 05:20 PM',active:false,stock:null,warehouse:null},
+  // INVENTORY
+  {id:'Z-201',name:'CAT6 Cable',code:'MAT-CAT6-001',cls:'inv',unit:'Metre',salesGL:null,purGL:'Project Material Consumption',invGL:'Inventory Asset',salesRate:null,cost:40,hsn:'85444290',tax:'GST 18%',trackInv:true,sync:'ok',lastSync:'11 Jun 26 · 11:14 PM',active:true,stock:1250,warehouse:'Dallas-WH-01'},
+  {id:'Z-202',name:'RJ45 Connector',code:'MAT-RJ45-001',cls:'inv',unit:'Each',salesGL:null,purGL:'Project Material Consumption',invGL:'Inventory Asset',salesRate:null,cost:12,hsn:'85369090',tax:'GST 18%',trackInv:true,sync:'ok',lastSync:'11 Jun 26 · 11:14 PM',active:true,stock:340,warehouse:'Dallas-WH-01'},
+  {id:'Z-203',name:'Optical Fiber Cable 24F',code:'MAT-OFC-24F',cls:'inv',unit:'Metre',salesGL:null,purGL:'Project Material Consumption',invGL:'Inventory Asset',salesRate:null,cost:180,hsn:'85444290',tax:'GST 18%',trackInv:true,sync:'ok',lastSync:'11 Jun 26 · 11:14 PM',active:true,stock:80,warehouse:'Houston-WH-02'},
+  {id:'Z-204',name:'DG Battery 12V 150Ah',code:'MAT-BAT-150',cls:'inv',unit:'Each',salesGL:null,purGL:'Project Material Consumption',invGL:'Inventory Asset',salesRate:null,cost:14500,hsn:'85076000',tax:'GST 28%',trackInv:true,sync:'ok',lastSync:'11 Jun 26 · 11:14 PM',active:true,stock:12,warehouse:'Amritsar-WH-03'},
+  {id:'Z-205',name:'Cable Ties (Pack 100)',code:'MAT-TIE-100',cls:'inv',unit:'Pack',salesGL:null,purGL:'Project Material Consumption',invGL:'Inventory Asset',salesRate:null,cost:120,hsn:'39269099',tax:'GST 18%',trackInv:true,sync:'ok',lastSync:'11 Jun 26 · 11:14 PM',active:true,stock:610,warehouse:'Dallas-WH-01'},
+  {id:'Z-206',name:'Mounting Bracket (legacy)',code:'MAT-BR-OLD',cls:'inv',unit:'Each',salesGL:null,purGL:'Project Material Consumption',invGL:'Inventory Asset',salesRate:null,cost:340,hsn:'73269099',tax:'GST 18%',trackInv:true,sync:'ok',lastSync:'15 Mar 26 · 09:36 PM',active:false,stock:0,warehouse:'Dallas-WH-01'},
+  // BOTH
+  {id:'Z-301',name:'I&C Integration Kit + Service',code:'BTH-IC-001',cls:'both',unit:'Kit',salesGL:'Telecom Services Revenue',purGL:'Project Material Consumption',invGL:'Inventory Asset',salesRate:9500,cost:8200,hsn:'998313',tax:'GST 18%',trackInv:true,sync:'ok',lastSync:'11 Jun 26 · 11:14 PM',active:true,stock:24,warehouse:'Dallas-WH-01'}
+];
+
+/* Revenue Heads — Onaqt-owned. id maps to a Zoho Service/Both item id. */
+var REVENUE_HEADS=[
+  {id:'rh1',name:'JIO UBR Services',itemId:'Z-101',active:true}
+];
+
+/* Types — belong to a Revenue Head. */
+var TYPES=[
+  {id:'tp1',rhId:'rh1',name:'Site Survey'},
+  {id:'tp2',rhId:'rh1',name:'I&C Integration'}
+];
+
+/* Activities — belong to a Type. BOQ Rate is project-level (not from item rate). */
+var ACTIVITIES=[
+  {id:'ac1',typeId:'tp1',code:'ACT-SS-001',name:'Site Survey & Report Submission',unit:'Site',rate:1000,active:true},
+  {id:'ac2',typeId:'tp2',code:'ACT-IC-001',name:'Installation',unit:'Site',rate:10000,active:true},
+  {id:'ac3',typeId:'tp2',code:'ACT-IC-002',name:'Integration',unit:'Site',rate:6500,active:true},
+  {id:'ac4',typeId:'tp2',code:'ACT-IC-003',name:'ATP',unit:'Site',rate:2200,active:true},
+  {id:'ac5',typeId:'tp2',code:'ACT-IC-004',name:'Commissioning',unit:'Site',rate:3500,active:true}
+];
+
+/* Material → Activity mappings: standard quantity templates (suggested). */
+var MAT_MAPS=[
+  {matId:'Z-201',acId:'ac2',qty:20,unit:'Metre',variance:10,mandatory:true,effective:'2026-01-01'},
+  {matId:'Z-202',acId:'ac2',qty:4, unit:'Each', variance:25,mandatory:true,effective:'2026-01-01'},
+  {matId:'Z-205',acId:'ac2',qty:1, unit:'Pack', variance:50,mandatory:false,effective:'2026-01-01'}
+];
+
+/* ============ HELPERS ============ */
+function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;')}
+function fmtRs(n){if(n==null)return '—';return '₹'+Number(n).toLocaleString('en-IN')}
+function clsLabel(c){return c==='svc'?'Service':c==='inv'?'Inventory':'Both'}
+function itemById(id){return ZOHO_ITEMS.find(function(x){return x.id===id})}
+function rhById(id){return REVENUE_HEADS.find(function(x){return x.id===id})}
+function typeById(id){return TYPES.find(function(x){return x.id===id})}
+function rhByItemId(itemId){return REVENUE_HEADS.find(function(r){return r.itemId===itemId})}
+function activeServiceItems(){return ZOHO_ITEMS.filter(function(x){return (x.cls==='svc'||x.cls==='both')&&x.active})}
+function activeInventoryItems(){return ZOHO_ITEMS.filter(function(x){return (x.cls==='inv'||x.cls==='both')&&x.active})}
+function actsForType(typeId){return ACTIVITIES.filter(function(a){return a.typeId===typeId})}
+
+/* ============ TABS ============ */
+function setTab(n){
+  for(var i=1;i<=2;i++){
+    document.getElementById('tab'+i).classList.toggle('active',i===n);
+    document.getElementById('p'+i).classList.toggle('on',i===n);
+  }
+  if(n===1)renderT1();
+  if(n===2)renderT2All();
+}
+
+/* ============ TAB 1 ============ */
+var t1Filter='all';
+document.querySelectorAll('#t1Filters .fpill').forEach(function(b){b.addEventListener('click',function(){t1Filter=b.dataset.f;document.querySelectorAll('#t1Filters .fpill').forEach(function(x){x.classList.toggle('active',x===b)});renderT1()})});
+
+function renderT1(){
+  var q=(document.getElementById('t1Search').value||'').toLowerCase().trim();
+  // Page is scoped to Service + Both items only (Inventory-only items live on Material Consumption page).
+  var pool=ZOHO_ITEMS.filter(function(x){return x.cls==='svc'||x.cls==='both'});
+  var counts={all:0,svc:0,both:0,mapped:0,unmapped:0,active:0,inactive:0};
+  pool.forEach(function(x){counts.all++;counts[x.cls]++;
+    if(rhByItemId(x.id))counts.mapped++;else counts.unmapped++;
+    if(x.active)counts.active++;else counts.inactive++;});
+  Object.keys(counts).forEach(function(k){var el=document.getElementById('ct_'+k);if(el)el.textContent=counts[k]});
+  var list=pool.filter(function(x){
+    if(t1Filter==='svc'&&x.cls!=='svc')return false;
+    if(t1Filter==='both'&&x.cls!=='both')return false;
+    if(t1Filter==='mapped'&&!rhByItemId(x.id))return false;
+    if(t1Filter==='unmapped'&&rhByItemId(x.id))return false;
+    if(t1Filter==='active'&&!x.active)return false;
+    if(t1Filter==='inactive'&&x.active)return false;
+    if(q){
+      var hay=(x.name+' '+x.code+' '+(x.salesGL||'')).toLowerCase();
+      if(hay.indexOf(q)<0)return false;
+    }
+    return true;
+  });
+  document.getElementById('t1Rec').textContent=list.length+(list.length===pool.length?'':'/'+pool.length)+' records';
+  document.getElementById('t1ct').textContent=pool.length;
+  document.getElementById('t1Footer').textContent='Showing '+list.length+' of '+pool.length+' items';
+  document.getElementById('t1Body').innerHTML=list.map(function(x){
+    var rh=rhByItemId(x.id);
+    var linked=rh?'<span class="linked"><span class="linked-l">RH</span><span class="linked-r">'+esc(rh.name)+'</span></span>':'<span class="linked empty"><span class="linked-r">— Unmapped —</span></span>';
+    return '<tr onclick="openItem(\''+x.id+'\')">'+
+      '<td class="nm">'+esc(x.name)+(x.active?'':' <span class="pill muted">Inactive</span>')+'</td>'+
+      '<td><span class="code">'+esc(x.code)+'</span></td>'+
+      '<td><span class="cls '+x.cls+'">'+clsLabel(x.cls)+'</span></td>'+
+      '<td>'+esc(x.unit)+'</td>'+
+      '<td>'+(x.salesGL?'<span class="gl">'+esc(x.salesGL)+'</span>':'<span class="muted">—</span>')+'</td>'+
+      '<td>'+linked+'</td>'+
+      '<td style="text-align:center"><span class="pill '+(x.sync==='ok'?'ok':'warn')+'"><span class="dot"></span>'+(x.sync==='ok'?'Synced':'Pending')+'</span></td>'+
+      '<td style="text-align:center"><span class="pill '+(x.active?'info':'muted')+'"><span class="dot"></span>'+(x.active?'Active':'Inactive')+'</span></td>'+
+      '<td style="text-align:right" onclick="event.stopPropagation()"><div class="row-acts">'+
+        '<button class="row-act" title="View item" onclick="openItem(\''+x.id+'\')"><svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12z"/><circle cx="12" cy="12" r="3" stroke-linecap="round"/></svg></button>'+
+        (x.active?'<button class="row-act" title="'+(rh?'Edit mapping':'Map Revenue Head')+'" onclick="openItem(\''+x.id+'\');setTimeout(openMapRH,250)"><svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg></button>':'')+
+        '<button class="row-act more" title="More"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="5" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="12" cy="19" r="1.6"/></svg></button>'+
+      '</div></td></tr>';
+  }).join('')||'<tr><td colspan="9" style="text-align:center;color:var(--gray-400);padding:34px">No items match.</td></tr>';
+}
+
+/* ====== Item drawer ====== */
+var drwItemId=null;
+function openItem(id){drwItemId=id;var x=itemById(id);if(!x)return;
+  document.getElementById('drwItemName').textContent=x.name;
+  document.getElementById('drwItemSub').innerHTML='<span class="code">'+esc(x.code)+'</span> <span class="ro-tag"><svg viewBox=\'0 0 24 24\'><path stroke-linecap=\'round\' stroke-linejoin=\'round\' d=\'M12 11v6M12 7h.01M22 12c0 5.5-4.5 10-10 10S2 17.5 2 12 6.5 2 12 2s10 4.5 10 10z\'/></svg>From Zoho</span> <span class="muted" style="font-size:11px;margin-left:6px">Last synced '+esc(x.lastSync||'—')+'</span>';
+  var rh=rhByItemId(x.id);
+  // Rates section — present for svc, inv, both (depending on which rates apply)
+  var ratesHtml='<div class="drawer-section"><div class="drawer-section-title">Reference rates <span class="ro-tag"><svg viewBox=\'0 0 24 24\'><path stroke-linecap=\'round\' stroke-linejoin=\'round\' d=\'M5 13l4 4L19 7\'/></svg>From Zoho</span></div>'+
+    '<div class="drawer-meta-grid">'+
+    (x.salesRate!=null?'<div class="drawer-meta-item"><span class="drawer-meta-label">Default Sales Rate</span><span class="drawer-meta-value">'+fmtRs(x.salesRate)+' / '+esc(x.unit)+'</span></div>':'')+
+    (x.cost!=null?'<div class="drawer-meta-item"><span class="drawer-meta-label">Purchase / Cost Rate</span><span class="drawer-meta-value">'+fmtRs(x.cost)+' / '+esc(x.unit)+'</span></div>':'')+
+    '</div>'+
+    (x.cls!=='inv'?'<div class="note-row" style="margin:11px 0 0"><svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 16v-4M12 8h.01M22 12c0 5.5-4.5 10-10 10S2 17.5 2 12 6.5 2 12 2s10 4.5 10 10z"/></svg>Sales Rate is reference only. <b>BOQ rates are set per Project / Sales Order</b> in the Activities table.</div>':'')+
+  '</div>';
+  // Tax & Codes
+  var taxHtml='<div class="drawer-section"><div class="drawer-section-title">Tax &amp; codes <span class="ro-tag"><svg viewBox=\'0 0 24 24\'><path stroke-linecap=\'round\' stroke-linejoin=\'round\' d=\'M5 13l4 4L19 7\'/></svg>From Zoho</span></div>'+
+    '<div class="drawer-meta-grid">'+
+    '<div class="drawer-meta-item"><span class="drawer-meta-label">HSN / SAC</span><span class="drawer-meta-value code">'+esc(x.hsn||'—')+'</span></div>'+
+    '<div class="drawer-meta-item"><span class="drawer-meta-label">Tax</span><span class="drawer-meta-value">'+esc(x.tax||'—')+'</span></div>'+
+    '<div class="drawer-meta-item"><span class="drawer-meta-label">Track inventory</span><span class="drawer-meta-value">'+(x.trackInv?'<span class="pill info"><span class="dot"></span>Yes</span>':'<span class="pill muted"><span class="dot"></span>No</span>')+'</span></div>'+
+    '</div></div>';
+  var stockSec=(x.cls!=='svc')?(
+    '<div class="drawer-section"><div class="drawer-section-title">Warehouse stock</div>'+
+    '<div class="drawer-meta-grid">'+
+    '<div class="drawer-meta-item"><span class="drawer-meta-label">Stock</span><span class="drawer-meta-value primary">'+(x.stock!=null?Number(x.stock).toLocaleString('en-IN')+' '+esc(x.unit):'—')+'</span></div>'+
+    '<div class="drawer-meta-item"><span class="drawer-meta-label">Warehouse</span><span class="drawer-meta-value">'+esc(x.warehouse||'—')+'</span></div>'+
+    '</div></div>'
+  ):'';
+  var typesHtml='';
+  if(rh){
+    var ts=TYPES.filter(function(t){return t.rhId===rh.id});
+    typesHtml='<div class="drawer-section"><div class="drawer-section-title">Linked Types &amp; Activities <span class="ct">'+ts.length+' types</span></div>'+
+      (ts.length?ts.map(function(t){var acs=actsForType(t.id);
+        return '<div style="margin-bottom:11px"><div style="font-size:12.5px;font-weight:700;color:var(--gray-800);margin-bottom:5px">'+esc(t.name)+' <span class="muted" style="font-weight:500">· '+acs.length+' activit'+(acs.length===1?'y':'ies')+'</span></div>'+
+          '<div style="display:flex;flex-wrap:wrap;gap:4px">'+acs.map(function(a){return '<span class="hier-type-chip" style="font-size:11px">'+esc(a.name)+' · '+fmtRs(a.rate)+'</span>'}).join('')+'</div></div>';
+      }).join(''):'<span class="muted">No types yet.</span>')+
+    '</div>';
+  }
+  document.getElementById('drwItemBody').innerHTML=
+    '<div class="zoho-banner"><svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 11v6M12 7h.01M22 12c0 5.5-4.5 10-10 10S2 17.5 2 12 6.5 2 12 2s10 4.5 10 10z"/></svg>Zoho is the source of truth for this item and its GL accounts. Only the Onaqt mapping below is editable.</div>'+
+    '<div class="drawer-section"><div class="drawer-section-title">Item details</div>'+
+      '<div class="drawer-meta-grid">'+
+      '<div class="drawer-meta-item"><span class="drawer-meta-label">Item name</span><span class="drawer-meta-value primary">'+esc(x.name)+'</span></div>'+
+      '<div class="drawer-meta-item"><span class="drawer-meta-label">Item code / SKU</span><span class="drawer-meta-value code">'+esc(x.code)+'</span></div>'+
+      '<div class="drawer-meta-item"><span class="drawer-meta-label">Classification</span><span class="drawer-meta-value"><span class="cls '+x.cls+'">'+clsLabel(x.cls)+'</span></span></div>'+
+      '<div class="drawer-meta-item"><span class="drawer-meta-label">Unit</span><span class="drawer-meta-value">'+esc(x.unit)+'</span></div>'+
+      '<div class="drawer-meta-item"><span class="drawer-meta-label">Zoho Item ID <span class="ro-tag" style="margin-left:0"><svg viewBox=\'0 0 24 24\'><path stroke-linecap=\'round\' stroke-linejoin=\'round\' d=\'M5 13l4 4L19 7\'/></svg>Map key</span></span><span class="drawer-meta-value code">'+esc(x.id)+'</span></div>'+
+      '<div class="drawer-meta-item"><span class="drawer-meta-label">Status</span><span class="drawer-meta-value">'+(x.active?'<span class="pill info"><span class="dot"></span>Active</span>':'<span class="pill muted"><span class="dot"></span>Inactive</span>')+'</span></div>'+
+      '</div></div>'+
+    '<div class="drawer-section"><div class="drawer-section-title">GL accounts <span class="ro-tag"><svg viewBox=\'0 0 24 24\'><path stroke-linecap=\'round\' stroke-linejoin=\'round\' d=\'M5 13l4 4L19 7\'/></svg>From Zoho</span></div>'+
+      '<div class="drawer-meta-grid">'+
+      '<div class="drawer-meta-item"><span class="drawer-meta-label">Sales GL</span><span class="drawer-meta-value">'+(x.salesGL?esc(x.salesGL):'—')+'</span></div>'+
+      '<div class="drawer-meta-item"><span class="drawer-meta-label">Purchase / COGS GL</span><span class="drawer-meta-value">'+(x.purGL?esc(x.purGL):'—')+'</span></div>'+
+      '<div class="drawer-meta-item"><span class="drawer-meta-label">Inventory GL</span><span class="drawer-meta-value">'+(x.invGL?esc(x.invGL):'—')+'</span></div>'+
+      '</div></div>'+
+    ratesHtml+
+    taxHtml+
+    '<div class="drawer-section"><div class="drawer-section-title">Linked Revenue Head</div>'+
+      (rh?'<div class="drawer-meta-value primary" style="font-size:15px;margin-bottom:6px">'+esc(rh.name)+'</div><span class="pill ok"><span class="dot"></span>Mapped</span>':'<span class="muted">Not mapped. Use the button below to map this item to a Revenue Head.</span>')+
+    '</div>'+
+    typesHtml+stockSec;
+
+  // disable map button if inactive
+  var btn=document.getElementById('drwItemMapBtn');
+  btn.disabled=!x.active;btn.style.opacity=x.active?'1':'.4';btn.style.cursor=x.active?'pointer':'not-allowed';
+  btn.innerHTML=(rh?'<svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M11 4H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-4M18.5 2.5a2.121 2.121 0 113 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>Edit mapping':'<svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg>Map Revenue Head');
+  openDrawer('drwItem');
+}
+
+/* ====== Map RH modal ====== */
+function openMapRH(){var x=itemById(drwItemId);if(!x)return;
+  if(!x.active){toast('Inactive items cannot be mapped.','danger');return}
+  if(x.cls==='inv'){toast('Service-only mapping — pick a Service or Both item.','danger');return}
+  document.getElementById('mrhItem').value=x.name;
+  document.getElementById('mrhItemSub').textContent=x.code+' · '+clsLabel(x.cls)+' · Sales GL: '+(x.salesGL||'—');
+  document.getElementById('mrhGL').value=x.salesGL||'—';
+  // populate RH options excluding ones already mapped to other items
+  var sel=document.getElementById('mrhRH');
+  var existing=rhByItemId(x.id);
+  sel.innerHTML='<option value="">— Select or create new —</option>'+REVENUE_HEADS.map(function(r){
+    var disabled=(r.itemId&&r.itemId!==x.id);
+    return '<option value="'+r.id+'"'+(disabled?' disabled':'')+(existing&&existing.id===r.id?' selected':'')+'>'+esc(r.name)+(disabled?' (already mapped)':'')+'</option>';
+  }).join('')+'<option value="__new__">+ Create new Revenue Head…</option>';
+  document.getElementById('mrhRHField').classList.remove('has-err');
+  openModal('mMapRH');
+}
+function checkRHDuplicate(){
+  var sel=document.getElementById('mrhRH');var v=sel.value;
+  var field=document.getElementById('mrhRHField');
+  if(!v||v==='__new__'){field.classList.remove('has-err');return}
+  var rh=rhById(v); var x=itemById(drwItemId);
+  field.classList.toggle('has-err', !!(rh && rh.itemId && rh.itemId!==x.id));
+}
+function confirmMapRH(){
+  var x=itemById(drwItemId); var v=document.getElementById('mrhRH').value;
+  if(!v){toast('Pick a Revenue Head.','danger');return}
+  if(v==='__new__'){closeModal('mMapRH');setTimeout(function(){openModal('mAddRH');document.getElementById('arhItem').value=x.id;arhUpdateGL();},220);return}
+  var rh=rhById(v); if(rh.itemId && rh.itemId!==x.id){toast('Already mapped to another item.','danger');return}
+  // unset any prior mapping for this item
+  REVENUE_HEADS.forEach(function(r){if(r.itemId===x.id)r.itemId=null});
+  rh.itemId=x.id;
+  closeModal('mMapRH');openItem(x.id);renderT1();toast('Mapped to '+rh.name);
+}
+
+/* Add RH modal */
+function openAddRHFromOpenDrawer(){openModal('mAddRH')}
+document.getElementById('arhItem').addEventListener('change',arhUpdateGL);
+function arhUpdateGL(){var it=itemById(document.getElementById('arhItem').value);
+  document.getElementById('arhGL').value=it?(it.salesGL||'—'):''}
+function populateAddRHItems(){
+  var sel=document.getElementById('arhItem');
+  sel.innerHTML='<option value="">— Select an active Service / Both item —</option>'+activeServiceItems().filter(function(x){return !rhByItemId(x.id)}).map(function(x){return '<option value="'+x.id+'">'+esc(x.name)+' ('+esc(x.code)+')</option>'}).join('');
+}
+function confirmAddRH(){
+  var nm=document.getElementById('arhName').value.trim();
+  var itemId=document.getElementById('arhItem').value;
+  if(!nm){toast('Enter a name.','danger');return}
+  if(!itemId){toast('Pick a Zoho Service Item.','danger');return}
+  if(rhByItemId(itemId)){toast('This item is already linked to another Revenue Head.','danger');return}
+  var id='rh'+(REVENUE_HEADS.length+1);
+  REVENUE_HEADS.push({id:id,name:nm,itemId:itemId,active:true});
+  closeModal('mAddRH');renderT1();renderT2All();
+  document.getElementById('arhName').value='';document.getElementById('arhItem').value='';document.getElementById('arhGL').value='';
+  toast('Revenue Head created');
+}
+
+/* ============ TAB 2 (Layout A locked) ============ */
+var l2aSelRH='rh1', l2aSelType=null;
+function renderT2All(){
+  document.getElementById('t2ct').textContent=ACTIVITIES.length;
+  renderL2A();
+}
+
+/* invoice-readiness check per doc §5: customer mapped, project/SO mapped, RH has Zoho item, item active, Sales GL exists */
+function invoiceReadiness(rh){
+  var item=itemById(rh.itemId);
+  if(!item)return {ok:false,reason:'No Zoho Item mapped'};
+  if(!item.active)return {ok:false,reason:'Zoho Item is inactive'};
+  if(!item.salesGL)return {ok:false,reason:'Sales GL missing on Zoho Item'};
+  if(!rh.active)return {ok:false,reason:'Revenue Head is inactive'};
+  return {ok:true,reason:'All mappings valid'};
+}
+
+/* Layout A */
+function renderL2A(){
+  // tree
+  var tree=document.getElementById('l2aTree');
+  if(!REVENUE_HEADS.length){tree.innerHTML='<div class="muted" style="padding:14px;font-size:12px;text-align:center">No Revenue Heads yet.<br>Click + to add one.</div>';
+    document.getElementById('l2aSummary').innerHTML='';document.getElementById('l2aBody').innerHTML='';return}
+  tree.innerHTML=REVENUE_HEADS.map(function(r){
+    var ts=TYPES.filter(function(t){return t.rhId===r.id});
+    var totalActs=ts.reduce(function(s,t){return s+actsForType(t.id).length},0);
+    var ready=invoiceReadiness(r);
+    return '<div class="tree-node">'+
+      '<div class="tree-rh'+(l2aSelRH===r.id?' active':'')+'" onclick="l2aPickRH(\''+r.id+'\')">'+
+        '<svg class="caret" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="m6 9 6 6 6-6"/></svg>'+
+        '<svg class="ico" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M20 7H4M20 12H4M20 17H4"/></svg>'+
+        '<span>'+esc(r.name)+'</span>'+
+        (ready.ok?'<span class="tree-rdot" title="Ready to invoice" style="width:6px;height:6px;border-radius:50%;background:var(--success);margin-left:auto;flex-shrink:0"></span>':'<span class="tree-rdot" title="'+esc(ready.reason)+'" style="width:6px;height:6px;border-radius:50%;background:var(--warning);margin-left:auto;flex-shrink:0"></span>')+
+        '<span class="ct">'+totalActs+'</span>'+
+      '</div>'+
+      '<div class="tree-types">'+ts.map(function(t){return '<div class="tree-type'+(l2aSelRH===r.id&&l2aSelType===t.id?' active':'')+'" onclick="event.stopPropagation();l2aPickType(\''+r.id+'\',\''+t.id+'\')"><span class="dot"></span>'+esc(t.name)+'<span class="ct">'+actsForType(t.id).length+'</span></div>'}).join('')+'</div>'+
+    '</div>';
+  }).join('');
+  // summary + table
+  var rh=rhById(l2aSelRH);if(!rh){document.getElementById('l2aSummary').innerHTML='';document.getElementById('l2aBody').innerHTML='';return}
+  var item=itemById(rh.itemId);
+  var ready=invoiceReadiness(rh);
+  document.getElementById('l2aSummary').innerHTML=
+    '<div><div class="rh-name">'+esc(rh.name)+'</div><div class="muted" style="font-size:11.5px;margin-top:2px">Revenue Head</div></div>'+
+    '<div class="sep"></div>'+
+    '<div class="rh-meta"><span>Zoho Item</span><b>'+(item?esc(item.name):'<span class="pill warn">Not linked</span>')+'</b></div>'+
+    '<div class="sep"></div>'+
+    '<div class="rh-meta"><span>Sales GL <span class="ro-tag"><svg viewBox=\'0 0 24 24\'><path stroke-linecap=\'round\' stroke-linejoin=\'round\' d=\'M5 13l4 4L19 7\'/></svg>Zoho</span></span><b>'+(item&&item.salesGL?esc(item.salesGL):'—')+'</b></div>'+
+    '<div class="sep"></div>'+
+    '<div class="rh-meta"><span>Invoice readiness</span><b>'+(ready.ok?'<span class="pill ok"><span class="dot"></span>Ready to invoice</span>':'<span class="pill warn"><span class="dot"></span>'+esc(ready.reason)+'</span>')+'</b></div>'+
+    '<div class="rh-act">'+
+      '<button class="btn btn-secondary" onclick="openModal(\'mAddType\')"><svg viewBox=\'0 0 24 24\'><path stroke-linecap=\'round\' stroke-linejoin=\'round\' d=\'M12 5v14M5 12h14\'/></svg>Add Type</button>'+
+    '</div>';
+  // filter activities to selected RH (and Type if any)
+  var rows=ACTIVITIES.filter(function(a){var t=typeById(a.typeId);return t&&t.rhId===rh.id&&(!l2aSelType||a.typeId===l2aSelType)});
+  document.getElementById('l2aActCt').textContent=rows.length;
+  document.getElementById('l2aBody').innerHTML=rows.map(function(a){var t=typeById(a.typeId);
+    var mats=MAT_MAPS.filter(function(m){return m.acId===a.id});
+    var matsCell=mats.length
+      ? '<span class="linked-acts" onclick="event.stopPropagation();openLinkActMat(\''+a.id+'\')" style="cursor:pointer" title="Edit standard materials"><svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg>'+mats.length+' material'+(mats.length===1?'':'s')+'</span>'
+      : '<span class="linked empty" onclick="event.stopPropagation();openLinkActMat(\''+a.id+'\')" style="cursor:pointer" title="Add standard materials"><span class="linked-r">+ Add materials</span></span>';
+    return '<tr>'+
+      '<td><span class="code">'+esc(a.code)+'</span></td>'+
+      '<td class="nm">'+esc(a.name)+'</td>'+
+      '<td>'+esc(t.name)+'</td>'+
+      '<td>'+esc(a.unit)+'</td>'+
+      '<td style="text-align:right;font-weight:600">'+fmtRs(a.rate)+'</td>'+
+      '<td>'+(item&&item.salesGL?'<span class="gl">'+esc(item.salesGL)+'</span>':'—')+'</td>'+
+      '<td style="text-align:center">'+matsCell+'</td>'+
+      '<td style="text-align:center"><span class="pill '+(a.active?'ok':'muted')+'"><span class="dot"></span>'+(a.active?'Active':'Inactive')+'</span></td>'+
+      '<td style="text-align:right"><div class="row-acts">'+actDots()+'</div></td>'+
+    '</tr>';
+  }).join('')||'<tr><td colspan="9" style="text-align:center;color:var(--gray-400);padding:24px">No activities for this selection.</td></tr>';
+}
+function l2aPickRH(id){l2aSelRH=id;l2aSelType=null;renderL2A()}
+function l2aPickType(rh,t){l2aSelRH=rh;l2aSelType=t;renderL2A()}
+
+function actDots(){return '<button class="row-act" title="Edit"><svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M11 4H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-4M18.5 2.5a2.121 2.121 0 113 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button><button class="row-act more"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="5" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="12" cy="19" r="1.6"/></svg></button>'}
+
+/* Add Type/Activity */
+function populateAddTypeRH(){var sel=document.getElementById('atRH');sel.innerHTML=REVENUE_HEADS.map(function(r){return '<option value="'+r.id+'">'+esc(r.name)+'</option>'}).join('')}
+function populateAddActivityRH(){var sel=document.getElementById('aaRH');sel.innerHTML=REVENUE_HEADS.map(function(r){return '<option value="'+r.id+'">'+esc(r.name)+'</option>'}).join('');aaPopulateTypes()}
+function aaPopulateTypes(){var rhId=document.getElementById('aaRH').value;var sel=document.getElementById('aaType');var list=TYPES.filter(function(t){return t.rhId===rhId});sel.innerHTML=list.length?list.map(function(t){return '<option value="'+t.id+'">'+esc(t.name)+'</option>'}).join(''):'<option value="">— Add a Type first —</option>'}
+function confirmAddType(){
+  var rhId=document.getElementById('atRH').value;var nm=document.getElementById('atName').value.trim();
+  if(!nm){toast('Enter a Type name.','danger');return}
+  TYPES.push({id:'tp'+(TYPES.length+1),rhId:rhId,name:nm});
+  closeModal('mAddType');document.getElementById('atName').value='';renderT2All();toast('Type added');
+}
+function confirmAddActivity(){
+  var rhId=document.getElementById('aaRH').value;var tpId=document.getElementById('aaType').value;
+  var nm=document.getElementById('aaName').value.trim();var rate=Number(document.getElementById('aaRate').value);
+  if(!tpId){toast('Pick a Type (or add one first).','danger');return}
+  if(!nm){toast('Enter an Activity name.','danger');return}
+  if(!(rate>=0)){toast('Enter a BOQ rate.','danger');return}
+  var n=ACTIVITIES.length+1;
+  ACTIVITIES.push({id:'ac'+n,typeId:tpId,code:'ACT-'+String(n).padStart(3,'0'),name:nm,unit:document.getElementById('aaUnit').value,rate:rate,active:true});
+  closeModal('mAddActivity');document.getElementById('aaName').value='';document.getElementById('aaRate').value='';
+  renderT2All();toast('Activity added');
+}
+
+/* ============ ACTIVITY → STANDARD MATERIALS TEMPLATE ============ */
+/* Activity-centric mapping editor (inverse of the old material-side flow).
+   Each Activity can carry an N-material template; field employees enter ACTUAL
+   consumption at task sign-off — this template just pre-fills that form. */
+var lmaActId=null;
+var lmaDraft=[];
+function openLinkActMat(actId){lmaActId=actId;
+  var a=ACTIVITIES.find(function(z){return z.id===actId});if(!a)return;
+  var t=typeById(a.typeId);var rh=t?rhById(t.rhId):null;
+  document.getElementById('lmaAct').value=a.code+' · '+a.name;
+  document.getElementById('lmaSub').textContent=(t?t.name:'')+(rh?' · '+rh.name:'');
+  document.getElementById('lmaDate').value=new Date().toISOString().slice(0,10);
+  lmaDraft=MAT_MAPS.filter(function(m){return m.acId===actId}).map(function(m){return Object.assign({},m)});
+  renderLmaList();
+  openModal('mLinkActMat');
+}
+function renderLmaList(){
+  document.getElementById('lmaList').innerHTML=lmaDraft.length?lmaDraft.map(function(m,i){var mat=itemById(m.matId);if(!mat)return'';
+    return '<div class="lm-act-row">'+
+      '<div><div class="nm">'+esc(mat.name)+'</div><span class="muted" style="font-size:11px"><span class="code" style="font-size:10px">'+esc(mat.code)+'</span> · '+esc(mat.unit)+' · '+fmtRs(mat.cost)+' / unit</span></div>'+
+      '<input type="number" min="0" value="'+m.qty+'" oninput="lmaDraft['+i+'].qty=Number(this.value)" title="Standard qty">'+
+      '<select onchange="lmaDraft['+i+'].mandatory=this.value===\'m\'"><option value="m"'+(m.mandatory?' selected':'')+'>Mandatory</option><option value="o"'+(!m.mandatory?' selected':'')+'>Optional</option></select>'+
+      '<input type="number" min="0" value="'+m.variance+'" oninput="lmaDraft['+i+'].variance=Number(this.value)" placeholder="±%" title="Allowed variance %">'+
+      '<button class="rem" onclick="lmaDraft.splice('+i+',1);renderLmaList()" title="Remove"><svg viewBox="0 0 24 24" style="width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2.4"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg></button>'+
+    '</div>';
+  }).join(''):'<div style="text-align:center;color:var(--gray-400);font-size:12px;padding:16px">No standard materials yet. Pick from the list below to add a template.</div>';
+  // available materials = active Inventory / Both items not already in draft
+  var used=lmaDraft.map(function(m){return m.matId});
+  var pool=ZOHO_ITEMS.filter(function(x){return (x.cls==='inv'||x.cls==='both')&&x.active&&used.indexOf(x.id)<0});
+  document.getElementById('lmaAvail').innerHTML=pool.map(function(x){
+    return '<span class="hier-type-chip" onclick="lmaDraft.push({matId:\''+x.id+'\',acId:lmaActId,qty:1,unit:\''+esc(x.unit)+'\',variance:10,mandatory:false,effective:document.getElementById(\'lmaDate\').value});renderLmaList()" title="Add to template"><b>'+esc(x.name)+'</b><span class="ct">'+esc(x.unit)+'</span></span>';
+  }).join('')||'<span class="muted" style="font-size:11.5px">All eligible materials are already in this template.</span>';
+}
+function confirmLinkActMat(){
+  MAT_MAPS=MAT_MAPS.filter(function(m){return m.acId!==lmaActId}).concat(lmaDraft);
+  closeModal('mLinkActMat');renderL2A();toast('Material template saved');
+}
+
+/* ============ MODAL / DRAWER helpers ============ */
+function openDrawer(id){document.getElementById(id).classList.add('active')}
+function closeDrawer(id){document.getElementById(id).classList.remove('active')}
+function openModal(id){
+  // populate selectors that depend on live data
+  if(id==='mAddRH')populateAddRHItems();
+  if(id==='mAddType')populateAddTypeRH();
+  if(id==='mAddActivity')populateAddActivityRH();
+  document.getElementById(id).classList.add('active');
+}
+function closeModal(id){document.getElementById(id).classList.remove('active')}
+
+function toast(msg,kind){var t=document.getElementById('toast');document.getElementById('toastMsg').textContent=msg;
+  t.style.background=kind==='danger'?'var(--danger)':'var(--success)';
+  t.classList.add('on');setTimeout(function(){t.classList.remove('on')},2200);
+}
+function syncFromZoho(){toast('Sync queued — pulling items from Zoho…')}
+
+/* init */
+renderT1();renderT2All();
+</script>
+</body></html>

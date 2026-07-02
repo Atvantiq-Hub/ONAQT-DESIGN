@@ -6128,6 +6128,10 @@
         #page-po-approvals.page-section.active { display: flex; flex-direction: column; flex: 1; min-height: 0; overflow: hidden; }
         #page-wcc-details.page-section { display: none; }
         #page-wcc-details.page-section.active { display: flex; flex-direction: column; flex: 1; min-height: 0; overflow: hidden; }
+        #page-synced-data.page-section { display: none; }
+        #page-synced-data.page-section.active { display: flex; flex-direction: column; flex: 1; min-height: 0; overflow: hidden; }
+        #page-revenue-heads.page-section { display: none; }
+        #page-revenue-heads.page-section.active { display: flex; flex-direction: column; flex: 1; min-height: 0; overflow: hidden; }
         #page-po-approvals .control-bar { flex-shrink: 0; }
         #page-po-approvals .appr-tabs { display: flex; align-items: center; gap: 0; background: var(--white); border-radius: 12px 12px 0 0; padding: 0 12px; border: 1px solid var(--gray-100); border-bottom: none; flex-shrink: 0; box-shadow: 0 -1px 6px rgba(0,0,0,.02); }
         [data-dark="true"] #page-po-approvals .appr-tabs { background: #1e2130 !important; border-color: #2d3145 !important; }
@@ -15386,6 +15390,297 @@
   .span-3, .span-4, .span-6, .span-8, .span-12 { grid-column:span 1; }
 }
 
+/* ═══════════════════════════════════════════════════
+   EXECUTIVE SCORECARD — Layout 4
+   ═══════════════════════════════════════════════════ */
+
+/* Hero strip — dark bar with 4 KPI columns */
+.sc-hero {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  background: #0f2f28;
+  border-radius: 14px;
+  overflow: hidden;
+  margin-bottom: 12px;
+}
+.sc-hero-item {
+  padding: 18px 22px;
+  border-right: 1px solid rgba(255,255,255,0.07);
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.sc-hero-item:last-child { border-right: none; }
+.sc-hero-label {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: #5fa890;
+  font-weight: 600;
+  margin-bottom: 2px;
+}
+.sc-hero-value {
+  font-family: 'Fraunces', serif;
+  font-size: 30px;
+  font-weight: 700;
+  color: #ffffff;
+  letter-spacing: -0.5px;
+  line-height: 1.1;
+}
+.sc-hero-meta {
+  font-size: 11px;
+  color: #7ab8a4;
+  margin-top: 1px;
+}
+.sc-hero-delta-pos { color: #3dd68c; font-size: 11px; font-weight: 500; margin-top: 1px; }
+.sc-hero-delta-warn { color: #fbbf24; font-size: 11px; font-weight: 500; margin-top: 1px; }
+.sc-hero-delta-neg { color: #f87171; font-size: 11px; font-weight: 500; margin-top: 1px; }
+.sc-sparkline {
+  display: block;
+  margin-top: 10px;
+  opacity: 0.85;
+}
+@media (max-width:900px) {
+  .sc-hero { grid-template-columns: repeat(2,1fr); }
+  .sc-hero-item { border-bottom: 1px solid rgba(255,255,255,0.07); }
+}
+
+/* Compact alert ticker */
+.sc-alert-ticker {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+}
+.sc-alert-ticker-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--muted, #6b7280);
+  white-space: nowrap;
+}
+.sc-alert-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  font-weight: 500;
+  padding: 4px 10px;
+  border-radius: 20px;
+  cursor: pointer;
+  border: none;
+  background: none;
+  transition: opacity 0.15s;
+}
+.sc-alert-chip:hover { opacity: 0.8; }
+.sc-alert-chip.red { background: #fef2f2; color: #dc2626; }
+.sc-alert-chip.amber { background: #fffbeb; color: #b45309; }
+
+/* 3-column body grid */
+.sc-body {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+@media (max-width: 1000px) {
+  .sc-body { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 640px) {
+  .sc-body { grid-template-columns: 1fr; }
+}
+
+/* Card shell used across all sc sections */
+.sc-card {
+  background: var(--card-bg, #fff);
+  border: 1px solid var(--border, #e5e7eb);
+  border-radius: 14px;
+  padding: 16px;
+}
+[data-dark="true"] .sc-card { background: #1e2130; border-color: #2d3145; }
+.sc-card-title {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text, #1a1a1a);
+  letter-spacing: -0.01em;
+  margin-bottom: 12px;
+}
+.sc-card-sub {
+  font-size: 10px;
+  color: var(--muted, #6b7280);
+  font-weight: 400;
+  margin-left: 4px;
+}
+
+/* Site heat matrix */
+.sc-heat-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 6px;
+  margin-bottom: 10px;
+}
+.sc-heat-tile {
+  border-radius: 8px;
+  padding: 6px 4px;
+  text-align: center;
+  cursor: pointer;
+  transition: transform 0.12s, box-shadow 0.12s;
+  user-select: none;
+}
+.sc-heat-tile:hover { transform: scale(1.05); box-shadow: 0 4px 12px rgba(0,0,0,0.12); }
+.sc-heat-tile-name {
+  font-size: 8px;
+  font-weight: 600;
+  opacity: 0.85;
+  display: block;
+  margin-bottom: 2px;
+  letter-spacing: 0.01em;
+}
+.sc-heat-tile-val {
+  font-size: 11px;
+  font-weight: 700;
+  display: block;
+}
+.sc-heat-tile.g  { background: #059669; color: #fff; }
+.sc-heat-tile.a  { background: #d97706; color: #fff; }
+.sc-heat-tile.r  { background: #dc2626; color: #fff; }
+.sc-heat-tile.x  { background: #6b7280; color: #fff; }
+[data-dark="true"] .sc-heat-tile.g { background: #065f46; }
+[data-dark="true"] .sc-heat-tile.a { background: #92400e; }
+[data-dark="true"] .sc-heat-tile.r { background: #991b1b; }
+.sc-heat-legend {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 2px;
+}
+.sc-heat-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 10px;
+  color: var(--muted, #6b7280);
+}
+.sc-heat-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  display: inline-block;
+  flex-shrink: 0;
+}
+
+/* WCC Pipeline bars */
+.sc-pipeline-row {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.sc-pipeline-item {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+.sc-pipeline-label-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.sc-pipeline-stage { font-size: 11px; color: var(--text, #1a1a1a); }
+.sc-pipeline-count { font-size: 12px; font-weight: 700; color: var(--text, #1a1a1a); }
+.sc-pipeline-track {
+  height: 8px;
+  background: var(--gray-100, #f1f5f4);
+  border-radius: 4px;
+  overflow: hidden;
+}
+[data-dark="true"] .sc-pipeline-track { background: #2d3145; }
+.sc-pipeline-fill {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 0.4s ease;
+}
+.sc-pipeline-stuck {
+  font-size: 10px;
+  color: #dc2626;
+  background: #fef2f2;
+  padding: 3px 8px;
+  border-radius: 6px;
+  margin-top: 6px;
+  font-weight: 500;
+}
+
+/* Action required list */
+.sc-action-list {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.sc-action-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 9px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: opacity 0.15s;
+}
+.sc-action-row:hover { opacity: 0.8; }
+.sc-action-row.red   { background: #fef2f2; }
+.sc-action-row.amber { background: #fffbeb; }
+.sc-action-row.green { background: #f0fdf4; }
+.sc-action-row-label { font-size: 11px; color: var(--text, #1a1a1a); }
+.sc-action-row-count { font-size: 14px; font-weight: 700; }
+.sc-action-row.red   .sc-action-row-count { color: #dc2626; }
+.sc-action-row.amber .sc-action-row-count { color: #b45309; }
+.sc-action-row.green .sc-action-row-count { color: #059669; }
+
+/* Bottom row: work done + income vs expense + workforce */
+.sc-bottom {
+  display: grid;
+  grid-template-columns: 2fr 1.2fr 1fr;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+@media (max-width: 1000px) {
+  .sc-bottom { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 640px) {
+  .sc-bottom { grid-template-columns: 1fr; }
+}
+.sc-chart-wrap {
+  width: 100%;
+  overflow: hidden;
+}
+.sc-kpi-strip {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 8px;
+}
+.sc-kpi-pill {
+  font-size: 11px;
+  color: var(--muted, #6b7280);
+}
+.sc-kpi-pill b { color: var(--text, #1a1a1a); font-weight: 700; }
+
+/* Workforce bar mini-list */
+.sc-wf-list { display: flex; flex-direction: column; gap: 6px; }
+.sc-wf-row { display: flex; align-items: center; gap: 6px; }
+.sc-wf-name { font-size: 10px; color: var(--muted, #6b7280); width: 56px; flex-shrink: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.sc-wf-bar-wrap { flex: 1; height: 6px; background: var(--gray-100, #f1f5f4); border-radius: 3px; overflow: hidden; }
+[data-dark="true"] .sc-wf-bar-wrap { background: #2d3145; }
+.sc-wf-bar-fill { height: 100%; border-radius: 3px; background: #1d9e75; }
+.sc-wf-count { font-size: 10px; color: var(--muted, #6b7280); width: 26px; text-align: right; flex-shrink: 0; }
+
+/* AP aging bars */
+.sc-aging-list { display: flex; flex-direction: column; gap: 7px; }
+.sc-aging-row { display: flex; flex-direction: column; gap: 2px; }
+.sc-aging-labels { display: flex; justify-content: space-between; }
+.sc-aging-label { font-size: 10px; color: var(--muted, #6b7280); }
+.sc-aging-val { font-size: 10px; font-weight: 600; color: var(--text, #1a1a1a); }
+.sc-aging-track { height: 6px; background: var(--gray-100, #f1f5f4); border-radius: 3px; overflow: hidden; }
+[data-dark="true"] .sc-aging-track { background: #2d3145; }
+.sc-aging-fill { height: 100%; border-radius: 3px; }
+
 /* === Big Number Widget === */
 .v10-big-number {
   font-size:30px;
@@ -16726,9 +17021,9 @@
                     <button class="nav-toggle" onclick="toggleNavItem(this)">
                         <div class="nav-link-content">
                             <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4"/>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
                             </svg>
-                            Mirrored from Finance
+                            Synced Data
                         </div>
                         <svg class="nav-toggle-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
@@ -16737,6 +17032,7 @@
                     <div class="nav-submenu">
                         <a href="#" class="nav-submenu-link" onclick="showPage('client','Customers');return false;">Customers</a>
                         <a href="#" class="nav-submenu-link" onclick="showPage('revenue-heads','Revenue Heads');return false;">Revenue Heads</a>
+                        <a href="#" class="nav-submenu-link" onclick="showPage('synced-data','Synced Data');return false;">Zoho Mapping (Items &amp; GL)</a>
                     </div>
                 </div>
 
@@ -17849,7 +18145,371 @@
       </div>
     </div>
 
+    <!-- ═══════════════════════════════════════════════════════════
+         EXECUTIVE SCORECARD — Layout 4
+         Shown for 'exec' role; hidden for PM / Finance / Ops / VM
+         ═══════════════════════════════════════════════════════════ -->
+    <div id="v10Scorecard">
+
+      <!-- HERO STRIP: 4 big KPI numbers with sparklines -->
+      <div class="sc-hero">
+
+        <div class="sc-hero-item">
+          <div class="sc-hero-label">Total portfolio value</div>
+          <div class="sc-hero-value">₹6.25Cr</div>
+          <div class="sc-hero-delta-pos">↑ 8.2% above plan</div>
+          <svg class="sc-sparkline" viewBox="0 0 120 28" width="120" height="28">
+            <polyline points="0,22 20,18 40,13 60,16 80,9 100,11 120,7"
+              fill="none" stroke="#3dd68c" stroke-width="1.8" stroke-linejoin="round"/>
+            <circle cx="120" cy="7" r="3" fill="#3dd68c"/>
+          </svg>
+        </div>
+
+        <div class="sc-hero-item">
+          <div class="sc-hero-label">Live workforce</div>
+          <div class="sc-hero-value">1,247</div>
+          <div class="sc-hero-delta-pos">96.1% attendance today</div>
+          <svg class="sc-sparkline" viewBox="0 0 120 28" width="120" height="28">
+            <polyline points="0,20 20,17 40,13 60,18 80,14 100,12 120,10"
+              fill="none" stroke="#3dd68c" stroke-width="1.8" stroke-linejoin="round"/>
+            <circle cx="120" cy="10" r="3" fill="#3dd68c"/>
+          </svg>
+        </div>
+
+        <div class="sc-hero-item">
+          <div class="sc-hero-label">Net income (MTD)</div>
+          <div class="sc-hero-value">₹61L</div>
+          <div class="sc-hero-delta-pos">₹3.06Cr in · ₹2.45Cr out</div>
+          <svg class="sc-sparkline" viewBox="0 0 120 28" width="120" height="28">
+            <polyline points="0,24 20,21 40,17 60,15 80,12 100,11 120,8"
+              fill="none" stroke="#3dd68c" stroke-width="1.8" stroke-linejoin="round"/>
+            <circle cx="120" cy="8" r="3" fill="#3dd68c"/>
+          </svg>
+        </div>
+
+        <div class="sc-hero-item">
+          <div class="sc-hero-label">Work done vs plan</div>
+          <div class="sc-hero-value">88%</div>
+          <div class="sc-hero-delta-warn">SPI 0.87 · below 0.90 threshold</div>
+          <svg class="sc-sparkline" viewBox="0 0 120 28" width="120" height="28">
+            <polyline points="0,12 20,14 40,10 60,16 80,13 100,15 120,13"
+              fill="none" stroke="#fbbf24" stroke-width="1.8" stroke-linejoin="round"/>
+            <circle cx="120" cy="13" r="3" fill="#fbbf24"/>
+          </svg>
+        </div>
+
+      </div><!-- /sc-hero -->
+
+      <!-- ALERT TICKER: compact chips -->
+      <div class="sc-alert-ticker">
+        <span class="sc-alert-ticker-label">Today's alerts</span>
+        <button class="sc-alert-chip red" onclick="showPage('wcc','Work Completion Certificate')">
+          🔴 6 WCCs stuck &gt;15d at L2
+        </button>
+        <button class="sc-alert-chip amber" onclick="showPage('plan-vs-actual','Plan vs Actual')">
+          ⚠ 3 projects cost &gt; work done
+        </button>
+        <button class="sc-alert-chip amber" onclick="showPage('attendance','Attendance')">
+          ⚠ 9 attendance NA today
+        </button>
+        <button class="sc-alert-chip red" onclick="showPage('expense-summary','Expense Summary')">
+          🔴 5 claims aging ₹1.8L
+        </button>
+      </div>
+
+      <!-- BODY: 3-column grid — heat matrix / WCC pipeline / actions -->
+      <div class="sc-body">
+
+        <!-- Site health heat matrix -->
+        <div class="sc-card">
+          <div class="sc-card-title">
+            Site health matrix
+            <span class="sc-card-sub">13 active sites · RAG status</span>
+          </div>
+          <div class="sc-heat-grid">
+            <div class="sc-heat-tile g" title="Site-A Steelplant · 88% complete" onclick="showPage('projects','Projects')">
+              <span class="sc-heat-tile-name">Steelplant</span>
+              <span class="sc-heat-tile-val">88%</span>
+            </div>
+            <div class="sc-heat-tile g" title="Site-B Refinery · 91% complete" onclick="showPage('projects','Projects')">
+              <span class="sc-heat-tile-name">Refinery</span>
+              <span class="sc-heat-tile-val">91%</span>
+            </div>
+            <div class="sc-heat-tile a" title="Site-C Highway · 62% — at risk" onclick="showPage('projects','Projects')">
+              <span class="sc-heat-tile-name">Highway</span>
+              <span class="sc-heat-tile-val">62%</span>
+            </div>
+            <div class="sc-heat-tile r" title="Site-D Metro · 34% — critical" onclick="showPage('projects','Projects')">
+              <span class="sc-heat-tile-name">Metro</span>
+              <span class="sc-heat-tile-val">34%</span>
+            </div>
+            <div class="sc-heat-tile g" title="Site-E Bridge · 79% complete" onclick="showPage('projects','Projects')">
+              <span class="sc-heat-tile-name">Bridge</span>
+              <span class="sc-heat-tile-val">79%</span>
+            </div>
+            <div class="sc-heat-tile g" title="Site-F Mall · 83% complete" onclick="showPage('projects','Projects')">
+              <span class="sc-heat-tile-name">Mall</span>
+              <span class="sc-heat-tile-val">83%</span>
+            </div>
+            <div class="sc-heat-tile a" title="Site-G Power · 58% — at risk" onclick="showPage('projects','Projects')">
+              <span class="sc-heat-tile-name">Power</span>
+              <span class="sc-heat-tile-val">58%</span>
+            </div>
+            <div class="sc-heat-tile g" title="Site-H Port · 74% complete" onclick="showPage('projects','Projects')">
+              <span class="sc-heat-tile-name">Port</span>
+              <span class="sc-heat-tile-val">74%</span>
+            </div>
+            <div class="sc-heat-tile x" title="Site-I Airport · On hold" onclick="showPage('projects','Projects')">
+              <span class="sc-heat-tile-name">Airport</span>
+              <span class="sc-heat-tile-val">Hold</span>
+            </div>
+            <div class="sc-heat-tile a" title="Site-J Tunnel · 66% — at risk" onclick="showPage('projects','Projects')">
+              <span class="sc-heat-tile-name">Tunnel</span>
+              <span class="sc-heat-tile-val">66%</span>
+            </div>
+            <div class="sc-heat-tile g" title="Site-K Stadium · 80% complete" onclick="showPage('projects','Projects')">
+              <span class="sc-heat-tile-name">Stadium</span>
+              <span class="sc-heat-tile-val">80%</span>
+            </div>
+            <div class="sc-heat-tile r" title="Site-L Dam · 41% — critical" onclick="showPage('projects','Projects')">
+              <span class="sc-heat-tile-name">Dam</span>
+              <span class="sc-heat-tile-val">41%</span>
+            </div>
+            <div class="sc-heat-tile g" title="Site-M Warehouse · 76% complete" onclick="showPage('projects','Projects')">
+              <span class="sc-heat-tile-name">Warehse</span>
+              <span class="sc-heat-tile-val">76%</span>
+            </div>
+          </div>
+          <div class="sc-heat-legend">
+            <div class="sc-heat-legend-item"><span class="sc-heat-dot" style="background:#059669"></span>On track (7)</div>
+            <div class="sc-heat-legend-item"><span class="sc-heat-dot" style="background:#d97706"></span>At risk (3)</div>
+            <div class="sc-heat-legend-item"><span class="sc-heat-dot" style="background:#dc2626"></span>Critical (2)</div>
+            <div class="sc-heat-legend-item"><span class="sc-heat-dot" style="background:#6b7280"></span>Hold (1)</div>
+          </div>
+        </div>
+
+        <!-- WCC sign-off pipeline -->
+        <div class="sc-card">
+          <div class="sc-card-title">WCC sign-off pipeline</div>
+          <div class="sc-pipeline-row">
+            <div class="sc-pipeline-item">
+              <div class="sc-pipeline-label-row">
+                <span class="sc-pipeline-stage">Draft</span>
+                <span class="sc-pipeline-count">12</span>
+              </div>
+              <div class="sc-pipeline-track">
+                <div class="sc-pipeline-fill" style="width:36%;background:#b5d4f4;"></div>
+              </div>
+            </div>
+            <div class="sc-pipeline-item">
+              <div class="sc-pipeline-label-row">
+                <span class="sc-pipeline-stage">L1 Review</span>
+                <span class="sc-pipeline-count">8</span>
+              </div>
+              <div class="sc-pipeline-track">
+                <div class="sc-pipeline-fill" style="width:24%;background:#185fa5;"></div>
+              </div>
+            </div>
+            <div class="sc-pipeline-item">
+              <div class="sc-pipeline-label-row">
+                <span class="sc-pipeline-stage">L1 Approved</span>
+                <span class="sc-pipeline-count">14</span>
+              </div>
+              <div class="sc-pipeline-track">
+                <div class="sc-pipeline-fill" style="width:42%;background:#3b82f6;"></div>
+              </div>
+            </div>
+            <div class="sc-pipeline-item">
+              <div class="sc-pipeline-label-row">
+                <span class="sc-pipeline-stage">L2 Review</span>
+                <span class="sc-pipeline-count" style="color:#dc2626;">6 ⚠</span>
+              </div>
+              <div class="sc-pipeline-track" style="background:#fee2e2;">
+                <div class="sc-pipeline-fill" style="width:18%;background:#dc2626;"></div>
+              </div>
+            </div>
+            <div class="sc-pipeline-item">
+              <div class="sc-pipeline-label-row">
+                <span class="sc-pipeline-stage">Billed &amp; Closed</span>
+                <span class="sc-pipeline-count" style="color:#059669;">42</span>
+              </div>
+              <div class="sc-pipeline-track" style="background:#f0fdf4;">
+                <div class="sc-pipeline-fill" style="width:100%;background:#6ee7b7;"></div>
+              </div>
+            </div>
+          </div>
+          <div class="sc-pipeline-stuck" onclick="showPage('wcc','Work Completion Certificate')" style="cursor:pointer;">
+            6 WCCs stuck &gt;15 days at L2 →
+          </div>
+        </div>
+
+        <!-- Action required -->
+        <div class="sc-card">
+          <div class="sc-card-title">Action required</div>
+          <div class="sc-action-list">
+            <div class="sc-action-row red" onclick="showPage('wcc','Work Completion Certificate')" role="button" tabindex="0">
+              <span class="sc-action-row-label">WCC aging</span>
+              <span class="sc-action-row-count">6</span>
+            </div>
+            <div class="sc-action-row amber" onclick="showPage('attendance','Attendance')" role="button" tabindex="0">
+              <span class="sc-action-row-label">Attendance NA</span>
+              <span class="sc-action-row-count">9</span>
+            </div>
+            <div class="sc-action-row amber" onclick="showPage('approvals-pending','Approvals Pending')" role="button" tabindex="0">
+              <span class="sc-action-row-label">Attendance approvals</span>
+              <span class="sc-action-row-count">4</span>
+            </div>
+            <div class="sc-action-row red" onclick="showPage('expense-summary','Expense Summary')" role="button" tabindex="0">
+              <span class="sc-action-row-label">Claims ₹1.8L</span>
+              <span class="sc-action-row-count">5</span>
+            </div>
+            <div class="sc-action-row amber" onclick="showPage('approvals-pending','Approvals Pending')" role="button" tabindex="0">
+              <span class="sc-action-row-label">Vendor approvals</span>
+              <span class="sc-action-row-count">3</span>
+            </div>
+            <div class="sc-action-row green" onclick="showPage('work-done','Work Done')" role="button" tabindex="0">
+              <span class="sc-action-row-label">Work done to submit</span>
+              <span class="sc-action-row-count">2</span>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /sc-body -->
+
+      <!-- BOTTOM ROW: work done trend + income vs expense + workforce -->
+      <div class="sc-bottom">
+
+        <!-- Work Done trend -->
+        <div class="sc-card">
+          <div class="sc-card-title">
+            Work done — planned vs actual
+            <span class="sc-card-sub">30-day trend · 88% achievement</span>
+          </div>
+          <div class="sc-chart-wrap">
+            <svg viewBox="0 0 400 100" width="100%" style="display:block;">
+              <!-- Grid lines -->
+              <line x1="0" y1="20" x2="400" y2="20" stroke="#f1f5f4" stroke-width="1"/>
+              <line x1="0" y1="45" x2="400" y2="45" stroke="#f1f5f4" stroke-width="1"/>
+              <line x1="0" y1="70" x2="400" y2="70" stroke="#f1f5f4" stroke-width="1"/>
+              <line x1="0" y1="90" x2="400" y2="90" stroke="#e5e7eb" stroke-width="1"/>
+              <!-- Planned area fill -->
+              <polyline points="0,88 50,78 100,65 150,52 200,38 250,28 300,20 350,14 400,10"
+                fill="none" stroke="#9ca3af" stroke-width="2" stroke-dasharray="5,3" stroke-linejoin="round"/>
+              <!-- Actual line -->
+              <polyline points="0,88 50,80 100,70 150,58 200,47 250,40 300,35 350,30"
+                fill="none" stroke="#0f4a42" stroke-width="2.5" stroke-linejoin="round"/>
+              <circle cx="350" cy="30" r="4" fill="#0f4a42"/>
+              <!-- X axis labels -->
+              <text x="0"   y="100" fill="#9ca3af" font-size="8" text-anchor="middle">W1</text>
+              <text x="50"  y="100" fill="#9ca3af" font-size="8" text-anchor="middle">W2</text>
+              <text x="100" y="100" fill="#9ca3af" font-size="8" text-anchor="middle">W3</text>
+              <text x="150" y="100" fill="#9ca3af" font-size="8" text-anchor="middle">W4</text>
+              <text x="200" y="100" fill="#9ca3af" font-size="8" text-anchor="middle">W5</text>
+              <text x="250" y="100" fill="#9ca3af" font-size="8" text-anchor="middle">W6</text>
+              <text x="300" y="100" fill="#9ca3af" font-size="8" text-anchor="middle">W7</text>
+              <text x="350" y="100" fill="#9ca3af" font-size="8" text-anchor="middle">W8</text>
+            </svg>
+          </div>
+          <div class="sc-kpi-strip">
+            <span class="sc-kpi-pill">Planned <b>1,610 units</b></span>
+            <span class="sc-kpi-pill">Actual <b>1,420 units</b></span>
+            <span class="sc-kpi-pill" style="margin-left:auto;"><b style="color:#0f4a42;">88%</b> of plan</span>
+          </div>
+        </div>
+
+        <!-- Income vs Expense mini -->
+        <div class="sc-card">
+          <div class="sc-card-title">
+            AP aging buckets
+            <span class="sc-card-sub">₹72.4L outstanding</span>
+          </div>
+          <div class="sc-aging-list">
+            <div class="sc-aging-row">
+              <div class="sc-aging-labels">
+                <span class="sc-aging-label" style="color:#059669;">Current</span>
+                <span class="sc-aging-val">₹28L</span>
+              </div>
+              <div class="sc-aging-track"><div class="sc-aging-fill" style="width:77%;background:#059669;"></div></div>
+            </div>
+            <div class="sc-aging-row">
+              <div class="sc-aging-labels">
+                <span class="sc-aging-label" style="color:#d97706;">1–30 days</span>
+                <span class="sc-aging-val">₹22L</span>
+              </div>
+              <div class="sc-aging-track"><div class="sc-aging-fill" style="width:61%;background:#d97706;"></div></div>
+            </div>
+            <div class="sc-aging-row">
+              <div class="sc-aging-labels">
+                <span class="sc-aging-label" style="color:#f59e0b;">31–60 days</span>
+                <span class="sc-aging-val">₹12L</span>
+              </div>
+              <div class="sc-aging-track"><div class="sc-aging-fill" style="width:33%;background:#f59e0b;"></div></div>
+            </div>
+            <div class="sc-aging-row">
+              <div class="sc-aging-labels">
+                <span class="sc-aging-label" style="color:#dc2626;">61–90 days</span>
+                <span class="sc-aging-val">₹7L</span>
+              </div>
+              <div class="sc-aging-track"><div class="sc-aging-fill" style="width:19%;background:#dc2626;"></div></div>
+            </div>
+            <div class="sc-aging-row">
+              <div class="sc-aging-labels">
+                <span class="sc-aging-label" style="color:#991b1b;">90+ days</span>
+                <span class="sc-aging-val">₹3.4L</span>
+              </div>
+              <div class="sc-aging-track"><div class="sc-aging-fill" style="width:9%;background:#991b1b;"></div></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Workforce by site -->
+        <div class="sc-card">
+          <div class="sc-card-title">
+            Workforce by site
+            <span class="sc-card-sub">1,247 live</span>
+          </div>
+          <div style="font-size:26px;font-weight:700;color:#0f4a42;margin-bottom:2px;">1,247</div>
+          <div style="font-size:11px;color:#059669;margin-bottom:10px;">● Live · 96.1% present</div>
+          <div class="sc-wf-list">
+            <div class="sc-wf-row">
+              <span class="sc-wf-name">Steelplant</span>
+              <div class="sc-wf-bar-wrap"><div class="sc-wf-bar-fill" style="width:75%;"></div></div>
+              <span class="sc-wf-count">312</span>
+            </div>
+            <div class="sc-wf-row">
+              <span class="sc-wf-name">Refinery</span>
+              <div class="sc-wf-bar-wrap"><div class="sc-wf-bar-fill" style="width:68%;"></div></div>
+              <span class="sc-wf-count">284</span>
+            </div>
+            <div class="sc-wf-row">
+              <span class="sc-wf-name">Metro</span>
+              <div class="sc-wf-bar-wrap"><div class="sc-wf-bar-fill" style="width:61%;"></div></div>
+              <span class="sc-wf-count">256</span>
+            </div>
+            <div class="sc-wf-row">
+              <span class="sc-wf-name">Highway</span>
+              <div class="sc-wf-bar-wrap"><div class="sc-wf-bar-fill" style="width:47%;"></div></div>
+              <span class="sc-wf-count">198</span>
+            </div>
+            <div class="sc-wf-row">
+              <span class="sc-wf-name">Mall</span>
+              <div class="sc-wf-bar-wrap"><div class="sc-wf-bar-fill" style="width:25%;background:#b5d4f4;"></div></div>
+              <span class="sc-wf-count">103</span>
+            </div>
+            <div class="sc-wf-row">
+              <span class="sc-wf-name">Bridge</span>
+              <div class="sc-wf-bar-wrap"><div class="sc-wf-bar-fill" style="width:22%;background:#b5d4f4;"></div></div>
+              <span class="sc-wf-count">94</span>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /sc-bottom -->
+
+    </div><!-- /v10Scorecard -->
+
     <!-- ═══════════ CRITICAL ALERTS — pinned top banner ═══════════ -->
+    <div id="v10LegacyGrid" style="display:none;">
     <div class="v10-crit" id="v10CritAlerts">
       <div class="v10-crit-head">
         <div class="v10-crit-heading">
@@ -18231,6 +18891,7 @@
       </div>
 
     </div><!-- /v10-dash-grid -->
+    </div><!-- /v10LegacyGrid -->
 
   </div><!-- /dash-scroll -->
 </div><!-- /page-dashboard -->
@@ -18256,7 +18917,16 @@ let v10CustomizeMode = false;
 function v10SwitchRole(role) {
   v10CurrentRole = role;
   document.querySelectorAll('.v10-role-tab').forEach(t => t.classList.toggle('active', t.dataset.role === role));
-  v10RenderForRole(role);
+  const scorecard = document.getElementById('v10Scorecard');
+  const legacy = document.getElementById('v10LegacyGrid');
+  if (role === 'exec') {
+    if (scorecard) scorecard.style.display = '';
+    if (legacy) legacy.style.display = 'none';
+  } else {
+    if (scorecard) scorecard.style.display = 'none';
+    if (legacy) legacy.style.display = '';
+    v10RenderForRole(role);
+  }
 }
 
 /* ════════════════════════════════════════════════════════════════
@@ -18762,6 +19432,11 @@ function v10RenderHeatmap(){ lcRender(); }
 
 // Init on dashboard show
 document.addEventListener('DOMContentLoaded', function() {
+  // Exec role shows scorecard; legacy grid starts hidden
+  const sc = document.getElementById('v10Scorecard');
+  const lg = document.getElementById('v10LegacyGrid');
+  if (sc) sc.style.display = '';
+  if (lg) lg.style.display = 'none';
   v10RenderForRole('exec');
   // set today's date
   const dt = document.getElementById('v10TodayDate');
@@ -20289,6 +20964,7 @@ if (typeof showPage === 'function') {
                         <div class="vdp-tab active" data-tab="transactions" onclick="vdpSwitchTab('transactions',this)">Transaction List</div>
                         <div class="vdp-tab" data-tab="work" onclick="vdpSwitchTab('work',this)">Work Status</div>
                         <div class="vdp-tab" data-tab="details" onclick="vdpSwitchTab('details',this)">Vendor Details</div>
+                        <div class="vdp-tab" data-tab="rates" onclick="vdpSwitchTab('rates',this)">Rates</div>
                         <div class="vdp-tab" data-tab="notes" onclick="vdpSwitchTab('notes',this)">Notes</div>
                     </div>
 
@@ -20328,6 +21004,17 @@ if (typeof showPage === 'function') {
                             <div id="vdpDetailsBody"></div>
                         </div>
 
+                        <!-- RATES TAB -->
+                        <div class="vdp-tab-panel" id="vdp-panel-rates">
+                            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
+                                <div style="font-size:11px;font-weight:700;text-transform:uppercase;color:var(--gray-400);">Rate Card</div>
+                                <button class="vdp-btn-primary" style="font-size:11px;padding:5px 12px;" onclick="vdpOpenAddRateItem()">
+                                    <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg> Add Item
+                                </button>
+                            </div>
+                            <div id="vdpRatesList" style="display:flex;flex-direction:column;gap:14px;"></div>
+                        </div>
+
                         <!-- NOTES TAB -->
                         <div class="vdp-tab-panel" id="vdp-panel-notes">
                             <div style="display:flex;flex-direction:column;gap:10px;" id="vdpNotesList">
@@ -20344,6 +21031,22 @@ if (typeof showPage === 'function') {
                             </div>
                         </div>
 
+                    </div>
+                </div>
+
+                <!-- ════════════════ MODAL: Add Rate Item (Revenue Head picker) ════════════════ -->
+                <div class="modal-overlay" id="vdpRateItemModal" onclick="if(event.target===this)vdpCloseAddRateItem()">
+                    <div class="modal-box" style="max-width:420px;width:90%;">
+                        <div class="modal-header">
+                            <div class="modal-title">Add Item / Revenue Head</div>
+                            <button class="modal-close" onclick="vdpCloseAddRateItem()">
+                                <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                            </button>
+                        </div>
+                        <div class="modal-body" style="padding:14px 18px;gap:8px;">
+                            <input type="text" class="search-input" id="vdpRateItemSearch" placeholder="Search item / revenue head…" style="width:100%;margin-bottom:6px;" oninput="vdpRenderRateItemPicker(this.value)">
+                            <div id="vdpRateItemPickerList" style="display:flex;flex-direction:column;gap:6px;max-height:340px;overflow-y:auto;"></div>
+                        </div>
                     </div>
                 </div>
 
@@ -27038,6 +27741,10 @@ if (typeof showPage === 'function') {
 
                 <div id="page-revenue-heads" class="page-section">
                     <iframe src="revenue-heads.html" title="Revenue Heads" style="flex:1;width:100%;height:100%;border:0;min-height:0;"></iframe>
+                </div>
+
+                <div id="page-synced-data" class="page-section">
+                    <iframe src="synced-data.html" title="Synced Data" style="flex:1;width:100%;height:100%;border:0;min-height:0;"></iframe>
                 </div>
 
             </main>
@@ -42114,6 +42821,7 @@ window.vdpSwitchTab=function(tab,el){
   if(tab==='transactions') vdpRenderTx(v,'all');
   else if(tab==='work') vdpRenderWork(v);
   else if(tab==='details') vdpRenderDetails(v);
+  else if(tab==='rates') vdpRenderRates(v);
 };
 
 window.vdpFilterTx=function(type){
@@ -42227,6 +42935,250 @@ function vdpRenderDetails(v){
     </div>
   `;
 }
+
+/* ─── VENDOR RATES TAB — Item/Revenue Head → Type → Activity rate card ───
+   Mirrors the Zoho Item & Activity Mapping data (synced-data.html).
+   These arrays are duplicated here because that page runs in its own
+   iframe document and does not share JS scope with this app shell. */
+const VND_RATE_REVENUE_HEADS=[
+  {id:'rh1',name:'JIO UBR Services',itemCode:'SRV-JIO-UBR',active:true}
+];
+const VND_RATE_TYPES=[
+  {id:'tp1',rhId:'rh1',name:'Site Survey'},
+  {id:'tp2',rhId:'rh1',name:'I&C Integration'}
+];
+const VND_RATE_ACTIVITIES=[
+  {id:'ac1',typeId:'tp1',name:'Site Survey & Report Submission',unit:'Site'},
+  {id:'ac2',typeId:'tp2',name:'Installation',unit:'Site'},
+  {id:'ac3',typeId:'tp2',name:'Integration',unit:'Site'},
+  {id:'ac4',typeId:'tp2',name:'ATP',unit:'Site'},
+  {id:'ac5',typeId:'tp2',name:'Commissioning',unit:'Site'}
+];
+function vndRateTypeName(id){ const t=VND_RATE_TYPES.find(x=>x.id===id); return t?t.name:'—'; }
+function vndRateActsForRh(rhId){
+  const typeIds=VND_RATE_TYPES.filter(t=>t.rhId===rhId).map(t=>t.id);
+  return VND_RATE_ACTIVITIES.filter(a=>typeIds.includes(a.typeId));
+}
+
+// Projects for the Rate Card's project filter (kept local — CC_PROJECTS lives inside
+// the Command Center's own script scope and isn't reachable from here).
+// Circle & Customer are attributes of the project — selecting project(s) auto-fetches them.
+const VND_RATE_PROJECTS=[
+  {id:'PRJ-VOULT',name:'Voult Project',circle:'Chandigarh',customer:'Voult Inc'},
+  {id:'PRJ-INDUS',name:'Indus Towers',circle:'Delhi',customer:'Indus Towers Ltd'},
+  {id:'PRJ-TELECOM',name:'Telecom Infra',circle:'Punjab',customer:'Jio Telecom'},
+  {id:'PRJ-PUNJAB5G',name:'Punjab 5G Rollout',circle:'Punjab',customer:'Airtel Networks'},
+  {id:'PRJ-BSNL',name:'BSNL Rural',circle:'Pune',customer:'BSNL Maharashtra'}
+];
+
+// Per-vendor store: { [vendorId]: { rhIds:[...], rates:{ [acId]: number },
+//   meta:{ [rhId]: {projectIds:[...], saved, expanded, projDropdownOpen} } } }
+const vdpRatesStore={};
+function vdpRatesForCurrentVendor(){
+  const id=vndCurrentDrawerId;
+  if(!vdpRatesStore[id]) vdpRatesStore[id]={rhIds:[],rates:{},meta:{}};
+  return vdpRatesStore[id];
+}
+function vdpRateMeta(store,rhId){
+  if(!store.meta[rhId]) store.meta[rhId]={projectIds:[],saved:false,expanded:true,projDropdownOpen:false};
+  return store.meta[rhId];
+}
+function vdpProjectName(id){ const p=VND_RATE_PROJECTS.find(x=>x.id===id); return p?p.name:''; }
+function vdpProjectLabel(ids){
+  if(!ids||!ids.length) return '— Select project(s) —';
+  const names=ids.map(vdpProjectName);
+  if(names.length<=2) return names.join(', ');
+  return names[0]+', '+names[1]+' +'+(names.length-2)+' more';
+}
+// Circle/Customer are derived from whichever project(s) are picked — if they
+// disagree across multiple selected projects, show a "Multiple" summary.
+function vdpAggregateField(ids,field){
+  const vals=[...new Set(ids.map(id=>{ const p=VND_RATE_PROJECTS.find(x=>x.id===id); return p?p[field]:null; }).filter(Boolean))];
+  if(!vals.length) return '—';
+  if(vals.length===1) return vals[0];
+  return 'Multiple ('+vals.length+')';
+}
+
+function vdpRenderRates(v){
+  const store=vdpRatesForCurrentVendor();
+  const list=document.getElementById('vdpRatesList');
+  if(!list) return;
+  if(!store.rhIds.length){
+    list.innerHTML='<div style="text-align:center;padding:32px;color:var(--gray-400);font-size:12px;">No rate items added yet. Click <b>+ Add Item</b> to bring in a Revenue Head from Item &amp; GL.</div>';
+    return;
+  }
+  list.innerHTML=store.rhIds.map(rhId=>{
+    const rh=VND_RATE_REVENUE_HEADS.find(r=>r.id===rhId);
+    if(!rh) return '';
+    const meta=vdpRateMeta(store,rhId);
+    const acts=vndRateActsForRh(rhId);
+    const collapsed=meta.saved && !meta.expanded;
+    const circleTxt=vdpAggregateField(meta.projectIds,'circle');
+    const custTxt=vdpAggregateField(meta.projectIds,'customer');
+
+    // ── COLLAPSED ROW (saved, not expanded) ──
+    if(collapsed){
+      return `
+      <div class="vdp-rate-card" style="border:1px solid var(--gray-100);border-radius:12px;overflow:hidden;">
+        <div onclick="vdpToggleRateExpand('${rhId}')" style="display:flex;align-items:center;gap:10px;padding:10px 14px;cursor:pointer;">
+          <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.4" viewBox="0 0 24 24" style="color:var(--gray-400);flex-shrink:0;transform:rotate(-90deg);transition:var(--transition);"><polyline points="6 9 12 15 18 9"/></svg>
+          <div style="flex:1;min-width:0;">
+            <div style="font-size:13px;font-weight:700;color:var(--gray-800);">${rh.name}<span style="font-size:10px;font-weight:600;color:var(--gray-400);margin-left:8px;font-family:'Courier New',monospace;">${rh.itemCode}</span></div>
+            <div style="font-size:11px;color:var(--gray-500);margin-top:2px;">
+              <span style="color:var(--primary);font-weight:600;">${vdpProjectLabel(meta.projectIds)}</span>
+              <span style="margin:0 5px;">·</span>Circle: ${circleTxt}
+              <span style="margin:0 5px;">·</span>Customer: ${custTxt}
+              <span style="margin:0 5px;">·</span>${acts.length} activit${acts.length===1?'y':'ies'}
+              <span style="margin:0 5px;">·</span><span style="color:var(--success);font-weight:600;">✓ Rates saved</span>
+            </div>
+          </div>
+          <button onclick="event.stopPropagation();vdpRemoveRateItem('${rhId}')" style="border:none;background:none;cursor:pointer;color:var(--gray-400);padding:2px;flex-shrink:0;" title="Remove item">
+            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+          </button>
+        </div>
+      </div>`;
+    }
+
+    // ── EXPANDED CARD (editing / unsaved) ──
+    return `
+      <div class="vdp-rate-card" style="border:1px solid var(--gray-100);border-radius:12px;overflow:visible;">
+        <div style="display:flex;align-items:center;gap:10px;padding:10px 14px;background:var(--gray-50);border-radius:12px 12px 0 0;">
+          <div onclick="vdpToggleRateExpand('${rhId}')" style="display:flex;align-items:center;gap:10px;flex:1;min-width:0;cursor:pointer;">
+            <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.4" viewBox="0 0 24 24" style="color:var(--gray-400);flex-shrink:0;transition:var(--transition);"><polyline points="6 9 12 15 18 9"/></svg>
+            <div style="font-size:13px;font-weight:700;color:var(--gray-800);white-space:nowrap;">${rh.name}<span style="font-size:10px;font-weight:600;color:var(--gray-400);margin-left:8px;font-family:'Courier New',monospace;">${rh.itemCode}</span></div>
+          </div>
+          <div style="position:relative;flex-shrink:0;">
+            <button type="button" onclick="event.stopPropagation();vdpToggleProjDropdown('${rhId}')" class="vnd-select" style="width:auto;max-width:210px;display:flex;align-items:center;gap:6px;padding:6px 9px;font-size:11.5px;cursor:pointer;">
+              <span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${vdpProjectLabel(meta.projectIds)}</span>
+              <svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.4" viewBox="0 0 24 24" style="flex-shrink:0;margin-left:auto;"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            ${meta.projDropdownOpen?`
+            <div style="position:absolute;top:100%;right:0;margin-top:4px;background:var(--white);border:1px solid var(--gray-200);border-radius:10px;box-shadow:var(--shadow-md);z-index:30;min-width:220px;max-height:240px;overflow-y:auto;padding:6px;">
+              ${VND_RATE_PROJECTS.map(p=>`
+                <label style="display:flex;align-items:center;gap:8px;padding:7px 8px;border-radius:7px;cursor:pointer;font-size:12px;color:var(--gray-800);" onmouseover="this.style.background='var(--gray-50)'" onmouseout="this.style.background=''">
+                  <input type="checkbox" ${meta.projectIds.includes(p.id)?'checked':''} onchange="vdpToggleProjectSelect('${rhId}','${p.id}',this.checked)" style="accent-color:var(--primary);width:14px;height:14px;flex-shrink:0;">
+                  <span style="flex:1;min-width:0;">
+                    <span style="display:block;font-weight:600;">${p.name}</span>
+                    <span style="display:block;font-size:10px;color:var(--gray-400);">${p.circle} · ${p.customer}</span>
+                  </span>
+                </label>`).join('')}
+              <button type="button" onclick="vdpToggleProjDropdown('${rhId}')" style="width:100%;margin-top:4px;padding:6px;border:none;border-radius:7px;background:var(--primary);color:#fff;font-size:11.5px;font-weight:600;cursor:pointer;">Done</button>
+            </div>`:''}
+          </div>
+          <button onclick="vdpRemoveRateItem('${rhId}')" style="border:none;background:none;cursor:pointer;color:var(--gray-400);padding:2px;flex-shrink:0;" title="Remove item">
+            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+          </button>
+        </div>
+        <div style="display:flex;gap:18px;padding:8px 14px;border-bottom:1px solid var(--gray-100);font-size:11px;color:var(--gray-500);flex-wrap:wrap;">
+          <span><b style="color:var(--gray-700);">Circle:</b> ${circleTxt}</span>
+          <span><b style="color:var(--gray-700);">Customer:</b> ${custTxt}</span>
+        </div>
+        <table class="vnd-rate-table">
+          <thead><tr><th>Type</th><th>Activity Name</th><th>Unit</th><th style="text-align:right;">Rate</th></tr></thead>
+          <tbody>
+            ${acts.map(a=>`<tr>
+              <td style="color:var(--gray-500);">${vndRateTypeName(a.typeId)}</td>
+              <td style="font-weight:500;">${a.name}</td>
+              <td style="color:var(--gray-500);">${a.unit}</td>
+              <td style="text-align:right;"><input type="number" class="vnd-rate-input" style="width:100px;text-align:right;" placeholder="0.00" value="${store.rates[a.id]??''}" oninput="vdpUpdateRate('${a.id}',this.value)"></td>
+            </tr>`).join('')}
+          </tbody>
+        </table>
+        <div style="display:flex;justify-content:flex-end;padding:10px 14px;border-top:1px solid var(--gray-100);">
+          <button class="vdp-btn-primary" style="font-size:12px;" onclick="vdpSaveRateItem('${rhId}')">
+            <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg> Save
+          </button>
+        </div>
+      </div>`;
+  }).join('');
+}
+
+window.vdpUpdateRate=function(acId,val){
+  const store=vdpRatesForCurrentVendor();
+  store.rates[acId]=val===''?null:parseFloat(val);
+};
+
+window.vdpToggleProjDropdown=function(rhId){
+  const store=vdpRatesForCurrentVendor();
+  const meta=vdpRateMeta(store,rhId);
+  meta.projDropdownOpen=!meta.projDropdownOpen;
+  vdpRenderRates(VND_DATA.find(x=>x.id===vndCurrentDrawerId));
+};
+
+window.vdpToggleProjectSelect=function(rhId,pid,checked){
+  const store=vdpRatesForCurrentVendor();
+  const meta=vdpRateMeta(store,rhId);
+  if(!meta.projectIds) meta.projectIds=[];
+  if(checked){ if(!meta.projectIds.includes(pid)) meta.projectIds.push(pid); }
+  else { meta.projectIds=meta.projectIds.filter(x=>x!==pid); }
+  vdpRenderRates(VND_DATA.find(x=>x.id===vndCurrentDrawerId));
+};
+
+window.vdpToggleRateExpand=function(rhId){
+  const store=vdpRatesForCurrentVendor();
+  const meta=vdpRateMeta(store,rhId);
+  meta.expanded=!meta.expanded;
+  if(!meta.expanded) meta.projDropdownOpen=false;
+  vdpRenderRates(VND_DATA.find(x=>x.id===vndCurrentDrawerId));
+};
+
+window.vdpSaveRateItem=function(rhId){
+  const store=vdpRatesForCurrentVendor();
+  const meta=vdpRateMeta(store,rhId);
+  if(!meta.projectIds||!meta.projectIds.length){ showToast('Please select at least one project before saving.','warn'); return; }
+  meta.saved=true;
+  meta.expanded=false;
+  meta.projDropdownOpen=false;
+  vdpRenderRates(VND_DATA.find(x=>x.id===vndCurrentDrawerId));
+  showToast('Rate card saved.','success');
+};
+
+window.vdpRemoveRateItem=function(rhId){
+  const store=vdpRatesForCurrentVendor();
+  store.rhIds=store.rhIds.filter(id=>id!==rhId);
+  delete store.meta[rhId];
+  vdpRenderRates(VND_DATA.find(x=>x.id===vndCurrentDrawerId));
+};
+
+window.vdpOpenAddRateItem=function(){
+  const search=document.getElementById('vdpRateItemSearch');
+  if(search) search.value='';
+  vdpRenderRateItemPicker('');
+  document.getElementById('vdpRateItemModal').classList.add('active');
+};
+
+window.vdpCloseAddRateItem=function(){
+  document.getElementById('vdpRateItemModal').classList.remove('active');
+};
+
+window.vdpRenderRateItemPicker=function(query){
+  const store=vdpRatesForCurrentVendor();
+  const q=(query||'').trim().toLowerCase();
+  const available=VND_RATE_REVENUE_HEADS.filter(r=>r.active && !store.rhIds.includes(r.id) &&
+    (!q || r.name.toLowerCase().includes(q) || r.itemCode.toLowerCase().includes(q)));
+  const box=document.getElementById('vdpRateItemPickerList');
+  if(!box) return;
+  box.innerHTML=available.length
+    ? available.map(r=>{
+        const acts=vndRateActsForRh(r.id);
+        return `<div onclick="vdpAddRateItem('${r.id}')" style="display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 12px;border:1px solid var(--gray-100);border-radius:9px;cursor:pointer;transition:var(--transition);" onmouseover="this.style.background='var(--gray-50)'" onmouseout="this.style.background=''">
+          <div>
+            <div style="font-size:12.5px;font-weight:600;color:var(--gray-800);">${r.name}</div>
+            <div style="font-size:10.5px;color:var(--gray-400);font-family:'Courier New',monospace;margin-top:1px;">${r.itemCode} · ${acts.length} activit${acts.length===1?'y':'ies'}</div>
+          </div>
+          <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="color:var(--primary);flex-shrink:0;"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </div>`;
+      }).join('')
+    : '<div style="text-align:center;padding:24px;color:var(--gray-400);font-size:12px;">No matching items. All available revenue heads have already been added, or try a different search.</div>';
+};
+
+window.vdpAddRateItem=function(rhId){
+  const store=vdpRatesForCurrentVendor();
+  if(!store.rhIds.includes(rhId)) store.rhIds.push(rhId);
+  vdpCloseAddRateItem();
+  vdpRenderRates(VND_DATA.find(x=>x.id===vndCurrentDrawerId));
+  showToast('Revenue head added to rate card.','success');
+};
 
 window.vdpAddNote=function(){
   const ta=document.getElementById('vdpNewNote');
