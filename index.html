@@ -42962,13 +42962,12 @@ function vndRateActsForRh(rhId){
 
 // Projects for the Rate Card's project filter (kept local — CC_PROJECTS lives inside
 // the Command Center's own script scope and isn't reachable from here).
-// Circle & Customer are attributes of the project — selecting project(s) auto-fetches them.
 const VND_RATE_PROJECTS=[
-  {id:'PRJ-VOULT',name:'Voult Project',circle:'Chandigarh',customer:'Voult Inc'},
-  {id:'PRJ-INDUS',name:'Indus Towers',circle:'Delhi',customer:'Indus Towers Ltd'},
-  {id:'PRJ-TELECOM',name:'Telecom Infra',circle:'Punjab',customer:'Jio Telecom'},
-  {id:'PRJ-PUNJAB5G',name:'Punjab 5G Rollout',circle:'Punjab',customer:'Airtel Networks'},
-  {id:'PRJ-BSNL',name:'BSNL Rural',circle:'Pune',customer:'BSNL Maharashtra'}
+  {id:'PRJ-VOULT',name:'Voult Project'},
+  {id:'PRJ-INDUS',name:'Indus Towers'},
+  {id:'PRJ-TELECOM',name:'Telecom Infra'},
+  {id:'PRJ-PUNJAB5G',name:'Punjab 5G Rollout'},
+  {id:'PRJ-BSNL',name:'BSNL Rural'}
 ];
 
 // Per-vendor store: { [vendorId]: { rhIds:[...], rates:{ [acId]: number },
@@ -42990,15 +42989,6 @@ function vdpProjectLabel(ids){
   if(names.length<=2) return names.join(', ');
   return names[0]+', '+names[1]+' +'+(names.length-2)+' more';
 }
-// Circle/Customer are derived from whichever project(s) are picked — if they
-// disagree across multiple selected projects, show a "Multiple" summary.
-function vdpAggregateField(ids,field){
-  const vals=[...new Set(ids.map(id=>{ const p=VND_RATE_PROJECTS.find(x=>x.id===id); return p?p[field]:null; }).filter(Boolean))];
-  if(!vals.length) return '—';
-  if(vals.length===1) return vals[0];
-  return 'Multiple ('+vals.length+')';
-}
-
 function vdpRenderRates(v){
   const store=vdpRatesForCurrentVendor();
   const list=document.getElementById('vdpRatesList');
@@ -43013,8 +43003,6 @@ function vdpRenderRates(v){
     const meta=vdpRateMeta(store,rhId);
     const acts=vndRateActsForRh(rhId);
     const collapsed=meta.saved && !meta.expanded;
-    const circleTxt=vdpAggregateField(meta.projectIds,'circle');
-    const custTxt=vdpAggregateField(meta.projectIds,'customer');
 
     // ── COLLAPSED ROW (saved, not expanded) ──
     if(collapsed){
@@ -43026,8 +43014,6 @@ function vdpRenderRates(v){
             <div style="font-size:13px;font-weight:700;color:var(--gray-800);">${rh.name}<span style="font-size:10px;font-weight:600;color:var(--gray-400);margin-left:8px;font-family:'Courier New',monospace;">${rh.itemCode}</span></div>
             <div style="font-size:11px;color:var(--gray-500);margin-top:2px;">
               <span style="color:var(--primary);font-weight:600;">${vdpProjectLabel(meta.projectIds)}</span>
-              <span style="margin:0 5px;">·</span>Circle: ${circleTxt}
-              <span style="margin:0 5px;">·</span>Customer: ${custTxt}
               <span style="margin:0 5px;">·</span>${acts.length} activit${acts.length===1?'y':'ies'}
               <span style="margin:0 5px;">·</span><span style="color:var(--success);font-weight:600;">✓ Rates saved</span>
             </div>
@@ -43057,10 +43043,7 @@ function vdpRenderRates(v){
               ${VND_RATE_PROJECTS.map(p=>`
                 <label style="display:flex;align-items:center;gap:8px;padding:7px 8px;border-radius:7px;cursor:pointer;font-size:12px;color:var(--gray-800);" onmouseover="this.style.background='var(--gray-50)'" onmouseout="this.style.background=''">
                   <input type="checkbox" ${meta.projectIds.includes(p.id)?'checked':''} onchange="vdpToggleProjectSelect('${rhId}','${p.id}',this.checked)" style="accent-color:var(--primary);width:14px;height:14px;flex-shrink:0;">
-                  <span style="flex:1;min-width:0;">
-                    <span style="display:block;font-weight:600;">${p.name}</span>
-                    <span style="display:block;font-size:10px;color:var(--gray-400);">${p.circle} · ${p.customer}</span>
-                  </span>
+                  <span style="flex:1;min-width:0;font-weight:600;">${p.name}</span>
                 </label>`).join('')}
               <button type="button" onclick="vdpToggleProjDropdown('${rhId}')" style="width:100%;margin-top:4px;padding:6px;border:none;border-radius:7px;background:var(--primary);color:#fff;font-size:11.5px;font-weight:600;cursor:pointer;">Done</button>
             </div>`:''}
@@ -43068,10 +43051,6 @@ function vdpRenderRates(v){
           <button onclick="vdpRemoveRateItem('${rhId}')" style="border:none;background:none;cursor:pointer;color:var(--gray-400);padding:2px;flex-shrink:0;" title="Remove item">
             <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
           </button>
-        </div>
-        <div style="display:flex;gap:18px;padding:8px 14px;border-bottom:1px solid var(--gray-100);font-size:11px;color:var(--gray-500);flex-wrap:wrap;">
-          <span><b style="color:var(--gray-700);">Circle:</b> ${circleTxt}</span>
-          <span><b style="color:var(--gray-700);">Customer:</b> ${custTxt}</span>
         </div>
         <table class="vnd-rate-table">
           <thead><tr><th>Type</th><th>Activity Name</th><th>Unit</th><th style="text-align:right;">Rate</th></tr></thead>
