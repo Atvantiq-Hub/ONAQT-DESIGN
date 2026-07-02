@@ -1954,37 +1954,21 @@
         @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.35} }
 
         /* ── Sync Zoho Modal (SO / Vendor PO) ─────────────────────────────── */
-        /* ── Selected SO context bar (Edit SO) ── */
+        /* ── Selected SO context meta row (Edit SO) ── */
         .po-selected-bar{
-            display:flex;align-items:stretch;gap:0;
-            background:var(--white);border-bottom:1.5px solid var(--gray-100);
-            padding:0;overflow:hidden;
+            display:flex;align-items:center;gap:18px;
+            background:var(--surface);
+            padding:9px 20px;overflow-x:auto;scrollbar-width:none;
         }
-        .pob-so-block{
-            display:flex;flex-direction:column;justify-content:center;gap:3px;
-            padding:9px 14px;background:var(--primary);min-width:120px;flex-shrink:0;
-        }
-        .pob-so-num{font-size:14px;font-weight:800;color:#fff;font-family:'Fraunces',serif;letter-spacing:-.3px;}
-        .pob-tag{
-            display:inline-flex;align-items:center;gap:4px;
-            font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;
-            color:rgba(255,255,255,.7);
-        }
-        .pob-tag svg{opacity:.7;}
-        .pob-fields{display:flex;align-items:stretch;flex:1;overflow-x:auto;scrollbar-width:none;}
-        .pob-fields::-webkit-scrollbar{display:none;}
-        .pob-field{
-            display:flex;flex-direction:column;justify-content:center;gap:2px;
-            padding:8px 14px;border-right:1px solid var(--gray-100);flex-shrink:0;
-        }
-        .pob-field:last-child{border-right:none;}
-        .pob-label{font-size:9.5px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--gray-400);}
-        .pob-value{font-size:12.5px;font-weight:600;color:var(--gray-800);white-space:nowrap;}
-        .pob-value.mono{font-family:'Courier New',monospace;color:var(--primary);font-size:13px;font-weight:700;}
-        .pob-chips{display:flex;gap:4px;flex-wrap:nowrap;}
+        .po-selected-bar::-webkit-scrollbar{display:none;}
+        .pob-item{display:inline-flex;align-items:baseline;gap:7px;flex-shrink:0;}
+        .pob-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--gray-400);}
+        .pob-value{font-size:12.5px;font-weight:600;color:var(--gray-700);white-space:nowrap;}
+        .pob-sep{width:1px;height:14px;background:var(--gray-200);flex-shrink:0;align-self:center;}
+        .pob-chips{display:inline-flex;gap:4px;flex-wrap:nowrap;}
         .pob-chip{display:inline-flex;align-items:center;font-size:10.5px;font-weight:700;background:var(--primary-light);color:var(--primary);border-radius:5px;padding:2px 7px;}
-        [data-dark="true"] .po-selected-bar{background:#1e2130;border-color:#2d3145;}
-        [data-dark="true"] .pob-field{border-color:#2d3145;}
+        [data-dark="true"] .po-selected-bar{background:#1a1d27;}
+        [data-dark="true"] .pob-sep{background:#2d3145;}
         [data-dark="true"] .pob-value{color:#e5e7eb;}
         [data-dark="true"] .pob-chip{background:#252836;}
 
@@ -3417,24 +3401,45 @@
         }
         #poAddModal.active{display:flex;align-items:stretch;justify-content:stretch;}
 
+        /* Header + meta row share one rounded card, inset to match the
+           SO Items / Types & Activities cards below — beige shows on all
+           four sides instead of the header bleeding to the viewport edge. */
+        .po-create-topbar{
+            background:var(--white);border-radius:14px;
+            border:1px solid rgba(0,0,0,0.06);box-shadow:0 2px 8px rgba(0,0,0,0.04);
+            margin:16px 20px 0;overflow:hidden;flex-shrink:0;
+        }
+        [data-dark="true"] .po-create-topbar{background:#1e2130!important;border-color:rgba(255,255,255,0.07)!important;}
+
         .po-create-header{
-            height:56px;background:var(--white);border-bottom:1px solid var(--gray-100);
-            display:flex;align-items:center;justify-content:space-between;padding:0 24px;
-            flex-shrink:0;box-shadow:0 2px 8px rgba(0,0,0,0.04);
+            border-bottom:1px solid var(--gray-100);
+            display:flex;align-items:center;justify-content:space-between;
+            padding:12px 20px;gap:16px;
         }
-        .po-create-header-left{display:flex;align-items:center;gap:12px;}
+        .po-create-header-left{display:flex;align-items:center;gap:14px;min-width:0;}
         .po-create-back{
-            display:flex;align-items:center;gap:7px;
-            padding:6px 12px 6px 8px;
-            background:var(--gray-100);border:none;border-radius:8px;
-            cursor:pointer;color:var(--gray-600);font-size:13px;font-weight:600;
-            transition:var(--transition);
+            width:38px;height:38px;display:flex;align-items:center;justify-content:center;
+            background:var(--white);border:1px solid var(--gray-200);border-radius:10px;
+            cursor:pointer;color:var(--gray-600);transition:var(--transition);flex-shrink:0;
         }
-        .po-create-back:hover{background:var(--gray-200);color:var(--gray-900);}
+        .po-create-back:hover{border-color:var(--gray-300);background:var(--gray-50);color:var(--gray-900);}
         .po-create-back svg{flex-shrink:0;}
-        .po-create-title{font-size:16px;font-weight:700;color:var(--gray-900);font-family:'Fraunces',serif;}
-        .po-create-subtitle{font-size:11px;color:var(--gray-500);margin-top:1px;}
-        .po-create-header-actions{display:flex;gap:10px;align-items:center;}
+        .po-create-eyebrow{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--gray-400);margin-bottom:2px;}
+        .po-create-title-row{display:flex;align-items:center;gap:10px;min-width:0;}
+        .po-create-title{font-size:19px;font-weight:600;color:var(--gray-900);font-family:'Fraunces',serif;letter-spacing:-.3px;line-height:1.15;white-space:nowrap;}
+        .po-sync-pill{
+            display:inline-flex;align-items:center;gap:5px;padding:3px 10px;
+            background:var(--success-light);color:var(--success);border-radius:20px;
+            font-size:10.5px;font-weight:700;flex-shrink:0;
+        }
+        .po-create-header-actions{display:flex;gap:16px;align-items:center;flex-shrink:0;}
+        .po-header-total{display:none;flex-direction:column;align-items:flex-end;gap:1px;padding-right:16px;border-right:1px solid var(--gray-200);}
+        .pht-label{font-size:9.5px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:var(--gray-400);}
+        .pht-value{font-size:16px;font-weight:700;color:var(--gray-900);font-family:'Courier New',monospace;line-height:1.15;}
+        [data-dark="true"] .po-create-back{background:#252836!important;border-color:#363b52!important;color:#9ca3af!important;}
+        [data-dark="true"] .po-sync-pill{background:rgba(74,124,89,0.18)!important;color:#7fb591!important;}
+        [data-dark="true"] .po-header-total{border-color:#363b52!important;}
+        [data-dark="true"] .pht-value{color:#e5e7eb!important;}
 
         .po-create-body{
             flex:1;display:grid;grid-template-columns:540px 1fr;gap:0;overflow:hidden;min-height:0;
@@ -3520,6 +3525,14 @@
         .po-ta-header{
             display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;
         }
+        .po-ta-restore{
+            display:inline-flex;align-items:center;gap:5px;padding:6px 12px;
+            background:var(--white);border:1px solid var(--gray-200);border-radius:50px;
+            font-size:11.5px;font-weight:600;color:var(--gray-600);cursor:pointer;
+            transition:var(--transition);flex-shrink:0;
+        }
+        .po-ta-restore:hover{border-color:var(--primary);color:var(--primary);background:var(--primary-light);}
+        [data-dark="true"] .po-ta-restore{background:#252836!important;border-color:#363b52!important;color:#9ca3af!important;}
         .btn-add-type{
             display:flex;align-items:center;gap:6px;padding:7px 14px;
             background:var(--primary);color:#fff;border:none;border-radius:50px;
@@ -3591,7 +3604,7 @@
             padding:8px 12px;background:var(--gray-50);border-bottom:1px solid var(--gray-100);
             border-radius:11px 11px 0 0;
         }
-        .type-block-name-wrap{display:flex;align-items:center;gap:10px;}
+        .type-block-name-wrap{display:flex;align-items:center;gap:10px;flex-wrap:wrap;min-width:0;}
         .type-block-dot{
             width:8px;height:8px;border-radius:50%;background:var(--primary);flex-shrink:0;
         }
@@ -3621,6 +3634,31 @@
 
         /* Item badge on Zoho Items table — shows which type(s) it's tagged to */
         .zi-type-tag{display:inline-flex;align-items:center;gap:3px;background:var(--primary-light);color:var(--primary);border-radius:4px;padding:1px 6px;font-size:10px;font-weight:700;margin-left:4px;}
+
+        /* ── SO Items card (Edit SO left column) ── */
+        .poi-row{display:flex;align-items:flex-start;gap:10px;padding:9px 0;border-bottom:1px solid var(--gray-100);}
+        .poi-row:last-child{border-bottom:none;}
+        .poi-idx{width:20px;height:20px;border-radius:6px;background:var(--gray-50);border:1px solid var(--gray-200);color:var(--gray-500);font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;}
+        .poi-body{flex:1;min-width:0;}
+        .poi-name{font-size:12.5px;font-weight:600;color:var(--gray-800);}
+        .poi-meta{font-size:11px;color:var(--gray-400);margin-top:1px;}
+        .poi-amount{font-size:12px;font-weight:700;color:var(--gray-800);font-family:'Courier New',monospace;white-space:nowrap;margin-top:1px;}
+        .poi-tags{display:flex;flex-wrap:wrap;gap:4px;margin-top:5px;}
+        .poi-tags .zi-type-tag{margin-left:0;}
+        .poi-unmapped{display:inline-flex;align-items:center;gap:3px;background:var(--warning-light);color:var(--warning);border-radius:4px;padding:1px 6px;font-size:10px;font-weight:700;}
+        .poi-total-row{display:none;justify-content:space-between;align-items:center;margin-top:10px;padding-top:10px;border-top:2px solid var(--gray-200);}
+        .poi-total-label{font-size:12px;font-weight:700;color:var(--gray-700);}
+        .poi-total-amount{font-size:13px;font-weight:800;color:var(--gray-900);font-family:'Courier New',monospace;}
+        [data-dark="true"] .poi-idx{background:#252836!important;border-color:#363b52!important;}
+        [data-dark="true"] .poi-row{border-color:#2d3145!important;}
+        [data-dark="true"] .poi-total-row{border-color:#363b52!important;}
+
+        /* Item tag on auto-generated type cards — shows the Zoho item the type belongs to */
+        .type-item-tag{display:inline-flex;align-items:center;gap:4px;background:#fff7ed;border:1px solid #fed7aa;color:#9a3412;border-radius:5px;padding:2px 7px;font-size:10.5px;font-weight:700;max-width:200px;}
+        .type-item-tag svg{flex-shrink:0;}
+        .type-item-tag .tit-txt{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+        [data-dark="true"] .type-item-tag{background:rgba(254,215,170,0.08)!important;border-color:rgba(254,215,170,0.25)!important;color:#fdba74!important;}
+        .activity-entry-unit{font-size:10.5px;color:var(--gray-400);font-weight:600;margin-left:6px;}
 
         /* Item link picker drawer */
         .ilp-overlay{position:fixed;inset:0;z-index:3600;opacity:0;visibility:hidden;pointer-events:none;transition:opacity .2s,visibility .2s;}
@@ -3778,7 +3816,7 @@
         [data-dark="true"] .sd-footer{border-color:#363b52!important;}
         [data-dark="true"] .sd-price-input{background:#252836!important;border-color:#363b52!important;color:#d1d5db!important;}
 
-        [data-dark="true"] .po-create-header{background:var(--white)!important;border-color:rgba(255,255,255,0.07)!important;}
+        [data-dark="true"] .po-create-header{border-color:#2d3145!important;}
         [data-dark="true"] .po-section-card,[data-dark="true"] .po-summary-card{background:#1e2130!important;border-color:rgba(255,255,255,0.07)!important;}
         [data-dark="true"] .type-block{background:#252836!important;border-color:#363b52!important;}
         [data-dark="true"] .type-block:hover{border-color:var(--primary)!important;}
@@ -16698,6 +16736,7 @@
                     </button>
                     <div class="nav-submenu">
                         <a href="#" class="nav-submenu-link" onclick="showPage('client','Customers');return false;">Customers</a>
+                        <a href="#" class="nav-submenu-link" onclick="showPage('revenue-heads','Revenue Heads');return false;">Revenue Heads</a>
                     </div>
                 </div>
 
@@ -20979,33 +21018,63 @@ if (typeof showPage === 'function') {
 <!-- ── CREATE PO FULL MODAL ── -->
 <div class="modal-overlay" id="poAddModal">
     <div class="po-create-container">
-        <!-- Header -->
-        <div class="po-create-header">
-            <div class="po-create-header-left">
-                <button class="po-create-back" onclick="poCloseModal('poAddModal')">
-                    <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
-                    Back to SOs
-                </button>
-                <div>
-                    <div class="po-create-title">Create Sales Order</div>
-                    <div class="po-create-subtitle">Fill in details and add types with activities</div>
+        <!-- Header + context meta row: one rounded card, inset to match the
+             cards below so beige page background frames it on all sides. -->
+        <div class="po-create-topbar">
+            <div class="po-create-header">
+                <div class="po-create-header-left">
+                    <button class="po-create-back" onclick="poCloseModal('poAddModal')" title="Back to SO Listing" aria-label="Back to SO Listing">
+                        <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+                    </button>
+                    <div style="min-width:0;">
+                        <div class="po-create-eyebrow" id="poCreateEyebrow">Edit Sales Order</div>
+                        <div class="po-create-title-row">
+                            <span class="po-create-title" id="poCreateTitle">Sales Order</span>
+                            <span class="po-sync-pill" id="poSyncPill" style="display:none;">
+                                <svg width="10" height="10" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.2"/></svg>
+                                Synced from Zoho
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="po-create-header-actions">
+                    <div class="po-header-total" id="poHeaderTotal">
+                        <span class="pht-label">Zoho Total</span>
+                        <span class="pht-value" id="poHeaderTotalVal"></span>
+                    </div>
+                    <button class="btn-save" onclick="poSubmitPO()">
+                        <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+                        Update SO
+                    </button>
                 </div>
             </div>
-            <div class="po-create-header-actions">
-                <button class="btn-save" onclick="poSubmitPO()">
-                    <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
-                    Update SO
-                </button>
-            </div>
-        </div>
 
-        <!-- Selected SO context (carried from the listing when opened via Edit SO) -->
-        <div class="po-selected-bar" id="poSelectedSOBar" style="display:none;"></div>
+            <!-- Selected SO context (carried from the listing when opened via Edit SO) -->
+            <div class="po-selected-bar" id="poSelectedSOBar" style="display:none;"></div>
+        </div>
 
         <!-- Body: two-column -->
         <div class="po-create-body">
-            <!-- LEFT: SO Summary -->
+            <!-- LEFT: SO Items + SO Summary -->
             <div class="po-create-left">
+                <!-- SO Items (synced from Zoho) -->
+                <div class="po-summary-card" id="poItemsCard">
+                    <div class="po-section-title" style="margin-bottom:12px;">
+                        <div class="po-section-icon" style="background:var(--info-light);color:var(--info);">
+                            <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg>
+                        </div>
+                        SO Items
+                        <span id="poItemsCountBadge" style="display:none;background:var(--info-light);color:var(--info);border-radius:5px;padding:1px 7px;font-size:10.5px;font-weight:700;font-family:'DM Sans',sans-serif;margin-left:4px;"></span>
+                    </div>
+                    <div id="poCreateZohoItems">
+                        <div class="summary-empty">Items will appear here after the SO syncs from Zoho.</div>
+                    </div>
+                    <div class="poi-total-row" id="poCreateZohoTotalRow">
+                        <span class="poi-total-label">Zoho Total</span>
+                        <span class="poi-total-amount" id="poCreateZohoTotalAmt"></span>
+                    </div>
+                </div>
+
                 <!-- SO Summary -->
                 <div class="po-summary-card" id="poSummaryCard">
                     <div class="po-section-title">
@@ -21022,7 +21091,7 @@ if (typeof showPage === 'function') {
 
             <!-- RIGHT: Types & Activities only -->
             <div class="po-create-right">
-                <div class="po-section-card" style="min-height:100%;">
+                <div class="po-section-card">
                     <div class="po-ta-header">
                         <div class="po-section-title" style="margin-bottom:0;">
                             <div class="po-section-icon" style="background:var(--info-light);color:var(--info);">
@@ -21031,20 +21100,14 @@ if (typeof showPage === 'function') {
                             Types &amp; Activities
                             <span id="poTaCountBadge" style="display:none;background:var(--primary-light);color:var(--primary);border-radius:5px;padding:1px 7px;font-size:10.5px;font-weight:700;font-family:'DM Sans',sans-serif;margin-left:4px;"></span>
                         </div>
+                        <button class="po-ta-restore" onclick="poRestoreAutoTypes()" title="Bring back all types & activities from the Revenue Head mapping">
+                            <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path d="M3 12a9 9 0 109-9 9.75 9.75 0 00-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+                            Restore
+                        </button>
                     </div>
 
-                    <!-- Searchable type picker: always-visible search; focus shows options, type filters, + creates -->
-                    <div class="ta-type-picker" id="poTypePicker">
-                        <div class="ta-type-search-wrap">
-                            <svg width="15" height="15" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
-                            <input id="poTypeSearch" placeholder="Search or add a work type…" autocomplete="off" onfocus="poOpenTypeResults()" oninput="poRenderTypeDropdownList()" onkeydown="poTypeSearchKey(event)">
-                        </div>
-                        <div class="ta-type-dropdown" id="poTypeDropdown">
-                            <div class="ta-type-list" id="poTypeDropdownList"></div>
-                        </div>
-                    </div>
-                    <datalist id="poActDatalist"></datalist>
-
+                    <!-- Types & activities are read-only here — they auto-generate from the
+                         item ↔ type/activity mapping maintained on the Revenue Heads page. -->
                     <div id="poTypesContainer"></div>
 
                         <!-- Empty state — sibling, never touched by innerHTML -->
@@ -21052,8 +21115,8 @@ if (typeof showPage === 'function') {
                             <div class="ta-empty-icon">
                                 <svg width="28" height="28" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/></svg>
                             </div>
-                            <div class="ta-empty-title">No types added yet</div>
-                            <div class="ta-empty-sub">Type a work type in the box above and press Enter — then add activities inline on the card</div>
+                            <div class="ta-empty-title">No types generated yet</div>
+                            <div class="ta-empty-sub">Types &amp; activities auto-generate from the SO items — map each item on the Revenue Heads page to see them here</div>
                         </div>
                     </div>
                 </div>
@@ -26973,6 +27036,10 @@ if (typeof showPage === 'function') {
                     <iframe src="wcc-pipeline.html" title="WCC Details" style="flex:1;width:100%;height:100%;border:0;min-height:0;"></iframe>
                 </div>
 
+                <div id="page-revenue-heads" class="page-section">
+                    <iframe src="revenue-heads.html" title="Revenue Heads" style="flex:1;width:100%;height:100%;border:0;min-height:0;"></iframe>
+                </div>
+
             </main>
         </div>
     </div>
@@ -31404,6 +31471,71 @@ const DEMO_ZOHO_ITEMS = [
 ];
 window._poCreateZohoTotal = 0;
 
+/* ── ITEM → TYPE/ACTIVITY MAPPING DEMO ──────────────────────────────────────
+   In production this comes from the activity-listing endpoint per item
+   (GET activities by item_id — mapping maintained on the Revenue Heads page).
+   Keyed by item name here; real API keys by zoho_item_id.
+   Items with no entry are "unmapped" — no types auto-generate for them.   */
+const ITEM_TYPE_MAP = {
+    'Tower Installation Service': [{ type_name:'Tower Work', activities:[
+        { name:'Site Survey',                unit:'Site', boq_rate:30 },
+        { name:'Tower Erection & Alignment', unit:'Site', boq_rate:50 },
+    ]}],
+    'Cable Laying': [{ type_name:'Cable Work', activities:[
+        { name:'Trenching & Laying',         unit:'Mtr',  boq_rate:20 },
+    ]}],
+    '5G Small Cell Supply': [{ type_name:'5G Small Cell Installation', activities:[
+        { name:'Site Survey',                unit:'Site', boq_rate:23490 },
+    ]}],
+    'Network Planning Service': [{ type_name:'Network Planning', activities:[
+        { name:'RF Survey',                  unit:'Site', boq_rate:3456 },
+    ]}],
+    'Fiber Cable (Per Mtr)': [{ type_name:'Fiber Cable Installation', activities:[
+        { name:'TEL-1001',                   unit:'Mtr',  boq_rate:1023 },
+        { name:'Site Survey',                unit:'Site', boq_rate:345 },
+    ]}],
+    'Fiber Cable Supply': [{ type_name:'Fiber Cable Installation', activities:[
+        { name:'TEL-1001',                   unit:'Mtr',  boq_rate:1000 },
+    ]}],
+    'Installation Labour': [{ type_name:'Installation', activities:[
+        { name:'Site Survey',                unit:'Site', boq_rate:23 },
+    ]}],
+    'DSL Equipment': [{ type_name:'DSL Connection Troubleshooting', activities:[
+        { name:'LI-TEL-2001',                unit:'Nos',  boq_rate:234 },
+        { name:'Stiches & Screw Fix',        unit:'Nos',  boq_rate:123 },
+    ]}],
+    'Cable Laying Labour': [{ type_name:'Cable Work', activities:[
+        { name:'Trenching & Laying',         unit:'Mtr',  boq_rate:8000 },
+    ]}],
+    'OFC Splicing': [{ type_name:'Splicing Work', activities:[
+        { name:'Core Fusion',                unit:'Joint', boq_rate:5500 },
+    ]}],
+};
+
+/* Auto-generate the Types & Activities panel from the SO's items.
+   Every item fetches its mapped types; activities arrive pre-selected at
+   BOQ rate. Generated types carry item_idx/item_name so the card can show
+   which item the type belongs to.                                          */
+let _poAutoId = 0;
+function poAutoBuildTypes(items) {
+    poTypes = [];
+    _poAutoId = Date.now();
+    items.forEach((item, idx) => {
+        const key = item.item_name || item.desc;
+        (ITEM_TYPE_MAP[key] || []).forEach(mt => {
+            poTypes.push({
+                id: ++_poAutoId,
+                name: mt.type_name,
+                auto: true,
+                item_idx: idx,
+                item_name: key,
+                linked_item_indices: [idx],
+                activities: mt.activities.map(a => ({ id: ++_poAutoId, name: a.name, unit: a.unit, price: a.boq_rate })),
+            });
+        });
+    });
+}
+
 function poLoadZohoItems(items) {
     window._poCreateZohoItems = items;
     window._poCreateZohoTotal = items.reduce((s,i) => s + i.amount, 0);
@@ -31412,16 +31544,28 @@ function poLoadZohoItems(items) {
     const totalAmt  = document.getElementById('poCreateZohoTotalAmt');
     if (totalRow) totalRow.style.display = items.length ? 'flex' : 'none';
     if (totalAmt && items.length) totalAmt.textContent = '₹' + window._poCreateZohoTotal.toLocaleString('en-IN', {minimumFractionDigits:2});
+    // Header Zoho Total (next to Update SO)
+    const headTotal = document.getElementById('poHeaderTotal');
+    const headVal   = document.getElementById('poHeaderTotalVal');
+    if (headTotal) headTotal.style.display = items.length ? 'flex' : 'none';
+    if (headVal && items.length) headVal.textContent = '₹' + window._poCreateZohoTotal.toLocaleString('en-IN', {minimumFractionDigits:2});
     poRenderSummary();
 }
 
-/* Re-render the Zoho Items panel with live type-tag badges */
+/* Re-render the SO Items card (left column) with live type-tag badges */
 function poRenderZohoItemsWithTags() {
     const items = window._poCreateZohoItems || [];
     const container = document.getElementById('poCreateZohoItems');
     if (!container) return;
+
+    const badge = document.getElementById('poItemsCountBadge');
+    if (badge) {
+        badge.textContent = `${items.length} item${items.length !== 1 ? 's' : ''}`;
+        badge.style.display = items.length ? 'inline' : 'none';
+    }
+
     if (!items.length) {
-        container.innerHTML = '<div class="zi-empty">No Zoho line items — items will appear after sync.</div>';
+        container.innerHTML = '<div class="summary-empty">No line items — items will appear after the SO syncs from Zoho.</div>';
         return;
     }
 
@@ -31434,29 +31578,28 @@ function poRenderZohoItemsWithTags() {
         });
     });
 
-    container.innerHTML = `<table class="zi-tbl">
-        <thead><tr>
-            <th>#</th><th>Description</th><th>HSN</th><th>Qty</th><th>Unit</th><th>Rate</th><th>Amount</th><th>Tax%</th><th>Linked Type</th>
-        </tr></thead>
-        <tbody>${items.map((item, idx) => {
-            const tags = itemTypeTags[idx] || [];
-            const tagHtml = tags.length
-                ? tags.map(n => `<span class="zi-type-tag">${escHtml(n)}</span>`).join('')
-                : `<span style="font-size:11px;color:var(--gray-300);">—</span>`;
-            const rowBg = tags.length ? 'background:#fffbf5;' : '';
-            return `<tr style="${rowBg}">
-                <td style="color:var(--gray-400);font-size:11px;">${idx+1}</td>
-                <td style="font-weight:500;">${item.desc}</td>
-                <td style="color:var(--gray-400);font-size:11px;">${item.hsn||'—'}</td>
-                <td class="num">${item.qty}</td>
-                <td>${item.unit}</td>
-                <td class="num">₹${item.rate.toLocaleString('en-IN')}</td>
-                <td class="num" style="font-weight:700;color:var(--gray-800);">₹${item.amount.toLocaleString('en-IN')}</td>
-                <td class="num">${item.tax_pct}%</td>
-                <td>${tagHtml}</td>
-            </tr>`;
-        }).join('')}</tbody>
-    </table>`;
+    container.innerHTML = items.map((item, idx) => {
+        const name = item.item_name || item.desc;
+        const qty  = item.quantity != null ? item.quantity : item.qty;
+        const tags = itemTypeTags[idx] || [];
+        const tagHtml = tags.length
+            ? tags.map(n => `<span class="zi-type-tag">${escHtml(n)}</span>`).join('')
+            : `<span class="poi-unmapped" title="No type/activity mapping found for this item on the Revenue Heads page">
+                   <svg width="9" height="9" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M12 9v4m0 4h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/></svg>
+                   No mapping
+               </span>`;
+        return `<div class="poi-row">
+            <div class="poi-idx">${idx + 1}</div>
+            <div class="poi-body">
+                <div style="display:flex;align-items:baseline;justify-content:space-between;gap:8px;">
+                    <span class="poi-name">${escHtml(name)}</span>
+                    <span class="poi-amount">₹${item.amount.toLocaleString('en-IN')}</span>
+                </div>
+                <div class="poi-meta">${qty} ${item.unit || ''} × ₹${item.rate.toLocaleString('en-IN')}${item.hsn ? ' · HSN ' + item.hsn : ''}${item.tax_pct != null ? ' · Tax ' + item.tax_pct + '%' : ''}</div>
+                <div class="poi-tags">${tagHtml}</div>
+            </div>
+        </div>`;
+    }).join('');
 }
 
 /* Remove a single item link from a type */
@@ -31559,53 +31702,50 @@ function poOpenAddModal(idx) {
     window._poEditingSO = so || null;
     poRenderSelectedSOBar(so);
 
-    const titleEl = document.querySelector('#poAddModal .po-create-title');
-    const subEl   = document.querySelector('#poAddModal .po-create-subtitle');
+    const eyebrowEl = document.getElementById('poCreateEyebrow');
+    const titleEl   = document.getElementById('poCreateTitle');
+    const syncPill  = document.getElementById('poSyncPill');
     if (so) {
-        if (titleEl) titleEl.textContent = 'Edit Sales Order';
-        if (subEl)   subEl.textContent   = 'Tag types & activities for ' + (so.po_number || 'this SO');
+        if (eyebrowEl) eyebrowEl.textContent = 'Edit Sales Order';
+        if (titleEl)   titleEl.textContent   = so.po_number || 'Sales Order';
+        if (syncPill)  syncPill.style.display = 'inline-flex';
     } else {
-        if (titleEl) titleEl.textContent = 'Sales Order';
-        if (subEl)   subEl.textContent   = 'Add types with activities';
+        if (eyebrowEl) eyebrowEl.textContent = 'Sales Order';
+        if (titleEl)   titleEl.textContent   = 'Create Sales Order';
+        if (syncPill)  syncPill.style.display = 'none';
     }
 
-    poRenderTypesPanel();
-    // Load the selected SO's Zoho items (fallback to demo if the SO has none)
+    // Load the selected SO's Zoho items (fallback to demo if the SO has none),
+    // then auto-generate types & activities from each item's Revenue Head mapping.
     const items = (so && so.zoho_line_items && so.zoho_line_items.length) ? so.zoho_line_items : DEMO_ZOHO_ITEMS;
+    poAutoBuildTypes(items);
     poLoadZohoItems(items);
+    poRenderTypesPanel();
     document.getElementById('poAddModal').classList.add('active');
 }
 
-// Populate the top context bar with details carried from the selected SO
+// Populate the context meta row with details carried from the selected SO.
+// SO number, sync tag and Zoho total live in the header above — this row is
+// a single quiet line of label/value pairs separated by hairline rules.
 function poRenderSelectedSOBar(so) {
     const bar = document.getElementById('poSelectedSOBar');
     if (!bar) return;
     if (!so) { bar.style.display = 'none'; bar.innerHTML = ''; return; }
     const circles = (so.circle && so.circle.length)
-        ? so.circle.map(c => `<span class="pob-chip">${c.code}</span>`).join('')
-        : '<span style="color:var(--gray-400)">—</span>';
-    const fld = (label, val, cls) =>
-        `<div class="pob-field"><span class="pob-label">${label}</span><span class="pob-value${cls?' '+cls:''}">${val}</span></div>`;
+        ? `<span class="pob-chips">${so.circle.map(c => `<span class="pob-chip">${escHtml(c.code)}</span>`).join('')}</span>`
+        : '—';
     const validity = [so.valid_from ? fmtDate(so.valid_from) : null, so.valid_to ? fmtDate(so.valid_to) : null]
         .filter(Boolean).join(' → ') || '—';
-    bar.innerHTML = `
-        <div class="pob-so-block">
-            <span class="pob-so-num">${so.po_number || '—'}</span>
-            <span class="pob-tag">
-                <svg width="9" height="9" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.2"/></svg>
-                Synced from Zoho
-            </span>
-        </div>
-        <div class="pob-fields">
-            ${fld('Customer', so.client?.name || '—')}
-            ${fld('Project', so.project?.name || '—')}
-            <div class="pob-field"><span class="pob-label">Circle</span><div class="pob-chips">${circles}</div></div>
-            ${so.location ? fld('Location', so.location) : ''}
-            ${fld('Validity', validity)}
-            ${so.po_date ? fld('SO Date', fmtDate(so.po_date)) : ''}
-            ${so.zoho_items_total ? fld('Zoho Total', fmtCurrency(so.zoho_items_total), 'mono') : ''}
-        </div>
-    `;
+    const fld = (label, val) =>
+        `<div class="pob-item"><span class="pob-label">${label}</span><span class="pob-value">${val}</span></div>`;
+    bar.innerHTML = [
+        fld('Customer', escHtml(so.client?.name || '—')),
+        fld('Project', escHtml(so.project?.name || '—')),
+        fld('Circle', circles),
+        so.location ? fld('Location', escHtml(so.location)) : '',
+        fld('Validity', validity),
+        so.po_date ? fld('SO Date', fmtDate(so.po_date)) : '',
+    ].filter(Boolean).join('<span class="pob-sep"></span>');
     bar.style.display = 'flex';
 }
 
@@ -32076,7 +32216,7 @@ function poRenderTypesPanel() {
             <div class="activity-entry">
                 <div class="activity-entry-left">
                     <div class="activity-entry-dot"></div>
-                    <span class="activity-entry-name">${escHtml(a.name)}</span>
+                    <span class="activity-entry-name">${escHtml(a.name)}${a.unit ? `<span class="activity-entry-unit">· ${escHtml(a.unit)}</span>` : ''}</span>
                 </div>
                 <div class="activity-entry-right">
                     <span class="activity-entry-price">₹${Number(a.price).toLocaleString('en-IN',{minimumFractionDigits:2})}</span>
@@ -32086,6 +32226,27 @@ function poRenderTypesPanel() {
                 </div>
             </div>`).join('');
 
+        // Auto-generated types carry their source item as a tag; the manual
+        // Link Items flow only applies to manually added types.
+        const itemTag = t.item_name ? `
+                    <span class="type-item-tag" title="Auto-generated from Zoho item: ${escHtml(t.item_name)}">
+                        <svg width="10" height="10" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg>
+                        <span class="tit-txt">${escHtml(t.item_name)}</span>
+                    </span>` : '';
+        const linkBtn = t.auto ? '' : `
+                    <button class="type-block-btn link-items" onclick="ilpOpen(${t.id})" title="Link Zoho Items to this type">
+                        <svg width="13" height="13" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg>
+                    </button>`;
+        const linkedStrip = t.auto ? '' : `
+            <!-- Linked Zoho items strip (manual types only) -->
+            <div class="type-linked-items">
+                <span class="type-linked-items-label">
+                    <svg width="9" height="9" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" style="display:inline;vertical-align:middle;"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg>
+                    Items
+                </span>
+                <div class="type-linked-items-chips">${linkedChips}</div>
+            </div>`;
+
         html += `
         <div class="type-block" id="potype-${t.id}">
             <div class="type-block-header">
@@ -32093,41 +32254,16 @@ function poRenderTypesPanel() {
                     <div class="type-block-dot"></div>
                     <span class="type-block-name">${escHtml(t.name)}</span>
                     <span class="type-block-count">${t.activities.length} activit${t.activities.length===1?'y':'ies'}</span>
+                    ${itemTag}
                 </div>
-                <div class="type-block-actions">
-                    <button class="type-block-btn link-items" onclick="ilpOpen(${t.id})" title="Link Zoho Items to this type">
-                        <svg width="13" height="13" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg>
-                    </button>
+                <div class="type-block-actions">${linkBtn}
                     <button class="type-block-btn del-type" onclick="poDeleteType(${t.id})" title="Remove Type">
                         <svg width="13" height="13" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
                     </button>
                 </div>
-            </div>
-            <!-- Linked Zoho items strip -->
-            <div class="type-linked-items">
-                <span class="type-linked-items-label">
-                    <svg width="9" height="9" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" style="display:inline;vertical-align:middle;"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg>
-                    Items
-                </span>
-                <div class="type-linked-items-chips">${linkedChips}</div>
-            </div>
+            </div>${linkedStrip}
             <div class="type-activities">
                 ${actHtml}
-                <div class="ta-act-row">
-                    <div class="ta-act-picker" id="actpicker-${t.id}">
-                        <div class="ta-act-search-wrap">
-                            <svg width="13" height="13" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
-                            <input id="actsearch-${t.id}" placeholder="Search or add activity…" autocomplete="off" onfocus="poOpenActResults(${t.id})" oninput="poRenderActDropdownList(${t.id})" onkeydown="poActSearchKey(event,${t.id})">
-                        </div>
-                        <div class="ta-act-dropdown" id="actdrop-${t.id}">
-                            <div class="ta-type-list" id="actlist-${t.id}"></div>
-                        </div>
-                    </div>
-                    <input class="ta-act-price" type="number" id="actprice-${t.id}" placeholder="₹ Amount" min="0" step="0.01" onkeydown="if(event.key==='Enter'){event.preventDefault();poInlineAddActivity(${t.id});}">
-                    <button class="ta-act-add" onclick="poInlineAddActivity(${t.id})" title="Add activity">
-                        <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"/></svg>
-                    </button>
-                </div>
             </div>
             <div class="type-block-total">
                 <span class="type-block-total-label">Type Total</span>
@@ -32152,7 +32288,7 @@ function poRenderTypesPanel() {
 function poRenderSummary() {
     const sc = document.getElementById('poSummaryContent');
     if (poTypes.length === 0) {
-        sc.innerHTML = '<div class="summary-empty">Add types &amp; activities below to see the cost summary here.</div>';
+        sc.innerHTML = '<div class="summary-empty">The cost summary appears here once types &amp; activities are generated from the SO items.</div>';
         return;
     }
     let grandTotal = 0;
@@ -32187,10 +32323,10 @@ function poRenderSummary() {
         const rs  = gap === 0 ? 'balanced' : gap > 0 ? 'under' : 'over';
         const pct = Math.min(100, Math.round(grandTotal / zohoTotal * 100));
         const title = rs === 'balanced'
-            ? '✓ Tagged amount matches Zoho total'
+            ? '✓ Selected activities match the Zoho total'
             : rs === 'under'
-            ? `⚠ ₹${Math.abs(gap).toLocaleString('en-IN',{minimumFractionDigits:2})} untagged — activities don't cover Zoho total`
-            : `⛔ Over-tagged by ₹${Math.abs(gap).toLocaleString('en-IN',{minimumFractionDigits:2})} — reduce activity amounts`;
+            ? `Selected activities cover ₹${grandTotal.toLocaleString('en-IN',{minimumFractionDigits:2})} of the Zoho total`
+            : `Selected activities exceed the Zoho total by ₹${Math.abs(gap).toLocaleString('en-IN',{minimumFractionDigits:2})}`;
         html += `<div class="recon-bar ${rs}" style="margin-top:12px;">
             <div class="recon-bar-row"><span class="recon-bar-title">${title}</span></div>
             <div class="recon-bar-nums">
@@ -32211,42 +32347,46 @@ function escHtml(s) {
 }
 
 function poSubmitPO() {
-    // PO header comes from the fetched Zoho SO — no basic-details entry here.
-    // Validate that work has been tagged.
+    // SO header + items come from Zoho; types & activities from the Revenue
+    // Head mapping. The user's only edit is REMOVING types/activities the PO
+    // doesn't need — saving persists what was kept (is_selected).
     if (!poTypes.length || !poTypes.some(t => t.activities.length)) {
-        poShowToast('Add at least one type with an activity before saving.', 'error');
+        poShowToast('Keep at least one type with an activity — use Restore to bring back the mapped list.', 'error');
         return;
     }
 
-    // ── Reconciliation check (strict: only an exact match can save) ───────────
-    const zohoTotal = window._poCreateZohoTotal || 0;
-    if (zohoTotal > 0) {
-        const taggedTotal = poTypes.reduce((s,t) => s + t.activities.reduce((ss,a) => ss + a.price, 0), 0);
-        const gap = Math.round((zohoTotal - taggedTotal) * 100) / 100;
-        if (gap > 0) {
-            poShowToast(`Cannot save — ₹${gap.toLocaleString('en-IN',{minimumFractionDigits:2})} of the Zoho total (₹${zohoTotal.toLocaleString('en-IN',{minimumFractionDigits:2})}) is still untagged. Activities must sum to exactly the Zoho total.`, 'error');
-            return;
-        }
-        if (gap < 0) {
-            poShowToast(`Cannot save — over-tagged by ₹${Math.abs(gap).toLocaleString('en-IN',{minimumFractionDigits:2})}. Activities must sum to exactly the Zoho total of ₹${zohoTotal.toLocaleString('en-IN',{minimumFractionDigits:2})}.`, 'error');
-            return;
-        }
-    }
-    // ─────────────────────────────────────────────────────────────────────────
-
-    // Payload: tagging applied on top of the fetched Zoho SO
+    // Payload mirrors the SO detail response: items → types → selected activities
+    const items = window._poCreateZohoItems || [];
     const payload = {
-        zoho_items: window._poCreateZohoItems || [],
-        zoho_items_total: zohoTotal,
-        types: poTypes.map(t => ({
-            name: t.name,
-            linked_item_indices: t.linked_item_indices || [],
-            activities: t.activities,
+        so_number: (window._poEditingSO && window._poEditingSO.po_number) || null,
+        revenue_head_items: items.map((it, idx) => ({
+            item_name: it.item_name || it.desc,
+            amount: it.amount,
+            types: poTypes
+                .filter(t => (t.linked_item_indices || []).includes(idx))
+                .map(t => ({
+                    type_name: t.name,
+                    activities: t.activities.map(a => ({
+                        activity_name: a.name,
+                        unit: a.unit || null,
+                        boq_rate: a.price,
+                        amount: a.price,
+                        is_selected: true,
+                    })),
+                })),
         })),
     };
     console.log('SO tagging saved:', payload);
     document.getElementById('poAddModal').classList.remove('active');
-    poShowToast('Sales Order saved with type & activity tagging.');
+    const nActs = poTypes.reduce((s,t) => s + t.activities.length, 0);
+    poShowToast(`Sales Order updated — ${poTypes.length} type${poTypes.length!==1?'s':''}, ${nActs} activit${nActs!==1?'ies':'y'} saved.`);
+}
+
+/* Bring back the full auto-generated list after removals (mis-click recovery) */
+function poRestoreAutoTypes() {
+    poAutoBuildTypes(window._poCreateZohoItems || []);
+    poRenderTypesPanel();
+    poShowToast('Types & activities restored from the Revenue Head mapping.');
 }
 
 function poShowFieldError(id) {
