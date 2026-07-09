@@ -12871,6 +12871,136 @@
         .bill-ribbon-draft   { background:var(--gray-100);color:var(--gray-500);border:1.5px solid var(--gray-300); }
         [data-dark="true"] .bill-detail-header { border-color:#2d3145!important; }
 
+        /* Bill detail drawer - right side popup */
+        #page-vendor-bills .premium-table tbody tr.site-row { cursor:pointer; }
+        #page-vendor-bills .premium-table tbody tr.site-row.bill-row-selected > td { background:var(--gray-50) !important; }
+        [data-dark="true"] #page-vendor-bills .premium-table tbody tr.site-row.bill-row-selected > td { background:#252836 !important; }
+        .bill-detail-overlay {
+            position:fixed; inset:0;
+            background:rgba(0,0,0,0.28);
+            z-index:1760;
+            display:none;
+        }
+        .bill-detail-overlay.open { display:block; }
+        .bill-detail-drawer {
+            position:fixed; top:0; right:-520px;
+            width:520px; max-width:94vw;
+            height:100vh;
+            background:var(--white);
+            z-index:1761;
+            display:flex; flex-direction:column;
+            box-shadow:-4px 0 32px rgba(0,0,0,0.16);
+            transition:right 0.3s cubic-bezier(0.4,0,0.2,1);
+            overflow:hidden;
+        }
+        .bill-detail-drawer.open { right:0; }
+        [data-dark="true"] .bill-detail-drawer { background:#1a1d27 !important; }
+        .bill-detail-drawer-hdr {
+            padding:18px 22px 14px;
+            border-bottom:1px solid var(--gray-100);
+            display:flex; align-items:flex-start; gap:14px;
+            flex-shrink:0;
+            background:linear-gradient(135deg,var(--primary-light),var(--white));
+        }
+        [data-dark="true"] .bill-detail-drawer-hdr { background:rgba(45,74,53,0.15) !important; border-color:#2d3145 !important; }
+        .bill-detail-icon {
+            width:42px; height:42px; border-radius:11px;
+            display:flex; align-items:center; justify-content:center;
+            background:var(--primary); color:#fff; flex-shrink:0;
+            box-shadow:0 8px 18px color-mix(in srgb,var(--primary) 22%,transparent);
+        }
+        .bill-detail-title-wrap { min-width:0; flex:1; }
+        .bill-detail-title {
+            font-size:18px; font-weight:700; font-family:'Fraunces',serif;
+            color:var(--gray-900); line-height:1.2;
+        }
+        .bill-detail-sub {
+            display:flex; align-items:center; gap:8px; flex-wrap:wrap;
+            font-size:11px; color:var(--gray-500); margin-top:5px;
+        }
+        .bill-detail-close {
+            width:30px; height:30px; border-radius:8px;
+            background:var(--white); border:1px solid var(--gray-200);
+            cursor:pointer; display:flex; align-items:center; justify-content:center;
+            color:var(--gray-500); font-size:18px; line-height:1; flex-shrink:0;
+            transition:var(--transition);
+        }
+        .bill-detail-close:hover { background:var(--danger-light); color:var(--danger); border-color:var(--danger-light); }
+        [data-dark="true"] .bill-detail-close { background:#252836!important; border-color:#363b52!important; color:#9ca3af!important; }
+        .bill-detail-body { flex:1; overflow-y:auto; padding:16px 22px 20px; }
+        .bill-detail-hero {
+            display:grid; grid-template-columns:1fr 1fr; gap:10px;
+            margin-bottom:18px;
+        }
+        .bill-detail-amount-card {
+            background:var(--white);
+            border:1px solid var(--gray-100);
+            border-radius:12px;
+            padding:14px;
+            box-shadow:var(--shadow-sm);
+        }
+        [data-dark="true"] .bill-detail-amount-card { background:#1e2130!important; border-color:#2d3145!important; }
+        .bill-detail-amount-lbl { font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:.6px; color:var(--gray-400); }
+        .bill-detail-amount-val { font-size:22px; font-weight:700; font-family:'Fraunces',serif; color:var(--gray-900); margin-top:3px; }
+        .bill-detail-amount-val.primary { color:var(--primary); }
+        .bill-detail-amount-sub { font-size:11px; color:var(--gray-500); margin-top:3px; }
+        .bill-detail-sec { margin-bottom:18px; }
+        .bill-detail-sec-lbl {
+            font-size:9.5px; font-weight:700;
+            text-transform:uppercase; letter-spacing:.8px;
+            color:var(--primary);
+            margin-bottom:9px;
+            display:flex; align-items:center; gap:8px;
+        }
+        .bill-detail-sec-lbl::after { content:''; flex:1; height:1px; background:var(--gray-100); }
+        [data-dark="true"] .bill-detail-sec-lbl::after { background:#2d3145 !important; }
+        .bill-detail-kv-grid { display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+        .bill-detail-kv {
+            background:var(--gray-50);
+            border:1px solid var(--gray-100);
+            border-radius:8px;
+            padding:9px 11px;
+        }
+        .bill-detail-kv.full { grid-column:1 / -1; }
+        [data-dark="true"] .bill-detail-kv { background:#252836!important; border-color:#363b52!important; }
+        .bill-detail-kv-lbl {
+            font-size:9.5px; font-weight:700;
+            text-transform:uppercase; letter-spacing:.5px;
+            color:var(--gray-400); margin-bottom:3px;
+        }
+        .bill-detail-kv-val { font-size:13px; font-weight:600; color:var(--gray-900); }
+        .bill-detail-kv-val.mono { font-family:'Courier New',monospace; font-size:12px; }
+        .bill-detail-kv-val.muted { color:var(--gray-500); font-weight:500; }
+        [data-dark="true"] .bill-detail-kv-val { color:#e5e7eb!important; }
+        .bill-detail-table {
+            width:100%; border-collapse:separate; border-spacing:0;
+            border:1px solid var(--gray-100); border-radius:10px; overflow:hidden;
+            font-size:12px;
+        }
+        .bill-detail-table th {
+            padding:8px 10px; background:var(--gray-50);
+            color:var(--gray-400); font-size:10px; font-weight:700;
+            text-transform:uppercase; text-align:left;
+            border-bottom:1px solid var(--gray-100);
+        }
+        .bill-detail-table td { padding:9px 10px; border-bottom:1px solid var(--gray-100); color:var(--gray-700); }
+        .bill-detail-table tr:last-child td { border-bottom:none; }
+        .bill-detail-table .num { text-align:right; font-variant-numeric:tabular-nums; white-space:nowrap; }
+        .bill-detail-table .amt { text-align:right; font-weight:700; color:var(--primary); font-variant-numeric:tabular-nums; white-space:nowrap; }
+        [data-dark="true"] .bill-detail-table { border-color:#2d3145!important; }
+        [data-dark="true"] .bill-detail-table th { background:#252836!important; border-color:#2d3145!important; }
+        [data-dark="true"] .bill-detail-table td { border-color:#2d3145!important; color:#d1d5db!important; }
+        .bill-detail-note {
+            font-size:12px; line-height:1.5; color:var(--gray-600);
+            background:var(--gray-50); border:1px solid var(--gray-100);
+            border-radius:10px; padding:10px 12px;
+        }
+        [data-dark="true"] .bill-detail-note { background:#252836!important; border-color:#363b52!important; color:#d1d5db!important; }
+        @media (max-width: 680px) {
+            .bill-detail-hero,
+            .bill-detail-kv-grid { grid-template-columns:1fr; }
+        }
+
         /* Inventory Zoho/QB style */
         .inv-item-card { display:flex;align-items:center;gap:12px;padding:10px 14px;background:var(--white);border-radius:10px;border:1px solid var(--gray-100);margin-bottom:8px;transition:var(--transition);cursor:pointer; }
         .inv-item-card:hover { border-color:var(--primary);box-shadow:var(--shadow-sm); }
@@ -20243,6 +20373,10 @@ if (typeof showPage === 'function') {
                             <div class="pagination-controls" id="billPaginControls"></div>
                         </div>
                     </div>
+
+                    <!-- Bill detail popup (opens from right on row tap) -->
+                    <div class="bill-detail-overlay" id="billDetailOverlay" onclick="billCloseDetail()"></div>
+                    <aside class="bill-detail-drawer" id="billDetailDrawer" aria-hidden="true"></aside>
                 </div><!-- /#page-vendor-bills -->
 
                 <!-- ══════════════════════════════════════ PAGE: MILEAGE / TRIPS ════════════════════════════════ -->
@@ -42395,6 +42529,7 @@ const VND_DATA = [
 
 /* ─── BILL DATA ─────────────────────────────────── */
 const BILL_DATA = [
+  { id:495868434457, bill_no:'10909', zoho_bill_id:'3969698000000067001', vendor_id:728215987575, vendor:'Zoom transporters', vendor_type:null, type:'external', bill_type:'external', bill_date:'2026-07-20', due_date:'2026-07-20', period:null, subtotal:420, gst:0, total:420, balance:420, actual_amount:420, amount_difference:0, status_label:'Draft', zoho_status:'draft', notes:'', items:[{description:'Account testing type', quantity:1, rate:320, amount:320},{description:'ATP', quantity:1, rate:100, amount:100}], generated_by:{id:116307872557, name:'Admin User'}, generated_at:'2026-07-08T07:29:57.103741Z', last_synced_at:'2026-07-08T07:29:57.103741Z', paid_at:null, zoho_synced:true, stage:'draft' },
   { id:1, bill_no:'VBILL-2026-001', vendor_id:1, vendor:'Sharma Infra Pvt Ltd',    type:'subcon',    period:'Apr 1–15 2026', subtotal:72000,  gst:12960, total:84960,  zoho_synced:true,  stage:'synced' },
   { id:2, bill_no:'VBILL-2026-002', vendor_id:2, vendor:'Punjab Express Transport', type:'transport', period:'Apr 1–10 2026', subtotal:38200,  gst:6876,  total:45076,  zoho_synced:false, stage:'submitted_l1' },
   { id:3, bill_no:'VBILL-2026-003', vendor_id:3, vendor:'Delhi Cab Services',       type:'cab',       period:'March 2026',    subtotal:38000,  gst:6840,  total:44840,  zoho_synced:true,  stage:'synced_paid' },
@@ -42520,7 +42655,7 @@ function billRender(){
   const vSel=document.getElementById('billVendorFilter')?.value||'';
   if(vSel) list=list.filter(b=>b.vendor===vSel);
   // Search
-  if(billSearchQ){ const q=billSearchQ.toLowerCase(); list=list.filter(b=>b.bill_no.toLowerCase().includes(q)||b.vendor.toLowerCase().includes(q)||b.period.toLowerCase().includes(q)); }
+  if(billSearchQ){ const q=billSearchQ.toLowerCase(); list=list.filter(b=>(b.bill_no||'').toLowerCase().includes(q)||(b.vendor||'').toLowerCase().includes(q)||(b.period||b.bill_date||'').toLowerCase().includes(q)); }
   // Tab filter (paid/unpaid)
   if(billTab==='paid')        list=list.filter(b=>billPaidStatus(b)==='paid');
   else if(billTab==='unpaid') list=list.filter(b=>billPaidStatus(b)==='unpaid');
@@ -42550,15 +42685,16 @@ function billRender(){
   if(!body) return;
   if(info) info.textContent=`Showing 1–${list.length} of ${list.length} record${list.length===1?'':'s'}`;
 
-  const typeClass={subcon:'vtype-subcon',service:'vtype-subcon',transport:'vtype-transport',cab:'vtype-cab',procurement:'vtype-material',time_activity:'vtype-time'};
-  const typeLabel={subcon:'Service',service:'Service',transport:'Transporter',cab:'Monthly Cab',procurement:'Procurement',time_activity:'Time Activity'};
+  const typeClass={subcon:'vtype-subcon',service:'vtype-subcon',transport:'vtype-transport',cab:'vtype-cab',procurement:'vtype-material',time_activity:'vtype-time',external:'vtype-transport'};
+  const typeLabel={subcon:'Service',service:'Service',transport:'Transporter',cab:'Monthly Cab',procurement:'Procurement',time_activity:'Time Activity',external:'External'};
 
   if(!list.length){ body.innerHTML=`<tr><td colspan="9" style="text-align:center;padding:32px;color:var(--gray-400);">No bills found</td></tr>`; return; }
 
   body.innerHTML=list.map(b=>{
     const paidStatus=billPaidStatus(b);
-    const sl = paidStatus==='paid' ? 'Paid' : 'Unpaid';
-    const sc = paidStatus==='paid' ? 'bill-stage-paid' : 'bill-stage-pending';
+    const isDraft=(b.status_label||b.zoho_status||b.stage||'').toLowerCase()==='draft';
+    const sl = isDraft ? 'Draft' : (paidStatus==='paid' ? 'Paid' : 'Unpaid');
+    const sc = isDraft ? 'bill-stage-draft' : (paidStatus==='paid' ? 'bill-stage-paid' : 'bill-stage-pending');
     const zohoTitle = b.zoho_synced ? 'Already synced — click to re-sync' : 'Sync this bill with Zoho Books';
 
     // Toggle entry for the 3-dot menu (only show the relevant transition)
@@ -42566,11 +42702,11 @@ function billRender(){
       ? `<button class="action-menu-item" onclick="billMarkUnpaid(${b.id})"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>Mark as Unpaid</button>`
       : `<button class="action-menu-item" onclick="billMarkPaid(${b.id})"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>Mark as Paid</button>`;
 
-    return `<tr class="site-row">
+    return `<tr class="site-row" onclick="openBillDetail(${b.id})">
     <td><span class="employee-id" style="font-size:11px;">${b.bill_no}</span></td>
     <td style="font-weight:600;color:var(--gray-800);font-size:12px;">${b.vendor}</td>
     <td><span class="vtype ${typeClass[b.type]||'vtype-subcon'}" style="font-size:10px;">${typeLabel[b.type]||b.type}</span></td>
-    <td style="font-size:11px;color:var(--gray-600);">${b.period}</td>
+    <td style="font-size:11px;color:var(--gray-600);">${b.period||b.bill_date||'—'}</td>
     <td style="text-align:right;font-variant-numeric:tabular-nums;font-size:12px;">₹${b.subtotal.toLocaleString('en-IN')}</td>
     <td style="text-align:right;font-variant-numeric:tabular-nums;color:var(--gray-500);font-size:12px;">₹${b.gst.toLocaleString('en-IN')}</td>
     <td style="text-align:right;font-weight:700;font-family:'Fraunces',serif;color:var(--primary);font-size:12px;">₹${b.total.toLocaleString('en-IN')}</td>
@@ -42634,7 +42770,189 @@ window.billDelete=function(id){
   showToast(b.bill_no+' deleted.','info');
   billRender();
 };
-window.openBillDetail=function(id){ showToast('Bill detail view — coming soon.','info'); };
+function billEsc(v){
+  return String(v ?? '').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+}
+function billFmtMoney(v){
+  const n=Number(v||0);
+  return '₹'+n.toLocaleString('en-IN',{maximumFractionDigits:n%1?2:0});
+}
+function billFmtDate(v){
+  if(!v) return '—';
+  const d=new Date(v);
+  if(Number.isNaN(d.getTime())) return billEsc(v);
+  return d.toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'});
+}
+function billTypeLabel(type){
+  return ({subcon:'Service',service:'Service',transport:'Transporter',cab:'Monthly Cab',procurement:'Procurement',time_activity:'Time Activity',external:'External'}[type]||type||'—');
+}
+function billDetailStatus(b){
+  const raw=(b.status_label||b.zoho_status||b.stage||'').toLowerCase();
+  if(b.paid_at || b.stage==='synced_paid') return {label:'Paid', cls:'bill-ribbon-paid'};
+  if(raw==='draft') return {label:'Draft', cls:'bill-ribbon-draft'};
+  if(raw.includes('overdue')) return {label:'Overdue', cls:'bill-ribbon-overdue'};
+  return {label:b.status_label||'Unpaid', cls:'bill-ribbon-open'};
+}
+function billBuildDetail(b){
+  const items=(b.items&&b.items.length)?b.items:[
+    {description:billTypeLabel(b.type)+' bill line', quantity:1, rate:b.subtotal||0, amount:b.subtotal||0}
+  ];
+  const status=billDetailStatus(b);
+  const initials=(b.vendor||'B').split(/\s+/).filter(Boolean).slice(0,2).map(x=>x[0]).join('').toUpperCase()||'B';
+  const zohoSynced=Boolean(b.zoho_synced||b.last_synced_at||b.zoho_bill_id);
+  const notes=(b.notes||'').trim();
+  return `
+    <div class="bill-detail-drawer-hdr" onclick="event.stopPropagation()">
+      <div class="bill-detail-icon" aria-hidden="true">
+        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+      </div>
+      <div class="bill-detail-title-wrap">
+        <div class="bill-detail-title">Bill #${billEsc(b.bill_no)}</div>
+        <div class="bill-detail-sub">
+          <span>${billEsc(b.vendor||'—')}</span>
+          <span style="color:var(--gray-300);">•</span>
+          <span>${billEsc(billTypeLabel(b.bill_type||b.type))}</span>
+          <span class="bill-status-ribbon ${status.cls}" style="padding:3px 10px;font-size:10.5px;">${billEsc(status.label)}</span>
+        </div>
+      </div>
+      <button class="bill-detail-close" onclick="billCloseDetail()" aria-label="Close bill detail" title="Close">×</button>
+    </div>
+    <div class="bill-detail-body" onclick="event.stopPropagation()">
+      <div class="bill-detail-hero">
+        <div class="bill-detail-amount-card">
+          <div class="bill-detail-amount-lbl">Grand Total</div>
+          <div class="bill-detail-amount-val primary">${billFmtMoney(b.total)}</div>
+          <div class="bill-detail-amount-sub">Sub-total ${billFmtMoney(b.subtotal)} · Tax ${billFmtMoney(b.gst)}</div>
+        </div>
+        <div class="bill-detail-amount-card">
+          <div class="bill-detail-amount-lbl">Balance</div>
+          <div class="bill-detail-amount-val">${billFmtMoney(b.balance ?? (billPaidStatus(b)==='paid'?0:b.total))}</div>
+          <div class="bill-detail-amount-sub">${b.paid_at?'Paid '+billFmtDate(b.paid_at):'Payment pending'}</div>
+        </div>
+      </div>
+
+      <div class="bill-detail-sec">
+        <div class="bill-detail-sec-lbl">Vendor & Bill Info</div>
+        <div class="bill-detail-kv-grid">
+          <div class="bill-detail-kv">
+            <div class="bill-detail-kv-lbl">Vendor</div>
+            <div class="bill-detail-kv-val">${billEsc(b.vendor||'—')}</div>
+          </div>
+          <div class="bill-detail-kv">
+            <div class="bill-detail-kv-lbl">Vendor ID</div>
+            <div class="bill-detail-kv-val mono">${billEsc(b.vendor_id||'—')}</div>
+          </div>
+          <div class="bill-detail-kv">
+            <div class="bill-detail-kv-lbl">Bill Date</div>
+            <div class="bill-detail-kv-val">${billFmtDate(b.bill_date)}</div>
+          </div>
+          <div class="bill-detail-kv">
+            <div class="bill-detail-kv-lbl">Due Date</div>
+            <div class="bill-detail-kv-val">${billFmtDate(b.due_date)}</div>
+          </div>
+          <div class="bill-detail-kv">
+            <div class="bill-detail-kv-lbl">Bill Type</div>
+            <div class="bill-detail-kv-val">${billEsc(billTypeLabel(b.bill_type||b.type))}</div>
+          </div>
+          <div class="bill-detail-kv">
+            <div class="bill-detail-kv-lbl">Period / Ref</div>
+            <div class="bill-detail-kv-val">${billEsc(b.period||b.bill_date||'—')}</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="bill-detail-sec">
+        <div class="bill-detail-sec-lbl">Line Items</div>
+        <table class="bill-detail-table">
+          <thead><tr><th>Description</th><th class="num">Qty</th><th class="num">Rate</th><th class="amt">Amount</th></tr></thead>
+          <tbody>
+            ${items.map(it=>`<tr>
+              <td>${billEsc(it.description||'—')}</td>
+              <td class="num">${Number(it.quantity||0).toLocaleString('en-IN')}</td>
+              <td class="num">${billFmtMoney(it.rate)}</td>
+              <td class="amt">${billFmtMoney(it.amount)}</td>
+            </tr>`).join('')}
+          </tbody>
+        </table>
+      </div>
+
+      <div class="bill-detail-sec">
+        <div class="bill-detail-sec-lbl">Amount Reconciliation</div>
+        <div class="bill-detail-kv-grid">
+          <div class="bill-detail-kv">
+            <div class="bill-detail-kv-lbl">Actual Amount</div>
+            <div class="bill-detail-kv-val">${billFmtMoney(b.actual_amount ?? b.total)}</div>
+          </div>
+          <div class="bill-detail-kv">
+            <div class="bill-detail-kv-lbl">Difference</div>
+            <div class="bill-detail-kv-val">${billFmtMoney(b.amount_difference||0)}</div>
+          </div>
+          <div class="bill-detail-kv">
+            <div class="bill-detail-kv-lbl">Sub-total</div>
+            <div class="bill-detail-kv-val">${billFmtMoney(b.subtotal)}</div>
+          </div>
+          <div class="bill-detail-kv">
+            <div class="bill-detail-kv-lbl">Tax Amount</div>
+            <div class="bill-detail-kv-val">${billFmtMoney(b.gst)}</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="bill-detail-sec">
+        <div class="bill-detail-sec-lbl">Zoho & Audit</div>
+        <div class="bill-detail-kv-grid">
+          <div class="bill-detail-kv">
+            <div class="bill-detail-kv-lbl">Zoho Status</div>
+            <div class="bill-detail-kv-val"><span class="inv-aside-zoho ${zohoSynced?'synced':'local'}">${zohoSynced?'Synced':'Local only'}</span></div>
+          </div>
+          <div class="bill-detail-kv">
+            <div class="bill-detail-kv-lbl">Zoho Bill ID</div>
+            <div class="bill-detail-kv-val mono">${billEsc(b.zoho_bill_id||'—')}</div>
+          </div>
+          <div class="bill-detail-kv">
+            <div class="bill-detail-kv-lbl">Generated By</div>
+            <div class="bill-detail-kv-val">${billEsc(b.generated_by?.name||'System')}</div>
+          </div>
+          <div class="bill-detail-kv">
+            <div class="bill-detail-kv-lbl">Generated At</div>
+            <div class="bill-detail-kv-val">${billFmtDate(b.generated_at)}</div>
+          </div>
+          <div class="bill-detail-kv full">
+            <div class="bill-detail-kv-lbl">Last Synced At</div>
+            <div class="bill-detail-kv-val">${billFmtDate(b.last_synced_at)}</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="bill-detail-sec">
+        <div class="bill-detail-sec-lbl">Notes</div>
+        <div class="bill-detail-note">${notes?billEsc(notes):'No notes added for this bill.'}</div>
+      </div>
+    </div>`;
+}
+window.openBillDetail=function(id){
+  const b=BILL_DATA.find(x=>x.id===id); if(!b) return;
+  document.querySelectorAll('#billTableBody tr').forEach(row=>row.classList.remove('bill-row-selected'));
+  const row=[...document.querySelectorAll('#billTableBody tr')].find(r=>r.getAttribute('onclick')===`openBillDetail(${id})`);
+  if(row) row.classList.add('bill-row-selected');
+  const drawer=document.getElementById('billDetailDrawer');
+  const overlay=document.getElementById('billDetailOverlay');
+  if(!drawer||!overlay) return;
+  drawer.innerHTML=billBuildDetail(b);
+  overlay.classList.add('open');
+  drawer.classList.add('open');
+  drawer.setAttribute('aria-hidden','false');
+};
+window.billCloseDetail=function(){
+  const drawer=document.getElementById('billDetailDrawer');
+  const overlay=document.getElementById('billDetailOverlay');
+  if(overlay) overlay.classList.remove('open');
+  if(drawer){
+    drawer.classList.remove('open');
+    drawer.setAttribute('aria-hidden','true');
+  }
+  document.querySelectorAll('#billTableBody tr').forEach(row=>row.classList.remove('bill-row-selected'));
+};
 // Legacy aliases kept for any stale callers (e.g. Vendor Detail panel)
 window.billApproveL1=window.billMarkPaid;
 window.billApprove=window.billMarkPaid;
