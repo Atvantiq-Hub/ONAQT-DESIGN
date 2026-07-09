@@ -1,0 +1,49 @@
+/* ══════════════════════════════════════════════════════════════════════
+   ONAQT — SHARED DESIGN TOKENS
+   Single source of truth for color/shadow/radius/spacing custom
+   properties, linked by index.html and every satellite page
+   (revenue-heads.html, dpr-standalone.html, wcc-pipeline.html).
+   Do not hand-copy these values into a page's own <style> block —
+   edit here once and every page inherits the change.
+   ══════════════════════════════════════════════════════════════════════ */
+
+:root, [data-theme="forest"] {
+    --primary: #2D4A35; --primary-dark: #1e3326; --primary-light: #e6f0e8;
+    --cta: #C8837A; --cta-shadow: rgba(200,131,122,0.35);
+    --success: #4a7c59; --success-light: #eaf2ec;
+    --warning: #b8893a; --warning-light: #fdf4e7;
+    --danger: #b85c52; --danger-light: #faeeed;
+    --info: #5a7fa8; --info-light: #eef3f9;
+    --white: #ffffff; --surface: #FDFCFA; --bg: #EDE9E2;
+    --gray-50: #F5F2EC; --gray-100: #ECE8E1; --gray-200: #DDD9D0;
+    --gray-300: #C5C0B5; --gray-400: #A09890; --gray-500: #7A7268;
+    --gray-600: #5C5650; --gray-700: #3E3A35; --gray-800: #2A2722; --gray-900: #1A1714;
+    --card1-bg: linear-gradient(145deg,#fff5f4,#feeae8); --card1-border: rgba(200,120,112,0.15); --card1-shadow: rgba(200,120,112,0.10); --card1-icon: rgba(200,120,112,0.12); --card1-color: #b85c52;
+    --card2-bg: linear-gradient(145deg,#f2f9f3,#e4f2e6); --card2-border: rgba(80,150,95,0.15); --card2-shadow: rgba(80,150,95,0.10); --card2-icon: rgba(80,150,95,0.12); --card2-color: #3d7a52;
+    --card3-bg: linear-gradient(145deg,#fffaf0,#fef3da); --card3-border: rgba(190,140,50,0.15); --card3-shadow: rgba(190,140,50,0.09); --card3-icon: rgba(190,140,50,0.12); --card3-color: #9a7020;
+    --card4-bg: linear-gradient(145deg,#f4f2fc,#ede8f8); --card4-border: rgba(110,95,180,0.14); --card4-shadow: rgba(110,95,180,0.09); --card4-icon: rgba(110,95,180,0.12); --card4-color: #6050a8;
+    --shadow-sm: 0 1px 3px rgba(45,40,32,0.06); --shadow-md: 0 4px 16px rgba(45,40,32,0.08),0 1px 4px rgba(45,40,32,0.04); --shadow-lg: 0 12px 32px rgba(45,40,32,0.10),0 4px 8px rgba(45,40,32,0.05); --shadow-xl: 0 24px 48px rgba(45,40,32,0.12); --shadow-card: 0 2px 12px rgba(45,40,32,0.07),0 0 0 1px rgba(45,40,32,0.04); --shadow-premium: 0 20px 40px rgba(45,74,53,0.18);
+    --sidebar-width: 260px; --header-height: 48px; --border-radius: 16px; --border-radius-sm: 12px; --transition: all 0.25s cubic-bezier(0.4,0,0.2,1);
+}
+
+/* ── DARK MODE VARIABLES ── */
+[data-dark="true"] {
+    --bg: #0f1117 !important;
+    --surface: #1a1d27 !important;
+    --white: #1e2130 !important;
+    --gray-50: #252836 !important;
+    --gray-100: #2d3145 !important;
+    --gray-200: #363b52 !important;
+    --gray-300: #4a5068 !important;
+    --gray-400: #6b7280 !important;
+    --gray-500: #9ca3af !important;
+    --gray-600: #c4c9d4 !important;
+    --gray-700: #d1d5db !important;
+    --gray-800: #e5e7eb !important;
+    --gray-900: #f3f4f6 !important;
+    --shadow-sm: 0 1px 3px rgba(0,0,0,0.4) !important;
+    --shadow-md: 0 4px 16px rgba(0,0,0,0.4), 0 1px 4px rgba(0,0,0,0.3) !important;
+    --shadow-lg: 0 12px 32px rgba(0,0,0,0.5) !important;
+    --shadow-xl: 0 24px 48px rgba(0,0,0,0.6) !important;
+    --shadow-card: 0 2px 12px rgba(0,0,0,0.4) !important;
+}
