@@ -1,0 +1,2527 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Onaqt · Plan &amp; Billing</title>
+<link rel="stylesheet" href="theme-tokens.css">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=Fraunces:opsz,wght@9..144,500;9..144,600&display=swap" rel="stylesheet">
+<style>
+/* Light + dark token values now come from theme-tokens.css (shared with
+   index.html and every satellite page). Only page-specific CSS below. */
+    :root {
+      /* --primary, --primary-dark, --primary-light, --cta, --success,
+         --success-light, --warning, --warning-light, --danger, --danger-light,
+         --info, --info-light, --surface are NOT redefined here — they now come
+         straight from theme-tokens.css (same exact names), which also supplies
+         their [data-dark="true"] remaps. Do not hand-copy those values here. */
+
+      /* Prototype-specific names with no equivalent in theme-tokens.css —
+         aliased to the canonical shared tokens so the hundreds of existing
+         CSS rules below that reference var(--ink), var(--muted), etc. don't
+         need to be individually rewritten. */
+      --ink: var(--gray-900);
+      --muted: var(--gray-500);
+      --muted-2: var(--gray-400);
+      --line: var(--gray-200);
+      --line-strong: var(--gray-300);
+      --canvas: var(--bg);
+      --warm: #faf7f2;              /* page-specific accent tint, no shared equivalent, keep as-is */
+      --primary-soft: #f2f6f2;      /* page-specific accent tint, no shared equivalent, keep as-is */
+      --cta-dark: color-mix(in srgb, var(--cta) 80%, black);
+      --radius-sm: var(--border-radius-sm);
+      --radius-md: 14px;            /* between the shared sm/lg scale, keep as page-local */
+      --radius-lg: var(--border-radius);
+      /* --shadow-sm / --shadow-md: the prototype's own :root also declared these
+         with different rgba values than theme-tokens.css. Simply NOT redeclaring
+         them here (unlike the other aliases above) lets the shared file's values
+         cascade straight through under the same name — aliasing --shadow-sm to
+         var(--shadow-sm) inside this same :root block would be a circular
+         self-reference and resolve to nothing, silently dropping every shadow
+         on the page, so that line is intentionally omitted. */
+      /* --sidebar: removed — no sidebar markup remains in this file. */
+    }
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: var(--canvas);
+      font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-size: 14px;
+      line-height: 1.45;
+    }
+
+    button, input, select { font: inherit; }
+    button { color: inherit; }
+
+
+    /* ============ CHROME (page-header, cards, tabs, modals) ============
+       No max-width/centering or extra padding here — this page renders inside
+       an iframe on index.html's #page-plan-billing, and that iframe's box is
+       already positioned flush with every sibling page-section by the shell's
+       .content-area gutter. Adding padding in here would double that gutter,
+       so content starts at (0,0) — mirrors the identical fix applied to
+       revenue-heads.html's .app rule.                                       */
+    .content {
+      padding: 0 0 24px;
+    }
+
+    /* ============ PAGE HEADER (app-canonical pattern, replaces the
+       prototype's own .page-head/h1/.eyebrow treatment) ============ */
+    .page-header { margin-bottom: 14px; }
+    .page-title-section { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; gap: 20px; }
+    .page-title { font-family: 'Fraunces', serif; font-size: 24px; font-weight: 600; letter-spacing: -0.3px; color: var(--gray-900); }
+    .page-subtitle { font-size: 13px; color: var(--gray-500); margin-top: 3px; max-width: 700px; }
+    .page-actions { display: flex; gap: 8px; align-items: center; }
+
+    .eyebrow {
+      color: var(--primary);
+      font-size: 10px;
+      font-weight: 850;
+      letter-spacing: .13em;
+      text-transform: uppercase;
+    }
+
+    h2, h3, h4, p { margin-top: 0; }
+
+    h2 {
+      margin-bottom: 6px;
+      font-size: 18px;
+      letter-spacing: -.2px;
+    }
+
+    h3 { margin-bottom: 5px; font-size: 15px; }
+    h4 { margin-bottom: 4px; font-size: 13px; }
+    p { color: var(--muted); }
+
+    .trial-banner {
+      position: relative;
+      overflow: hidden;
+      padding: 22px 24px;
+      margin-bottom: 18px;
+      border-radius: var(--radius-lg);
+      color: white;
+      background:
+        radial-gradient(circle at 90% 20%, rgba(255, 255, 255, .11), transparent 24%),
+        linear-gradient(120deg, var(--primary-dark), var(--primary) 62%, #496a52);
+      box-shadow: var(--shadow-md);
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 24px;
+      align-items: center;
+    }
+
+    .trial-banner::after {
+      content: "";
+      position: absolute;
+      width: 160px;
+      height: 160px;
+      right: 23%;
+      top: -115px;
+      border: 1px solid rgba(255, 255, 255, .13);
+      border-radius: 50%;
+    }
+
+    .trial-banner .eyebrow { color: #cfe5d4; }
+    .trial-banner h2 { margin: 5px 0 5px; font-size: 21px; }
+    .trial-banner p { margin: 0; color: rgba(255, 255, 255, .74); font-size: 12px; }
+
+    .trial-count {
+      display: flex;
+      align-items: center;
+      gap: 17px;
+    }
+
+    .day-ring {
+      width: 68px;
+      height: 68px;
+      border: 5px solid rgba(255, 255, 255, .18);
+      border-top-color: #dca299;
+      border-right-color: #dca299;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      text-align: center;
+      transform: rotate(12deg);
+    }
+
+    .day-ring span { transform: rotate(-12deg); }
+    .day-ring b { display: block; font-size: 20px; line-height: 1; }
+    .day-ring small { display: block; margin-top: 3px; font-size: 8px; letter-spacing: .08em; text-transform: uppercase; }
+
+    .btn {
+      min-height: 36px;
+      padding: 8px 14px;
+      border: 1px solid var(--line-strong);
+      border-radius: var(--radius-sm);
+      background: var(--surface);
+      color: var(--ink);
+      font-size: 12px;
+      font-weight: 750;
+      cursor: pointer;
+      transition: transform .16s ease, box-shadow .16s ease, background .16s ease;
+    }
+
+    .btn:hover { transform: translateY(-1px); box-shadow: var(--shadow-sm); }
+    .btn:focus-visible, .tab:focus-visible, input:focus-visible, select:focus-visible {
+      outline: 3px solid color-mix(in srgb, var(--primary) 22%, transparent);
+      outline-offset: 2px;
+    }
+
+    .btn-primary {
+      border-color: var(--primary);
+      background: var(--primary);
+      color: white;
+    }
+
+    .btn-cta {
+      border-color: var(--cta);
+      background: var(--cta);
+      color: white;
+    }
+
+    .btn-ghost { background: transparent; }
+    .btn-sm { min-height: 30px; padding: 6px 10px; font-size: 11px; }
+    .btn-block { width: 100%; }
+    .btn[disabled] { cursor: not-allowed; opacity: .45; transform: none; box-shadow: none; }
+
+    .trial-actions {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+    }
+
+    .trial-actions .btn-ghost {
+      border-color: rgba(255, 255, 255, .35);
+      color: white;
+    }
+
+    .tabs {
+      margin-bottom: 18px;
+      padding: 4px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-md);
+      background: var(--surface);
+      box-shadow: var(--shadow-sm);
+      display: flex;
+      gap: 3px;
+      overflow-x: auto;
+    }
+
+    .tab {
+      position: relative;
+      min-height: 39px;
+      padding: 9px 14px;
+      border: 0;
+      border-radius: var(--radius-sm);
+      background: transparent;
+      color: var(--muted);
+      font-size: 11.5px;
+      font-weight: 750;
+      white-space: nowrap;
+      cursor: pointer;
+    }
+
+    .tab.active { background: var(--primary-light); color: var(--primary); }
+
+    .tab-dot {
+      display: inline-block;
+      width: 6px;
+      height: 6px;
+      margin-left: 5px;
+      border-radius: 50%;
+      background: var(--warning);
+      vertical-align: 1px;
+    }
+
+    .screen { display: none; }
+    .screen.active { display: block; animation: rise .25s ease both; }
+    @keyframes rise { from { opacity: 0; transform: translateY(4px); } }
+
+    .grid { display: grid; gap: 16px; }
+    .grid-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .grid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .grid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .grid-main { grid-template-columns: minmax(0, 1.45fr) minmax(320px, .75fr); }
+
+    .card {
+      border: 1px solid var(--line);
+      border-radius: var(--radius-md);
+      background: var(--surface);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .card-head {
+      min-height: 59px;
+      padding: 15px 18px;
+      border-bottom: 1px solid var(--line);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+    }
+
+    .card-head h2, .card-head h3 { margin: 0; }
+    .card-head p { margin: 2px 0 0; font-size: 11px; }
+    .card-body { padding: 18px; }
+
+    .stat {
+      min-height: 118px;
+      padding: 17px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-md);
+      background: var(--surface);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .stat-label {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      color: var(--muted);
+      font-size: 10.5px;
+      font-weight: 700;
+    }
+
+    .stat-icon {
+      width: 28px;
+      height: 28px;
+      border-radius: var(--radius-sm);
+      background: var(--primary-light);
+      color: var(--primary);
+      display: grid;
+      place-items: center;
+      font-size: 13px;
+    }
+
+    .stat-value {
+      margin-top: 9px;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 25px;
+      font-weight: 700;
+      letter-spacing: -.4px;
+    }
+
+    .stat-meta { margin-top: 2px; color: var(--muted); font-size: 10.5px; }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      min-height: 23px;
+      padding: 3px 8px;
+      border-radius: 999px;
+      font-size: 9.5px;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .pill.success { color: var(--success); background: var(--success-light); }
+    .pill.warning { color: var(--warning); background: var(--warning-light); }
+    .pill.info { color: var(--info); background: var(--info-light); }
+    .pill.neutral { color: #666d67; background: #eef0ed; }
+    .pill.primary { color: var(--primary); background: var(--primary-light); }
+    .pill.danger { color: var(--danger); background: var(--danger-light); }
+
+    .pulse {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: currentColor;
+      box-shadow: 0 0 0 3px color-mix(in srgb, currentColor 13%, transparent);
+    }
+
+    .plan-summary {
+      padding: 18px;
+      border: 1px solid color-mix(in srgb, var(--primary) 22%, transparent);
+      border-radius: var(--radius-md);
+      background: linear-gradient(135deg, var(--primary-light), #fbfdfb);
+    }
+
+    .plan-summary-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 15px;
+    }
+
+    .plan-summary h3 { font-size: 18px; }
+    .plan-summary p { margin: 0; font-size: 11px; }
+
+    .money {
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 23px;
+      font-weight: 750;
+      white-space: nowrap;
+    }
+
+    .money small {
+      display: block;
+      color: var(--muted);
+      font-family: inherit;
+      font-size: 9px;
+      font-weight: 500;
+      text-align: right;
+    }
+
+    .meter {
+      height: 9px;
+      overflow: hidden;
+      border-radius: 999px;
+      background: #e4e8e3;
+    }
+
+    .meter > i {
+      display: block;
+      height: 100%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, var(--primary), #66866e);
+    }
+
+    .meter.danger > i { background: linear-gradient(90deg, var(--warning), var(--cta)); }
+
+    .meter-labels {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      margin-top: 7px;
+      color: var(--muted);
+      font-size: 10px;
+    }
+
+    .breakdown {
+      margin: 15px 0 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .breakdown li {
+      padding: 8px 0;
+      border-top: 1px solid color-mix(in srgb, var(--primary) 12%, transparent);
+      display: flex;
+      justify-content: space-between;
+      gap: 15px;
+      font-size: 11px;
+    }
+
+    .breakdown li span { color: var(--muted); }
+    .breakdown li.total { font-size: 12px; font-weight: 800; }
+    .breakdown li.total span { color: var(--ink); }
+
+    .steps { padding: 2px 0; }
+
+    .step {
+      position: relative;
+      min-height: 64px;
+      padding: 2px 0 15px 40px;
+    }
+
+    .step:not(:last-child)::before {
+      content: "";
+      position: absolute;
+      left: 14px;
+      top: 29px;
+      width: 1px;
+      height: calc(100% - 13px);
+      background: var(--line-strong);
+    }
+
+    .step-dot {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 29px;
+      height: 29px;
+      border: 1px solid var(--line-strong);
+      border-radius: 50%;
+      background: var(--surface);
+      color: var(--muted);
+      display: grid;
+      place-items: center;
+      font-size: 10px;
+      font-weight: 850;
+    }
+
+    .step.done .step-dot {
+      border-color: var(--success);
+      background: var(--success-light);
+      color: var(--success);
+    }
+
+    .step.current .step-dot {
+      border-color: var(--primary);
+      background: var(--primary);
+      color: white;
+      box-shadow: 0 0 0 4px var(--primary-light);
+    }
+
+    .step b { display: block; margin-bottom: 2px; font-size: 11.5px; }
+    .step small { color: var(--muted); font-size: 10px; }
+
+    .action-list { display: grid; gap: 9px; }
+
+    .action {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-sm);
+      background: var(--surface);
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      text-align: left;
+      cursor: pointer;
+    }
+
+    .action:hover { border-color: color-mix(in srgb, var(--primary) 35%, var(--line)); background: var(--primary-soft); }
+
+    .action-icon {
+      width: 33px;
+      height: 33px;
+      flex: 0 0 auto;
+      border-radius: var(--radius-sm);
+      background: var(--canvas);
+      color: var(--primary);
+      display: grid;
+      place-items: center;
+    }
+
+    .action b, .action small { display: block; }
+    .action b { font-size: 11.5px; }
+    .action small { margin-top: 2px; color: var(--muted); font-size: 9.5px; }
+    .action-arrow { margin-left: auto; color: var(--muted-2); }
+
+    .section-intro {
+      margin-bottom: 16px;
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .section-intro p { max-width: 690px; margin: 0; font-size: 12px; }
+
+    .controls {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .segmented {
+      padding: 3px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-sm);
+      background: var(--surface);
+      display: inline-flex;
+    }
+
+    .segmented button {
+      min-height: 30px;
+      padding: 6px 11px;
+      border: 0;
+      border-radius: 6px;
+      background: transparent;
+      color: var(--muted);
+      font-size: 10.5px;
+      font-weight: 750;
+      cursor: pointer;
+    }
+
+    .segmented button.active { background: var(--primary-light); color: var(--primary); }
+
+    .field-inline {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 3px 4px 3px 10px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-sm);
+      background: var(--surface);
+      color: var(--muted);
+      font-size: 10.5px;
+      font-weight: 700;
+    }
+
+    .field-inline input {
+      width: 70px;
+      height: 30px;
+      padding: 0 8px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: var(--canvas);
+      text-align: center;
+      font-weight: 800;
+    }
+
+    .plan-card {
+      position: relative;
+      padding: 20px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+      background: var(--surface);
+      box-shadow: var(--shadow-sm);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .plan-card.recommended {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px var(--primary-light), var(--shadow-md);
+    }
+
+    .recommend {
+      position: absolute;
+      top: -11px;
+      left: 18px;
+      padding: 4px 9px;
+      border-radius: 999px;
+      background: var(--primary);
+      color: white;
+      font-size: 8.5px;
+      font-weight: 850;
+      letter-spacing: .07em;
+      text-transform: uppercase;
+    }
+
+    .plan-card-top {
+      min-height: 85px;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .plan-card h3 { font-size: 18px; }
+    .plan-card p { margin: 0; font-size: 10.5px; }
+
+    .plan-price {
+      margin: 18px 0 4px;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 29px;
+      font-weight: 750;
+    }
+
+    .plan-price sup { font-size: 13px; }
+    .plan-price small { color: var(--muted); font-family: inherit; font-size: 10px; font-weight: 500; }
+    .plan-bill { min-height: 37px; color: var(--muted); font-size: 10px; }
+
+    .feature-list {
+      flex: 1;
+      margin: 17px 0;
+      padding: 15px 0 0;
+      border-top: 1px solid var(--line);
+      list-style: none;
+    }
+
+    .feature-list li {
+      position: relative;
+      padding: 5px 0 5px 21px;
+      color: #525953;
+      font-size: 10.5px;
+    }
+
+    .feature-list li::before {
+      content: "✓";
+      position: absolute;
+      left: 0;
+      color: var(--success);
+      font-weight: 900;
+    }
+
+    .feature-list li.muted::before { content: "—"; color: var(--muted-2); }
+
+    .callout {
+      padding: 13px 14px;
+      border: 1px solid color-mix(in srgb, var(--info) 25%, transparent);
+      border-radius: var(--radius-sm);
+      background: var(--info-light);
+      color: #315e77;
+      font-size: 10.5px;
+    }
+
+    .callout.warning {
+      border-color: color-mix(in srgb, var(--warning) 28%, transparent);
+      background: var(--warning-light);
+      color: #7f5719;
+    }
+
+    .callout b { display: block; margin-bottom: 2px; }
+
+    .worker-hero {
+      padding: 21px;
+      display: grid;
+      grid-template-columns: 1fr 300px;
+      gap: 25px;
+      align-items: center;
+    }
+
+    .worker-number {
+      display: flex;
+      align-items: flex-end;
+      gap: 10px;
+      margin: 12px 0;
+    }
+
+    .worker-number b {
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 38px;
+      line-height: 1;
+    }
+
+    .worker-number span { padding-bottom: 4px; color: var(--muted); font-size: 11px; }
+
+    .worker-scale {
+      position: relative;
+      height: 15px;
+      margin: 18px 0 8px;
+      border-radius: 999px;
+      background: #e8ebe7;
+    }
+
+    .worker-included, .worker-extra {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+    }
+
+    .worker-included {
+      left: 0;
+      width: 83.33%;
+      border-radius: 999px 0 0 999px;
+      background: var(--primary);
+    }
+
+    .worker-extra {
+      left: 83.33%;
+      width: 16.67%;
+      border-radius: 0 999px 999px 0;
+      background: var(--cta);
+    }
+
+    .scale-notes {
+      display: flex;
+      justify-content: space-between;
+      color: var(--muted);
+      font-size: 9.5px;
+    }
+
+    .scale-notes b { color: var(--ink); }
+
+    .estimate-box {
+      padding: 16px;
+      border-radius: var(--radius-md);
+      background: var(--warm);
+    }
+
+    .estimate-box h3 { font-size: 13px; }
+
+    .table-wrap { overflow-x: auto; }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 11px;
+    }
+
+    th {
+      padding: 10px 14px;
+      border-bottom: 1px solid var(--line-strong);
+      background: #fafbf9;
+      color: var(--muted);
+      font-size: 9px;
+      font-weight: 850;
+      letter-spacing: .05em;
+      text-align: left;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    td {
+      padding: 12px 14px;
+      border-bottom: 1px solid var(--line);
+      color: #4e554f;
+    }
+
+    tbody tr:last-child td { border-bottom: 0; }
+    td strong { color: var(--ink); }
+    .right { text-align: right; }
+
+    .credit-hero {
+      padding: 21px;
+      background:
+        radial-gradient(circle at 90% 5%, rgba(203, 133, 124, .11), transparent 30%),
+        linear-gradient(135deg, #fff, var(--primary-soft));
+      display: grid;
+      grid-template-columns: 1.2fr .8fr;
+      gap: 24px;
+    }
+
+    .credit-balance {
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+      margin: 8px 0;
+    }
+
+    .credit-balance b {
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 38px;
+      line-height: 1;
+    }
+
+    .credit-balance span { color: var(--muted); font-size: 11px; }
+
+    .credit-rule {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 9px;
+    }
+
+    .mini {
+      padding: 12px;
+      border: 1px solid color-mix(in srgb, var(--primary) 16%, transparent);
+      border-radius: var(--radius-sm);
+      background: rgba(255, 255, 255, .75);
+    }
+
+    .mini span, .mini b { display: block; }
+    .mini span { color: var(--muted); font-size: 9px; }
+    .mini b { margin-top: 3px; font-size: 11px; }
+
+    .pack-card {
+      padding: 17px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-md);
+      background: var(--surface);
+    }
+
+    .pack-card.locked { background: #f7f8f6; }
+
+    .pack-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .pack-credits {
+      margin: 13px 0 4px;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 27px;
+      font-weight: 750;
+    }
+
+    .pack-card p { min-height: 35px; margin: 0 0 12px; font-size: 10px; }
+
+    .switch-row {
+      padding: 13px 0;
+      border-bottom: 1px solid var(--line);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .switch-row:last-child { border-bottom: 0; }
+    .switch-row b, .switch-row small { display: block; }
+    .switch-row b { font-size: 11px; }
+    .switch-row small { margin-top: 2px; color: var(--muted); font-size: 9.5px; }
+
+    .switch {
+      position: relative;
+      width: 38px;
+      height: 22px;
+      flex: 0 0 auto;
+      border: 0;
+      border-radius: 999px;
+      background: #d8dcd7;
+      cursor: pointer;
+    }
+
+    .switch::after {
+      content: "";
+      position: absolute;
+      top: 3px;
+      left: 3px;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: white;
+      box-shadow: 0 1px 4px rgba(0, 0, 0, .18);
+      transition: left .18s ease;
+    }
+
+    .switch.on { background: var(--primary); }
+    .switch.on::after { left: 19px; }
+
+    .payment-card {
+      padding: 18px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-md);
+      background: var(--surface);
+    }
+
+    .payment-card-head {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 15px;
+      margin-bottom: 17px;
+    }
+
+    .razorpay {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+    }
+
+    .razorpay-mark {
+      width: 38px;
+      height: 38px;
+      border-radius: var(--radius-sm);
+      background: #2f65f6;
+      color: white;
+      display: grid;
+      place-items: center;
+      font-weight: 900;
+    }
+
+    .detail-list {
+      display: grid;
+      grid-template-columns: 150px 1fr;
+      gap: 11px 16px;
+      margin: 0;
+      font-size: 11px;
+    }
+
+    .detail-list dt { color: var(--muted); }
+    .detail-list dd { margin: 0; font-weight: 700; }
+
+    .empty-payment {
+      padding: 18px;
+      border: 1px dashed var(--line-strong);
+      border-radius: var(--radius-md);
+      background: var(--canvas);
+      text-align: center;
+    }
+
+    .empty-payment .big {
+      width: 44px;
+      height: 44px;
+      margin: 0 auto 10px;
+      border-radius: 50%;
+      background: var(--primary-light);
+      color: var(--primary);
+      display: grid;
+      place-items: center;
+      font-size: 19px;
+    }
+
+    .empty-payment p { margin: 4px auto 12px; max-width: 360px; font-size: 10.5px; }
+
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      z-index: 100;
+      padding: 24px;
+      background: rgba(20, 27, 22, .62);
+      backdrop-filter: blur(6px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal-backdrop.open { display: flex; }
+
+    .modal {
+      width: min(780px, 100%);
+      max-height: calc(100vh - 48px);
+      overflow: auto;
+      border-radius: var(--radius-lg);
+      background: var(--surface);
+      box-shadow: 0 30px 90px rgba(16, 25, 18, .3);
+      animation: modal-in .2s ease both;
+    }
+
+    .modal.small { width: min(590px, 100%); }
+
+    @keyframes modal-in {
+      from { opacity: 0; transform: translateY(8px) scale(.99); }
+    }
+
+    .modal-head {
+      position: sticky;
+      top: 0;
+      z-index: 2;
+      min-height: 70px;
+      padding: 18px 20px;
+      border-bottom: 1px solid var(--line);
+      background: rgba(255, 255, 255, .96);
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .modal-head h2 { margin: 0; }
+    .modal-head p { margin: 3px 0 0; font-size: 10.5px; }
+
+    .modal-close {
+      width: 32px;
+      height: 32px;
+      border: 1px solid var(--line);
+      border-radius: 50%;
+      background: var(--surface);
+      cursor: pointer;
+    }
+
+    .modal-body { padding: 20px; }
+
+    .modal-foot {
+      position: sticky;
+      bottom: 0;
+      z-index: 2;
+      min-height: 66px;
+      padding: 14px 20px;
+      border-top: 1px solid var(--line);
+      background: rgba(255, 255, 255, .96);
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 9px;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .field label {
+      display: block;
+      margin-bottom: 6px;
+      color: #4f5650;
+      font-size: 10.5px;
+      font-weight: 750;
+    }
+
+    .field input, .field select {
+      width: 100%;
+      height: 39px;
+      padding: 0 11px;
+      border: 1px solid var(--line-strong);
+      border-radius: var(--radius-sm);
+      background: var(--surface);
+      color: var(--ink);
+    }
+
+    .field small { display: block; margin-top: 5px; color: var(--muted); font-size: 9px; }
+
+    .checkout {
+      display: grid;
+      grid-template-columns: 1fr 300px;
+      gap: 20px;
+    }
+
+    .checkout-summary {
+      padding: 17px;
+      border-radius: var(--radius-md);
+      background: var(--warm);
+    }
+
+    .check-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 9px;
+      margin-top: 14px;
+      color: var(--muted);
+      font-size: 10px;
+    }
+
+    .check-row input { margin-top: 2px; accent-color: var(--primary); }
+
+    .toast {
+      position: fixed;
+      right: 22px;
+      bottom: 22px;
+      z-index: 200;
+      width: min(360px, calc(100vw - 44px));
+      padding: 13px 15px;
+      border: 1px solid color-mix(in srgb, var(--primary) 22%, transparent);
+      border-radius: var(--radius-md);
+      background: var(--surface);
+      box-shadow: var(--shadow-md);
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(10px);
+      transition: opacity .18s ease, transform .18s ease;
+    }
+
+    .toast.show { opacity: 1; transform: translateY(0); }
+
+    .toast-icon {
+      width: 27px;
+      height: 27px;
+      flex: 0 0 auto;
+      border-radius: 50%;
+      background: var(--success-light);
+      color: var(--success);
+      display: grid;
+      place-items: center;
+      font-weight: 900;
+    }
+
+    .toast b, .toast small { display: block; }
+    .toast b { font-size: 11.5px; }
+    .toast small { margin-top: 2px; color: var(--muted); font-size: 9.5px; }
+
+
+    @media (max-width: 1100px) {
+      .grid-4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .grid-3 { grid-template-columns: 1fr; }
+      .grid-main, .credit-hero { grid-template-columns: 1fr; }
+      .worker-hero { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 800px) {
+      .trial-banner { grid-template-columns: 1fr; }
+      .trial-count { justify-content: space-between; }
+      .checkout { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 560px) {
+      .grid-4, .grid-2, .form-grid { grid-template-columns: 1fr; }
+      .section-intro { display: block; }
+      .trial-actions { flex-wrap: wrap; }
+      .day-ring { display: none; }
+      .trial-count { display: block; }
+      .trial-count .trial-actions { margin-top: 13px; }
+      .card-head { align-items: flex-start; }
+      .credit-rule { grid-template-columns: 1fr; }
+      .modal-backdrop { padding: 10px; }
+      .modal { max-height: calc(100vh - 20px); }
+      .detail-list { grid-template-columns: 1fr; gap: 3px; }
+      .detail-list dd { margin-bottom: 8px; }
+    }
+
+    /* "Due today" mini box inside the checkout modal — was an inline
+       style="background:white" in the source prototype; given a class here
+       so dark mode can override it like every other surface. */
+    .due-today-box { padding: 11px; border-radius: 8px; background: var(--surface); margin-top: 12px; }
+
+    /* ══════════════════════════════════════════════
+       DARK MODE (synced from parent shell via data-dark attribute)
+       Token remap for --ink/--muted/--muted-2/--line/--line-strong/--canvas/
+       --surface/--primary/--cta/--success/--warning/--danger/--info and their
+       -light variants already comes from theme-tokens.css's [data-dark="true"]
+       block (via the alias root above) — everything below is only the
+       component-level overrides theme-tokens.css can't reach: literal hex/rgba
+       colors baked into this page's own CSS, and pastel "-light" brand tokens
+       that stay light in both themes and need a tinted dark substitute.
+       Reuses the exact accent hexes already established in revenue-heads.html /
+       dpr-standalone.html: success #52c48a, warning #e6b050, danger #e08078,
+       info #8fb4dd, primary(mint) #a7d4b6 — plus surface #1a1d27/#1e2130,
+       elevated #252836, borders #2d3145/#363b52.
+       .day-ring, .trial-banner .eyebrow and .recommend are intentionally left
+       alone below — they sit on the trial-banner's saturated gradient or a
+       solid primary badge in BOTH themes already, so no override is needed. */
+
+    [data-dark="true"] body { background: var(--bg) !important; }
+
+    /* Trial banner — saturated primary/cta gradient, darken like the app's
+       other stats-banner components */
+    [data-dark="true"] .trial-banner {
+      background:
+        radial-gradient(circle at 90% 20%, rgba(255, 255, 255, .08), transparent 24%),
+        linear-gradient(120deg, color-mix(in srgb, var(--primary-dark) 82%, #000), color-mix(in srgb, var(--primary) 75%, #000) 62%, color-mix(in srgb, #496a52 75%, #000)) !important;
+      box-shadow: 0 4px 24px rgba(0, 0, 0, .35) !important;
+    }
+
+    /* Tabs */
+    [data-dark="true"] .tabs { background: var(--surface); border-color: var(--line); }
+    [data-dark="true"] .tab.active { background: rgba(45, 74, 53, .25); color: #a7d4b6; }
+
+    /* Cards / stats */
+    [data-dark="true"] .card { background: var(--surface); border-color: var(--line); }
+    [data-dark="true"] .card-head { border-color: var(--line); }
+    [data-dark="true"] .stat { background: var(--surface); border-color: var(--line); }
+    [data-dark="true"] .stat-icon { background: rgba(45, 74, 53, .25); color: #a7d4b6; }
+
+    /* Pills */
+    [data-dark="true"] .pill.success { color: #52c48a; background: rgba(74, 124, 89, .18); }
+    [data-dark="true"] .pill.warning { color: #e6b050; background: rgba(184, 137, 58, .18); }
+    [data-dark="true"] .pill.info { color: #8fb4dd; background: rgba(90, 127, 168, .18); }
+    [data-dark="true"] .pill.danger { color: #e08078; background: rgba(184, 92, 82, .18); }
+    [data-dark="true"] .pill.primary { color: #a7d4b6; background: rgba(45, 74, 53, .25); }
+    [data-dark="true"] .pill.neutral { color: var(--gray-500); background: var(--gray-100); }
+
+    /* Plan summary (Overview recommended-setup card) */
+    [data-dark="true"] .plan-summary {
+      background: linear-gradient(135deg, rgba(45, 74, 53, .22), var(--surface));
+      border-color: rgba(45, 74, 53, .4);
+    }
+
+    /* Meter / progress track */
+    [data-dark="true"] .meter { background: #363b52; }
+
+    /* Subscription-journey step dots */
+    [data-dark="true"] .step.done .step-dot { background: rgba(74, 124, 89, .18); color: #52c48a; }
+    [data-dark="true"] .step.current .step-dot { box-shadow: 0 0 0 4px rgba(45, 74, 53, .3); }
+
+    /* Action-list rows (Manage account, Who uses a slot, etc.) */
+    [data-dark="true"] .action { background: var(--surface); border-color: var(--line); }
+    [data-dark="true"] .action:hover { background: rgba(45, 74, 53, .18); border-color: color-mix(in srgb, var(--primary) 35%, var(--line)); }
+    [data-dark="true"] .action-icon { background: rgba(45, 74, 53, .25); color: #a7d4b6; }
+
+    /* Segmented control (Monthly / Annual) */
+    [data-dark="true"] .segmented { background: var(--surface); border-color: var(--line); }
+    [data-dark="true"] .segmented button.active { background: rgba(45, 74, 53, .25); color: #a7d4b6; }
+    [data-dark="true"] .field-inline { background: var(--surface); border-color: var(--line); color: var(--muted); }
+    [data-dark="true"] .field-inline input { background: var(--canvas); border-color: var(--line); color: var(--ink); }
+
+    /* Plan cards */
+    [data-dark="true"] .plan-card { background: var(--surface); border-color: var(--line); }
+    [data-dark="true"] .plan-card.recommended { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(45, 74, 53, .3), var(--shadow-md); }
+    [data-dark="true"] .feature-list { border-color: var(--line); }
+    [data-dark="true"] .feature-list li { color: var(--gray-700); }
+
+    /* Callouts */
+    [data-dark="true"] .callout { background: rgba(90, 127, 168, .14); border-color: rgba(90, 127, 168, .35); color: #8fb4dd; }
+    [data-dark="true"] .callout.warning { background: rgba(184, 137, 58, .14); border-color: rgba(184, 137, 58, .4); color: #e6b050; }
+
+    /* Employee capacity hero */
+    [data-dark="true"] .worker-scale { background: #363b52; }
+    [data-dark="true"] .estimate-box { background: color-mix(in srgb, var(--warm) 12%, var(--gray-50)); }
+
+    /* Tables (Employees using capacity, Usage pricing, AI-credit ledger, Invoices) */
+    [data-dark="true"] th { background: var(--gray-50); color: var(--gray-500); border-color: var(--line-strong); }
+    [data-dark="true"] td { color: var(--gray-700); border-color: var(--line); }
+
+    /* AI credits */
+    [data-dark="true"] .credit-hero {
+      background:
+        radial-gradient(circle at 90% 5%, rgba(203, 133, 124, .08), transparent 30%),
+        linear-gradient(135deg, var(--gray-50), rgba(45, 74, 53, .18));
+    }
+    [data-dark="true"] .mini { background: var(--gray-50); border-color: color-mix(in srgb, var(--primary) 20%, transparent); }
+    [data-dark="true"] .pack-card { background: var(--surface); border-color: var(--line); }
+    [data-dark="true"] .pack-card.locked { background: var(--gray-50); }
+
+    /* Switches */
+    [data-dark="true"] .switch { background: var(--gray-200); }
+
+    /* Payments & invoices */
+    [data-dark="true"] .payment-card { background: var(--surface); border-color: var(--line); }
+    [data-dark="true"] .razorpay-mark { background: color-mix(in srgb, #2f65f6 82%, #1a1d27); }
+    [data-dark="true"] .empty-payment { background: var(--canvas); border-color: var(--line-strong); }
+    [data-dark="true"] .empty-payment .big { background: rgba(45, 74, 53, .25); color: #a7d4b6; }
+    [data-dark="true"] .detail-list dt { color: var(--muted); }
+
+    /* Modals */
+    [data-dark="true"] .modal-backdrop { background: rgba(0, 0, 0, .72); }
+    [data-dark="true"] .modal { background: var(--surface); box-shadow: 0 30px 90px rgba(0, 0, 0, .55); }
+    [data-dark="true"] .modal-head,
+    [data-dark="true"] .modal-foot { background: rgba(26, 29, 39, .96); border-color: var(--line); }
+    [data-dark="true"] .modal-close { background: var(--surface); border-color: var(--line); color: var(--ink); }
+
+    /* Form fields (modals) */
+    [data-dark="true"] .field input,
+    [data-dark="true"] .field select { background: var(--gray-50); border-color: var(--line-strong); color: var(--gray-800); }
+    [data-dark="true"] .checkout-summary,
+    [data-dark="true"] .due-today-box { background: color-mix(in srgb, var(--warm) 12%, var(--gray-50)); }
+
+    /* Toast */
+    [data-dark="true"] .toast { background: var(--surface); }
+    [data-dark="true"] .toast-icon { background: rgba(74, 124, 89, .18); color: #52c48a; }
+</style></head>
+<body>
+<script>
+/* ============ DARK MODE SYNC (mirrors parent shell's toggleDarkMode) ============
+   This page is loaded inside an iframe on index.html. The parent toggles
+   data-dark on its own <html> element and persists to localStorage. Since
+   this document has no independent toggle UI, it mirrors the parent's
+   attribute on load and stays in sync live via MutationObserver. */
+(function(){
+  try{
+    if(window.parent && window.parent !== window && window.parent.document){
+      var parentHtml = window.parent.document.documentElement;
+      document.documentElement.setAttribute('data-dark', parentHtml.getAttribute('data-dark') === 'true' ? 'true' : 'false');
+      new MutationObserver(function(mutations){
+        mutations.forEach(function(m){
+          if(m.attributeName === 'data-dark'){
+            document.documentElement.setAttribute('data-dark', parentHtml.getAttribute('data-dark') === 'true' ? 'true' : 'false');
+          }
+        });
+      }).observe(parentHtml, {attributes:true, attributeFilter:['data-dark']});
+    }
+  }catch(e){
+    // Standalone (not embedded) or cross-origin access blocked — default to light mode silently.
+  }
+})();
+</script>
+<main class="content">
+  <div class="page-header">
+    <div class="page-title-section">
+      <div>
+        <div class="page-title">Plan &amp; billing</div>
+        <div class="page-subtitle">Choose how your workspace continues after the trial, manage employee capacity and add-ons, and control AI credits from one place.</div>
+      </div>
+    </div>
+  </div>
+
+        <section class="trial-banner" aria-label="Trial status">
+          <div>
+            <div class="eyebrow">14-day free trial</div>
+            <h2>Your workspace is active. Choose a plan before 31 July.</h2>
+            <p>You can subscribe now without losing any trial days. The first charge is scheduled for the day after your trial ends.</p>
+          </div>
+          <div class="trial-count">
+            <div class="day-ring"><span><b>8</b><small>days left</small></span></div>
+            <div class="trial-actions">
+              <button class="btn btn-ghost" data-go="plans">Compare plans</button>
+              <button class="btn btn-cta" data-subscribe="growth">Subscribe to Growth</button>
+            </div>
+          </div>
+        </section>
+
+        <div class="tabs" role="tablist" aria-label="Plan and billing sections">
+          <button class="tab active" role="tab" aria-selected="true" data-tab="overview">Overview</button>
+          <button class="tab" role="tab" aria-selected="false" data-tab="plans">Plans</button>
+          <button class="tab" role="tab" aria-selected="false" data-tab="workers">Employees &amp; add-ons</button>
+          <button class="tab" role="tab" aria-selected="false" data-tab="credits">AI credits</button>
+          <button class="tab" role="tab" aria-selected="false" data-tab="payments">Payments &amp; invoices<span class="tab-dot" title="Payment setup required"></span></button>
+        </div>
+
+        <section class="screen active" data-screen="overview">
+          <div class="grid grid-4" style="margin-bottom:16px">
+            <article class="stat">
+              <div class="stat-label"><span>Trial ends</span><span class="stat-icon">◷</span></div>
+              <div class="stat-value">31 Jul</div>
+              <div class="stat-meta">8 full days remaining</div>
+            </article>
+            <article class="stat">
+              <div class="stat-label"><span>Employees needed</span><span class="stat-icon">♙</span></div>
+              <div class="stat-value">24</div>
+              <div class="stat-meta">20 included + 4 add-ons required</div>
+            </article>
+            <article class="stat">
+              <div class="stat-label"><span>Growth estimate</span><span class="stat-icon">₹</span></div>
+              <div class="stat-value" id="overviewStatEstimate">₹7,375</div>
+              <div class="stat-meta">Monthly · before GST</div>
+            </article>
+            <article class="stat">
+              <div class="stat-label"><span>Trial AI credits</span><span class="stat-icon">✦</span></div>
+              <div class="stat-value">180</div>
+              <div class="stat-meta">Of 200 · expires with trial</div>
+            </article>
+          </div>
+
+          <div class="grid grid-main">
+            <article class="card">
+              <div class="card-head">
+                <div><h2>Recommended setup</h2><p>Based on the modules and employees active in your trial</p></div>
+                <span class="pill primary"><span class="pulse"></span>Growth</span>
+              </div>
+              <div class="card-body">
+                <div class="plan-summary">
+                  <div class="plan-summary-top">
+                    <div>
+                      <h3>Growth</h3>
+                      <p>Project controls, vendor workflows, billing readiness and AI eligibility.</p>
+                    </div>
+                    <div class="money">₹7,375<small>estimated per month · before GST</small></div>
+                  </div>
+                  <div class="meter"><i style="width:80%"></i></div>
+                  <div class="meter-labels"><span>20 employees in starting price</span><span>4 employee add-ons required</span></div>
+                  <ul class="breakdown">
+                    <li><span>Growth starting price · first 20 employees</span><b>₹6,979</b></li>
+                    <li><span>4 employee add-ons × ₹99</span><b id="overviewAddOnAmount">₹396</b></li>
+                    <li><span>AI credits</span><b>Buy only when needed</b></li>
+                    <li class="total"><span>Estimated monthly subtotal</span><b id="overviewPlanSubtotal">₹7,375</b></li>
+                  </ul>
+                  <div style="display:flex;gap:9px;justify-content:flex-end;margin-top:15px;flex-wrap:wrap">
+                    <button class="btn" data-go="plans">Compare all plans</button>
+                    <button class="btn btn-primary" data-subscribe="growth">Review &amp; subscribe</button>
+                  </div>
+                </div>
+                <div class="callout" style="margin-top:14px">
+                  <b>Employee add-ons make capacity clear before billing.</b>
+                  Growth includes 20 active employees. Your current trial needs at least 4 recurring employee add-ons. Directory-only and inactive employee records do not consume capacity.
+                </div>
+              </div>
+            </article>
+
+            <div class="grid">
+              <article class="card">
+                <div class="card-head"><div><h3>Subscription journey</h3><p>No automatic charge from your trial</p></div></div>
+                <div class="card-body steps">
+                  <div class="step done"><span class="step-dot">✓</span><b>Trial workspace created</b><small>No card or mandate collected</small></div>
+                  <div class="step current"><span class="step-dot">2</span><b>Choose plan and billing cycle</b><small>Review employee capacity, add-ons and access</small></div>
+                  <div class="step"><span class="step-dot">3</span><b>Authorise Razorpay</b><small>Owner or Billing Admin approval required</small></div>
+                  <div class="step"><span class="step-dot">4</span><b>Paid plan starts</b><small>First charge on 1 August 2026</small></div>
+                </div>
+              </article>
+
+              <article class="card">
+                <div class="card-head"><div><h3>Manage account</h3><p>Common billing actions</p></div></div>
+                <div class="card-body action-list">
+                  <button class="action" data-go="workers"><span class="action-icon">♙</span><span><b>Manage employee add-ons</b><small>Review included, used and available capacity</small></span><span class="action-arrow">→</span></button>
+                  <button class="action" data-go="credits"><span class="action-icon">✦</span><span><b>Manage AI credits</b><small>Balance, packs, limits and usage rates</small></span><span class="action-arrow">→</span></button>
+                  <button class="action" data-go="payments"><span class="action-icon">₹</span><span><b>Billing details</b><small>Payment method, GST and invoices</small></span><span class="action-arrow">→</span></button>
+                </div>
+              </article>
+            </div>
+          </div>
+        </section>
+
+        <section class="screen" data-screen="plans">
+          <div class="section-intro">
+            <div>
+              <h2>Choose the plan your team needs now</h2>
+              <p>The estimate uses the number of employees you want active. Employees above the plan allowance become recurring add-ons at the plan’s per-employee price.</p>
+            </div>
+            <div class="controls">
+              <div class="segmented" aria-label="Billing cycle">
+                <button class="active" data-cycle="monthly">Monthly</button>
+                <button data-cycle="annual">Annual · 2 months free</button>
+              </div>
+              <label class="field-inline">Employees to activate <input id="planWorkers" type="number" min="1" max="10000" value="24"></label>
+            </div>
+          </div>
+
+          <div class="grid grid-3" id="planCards">
+            <article class="plan-card" data-plan-card="starter">
+              <div class="plan-card-top">
+                <div><h3>Starter</h3><p>Attendance, field work and everyday expense control.</p></div>
+                <span class="pill neutral">Core operations</span>
+              </div>
+              <div class="plan-price"><sup>₹</sup><span data-price="starter">2,675</span><small> / month</small></div>
+              <div class="plan-bill" data-plan-note="starter">₹1,989 includes 10 employees + 14 employee add-ons</div>
+              <button class="btn btn-block" data-subscribe="starter">Choose Starter</button>
+              <ul class="feature-list">
+                <li>Employees, projects, sites and standard roles</li>
+                <li>Geo-verified attendance and field tracking</li>
+                <li>Expenses, approvals and mileage</li>
+                <li>Assignments, work done and daily logs</li>
+                <li>Standard dashboard, reports and exports</li>
+                <li class="muted">AI credits are not available</li>
+              </ul>
+            </article>
+
+            <article class="plan-card recommended" data-plan-card="growth">
+              <span class="recommend">Recommended from your trial</span>
+              <div class="plan-card-top">
+                <div><h3>Growth</h3><p>Project controls, vendor workflows and billing readiness.</p></div>
+                <span class="pill primary">AI eligible</span>
+              </div>
+              <div class="plan-price"><sup>₹</sup><span data-price="growth">7,375</span><small> / month</small></div>
+              <div class="plan-bill" data-plan-note="growth">₹6,979 includes 20 employees + 4 employee add-ons</div>
+              <button class="btn btn-primary btn-block" data-subscribe="growth">Choose Growth</button>
+              <ul class="feature-list">
+                <li>Everything in Starter</li>
+                <li>Plan &amp; WBS, plan vs actual and resource analytics</li>
+                <li>Vendor Hub, purchase orders and material</li>
+                <li>Sales orders, WCC and Invoice Hub</li>
+                <li>Zoho Books and QuickBooks sync</li>
+                <li>Prepaid Onaqt Intelligence credits available</li>
+              </ul>
+            </article>
+
+            <article class="plan-card" data-plan-card="enterprise">
+              <div class="plan-card-top">
+                <div><h3>Enterprise</h3><p>Govern complex operations, access and organisational risk.</p></div>
+                <span class="pill info">Sales assisted</span>
+              </div>
+              <div class="plan-price"><span style="font-size:24px">Custom</span></div>
+              <div class="plan-bill">Annual agreement · implementation and volume pricing</div>
+              <button class="btn btn-block" data-contact>Talk to Onaqt</button>
+              <ul class="feature-list">
+                <li>Everything in Growth</li>
+                <li>Advanced roles, SSO, API and webhooks</li>
+                <li>Consolidated reports and enterprise controls</li>
+                <li>Audit trail, compliance and dedicated SLA</li>
+                <li>5,000 monthly AI credits when activated</li>
+                <li>Enterprise credit packs and custom rate terms</li>
+              </ul>
+            </article>
+          </div>
+
+          <div class="section-intro" style="margin-top:24px">
+            <div>
+              <h2>Manage the plan after activation</h2>
+              <p>Every change shows its effective date, feature impact, employee capacity and payment effect before an authorised administrator confirms it.</p>
+            </div>
+            <span class="pill neutral">Available after activation</span>
+          </div>
+          <div class="grid grid-3">
+            <article class="card">
+              <div class="card-body">
+                <span class="stat-icon" style="margin-bottom:12px">↑</span>
+                <h3>Upgrade plan</h3>
+                <p style="font-size:10.5px;min-height:45px">Premium modules become available after payment confirmation. The review shows any prorated charge.</p>
+                <button class="btn btn-block" data-plan-change="upgrade">Preview upgrade</button>
+              </div>
+            </article>
+            <article class="card">
+              <div class="card-body">
+                <span class="stat-icon" style="margin-bottom:12px">↓</span>
+                <h3>Downgrade plan</h3>
+                <p style="font-size:10.5px;min-height:45px">Scheduled for renewal. Resolve unsupported modules and excess employee capacity before confirming.</p>
+                <button class="btn btn-block" data-plan-change="downgrade">Preview downgrade</button>
+              </div>
+            </article>
+            <article class="card">
+              <div class="card-body">
+                <span class="stat-icon" style="margin-bottom:12px">↻</span>
+                <h3>Change billing cycle</h3>
+                <p style="font-size:10.5px;min-height:45px">Move between monthly and annual billing with the next charge date and commitment shown clearly.</p>
+                <button class="btn btn-block" data-plan-change="cycle">Preview cycle change</button>
+              </div>
+            </article>
+          </div>
+
+          <div class="callout warning" style="margin-top:16px">
+            <b>If no plan is activated by the end of the trial</b>
+            The workspace becomes read-only. Data remains available to authorised administrators, but operational actions pause until a plan is activated. Nothing is charged automatically.
+          </div>
+        </section>
+
+        <section class="screen" data-screen="workers">
+          <div class="section-intro">
+            <div>
+              <h2>Employee capacity &amp; add-ons</h2>
+              <p>See what the plan includes, add more employee capacity when the team grows, and review who currently consumes a paid employee slot.</p>
+            </div>
+            <div class="controls">
+              <button class="btn">Download employee activity</button>
+              <button class="btn" data-remove-employees>Reduce capacity</button>
+              <button class="btn btn-primary" data-add-employees>+ Add employee capacity</button>
+            </div>
+          </div>
+
+          <article class="card" style="margin-bottom:16px">
+            <div class="worker-hero">
+              <div>
+                <span class="pill warning"><span class="pulse"></span>Required for Growth activation</span>
+                <div class="worker-number"><b id="workerCapacity">24</b><span>employee capacity selected</span></div>
+                <p style="margin:0;font-size:11px">Growth includes 20 active employees. Add-ons increase the number of employees who can use covered workflows. Inactive and directory-only records do not consume a slot.</p>
+                <div class="worker-scale">
+                  <i class="worker-included" id="workerIncludedBar"></i><i class="worker-extra" id="workerAddonBar"></i>
+                </div>
+                <div class="scale-notes"><span><b>20</b> included in Growth</span><span><b id="workerAddonCount">4</b> employee add-ons · ₹99 each</span><span><b id="workerAvailable">0</b> slots available</span></div>
+              </div>
+              <div class="estimate-box">
+                <h3>Growth + employee add-ons</h3>
+                <ul class="breakdown">
+                  <li><span>Starting price</span><b>₹6,979</b></li>
+                  <li><span id="workerAddOnLabel">4 employee add-ons</span><b id="workerAddOnAmount">₹396</b></li>
+                  <li class="total"><span>Monthly subtotal</span><b id="workerPlanSubtotal">₹7,375</b></li>
+                </ul>
+                <button class="btn btn-primary btn-block" data-add-employees>Add employee capacity</button>
+              </div>
+            </div>
+          </article>
+
+          <div class="grid grid-main">
+            <article class="card">
+              <div class="card-head">
+                <div><h3>Employees using capacity</h3><p>Trial activity up to 23 July 2026</p></div>
+                <span class="pill neutral">24 of <span id="employeeTableCapacity">24</span> slots</span>
+              </div>
+              <div class="table-wrap">
+                <table>
+                  <thead><tr><th>Worker</th><th>Why counted</th><th>First activity</th><th>Status</th></tr></thead>
+                  <tbody>
+                    <tr><td><strong>Rajesh Kumar</strong><br><small>Field Engineer</small></td><td>Attendance + work done</td><td>02 Jul</td><td><span class="pill success">Active</span></td></tr>
+                    <tr><td><strong>Meena Sharma</strong><br><small>Supervisor</small></td><td>Attendance approval</td><td>01 Jul</td><td><span class="pill success">Active</span></td></tr>
+                    <tr><td><strong>Amit Patel</strong><br><small>Site Engineer</small></td><td>Expense + field tracking</td><td>03 Jul</td><td><span class="pill success">Active</span></td></tr>
+                    <tr><td><strong>Sunil Verma</strong><br><small>Technician</small></td><td>Attendance</td><td>07 Jul</td><td><span class="pill success">Active</span></td></tr>
+                    <tr><td colspan="4" style="text-align:center;color:var(--muted)">20 more active employees · download employee activity for the full list</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </article>
+
+            <div class="grid">
+              <article class="card">
+                <div class="card-head"><div><h3>Who uses an employee slot?</h3><p>Clear, auditable capacity rules</p></div></div>
+                <div class="card-body">
+                  <div class="action-list">
+                    <div class="action"><span class="action-icon">✓</span><span><b>Uses a slot</b><small>An employee activated for attendance, assigned work, expenses, approvals or another plan workflow</small></span></div>
+                    <div class="action"><span class="action-icon">—</span><span><b>Does not use a slot</b><small>Inactive, archived or directory-only employee with no product access</small></span></div>
+                    <div class="action"><span class="action-icon">＋</span><span><b>When capacity is full</b><small>An owner adds employee capacity before another employee can be activated</small></span></div>
+                  </div>
+                </div>
+              </article>
+              <article class="card">
+                <div class="card-head"><div><h3>Capacity alerts</h3><p>Know before the team reaches its limit</p></div></div>
+                <div class="card-body">
+                  <div class="switch-row"><div><b>Alert at 90% capacity</b><small>Email the owner and Billing Admin</small></div><button class="switch on" aria-label="Toggle capacity alert"></button></div>
+                  <div class="switch-row"><div><b>Weekly employee forecast</b><small>Used slots and expected hires every Monday</small></div><button class="switch on" aria-label="Toggle weekly forecast"></button></div>
+                </div>
+              </article>
+            </div>
+          </div>
+        </section>
+
+        <section class="screen" data-screen="credits">
+          <div class="section-intro">
+            <div>
+              <h2>AI credits</h2>
+              <p>Onaqt Intelligence uses an organisation credit wallet. Credits are prepaid, usage is visible, and actions stop at zero unless an authorised administrator buys more.</p>
+            </div>
+            <button class="btn btn-primary" data-buy="pack_1000">Buy credits</button>
+          </div>
+
+          <article class="card credit-hero" style="margin-bottom:16px">
+            <div>
+              <span class="pill info">Trial allowance · does not renew</span>
+              <div class="credit-balance"><b>180</b><span>credits available</span></div>
+              <div class="meter"><i style="width:10%"></i></div>
+              <div class="meter-labels"><span>20 used</span><span>200 granted · expires 31 July</span></div>
+              <div class="callout warning" style="margin-top:15px">
+                Trial credits expire when the trial ends. They are not transferred into a paid credit pack.
+              </div>
+            </div>
+            <div class="credit-rule">
+              <div class="mini"><span>Eligible plan</span><b>Growth or Enterprise</b></div>
+              <div class="mini"><span>Zero-balance rule</span><b>AI actions stop</b></div>
+              <div class="mini"><span>Automatic overage</span><b>Off</b></div>
+              <div class="mini"><span>Alerts</span><b>50% · 75% · 90% · 100%</b></div>
+            </div>
+          </article>
+
+          <div class="section-intro" style="margin-top:22px">
+            <div><h2>Credit packs</h2><p>One-time Razorpay purchase. Buying credits does not change the core subscription.</p></div>
+          </div>
+          <div class="grid grid-3" style="margin-bottom:16px">
+            <article class="pack-card">
+              <div class="pack-top"><h3>AI Credits 1K</h3><span class="pill success">Growth eligible</span></div>
+              <div class="pack-credits">1,000</div>
+              <p>Valid for 90 days. A practical starting point for Ask Onaqt and document workflows.</p>
+              <button class="btn btn-block" data-buy="pack_1000">Buy for ₹999</button>
+            </article>
+            <article class="pack-card">
+              <div class="pack-top"><h3>AI Credits 5K</h3><span class="pill primary">Best value</span></div>
+              <div class="pack-credits">5,000</div>
+              <p>Valid for 180 days. Built for recurring receipt, bill-matching and forecasting use.</p>
+              <button class="btn btn-primary btn-block" data-buy="pack_5000">Buy for ₹3,999</button>
+            </article>
+            <article class="pack-card locked">
+              <div class="pack-top"><h3>AI Credits 20K</h3><span class="pill neutral">Enterprise only</span></div>
+              <div class="pack-credits">20,000</div>
+              <p>Valid for 365 days. Sales-assisted purchase with enterprise usage review.</p>
+              <button class="btn btn-block" disabled>Requires Enterprise</button>
+            </article>
+          </div>
+
+          <div class="grid grid-main">
+            <article class="card">
+              <div class="card-head"><div><h3>Usage pricing</h3><p>Credits are deducted only after a completed AI action</p></div><span class="pill neutral">Rate card v1</span></div>
+              <div class="table-wrap">
+                <table>
+                  <thead><tr><th>AI action</th><th>Billing unit</th><th class="right">Credits</th><th>Status</th></tr></thead>
+                  <tbody>
+                    <tr><td><strong>Ask Onaqt</strong></td><td>Completed question</td><td class="right"><strong>2</strong></td><td><span class="pill success">Live</span></td></tr>
+                    <tr><td><strong>Receipt reading</strong></td><td>Document page</td><td class="right"><strong>1</strong></td><td><span class="pill success">Live</span></td></tr>
+                    <tr><td><strong>Vendor-bill matching</strong></td><td>Document</td><td class="right"><strong>3</strong></td><td><span class="pill success">Live</span></td></tr>
+                    <tr><td><strong>Forecast generation</strong></td><td>Forecast run</td><td class="right"><strong>25</strong></td><td><span class="pill success">Live</span></td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </article>
+
+            <article class="card">
+              <div class="card-head"><div><h3>Usage controls</h3><p>Organisation owner settings</p></div></div>
+              <div class="card-body">
+                <div class="switch-row"><div><b>Hard stop at zero credits</b><small>Required · prevents unpaid AI usage</small></div><button class="switch on" disabled aria-label="Hard stop enabled"></button></div>
+                <div class="switch-row"><div><b>Usage alert emails</b><small>Owner and Billing Admin</small></div><button class="switch on" aria-label="Toggle usage alerts"></button></div>
+                <div class="switch-row"><div><b>Automatic credit purchase</b><small>Off · every pack needs approval</small></div><button class="switch" aria-label="Toggle automatic purchase"></button></div>
+              </div>
+            </article>
+          </div>
+
+          <article class="card" style="margin-top:16px">
+            <div class="card-head">
+              <div><h3>Recent AI-credit activity</h3><p>Every grant, purchase, use, reservation, release and refund is recorded</p></div>
+              <button class="btn btn-sm">Download credit ledger</button>
+            </div>
+            <div class="table-wrap">
+              <table>
+                <thead><tr><th>Time</th><th>Activity</th><th>Source</th><th class="right">Credits</th><th class="right">Balance</th><th>Status</th></tr></thead>
+                <tbody>
+                  <tr><td>Today · 11:42</td><td><strong>Ask Onaqt</strong></td><td>Completed question</td><td class="right">−2</td><td class="right"><strong>180</strong></td><td><span class="pill success">Settled</span></td></tr>
+                  <tr><td>Today · 10:18</td><td><strong>Receipt reading</strong></td><td>6 document pages</td><td class="right">−6</td><td class="right"><strong>182</strong></td><td><span class="pill success">Settled</span></td></tr>
+                  <tr><td>22 Jul · 16:04</td><td><strong>Forecast generation</strong></td><td>Failed run · credit returned</td><td class="right">+25</td><td class="right"><strong>188</strong></td><td><span class="pill info">Refunded</span></td></tr>
+                  <tr><td>18 Jul · 09:00</td><td><strong>Trial allowance</strong></td><td>One-time organisation grant</td><td class="right">+200</td><td class="right"><strong>200</strong></td><td><span class="pill info">Granted</span></td></tr>
+                </tbody>
+              </table>
+            </div>
+          </article>
+
+          <div class="callout" style="margin-top:16px">
+            <b>Credit expiry is visible before purchase.</b>
+            The wallet uses credits with the nearest expiry first. The owner and Billing Admin receive reminders 30, 14 and 3 days before purchased credits expire.
+          </div>
+        </section>
+
+        <section class="screen" data-screen="payments">
+          <div class="section-intro">
+            <div>
+              <h2>Payments &amp; invoices</h2>
+              <p>Authorise the subscription through Razorpay, manage billing details, and keep every plan and credit invoice together.</p>
+            </div>
+            <button class="btn btn-primary" data-subscribe="growth">Set up subscription</button>
+          </div>
+
+          <div class="grid grid-2" style="margin-bottom:16px">
+            <article class="payment-card">
+              <div class="payment-card-head">
+                <div class="razorpay"><div class="razorpay-mark">R</div><div><h3 style="margin:0">Razorpay subscription</h3><p style="margin:2px 0 0;font-size:10px">Secure recurring payment authorisation</p></div></div>
+                <span class="pill warning"><span class="pulse"></span>Not set up</span>
+              </div>
+              <div class="empty-payment">
+                <div class="big">₹</div>
+                <h3>No payment method is connected</h3>
+                <p>Your free trial continues normally. Add a payment method only when you approve a paid subscription.</p>
+                <button class="btn btn-primary" data-subscribe="growth">Review subscription</button>
+              </div>
+            </article>
+
+            <article class="payment-card">
+              <div class="payment-card-head"><div><h3>Billing details</h3><p style="margin:2px 0 0;font-size:10px">Used on subscription and credit invoices</p></div><button class="btn btn-sm" data-edit-billing>Edit</button></div>
+              <dl class="detail-list">
+                <dt>Legal name</dt><dd>Meghdoot Infrastructure Pvt. Ltd.</dd>
+                <dt>Billing email</dt><dd>accounts@meghdoot.co.in</dd>
+                <dt>GSTIN</dt><dd>03AAHCM4821P1ZQ</dd>
+                <dt>Billing address</dt><dd>Industrial Area, Mohali, Punjab 160055</dd>
+                <dt>Currency</dt><dd>INR</dd>
+              </dl>
+            </article>
+          </div>
+
+          <div class="grid grid-main" style="margin-bottom:16px">
+            <article class="card">
+              <div class="card-head">
+                <div><h3>Subscription controls</h3><p>The paid-plan view after Razorpay activation</p></div>
+                <span class="pill neutral">Preview after activation</span>
+              </div>
+              <div class="card-body">
+                <dl class="detail-list">
+                  <dt>Plan</dt><dd>Growth</dd>
+                  <dt>Status</dt><dd><span class="pill success"><span class="pulse"></span>Active</span></dd>
+                  <dt>Billing cycle</dt><dd>Monthly</dd>
+                  <dt>Employee capacity</dt><dd><span id="paymentEmployeeCapacity">24</span> · 20 included + <span id="paymentEmployeeAddons">4</span> add-ons</dd>
+                  <dt>Next renewal</dt><dd>1 September 2026</dd>
+                  <dt>Renewal estimate</dt><dd id="paymentRenewalEstimate">₹7,375 + GST</dd>
+                  <dt>Authorised by</dt><dd>N. Sharma · Organisation owner</dd>
+                </dl>
+                <div style="display:flex;gap:9px;flex-wrap:wrap;margin-top:17px">
+                  <button class="btn" id="updateActivePaymentMethod">Update payment method</button>
+                  <button class="btn" data-plan-change="cycle">Change billing cycle</button>
+                  <button class="btn" data-plan-change="downgrade">Change plan</button>
+                  <button class="btn" data-cancel-subscription>Cancel renewal</button>
+                </div>
+              </div>
+            </article>
+
+            <article class="card">
+              <div class="card-head"><div><h3>Who can manage billing?</h3><p>Restricted account actions</p></div></div>
+              <div class="card-body">
+                <div class="action-list">
+                  <div class="action"><span class="action-icon">O</span><span><b>Organisation owner</b><small>Plans, employee add-ons, payments and cancellation</small></span><span class="pill success">Full access</span></div>
+                  <div class="action"><span class="action-icon">₹</span><span><b>Billing Admin</b><small>Payment method, invoices, employee and AI add-ons</small></span><span class="pill primary">Billing access</span></div>
+                  <div class="action"><span class="action-icon">A</span><span><b>Standard admin</b><small>Can view the plan but cannot approve charges</small></span><span class="pill neutral">View only</span></div>
+                </div>
+              </div>
+            </article>
+          </div>
+
+          <article class="card" style="margin-bottom:16px">
+            <div class="card-head"><div><h3>Payment protection</h3><p>What the organisation sees if a renewal payment fails</p></div><span class="pill warning">No silent lockout</span></div>
+            <div class="card-body">
+              <div class="grid grid-4">
+                <div class="mini"><span>1 · Payment fails</span><b>Owner notified immediately</b></div>
+                <div class="mini"><span>2 · Recovery window</span><b>Retry or update payment method</b></div>
+                <div class="mini"><span>3 · Grace period ends</span><b>Workspace becomes read-only</b></div>
+                <div class="mini"><span>4 · Payment confirmed</span><b>Operational access restores</b></div>
+              </div>
+              <div style="display:flex;justify-content:flex-end;margin-top:13px">
+                <button class="btn" id="previewPaymentRecovery">Preview payment recovery</button>
+              </div>
+            </div>
+          </article>
+
+          <article class="card">
+            <div class="card-head"><div><h3>Invoices and receipts</h3><p>Plan renewals and AI-credit purchases appear separately</p></div><button class="btn btn-sm">Download statement</button></div>
+            <div class="table-wrap">
+              <table>
+                <thead><tr><th>Document</th><th>Type</th><th>Period / item</th><th>Amount</th><th>Status</th><th class="right">Action</th></tr></thead>
+                <tbody>
+                  <tr><td><strong>TRIAL-2026-0718</strong></td><td>Trial record</td><td>18–31 Jul 2026</td><td>₹0</td><td><span class="pill info">Trial</span></td><td class="right"><button class="btn btn-sm">View</button></td></tr>
+                  <tr><td colspan="6" style="padding:25px;text-align:center;color:var(--muted)">Paid-plan invoices and AI-credit receipts will appear here after activation.</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </article>
+        </section>
+  </main>
+
+  <div class="modal-backdrop" id="checkoutBackdrop" role="presentation">
+    <section class="modal" role="dialog" aria-modal="true" aria-labelledby="checkoutTitle">
+      <header class="modal-head">
+        <div><div class="eyebrow">Activate after trial</div><h2 id="checkoutTitle">Review your Growth subscription</h2><p>Confirm the plan and billing estimate before opening Razorpay.</p></div>
+        <button class="modal-close" data-close="checkoutBackdrop" aria-label="Close subscription review">×</button>
+      </header>
+      <div class="modal-body checkout">
+        <div>
+          <div class="form-grid">
+            <div class="field">
+              <label for="checkoutPlan">Plan</label>
+              <select id="checkoutPlan"><option value="starter">Starter</option><option value="growth" selected>Growth</option></select>
+            </div>
+            <div class="field">
+              <label for="checkoutCycle">Billing cycle</label>
+              <select id="checkoutCycle"><option value="monthly">Monthly</option><option value="annual">Annual · 2 months free</option></select>
+            </div>
+            <div class="field">
+              <label for="checkoutWorkers">Employees to activate</label>
+              <input id="checkoutWorkers" type="number" min="1" max="10000" value="24">
+              <small>Employees above the plan allowance become recurring add-ons.</small>
+            </div>
+            <div class="field">
+              <label for="checkoutStart">Paid plan starts</label>
+              <input id="checkoutStart" value="1 August 2026" readonly>
+              <small>Your remaining trial days are preserved.</small>
+            </div>
+          </div>
+
+          <div class="callout" style="margin-top:16px">
+            <b>Razorpay authorisation does not end the free trial.</b>
+            The mandate is created now. The first plan charge is scheduled for 1 August 2026. The backend verifies the subscription before paid access is activated.
+          </div>
+
+          <label class="check-row">
+            <input id="authoriseCheck" type="checkbox">
+            <span>I am authorised to manage billing for this organisation and approve the selected plan, employee add-ons and applicable taxes.</span>
+          </label>
+        </div>
+        <aside class="checkout-summary">
+          <div style="display:flex;justify-content:space-between;gap:12px;align-items:flex-start">
+            <div><h3 id="summaryPlan">Growth</h3><p id="summaryCycle" style="font-size:10px;margin:0">Monthly subscription</p></div>
+            <span class="pill primary">Starts after trial</span>
+          </div>
+          <ul class="breakdown">
+            <li><span id="summaryBaseLabel">Starting price · 20 employees</span><b id="summaryBase">₹6,979</b></li>
+            <li><span id="summaryExtraLabel">4 employee add-ons</span><b id="summaryExtra">₹396</b></li>
+            <li><span>Subtotal</span><b id="summarySubtotal">₹7,375</b></li>
+            <li><span>Estimated GST · 18%</span><b id="summaryTax">₹1,328</b></li>
+            <li class="total"><span>First scheduled charge</span><b id="summaryTotal">₹8,703</b></li>
+          </ul>
+          <div class="due-today-box">
+            <div style="display:flex;justify-content:space-between;font-size:11px"><span>Due today</span><b>₹0</b></div>
+            <div style="margin-top:4px;color:var(--muted);font-size:9px">Final tax and employee add-on quantity are validated by the live catalogue and billing service.</div>
+          </div>
+        </aside>
+      </div>
+      <footer class="modal-foot">
+        <button class="btn" data-close="checkoutBackdrop">Cancel</button>
+        <button class="btn btn-primary" id="razorpayButton" disabled>Continue to Razorpay →</button>
+      </footer>
+    </section>
+  </div>
+
+  <div class="modal-backdrop" id="planChangeBackdrop" role="presentation">
+    <section class="modal" role="dialog" aria-modal="true" aria-labelledby="planChangeTitle">
+      <header class="modal-head">
+        <div>
+          <div class="eyebrow">Subscription change review</div>
+          <h2 id="planChangeTitle">Review plan change</h2>
+          <p id="planChangeSubtitle">See access, capacity and billing impact before confirming.</p>
+        </div>
+        <button class="modal-close" data-close="planChangeBackdrop" aria-label="Close plan change review">×</button>
+      </header>
+      <div class="modal-body">
+        <div class="callout" id="planChangeCallout">
+          <b>Nothing changes until an authorised administrator confirms.</b>
+          The server recalculates the final amount from the approved commercial catalogue.
+        </div>
+
+        <div class="grid grid-3" style="margin-top:16px">
+          <div class="mini"><span>Current subscription</span><b id="planChangeCurrent">Growth · monthly</b></div>
+          <div class="mini"><span>Requested change</span><b id="planChangeTarget">Enterprise review</b></div>
+          <div class="mini"><span>Effective date</span><b id="planChangeEffective">After commercial approval</b></div>
+        </div>
+
+        <div class="grid grid-2" style="margin-top:16px">
+          <article class="card">
+            <div class="card-head"><div><h3>Customer impact</h3><p>What changes in the workspace</p></div></div>
+            <div class="card-body action-list" id="planChangeImpact">
+              <div class="action"><span class="action-icon">✓</span><span><b>Feature access</b><small>Enterprise capabilities are added after activation</small></span></div>
+              <div class="action"><span class="action-icon">♙</span><span><b>Employee capacity</b><small>Existing capacity remains available</small></span></div>
+              <div class="action"><span class="action-icon">₹</span><span><b>Billing</b><small>Commercial quote and effective date are reviewed</small></span></div>
+            </div>
+          </article>
+          <article class="card">
+            <div class="card-head"><div><h3>Checks before confirmation</h3><p>Changes cannot bypass plan rules</p></div></div>
+            <div class="card-body action-list" id="planChangeChecks">
+              <div class="action"><span class="action-icon">✓</span><span><b>Billing authority</b><small>Organisation owner or Billing Admin</small></span><span class="pill success">Ready</span></div>
+              <div class="action"><span class="action-icon">✓</span><span><b>Employee capacity</b><small>No reduction requested</small></span><span class="pill success">Ready</span></div>
+              <div class="action"><span class="action-icon">✓</span><span><b>Payment state</b><small>No overdue invoice</small></span><span class="pill success">Ready</span></div>
+            </div>
+          </article>
+        </div>
+
+        <label class="check-row">
+          <input id="planChangeApproval" type="checkbox">
+          <span id="planChangeApprovalText">I have reviewed the feature, employee and billing impact of this subscription change.</span>
+        </label>
+      </div>
+      <footer class="modal-foot">
+        <button class="btn" data-close="planChangeBackdrop">Cancel</button>
+        <button class="btn btn-primary" id="confirmPlanChange" disabled>Continue</button>
+      </footer>
+    </section>
+  </div>
+
+  <div class="modal-backdrop" id="employeeAddonBackdrop" role="presentation">
+    <section class="modal small" role="dialog" aria-modal="true" aria-labelledby="employeeAddonTitle">
+      <header class="modal-head">
+        <div>
+          <div class="eyebrow">Recurring subscription add-on</div>
+          <h2 id="employeeAddonTitle">Add employee capacity</h2>
+          <p>Increase how many employees can actively use Onaqt workflows.</p>
+        </div>
+        <button class="modal-close" data-close="employeeAddonBackdrop" aria-label="Close employee add-on">×</button>
+      </header>
+      <div class="modal-body">
+        <div class="callout">
+          <b>Growth currently includes 20 employees.</b>
+          Your trial has 24 active employees, so at least 4 add-ons are required. The subscription estimate currently contains <strong id="employeeCalloutCurrentAddons">4</strong> add-ons; add more now if the team is expected to grow.
+        </div>
+
+        <div class="form-grid" style="margin-top:16px">
+          <div class="field">
+            <label for="employeeAddonQty">More employee slots</label>
+            <input id="employeeAddonQty" type="number" min="1" max="10000" value="6">
+            <small>₹99 per employee per month on Growth.</small>
+          </div>
+          <div class="field">
+            <label for="employeeAddonStart">Effective from</label>
+            <select id="employeeAddonStart">
+              <option value="activation">Paid-plan activation · 1 Aug 2026</option>
+              <option value="next_cycle">Next billing cycle</option>
+            </select>
+            <small>During trial, add-ons are scheduled with plan activation.</small>
+          </div>
+        </div>
+
+        <div class="checkout-summary" style="margin-top:16px">
+          <div style="display:flex;justify-content:space-between;gap:14px;align-items:flex-start">
+            <div>
+              <h3 style="margin-bottom:2px">Capacity after this change</h3>
+              <p style="font-size:10px;margin:0">Included employees + all employee add-ons</p>
+            </div>
+            <div class="money"><span id="employeeNewCapacity">30</span><small>employee slots</small></div>
+          </div>
+          <ul class="breakdown">
+            <li><span>Growth employees included</span><b>20</b></li>
+            <li><span>Employee add-ons already required</span><b id="employeeExistingAddons">4</b></li>
+            <li><span id="employeeNewAddonsLabel">6 new employee add-ons × ₹99</span><b id="employeeNewAddonsAmount">₹594</b></li>
+            <li class="total"><span>New monthly Growth subtotal</span><b id="employeeNewSubtotal">₹7,969</b></li>
+          </ul>
+        </div>
+
+        <label class="check-row">
+          <input id="employeeAddonApproval" type="checkbox">
+          <span>I approve this recurring employee capacity and understand it remains on the subscription until reduced for a future billing cycle.</span>
+        </label>
+      </div>
+      <footer class="modal-foot">
+        <button class="btn" data-close="employeeAddonBackdrop">Cancel</button>
+        <button class="btn btn-primary" id="confirmEmployeeAddons" disabled>Add to subscription</button>
+      </footer>
+    </section>
+  </div>
+
+  <div class="modal-backdrop" id="employeeReduceBackdrop" role="presentation">
+    <section class="modal small" role="dialog" aria-modal="true" aria-labelledby="employeeReduceTitle">
+      <header class="modal-head">
+        <div>
+          <div class="eyebrow">Future billing change</div>
+          <h2 id="employeeReduceTitle">Reduce employee capacity</h2>
+          <p>Remove unused add-ons from the next billing cycle.</p>
+        </div>
+        <button class="modal-close" data-close="employeeReduceBackdrop" aria-label="Close employee reduction">×</button>
+      </header>
+      <div class="modal-body">
+        <div class="callout warning" id="employeeReduceCallout">
+          <b>Capacity cannot drop below active employees.</b>
+          Twenty-four employees currently use Onaqt. At least 4 Growth employee add-ons must remain.
+        </div>
+        <div class="form-grid" style="margin-top:16px">
+          <div class="field">
+            <label for="employeeReduceQty">Employee add-ons to remove</label>
+            <input id="employeeReduceQty" type="number" min="0" value="0">
+            <small id="employeeReduceHelp">No add-ons are currently available to remove.</small>
+          </div>
+          <div class="field">
+            <label>Effective from</label>
+            <input value="Next billing cycle · 1 Sep 2026" readonly>
+            <small>Capacity remains unchanged for the current paid period.</small>
+          </div>
+        </div>
+        <div class="checkout-summary" style="margin-top:16px">
+          <ul class="breakdown" style="margin-top:0">
+            <li><span>Current employee capacity</span><b id="employeeReduceCurrentCapacity">24</b></li>
+            <li><span>Capacity after change</span><b id="employeeReduceNewCapacity">24</b></li>
+            <li><span>Monthly saving</span><b id="employeeReduceSaving">₹0</b></li>
+            <li class="total"><span>New monthly Growth subtotal</span><b id="employeeReduceSubtotal">₹7,375</b></li>
+          </ul>
+        </div>
+        <label class="check-row">
+          <input id="employeeReduceApproval" type="checkbox">
+          <span>I understand the reduced capacity applies at the next billing cycle and may prevent additional employees from being activated.</span>
+        </label>
+      </div>
+      <footer class="modal-foot">
+        <button class="btn" data-close="employeeReduceBackdrop">Cancel</button>
+        <button class="btn btn-primary" id="confirmEmployeeReduction" disabled>Schedule reduction</button>
+      </footer>
+    </section>
+  </div>
+
+  <div class="modal-backdrop" id="creditBackdrop" role="presentation">
+    <section class="modal small" role="dialog" aria-modal="true" aria-labelledby="creditTitle">
+      <header class="modal-head">
+        <div><div class="eyebrow">One-time purchase</div><h2 id="creditTitle">Buy AI credits</h2><p>Credits are added only after Razorpay confirms a captured payment.</p></div>
+        <button class="modal-close" data-close="creditBackdrop" aria-label="Close credit purchase">×</button>
+      </header>
+      <div class="modal-body">
+        <div class="form-grid">
+          <div class="field">
+            <label for="creditPack">Credit pack</label>
+            <select id="creditPack"><option value="pack_1000">1,000 credits · ₹999</option><option value="pack_5000">5,000 credits · ₹3,999</option></select>
+          </div>
+          <div class="field">
+            <label>Eligible workspace plan</label>
+            <input value="Growth · activation required" readonly>
+          </div>
+        </div>
+        <div class="checkout-summary" style="margin-top:16px">
+          <ul class="breakdown" style="margin-top:0">
+            <li><span id="creditPackLabel">AI Credits 1K</span><b id="creditSubtotal">₹999</b></li>
+            <li><span>Estimated GST · 18%</span><b id="creditTax">₹180</b></li>
+            <li class="total"><span>Total</span><b id="creditTotal">₹1,179</b></li>
+          </ul>
+        </div>
+        <div class="callout warning" style="margin-top:14px">
+          <b>A paid Growth or Enterprise subscription is required.</b>
+          If the plan is not active, Razorpay checkout remains blocked and no credit order is created.
+        </div>
+      </div>
+      <footer class="modal-foot">
+        <button class="btn" data-close="creditBackdrop">Cancel</button>
+        <button class="btn btn-primary" id="buyCreditButton">Activate Growth first</button>
+      </footer>
+    </section>
+  </div>
+
+  <div class="modal-backdrop" id="paymentRecoveryBackdrop" role="presentation">
+    <section class="modal small" role="dialog" aria-modal="true" aria-labelledby="paymentRecoveryTitle">
+      <header class="modal-head">
+        <div>
+          <div class="eyebrow">Payment needs attention</div>
+          <h2 id="paymentRecoveryTitle">Keep your workspace active</h2>
+          <p>Review the failed renewal and update payment through Razorpay.</p>
+        </div>
+        <button class="modal-close" data-close="paymentRecoveryBackdrop" aria-label="Close payment recovery">×</button>
+      </header>
+      <div class="modal-body">
+        <div class="callout warning">
+          <b>The 1 September renewal payment did not complete.</b>
+          Operational access remains available during the recovery window. No duplicate charge will be created.
+        </div>
+        <dl class="detail-list" style="margin-top:17px">
+          <dt>Subscription</dt><dd>Growth · monthly</dd>
+          <dt>Amount due</dt><dd>₹8,703 including estimated GST</dd>
+          <dt>Razorpay status</dt><dd><span class="pill danger">Payment failed</span></dd>
+          <dt>Next retry</dt><dd>25 July 2026 · 10:00 IST</dd>
+          <dt>Recovery window</dt><dd>Ends 28 July 2026</dd>
+          <dt>Workspace impact</dt><dd>Read-only only if recovery window ends unpaid</dd>
+        </dl>
+      </div>
+      <footer class="modal-foot">
+        <button class="btn" data-close="paymentRecoveryBackdrop">Close</button>
+        <button class="btn btn-primary" id="updatePaymentMethod">Update payment with Razorpay</button>
+      </footer>
+    </section>
+  </div>
+
+  <div class="modal-backdrop" id="cancelSubscriptionBackdrop" role="presentation">
+    <section class="modal small" role="dialog" aria-modal="true" aria-labelledby="cancelSubscriptionTitle">
+      <header class="modal-head">
+        <div>
+          <div class="eyebrow">End paid renewal</div>
+          <h2 id="cancelSubscriptionTitle">Cancel subscription renewal?</h2>
+          <p>Paid access continues until the end of the current billing period.</p>
+        </div>
+        <button class="modal-close" data-close="cancelSubscriptionBackdrop" aria-label="Close cancellation">×</button>
+      </header>
+      <div class="modal-body">
+        <div class="callout warning">
+          <b>Cancellation does not delete organisation data.</b>
+          On 1 September 2026 the workspace becomes read-only. Export remains available to authorised administrators.
+        </div>
+        <div class="action-list" style="margin-top:16px">
+          <div class="action"><span class="action-icon">◷</span><span><b>Plan access</b><small>Growth modules remain active through 31 August 2026</small></span></div>
+          <div class="action"><span class="action-icon">♙</span><span><b>Employees</b><small>Operational actions stop when paid access ends; records remain</small></span></div>
+          <div class="action"><span class="action-icon">✦</span><span><b>AI credits</b><small>Credits keep their expiry date but require an eligible active plan to use</small></span></div>
+          <div class="action"><span class="action-icon">↻</span><span><b>Reactivation</b><small>Reactivate an eligible plan to restore access</small></span></div>
+        </div>
+        <div class="field" style="margin-top:16px">
+          <label for="cancelReason">Reason for cancelling</label>
+          <select id="cancelReason">
+            <option value="">Select a reason</option>
+            <option>Cost is higher than expected</option>
+            <option>Team is not ready</option>
+            <option>Missing a required feature</option>
+            <option>Moving to another system</option>
+            <option>Other</option>
+          </select>
+        </div>
+        <label class="check-row">
+          <input id="cancelApproval" type="checkbox">
+          <span>I understand paid access ends after the current billing period and the workspace then becomes read-only.</span>
+        </label>
+      </div>
+      <footer class="modal-foot">
+        <button class="btn" data-close="cancelSubscriptionBackdrop">Keep subscription</button>
+        <button class="btn" id="confirmCancellation" disabled>Cancel at period end</button>
+      </footer>
+    </section>
+  </div>
+
+  <div class="modal-backdrop" id="billingBackdrop" role="presentation">
+    <section class="modal small" role="dialog" aria-modal="true" aria-labelledby="billingTitle">
+      <header class="modal-head">
+        <div><div class="eyebrow">Invoice identity</div><h2 id="billingTitle">Edit billing details</h2><p>These details appear on plan invoices and AI-credit receipts.</p></div>
+        <button class="modal-close" data-close="billingBackdrop" aria-label="Close billing details">×</button>
+      </header>
+      <div class="modal-body">
+        <div class="form-grid">
+          <div class="field"><label for="legalName">Legal name</label><input id="legalName" value="Meghdoot Infrastructure Pvt. Ltd."></div>
+          <div class="field"><label for="billingEmail">Billing email</label><input id="billingEmail" type="email" value="accounts@meghdoot.co.in"></div>
+          <div class="field"><label for="gstin">GSTIN</label><input id="gstin" value="03AAHCM4821P1ZQ"></div>
+          <div class="field"><label for="billingState">Place of supply</label><select id="billingState"><option>Punjab</option><option>Haryana</option><option>Maharashtra</option></select></div>
+          <div class="field" style="grid-column:1/-1"><label for="billingAddress">Billing address</label><input id="billingAddress" value="Industrial Area, Mohali, Punjab 160055"></div>
+        </div>
+      </div>
+      <footer class="modal-foot">
+        <button class="btn" data-close="billingBackdrop">Cancel</button>
+        <button class="btn btn-primary" id="saveBilling">Save billing details</button>
+      </footer>
+    </section>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite">
+    <div class="toast-icon">✓</div>
+    <div><b id="toastTitle">Saved</b><small id="toastMessage">Your changes are reflected in this prototype.</small></div>
+  </div>
+
+  <script>
+    const inr = new Intl.NumberFormat('en-IN');
+    const planConfig = {
+      starter: { name: 'Starter', min: 10, monthlyBase: 1989, monthlyExtra: 49, annualBase: 1659, annualExtra: 41 },
+      growth: { name: 'Growth', min: 20, monthlyBase: 6979, monthlyExtra: 99, annualBase: 5806, annualExtra: 82 }
+    };
+    const packs = {
+      pack_1000: { name: 'AI Credits 1K', credits: 1000, price: 999 },
+      pack_5000: { name: 'AI Credits 5K', credits: 5000, price: 3999 }
+    };
+    let cycle = 'monthly';
+    let currentEmployeeAddons = 4;
+    let planChangeBlocked = false;
+    let toastTimer;
+
+    const money = value => '₹' + inr.format(Math.round(value));
+
+    function showTab(id) {
+      document.querySelectorAll('.tab').forEach(tab => {
+        const active = tab.dataset.tab === id;
+        tab.classList.toggle('active', active);
+        tab.setAttribute('aria-selected', String(active));
+      });
+      document.querySelectorAll('.screen').forEach(screen => {
+        screen.classList.toggle('active', screen.dataset.screen === id);
+      });
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function openModal(id) {
+      document.getElementById(id).classList.add('open');
+      document.body.style.overflow = 'hidden';
+      const focusable = document.getElementById(id).querySelector('button, input, select');
+      if (focusable) setTimeout(() => focusable.focus(), 30);
+    }
+
+    function closeModal(id) {
+      document.getElementById(id).classList.remove('open');
+      if (!document.querySelector('.modal-backdrop.open')) document.body.style.overflow = '';
+    }
+
+    function toast(title, message) {
+      clearTimeout(toastTimer);
+      document.getElementById('toastTitle').textContent = title;
+      document.getElementById('toastMessage').textContent = message;
+      document.getElementById('toast').classList.add('show');
+      toastTimer = setTimeout(() => document.getElementById('toast').classList.remove('show'), 3200);
+    }
+
+    function estimate(planId, workers, billingCycle = cycle) {
+      const plan = planConfig[planId];
+      const annual = billingCycle === 'annual';
+      const base = annual ? plan.annualBase : plan.monthlyBase;
+      const extraRate = annual ? plan.annualExtra : plan.monthlyExtra;
+      const extraWorkers = Math.max(0, workers - plan.min);
+      const monthlyEquivalent = base + extraWorkers * extraRate;
+      return {
+        base,
+        extraRate,
+        extraWorkers,
+        monthlyEquivalent,
+        subtotal: annual ? monthlyEquivalent * 12 : monthlyEquivalent
+      };
+    }
+
+    function renderPlanCards() {
+      const workers = Math.max(1, Number(document.getElementById('planWorkers').value) || 1);
+      ['starter', 'growth'].forEach(planId => {
+        const result = estimate(planId, workers);
+        const price = cycle === 'annual' ? result.subtotal : result.monthlyEquivalent;
+        document.querySelector(`[data-price="${planId}"]`).textContent = inr.format(price);
+        document.querySelector(`[data-plan-note="${planId}"]`).textContent =
+          `${money(result.base)} includes ${planConfig[planId].min} employees` +
+          (result.extraWorkers ? ` + ${result.extraWorkers} employee add-ons` : ' · no employee add-ons');
+        document.querySelector(`[data-plan-card="${planId}"] .plan-price small`).textContent =
+          cycle === 'annual' ? ' / year' : ' / month';
+      });
+    }
+
+    function renderCheckout() {
+      const planId = document.getElementById('checkoutPlan').value;
+      const billingCycle = document.getElementById('checkoutCycle').value;
+      const workers = Math.max(1, Number(document.getElementById('checkoutWorkers').value) || 1);
+      const result = estimate(planId, workers, billingCycle);
+      const tax = result.subtotal * .18;
+      document.getElementById('summaryPlan').textContent = planConfig[planId].name;
+      document.getElementById('summaryCycle').textContent = billingCycle === 'annual' ? 'Annual subscription' : 'Monthly subscription';
+      document.getElementById('summaryBaseLabel').textContent = `Starting price · ${planConfig[planId].min} employees`;
+      document.getElementById('summaryBase').textContent = money(billingCycle === 'annual' ? result.base * 12 : result.base);
+      document.getElementById('summaryExtraLabel').textContent = `${result.extraWorkers} employee add-ons`;
+      document.getElementById('summaryExtra').textContent = money(
+        billingCycle === 'annual' ? result.extraWorkers * result.extraRate * 12 : result.extraWorkers * result.extraRate
+      );
+      document.getElementById('summarySubtotal').textContent = money(result.subtotal);
+      document.getElementById('summaryTax').textContent = money(tax);
+      document.getElementById('summaryTotal').textContent = money(result.subtotal + tax);
+      document.getElementById('checkoutTitle').textContent = `Review your ${planConfig[planId].name} subscription`;
+    }
+
+    function startSubscription(planId) {
+      if (planId === 'enterprise') return;
+      document.getElementById('checkoutPlan').value = planId;
+      document.getElementById('checkoutCycle').value = cycle;
+      document.getElementById('checkoutWorkers').value = document.getElementById('planWorkers').value || 24;
+      document.getElementById('authoriseCheck').checked = false;
+      document.getElementById('razorpayButton').disabled = true;
+      renderCheckout();
+      openModal('checkoutBackdrop');
+    }
+
+    function openPlanChange(mode) {
+      const title = document.getElementById('planChangeTitle');
+      const subtitle = document.getElementById('planChangeSubtitle');
+      const callout = document.getElementById('planChangeCallout');
+      const target = document.getElementById('planChangeTarget');
+      const effective = document.getElementById('planChangeEffective');
+      const impact = document.getElementById('planChangeImpact');
+      const checks = document.getElementById('planChangeChecks');
+      const approvalText = document.getElementById('planChangeApprovalText');
+      const confirm = document.getElementById('confirmPlanChange');
+      planChangeBlocked = false;
+
+      if (mode === 'downgrade') {
+        title.textContent = 'Review downgrade to Starter';
+        subtitle.textContent = 'Downgrades are scheduled for renewal and cannot remove capabilities still in use.';
+        callout.className = 'callout warning';
+        callout.innerHTML = '<b>Three items must be resolved before Starter can be scheduled.</b>The current workspace uses Growth-only modules, has 24 active employees, and has AI credits that require Growth or Enterprise.';
+        target.textContent = 'Starter · monthly';
+        effective.textContent = 'Next renewal · 1 Sep 2026';
+        impact.innerHTML = '<div class="action"><span class="action-icon">−</span><span><b>Growth modules</b><small>Planning, Vendor Hub, WCC and Invoice Hub become read-only</small></span></div><div class="action"><span class="action-icon">♙</span><span><b>Employee capacity</b><small>Starter includes 10 employees; current usage is 24</small></span></div><div class="action"><span class="action-icon">✦</span><span><b>AI access</b><small>AI actions stop because Starter is not eligible</small></span></div>';
+        checks.innerHTML = '<div class="action"><span class="action-icon">!</span><span><b>Growth-only module activity</b><small>Export or close active workflows</small></span><span class="pill danger">Blocked</span></div><div class="action"><span class="action-icon">!</span><span><b>Employee capacity</b><small>Reduce active employees from 24 to 10</small></span><span class="pill danger">Blocked</span></div><div class="action"><span class="action-icon">!</span><span><b>AI credit eligibility</b><small>Use credits or retain an eligible plan</small></span><span class="pill danger">Blocked</span></div>';
+        approvalText.textContent = 'I understand the downgrade cannot be scheduled until every blocker is resolved.';
+        confirm.textContent = 'Resolve blockers first';
+        planChangeBlocked = true;
+      } else if (mode === 'cycle') {
+        title.textContent = 'Change to annual billing';
+        subtitle.textContent = 'Review the commitment, renewal date and annual amount.';
+        callout.className = 'callout';
+        callout.innerHTML = '<b>The current monthly period is not changed.</b>Annual billing begins at the next renewal after Razorpay confirms the updated subscription schedule.';
+        target.textContent = 'Growth · annual';
+        effective.textContent = 'Next renewal · 1 Sep 2026';
+        impact.innerHTML = '<div class="action"><span class="action-icon">✓</span><span><b>Feature access</b><small>No change to Growth capabilities</small></span></div><div class="action"><span class="action-icon">♙</span><span><b>Employee capacity</b><small>Current included employees and add-ons continue</small></span></div><div class="action"><span class="action-icon">₹</span><span><b>Annual charge</b><small>Two-month-equivalent saving shown before confirmation</small></span></div>';
+        checks.innerHTML = '<div class="action"><span class="action-icon">✓</span><span><b>Billing authority</b><small>Organisation owner or Billing Admin</small></span><span class="pill success">Ready</span></div><div class="action"><span class="action-icon">✓</span><span><b>Payment state</b><small>No overdue invoice</small></span><span class="pill success">Ready</span></div><div class="action"><span class="action-icon">✓</span><span><b>Commitment</b><small>Annual renewal terms displayed</small></span><span class="pill success">Ready</span></div>';
+        approvalText.textContent = 'I approve annual billing from the next renewal date and have reviewed the annual amount.';
+        confirm.textContent = 'Schedule annual billing';
+      } else {
+        title.textContent = 'Request Enterprise upgrade';
+        subtitle.textContent = 'Enterprise is sales assisted and activates only after commercial approval.';
+        callout.className = 'callout';
+        callout.innerHTML = '<b>No plan access changes during review.</b>Onaqt prepares the scope and quote; an authorised administrator confirms the final Enterprise agreement.';
+        target.textContent = 'Enterprise · annual';
+        effective.textContent = 'After commercial approval';
+        impact.innerHTML = '<div class="action"><span class="action-icon">＋</span><span><b>Enterprise access</b><small>Advanced roles, SSO, API, audit and governance scope</small></span></div><div class="action"><span class="action-icon">♙</span><span><b>Employee capacity</b><small>Volume allowance defined in the agreement</small></span></div><div class="action"><span class="action-icon">✦</span><span><b>AI credits</b><small>5,000 monthly credits when activated</small></span></div>';
+        checks.innerHTML = '<div class="action"><span class="action-icon">✓</span><span><b>Billing authority</b><small>Organisation owner</small></span><span class="pill success">Ready</span></div><div class="action"><span class="action-icon">✓</span><span><b>Workspace context</b><small>Current plan, modules and usage attached</small></span><span class="pill success">Ready</span></div><div class="action"><span class="action-icon">◷</span><span><b>Commercial approval</b><small>Required before activation</small></span><span class="pill warning">Review</span></div>';
+        approvalText.textContent = 'I authorise Onaqt to prepare an Enterprise scope using this organisation’s plan and usage context.';
+        confirm.textContent = 'Request Enterprise review';
+      }
+
+      document.getElementById('planChangeApproval').checked = false;
+      confirm.disabled = true;
+      openModal('planChangeBackdrop');
+    }
+
+    function renderEmployeeAddons() {
+      const quantity = Math.max(1, Number(document.getElementById('employeeAddonQty').value) || 1);
+      const rate = planConfig.growth.monthlyExtra;
+      const newCapacity = planConfig.growth.min + currentEmployeeAddons + quantity;
+      const newSubtotal = planConfig.growth.monthlyBase + (currentEmployeeAddons + quantity) * rate;
+      document.getElementById('employeeExistingAddons').textContent = inr.format(currentEmployeeAddons);
+      document.getElementById('employeeCalloutCurrentAddons').textContent = inr.format(currentEmployeeAddons);
+      document.getElementById('employeeNewCapacity').textContent = inr.format(newCapacity);
+      document.getElementById('employeeNewAddonsLabel').textContent = `${quantity} new employee add-ons × ${money(rate)}`;
+      document.getElementById('employeeNewAddonsAmount').textContent = money(quantity * rate);
+      document.getElementById('employeeNewSubtotal').textContent = money(newSubtotal);
+    }
+
+    function openEmployeeAddons() {
+      document.getElementById('employeeAddonQty').value = 6;
+      document.getElementById('employeeAddonApproval').checked = false;
+      document.getElementById('confirmEmployeeAddons').disabled = true;
+      renderEmployeeAddons();
+      openModal('employeeAddonBackdrop');
+    }
+
+    function renderEmployeeReduction() {
+      const minimumRequired = 4;
+      const removable = Math.max(0, currentEmployeeAddons - minimumRequired);
+      const field = document.getElementById('employeeReduceQty');
+      const quantity = Math.min(removable, Math.max(0, Number(field.value) || 0));
+      const newAddons = currentEmployeeAddons - quantity;
+      const newCapacity = planConfig.growth.min + newAddons;
+      const saving = quantity * planConfig.growth.monthlyExtra;
+      const subtotal = planConfig.growth.monthlyBase + newAddons * planConfig.growth.monthlyExtra;
+      field.max = removable;
+      field.disabled = removable === 0;
+      document.getElementById('employeeReduceHelp').textContent = removable
+        ? `Up to ${removable} add-ons can be removed without dropping below 24 active employees.`
+        : 'No add-ons are available to remove while 24 employees are active.';
+      document.getElementById('employeeReduceCurrentCapacity').textContent = inr.format(planConfig.growth.min + currentEmployeeAddons);
+      document.getElementById('employeeReduceNewCapacity').textContent = inr.format(newCapacity);
+      document.getElementById('employeeReduceSaving').textContent = money(saving);
+      document.getElementById('employeeReduceSubtotal').textContent = money(subtotal);
+      const approved = document.getElementById('employeeReduceApproval').checked;
+      document.getElementById('confirmEmployeeReduction').disabled = quantity < 1 || !approved;
+    }
+
+    function openEmployeeReduction() {
+      const removable = Math.max(0, currentEmployeeAddons - 4);
+      document.getElementById('employeeReduceQty').value = removable ? Math.min(2, removable) : 0;
+      document.getElementById('employeeReduceApproval').checked = false;
+      renderEmployeeReduction();
+      openModal('employeeReduceBackdrop');
+    }
+
+    function renderEmployeeCapacity() {
+      const capacity = planConfig.growth.min + currentEmployeeAddons;
+      const available = Math.max(0, capacity - 24);
+      const addOnAmount = currentEmployeeAddons * planConfig.growth.monthlyExtra;
+      const subtotal = planConfig.growth.monthlyBase + addOnAmount;
+      document.getElementById('workerCapacity').textContent = inr.format(capacity);
+      document.getElementById('workerAddonCount').textContent = inr.format(currentEmployeeAddons);
+      document.getElementById('workerAvailable').textContent = inr.format(available);
+      document.getElementById('employeeTableCapacity').textContent = inr.format(capacity);
+      document.getElementById('workerAddOnLabel').textContent = `${currentEmployeeAddons} employee add-ons`;
+      document.getElementById('workerAddOnAmount').textContent = money(addOnAmount);
+      document.getElementById('workerPlanSubtotal').textContent = money(subtotal);
+      document.getElementById('overviewAddOnAmount').textContent = money(addOnAmount);
+      document.getElementById('overviewPlanSubtotal').textContent = money(subtotal);
+      document.getElementById('overviewStatEstimate').textContent = money(subtotal);
+      document.getElementById('paymentEmployeeCapacity').textContent = inr.format(capacity);
+      document.getElementById('paymentEmployeeAddons').textContent = inr.format(currentEmployeeAddons);
+      document.getElementById('paymentRenewalEstimate').textContent = `${money(subtotal)} + GST`;
+      const includedWidth = planConfig.growth.min / capacity * 100;
+      document.getElementById('workerIncludedBar').style.width = includedWidth + '%';
+      document.getElementById('workerAddonBar').style.left = includedWidth + '%';
+      document.getElementById('workerAddonBar').style.width = 100 - includedWidth + '%';
+    }
+
+    function renderCreditPack() {
+      const pack = packs[document.getElementById('creditPack').value];
+      const tax = pack.price * .18;
+      document.getElementById('creditPackLabel').textContent = pack.name;
+      document.getElementById('creditSubtotal').textContent = money(pack.price);
+      document.getElementById('creditTax').textContent = money(tax);
+      document.getElementById('creditTotal').textContent = money(pack.price + tax);
+    }
+
+    document.querySelectorAll('[data-tab]').forEach(button => button.addEventListener('click', () => showTab(button.dataset.tab)));
+    document.querySelectorAll('[data-go]').forEach(button => button.addEventListener('click', () => showTab(button.dataset.go)));
+    document.querySelectorAll('[data-subscribe]').forEach(button => button.addEventListener('click', () => startSubscription(button.dataset.subscribe)));
+    document.querySelectorAll('[data-add-employees]').forEach(button => button.addEventListener('click', openEmployeeAddons));
+    document.querySelectorAll('[data-remove-employees]').forEach(button => button.addEventListener('click', openEmployeeReduction));
+    document.querySelectorAll('[data-plan-change]').forEach(button => button.addEventListener('click', () => openPlanChange(button.dataset.planChange)));
+    document.querySelectorAll('[data-cancel-subscription]').forEach(button => button.addEventListener('click', () => {
+      document.getElementById('cancelReason').value = '';
+      document.getElementById('cancelApproval').checked = false;
+      document.getElementById('confirmCancellation').disabled = true;
+      openModal('cancelSubscriptionBackdrop');
+    }));
+    document.querySelectorAll('[data-close]').forEach(button => button.addEventListener('click', () => closeModal(button.dataset.close)));
+
+    document.querySelectorAll('[data-cycle]').forEach(button => {
+      button.addEventListener('click', () => {
+        cycle = button.dataset.cycle;
+        document.querySelectorAll('[data-cycle]').forEach(item => item.classList.toggle('active', item === button));
+        renderPlanCards();
+      });
+    });
+
+    document.getElementById('planWorkers').addEventListener('input', renderPlanCards);
+    document.getElementById('checkoutPlan').addEventListener('change', renderCheckout);
+    document.getElementById('checkoutCycle').addEventListener('change', renderCheckout);
+    document.getElementById('checkoutWorkers').addEventListener('input', renderCheckout);
+    document.getElementById('employeeAddonQty').addEventListener('input', renderEmployeeAddons);
+    document.getElementById('employeeReduceQty').addEventListener('input', renderEmployeeReduction);
+
+    document.getElementById('authoriseCheck').addEventListener('change', event => {
+      document.getElementById('razorpayButton').disabled = !event.target.checked;
+    });
+
+    document.getElementById('employeeAddonApproval').addEventListener('change', event => {
+      document.getElementById('confirmEmployeeAddons').disabled = !event.target.checked;
+    });
+
+    document.getElementById('employeeReduceApproval').addEventListener('change', renderEmployeeReduction);
+    document.getElementById('planChangeApproval').addEventListener('change', event => {
+      document.getElementById('confirmPlanChange').disabled = planChangeBlocked || !event.target.checked;
+    });
+
+    document.getElementById('confirmPlanChange').addEventListener('click', () => {
+      closeModal('planChangeBackdrop');
+      toast('Subscription change recorded', 'The prototype shows the review complete. The backend would now validate and schedule the authorised change.');
+    });
+
+    document.getElementById('confirmEmployeeAddons').addEventListener('click', () => {
+      const quantity = Math.max(1, Number(document.getElementById('employeeAddonQty').value) || 1);
+      currentEmployeeAddons += quantity;
+      renderEmployeeCapacity();
+      closeModal('employeeAddonBackdrop');
+      toast('Employee capacity updated', `${quantity} employee add-ons were added to the subscription estimate. Razorpay would confirm the recurring change.`);
+    });
+
+    document.getElementById('confirmEmployeeReduction').addEventListener('click', () => {
+      const quantity = Math.max(0, Number(document.getElementById('employeeReduceQty').value) || 0);
+      currentEmployeeAddons = Math.max(4, currentEmployeeAddons - quantity);
+      renderEmployeeCapacity();
+      closeModal('employeeReduceBackdrop');
+      toast('Capacity reduction scheduled', `${quantity} employee add-ons will be removed from the next billing cycle.`);
+    });
+
+    document.getElementById('razorpayButton').addEventListener('click', () => {
+      closeModal('checkoutBackdrop');
+      toast('Ready for Razorpay', 'Prototype complete: the backend would now create or reuse the Razorpay subscription and open Checkout.');
+    });
+
+    document.querySelectorAll('[data-buy]').forEach(button => {
+      button.addEventListener('click', () => {
+        document.getElementById('creditPack').value = button.dataset.buy === 'pack_5000' ? 'pack_5000' : 'pack_1000';
+        renderCreditPack();
+        openModal('creditBackdrop');
+      });
+    });
+
+    document.getElementById('creditPack').addEventListener('change', renderCreditPack);
+    document.getElementById('buyCreditButton').addEventListener('click', () => {
+      closeModal('creditBackdrop');
+      showTab('plans');
+      toast('Activate a plan first', 'Choose Growth or Enterprise before purchasing an AI credit pack.');
+    });
+
+    document.querySelector('[data-contact]').addEventListener('click', () => {
+      toast('Enterprise request prepared', 'The production flow would open a sales-assisted plan request with the workspace context attached.');
+    });
+
+    document.querySelector('[data-edit-billing]').addEventListener('click', () => openModal('billingBackdrop'));
+    document.getElementById('previewPaymentRecovery').addEventListener('click', () => openModal('paymentRecoveryBackdrop'));
+    document.getElementById('updatePaymentMethod').addEventListener('click', () => {
+      closeModal('paymentRecoveryBackdrop');
+      toast('Ready for Razorpay', 'The production flow would open a secure Razorpay payment-method update for the existing subscription.');
+    });
+    document.getElementById('updateActivePaymentMethod').addEventListener('click', () => {
+      toast('Ready for Razorpay', 'The production flow would open a secure payment-method update without changing the plan or renewal date.');
+    });
+
+    function updateCancellationState() {
+      document.getElementById('confirmCancellation').disabled =
+        !document.getElementById('cancelReason').value ||
+        !document.getElementById('cancelApproval').checked;
+    }
+    document.getElementById('cancelReason').addEventListener('change', updateCancellationState);
+    document.getElementById('cancelApproval').addEventListener('change', updateCancellationState);
+    document.getElementById('confirmCancellation').addEventListener('click', () => {
+      closeModal('cancelSubscriptionBackdrop');
+      toast('Cancellation scheduled', 'Paid access remains active through the current period. The owner can undo cancellation before renewal.');
+    });
+
+    document.getElementById('saveBilling').addEventListener('click', () => {
+      closeModal('billingBackdrop');
+      toast('Billing details saved', 'The invoice identity has been updated in this prototype.');
+    });
+
+    document.querySelectorAll('.switch:not([disabled])').forEach(control => {
+      control.addEventListener('click', () => {
+        control.classList.toggle('on');
+        toast('Control updated', 'The setting is reflected in this prototype. No backend change was made.');
+      });
+    });
+
+    document.querySelectorAll('.modal-backdrop').forEach(backdrop => {
+      backdrop.addEventListener('mousedown', event => {
+        if (event.target === backdrop) closeModal(backdrop.id);
+      });
+    });
+
+    document.addEventListener('keydown', event => {
+      if (event.key === 'Escape') {
+        const open = document.querySelector('.modal-backdrop.open');
+        if (open) closeModal(open.id);
+      }
+    });
+
+    renderPlanCards();
+    renderCheckout();
+    renderEmployeeCapacity();
+    renderEmployeeAddons();
+    renderEmployeeReduction();
+    renderCreditPack();
+  </script>
+</body>
+</html>
