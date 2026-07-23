@@ -6,25 +6,12 @@
 <title>DPR — Daily Progress Report | ONAQT</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="theme-tokens.css">
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Roboto+Mono:wght@300;400;500&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,600;0,9..144,700;1,9..144,400&display=swap" rel="stylesheet">
 <style>
 * { margin:0; padding:0; box-sizing:border-box; font-family:'DM Sans',-apple-system,BlinkMacSystemFont,sans-serif; font-size:13px; }
 h1,h2,h3 { font-family:'Fraunces',serif; }
-:root {
-    --primary:#2D4A35; --primary-dark:#1e3326; --primary-light:#e6f0e8;
-    --cta:#C8837A;
-    --success:#4a7c59; --success-light:#eaf2ec;
-    --warning:#b8893a; --warning-light:#fdf4e7;
-    --danger:#b85c52; --danger-light:#faeeed;
-    --info:#5a7fa8; --info-light:#eef3f9;
-    --white:#ffffff; --bg:#EDE9E2;
-    --gray-50:#F5F2EC; --gray-100:#ECE8E1; --gray-200:#DDD9D0;
-    --gray-300:#C5C0B5; --gray-400:#A09890; --gray-500:#7A7268;
-    --gray-600:#5C5650; --gray-700:#3E3A35; --gray-800:#2A2722; --gray-900:#1A1714;
-    --shadow-sm:0 1px 3px rgba(45,40,32,0.06);
-    --shadow-md:0 4px 16px rgba(45,40,32,0.08),0 1px 4px rgba(45,40,32,0.04);
-    --transition:all 0.25s cubic-bezier(0.4,0,0.2,1);
-}
+/* Light + dark token values now come from theme-tokens.css. */
 body { background:var(--bg); color:var(--gray-900); font-size:13px; line-height:1.5; -webkit-font-smoothing:antialiased; min-height:100vh; }
 .page-wrapper { display:flex; flex-direction:column; height:100vh; overflow:hidden; padding:16px; gap:0; box-sizing:border-box; }
 
@@ -34,7 +21,7 @@ body { background:var(--bg); color:var(--gray-900); font-size:13px; line-height:
 .breadcrumb { display:flex; align-items:center; gap:6px; font-size:12px; color:var(--gray-500); }
 .breadcrumb-sep { color:var(--gray-300); }
 .breadcrumb-current { color:var(--gray-700); font-weight:600; }
-.page-title { font-family:'Fraunces',serif; font-size:22px; font-weight:700; color:var(--gray-900); line-height:1.1; }
+.page-title { font-family:'Fraunces',serif; font-size:24px; font-weight:600; letter-spacing:-0.3px; color:var(--gray-900); line-height:1.1; }
 
 /* STATS BANNER */
 .stats-banner { display:flex; align-items:stretch; background:linear-gradient(120deg,var(--primary) 0%,color-mix(in srgb,var(--primary) 60%,var(--cta)) 60%,var(--cta) 100%); border-radius:14px; box-shadow:0 4px 20px rgba(0,0,0,0.14),0 1px 4px rgba(0,0,0,0.06); overflow:hidden; margin-bottom:14px; position:relative; flex-shrink:0; }
@@ -156,9 +143,111 @@ table.wcc-table tbody tr:last-child td { border-bottom:none; }
 /* ── EMBEDDED MODE (inside DPR & Work Done tab): show only the table ── */
 .page-header, .stats-banner, .tab-bar { display:none !important; }
 .page-wrapper { padding:0 !important; }
+
+/* ══════════════════════════════════════════════
+   DARK MODE (synced from parent shell via data-dark attribute)
+   Token remap now comes from theme-tokens.css; component overrides below.
+══════════════════════════════════════════════ */
+[data-dark="true"] body { background:var(--bg) !important; color:var(--gray-900) !important; }
+
+/* Page header / breadcrumb */
+[data-dark="true"] .breadcrumb { color:var(--gray-500) !important; }
+[data-dark="true"] .breadcrumb-sep { color:var(--gray-300) !important; }
+[data-dark="true"] .breadcrumb-current { color:var(--gray-700) !important; }
+[data-dark="true"] .page-title { color:var(--gray-900) !important; }
+
+/* Stats banner already uses a saturated primary/cta gradient — darken it slightly to match index.html's approach */
+[data-dark="true"] .stats-banner {
+    background:linear-gradient(120deg,color-mix(in srgb,var(--primary) 80%,#000) 0%,color-mix(in srgb,var(--cta) 70%,#000) 100%) !important;
+    box-shadow:0 4px 24px rgba(0,0,0,0.35) !important;
+}
+
+/* Tab bar */
+[data-dark="true"] .tab-bar { background:#1e2130 !important; border-color:#2d3145 !important; }
+[data-dark="true"] .tab-item { color:#9ca3af !important; }
+[data-dark="true"] .tab-item:hover { color:var(--gray-800) !important; }
+[data-dark="true"] .tab-item.active { color:var(--primary) !important; }
+[data-dark="true"] .tab-badge { background:#363b52 !important; color:#d1d5db !important; }
+[data-dark="true"] .tab-item.active .tab-badge { background:var(--primary-light) !important; color:var(--primary) !important; }
+
+/* Search + icon buttons */
+[data-dark="true"] .wd-search-input { background:#252836 !important; border-color:#363b52 !important; color:#d1d5db !important; }
+[data-dark="true"] .wd-search-input:focus { background:#1e2130 !important; border-color:var(--primary) !important; }
+[data-dark="true"] .wd-search-icon { color:var(--gray-500) !important; }
+[data-dark="true"] .cb-icon-btn { background:#252836 !important; border-color:#363b52 !important; color:#d1d5db !important; }
+[data-dark="true"] .cb-icon-btn:hover { border-color:var(--primary) !important; color:var(--primary) !important; background:color-mix(in srgb,var(--primary) 15%,#252836) !important; }
+
+/* Table card */
+[data-dark="true"] .table-card { background:#1e2130 !important; border-color:rgba(255,255,255,0.07) !important; }
+[data-dark="true"] table.wcc-table thead th { background:#252836 !important; color:var(--gray-500) !important; border-bottom-color:#363b52 !important; }
+[data-dark="true"] table.wcc-table thead th:hover { color:var(--gray-700) !important; }
+[data-dark="true"] table.wcc-table thead th.sorted { color:var(--primary) !important; }
+[data-dark="true"] table.wcc-table tbody td { color:var(--gray-700) !important; border-bottom-color:#2d3145 !important; }
+[data-dark="true"] table.wcc-table tbody tr:hover td { background:#252836 !important; }
+[data-dark="true"] .tbl-scroll::-webkit-scrollbar-thumb { background:#363b52 !important; }
+[data-dark="true"] .tbl-empty { color:var(--gray-500) !important; }
+
+/* Table footer / pagination */
+[data-dark="true"] .tbl-footer { background:#1e2130 !important; border-top-color:#2d3145 !important; }
+[data-dark="true"] .tbl-count { color:var(--gray-500) !important; }
+[data-dark="true"] .tbl-pg-btn { background:#252836 !important; border-color:#363b52 !important; color:#d1d5db !important; }
+[data-dark="true"] .tbl-pg-btn:hover:not(:disabled) { border-color:var(--primary) !important; color:var(--primary) !important; background:color-mix(in srgb,var(--primary) 15%,#252836) !important; }
+[data-dark="true"] .tbl-pg-info { color:var(--gray-700) !important; }
+[data-dark="true"] .tbl-pg-size { color:var(--gray-500) !important; }
+[data-dark="true"] .tbl-pg-size select {
+    background-color:#252836 !important; border-color:#363b52 !important; color:#d1d5db !important;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%239ca3af' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E") !important;
+}
+
+/* Cell content */
+[data-dark="true"] .rp-num { color:var(--gray-700) !important; }
+[data-dark="true"] .rp-num.muted { color:var(--gray-500) !important; }
+[data-dark="true"] .null-dash { color:var(--gray-400) !important; }
+[data-dark="true"] .rp-emp-name { color:var(--gray-900) !important; }
+[data-dark="true"] .rp-emp-role { color:var(--gray-500) !important; }
+[data-dark="true"] .rp-site-bold { color:var(--gray-900) !important; }
+[data-dark="true"] .dpr-activity-text { color:var(--gray-600) !important; }
+[data-dark="true"] .rp-mono-tag { background:color-mix(in srgb,var(--primary) 20%,#252836) !important; color:var(--primary) !important; }
+[data-dark="true"] .dpr-chip { background:color-mix(in srgb,var(--primary) 15%,transparent) !important; color:var(--gray-800) !important; border-color:color-mix(in srgb,var(--primary) 35%,transparent) !important; }
+[data-dark="true"] .visit-badge { background:#363b52 !important; color:var(--gray-700) !important; }
+[data-dark="true"] .visit-badge.has { background:color-mix(in srgb,var(--primary) 20%,#252836) !important; color:var(--primary) !important; }
+
+/* Resource pill (kept on tinted light-alpha backgrounds — legible on dark too, only vendor pill needs a bump) */
+[data-dark="true"] .res-vnd { background:color-mix(in srgb, #7B5EA7 25%, #252836) !important; color:#c9b8e8 !important; }
+
+/* Status badge */
+[data-dark="true"] .s-OPEN { background:color-mix(in srgb,var(--warning) 20%,#252836) !important; }
+[data-dark="true"] .s-WIP { background:color-mix(in srgb,var(--info) 20%,#252836) !important; }
+[data-dark="true"] .s-COMPLETED { background:color-mix(in srgb,var(--success) 20%,#252836) !important; }
 </style>
 </head>
 <body>
+<script>
+    // Sync dark-mode state with the parent app shell (dpr-standalone.html is embedded via <iframe>).
+    // Falls back to light mode silently when opened standalone (no parent frame).
+    (function () {
+        function applyDark(isDark) {
+            document.documentElement.setAttribute('data-dark', isDark ? 'true' : 'false');
+        }
+        try {
+            if (window.parent && window.parent !== window && window.parent.document) {
+                var parentRoot = window.parent.document.documentElement;
+                applyDark(parentRoot.getAttribute('data-dark') === 'true');
+                var observer = new MutationObserver(function (mutations) {
+                    for (var i = 0; i < mutations.length; i++) {
+                        if (mutations[i].attributeName === 'data-dark') {
+                            applyDark(parentRoot.getAttribute('data-dark') === 'true');
+                            break;
+                        }
+                    }
+                });
+                observer.observe(parentRoot, { attributes: true, attributeFilter: ['data-dark'] });
+            }
+        } catch (e) {
+            // Standalone (cross-origin or no parent) — default to light mode.
+        }
+    })();
+</script>
 <div class="page-wrapper">
 
     <!-- PAGE HEADER -->

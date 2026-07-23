@@ -4,8 +4,9 @@
     {
       "name": "onaqt",
       "runtimeExecutable": "npx",
-      "runtimeArgs": ["http-server", ".", "-p", "5500", "--cors"],
-      "port": 5500
+      "runtimeArgs": ["http-server", ".", "--cors"],
+      "port": 5500,
+      "autoPort": true
     }
   ]
 }

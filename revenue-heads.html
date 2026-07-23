@@ -1,26 +1,11 @@
 <!DOCTYPE html>
 <html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Onaqt · Zoho Item &amp; Activity Mapping</title>
+<link rel="stylesheet" href="theme-tokens.css">
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=Fraunces:opsz,wght@9..144,500;9..144,600&display=swap" rel="stylesheet">
 <style>
-/* ============ ONAQT TOKENS (mirrored from admin-unified_v10_2.html) ============ */
-:root{
-  --primary:#2D4A35;--primary-dark:#1e3326;--primary-light:#e6f0e8;
-  --cta:#C8837A;--cta-shadow:rgba(200,131,122,0.35);
-  --success:#4a7c59;--success-light:#eaf2ec;
-  --warning:#b8893a;--warning-light:#fdf4e7;
-  --danger:#b85c52;--danger-light:#faeeed;
-  --info:#5a7fa8;--info-light:#eef3f9;
-  --white:#fff;--surface:#FDFCFA;--bg:#EDE9E2;
-  --gray-50:#F5F2EC;--gray-100:#ECE8E1;--gray-200:#DDD9D0;--gray-300:#C8C2B6;
-  --gray-400:#A39C8E;--gray-500:#857E70;--gray-600:#5C5650;--gray-700:#3E3A35;--gray-800:#2A2722;--gray-900:#1A1714;
-  --shadow-sm:0 1px 3px rgba(45,40,32,0.06);
-  --shadow-md:0 4px 16px rgba(45,40,32,0.08),0 1px 4px rgba(45,40,32,0.04);
-  --shadow-lg:0 12px 32px rgba(45,40,32,0.10),0 4px 8px rgba(45,40,32,0.05);
-  --shadow-xl:0 24px 48px rgba(45,40,32,0.12);
-  --shadow-card:0 2px 12px rgba(45,40,32,0.07),0 0 0 1px rgba(45,40,32,0.04);
-  --border-radius:16px;--border-radius-sm:12px;--transition:all 0.25s cubic-bezier(0.4,0,0.2,1);
-}
+/* Light + dark token values now come from theme-tokens.css (shared with
+   index.html and every satellite page). Only page-specific CSS below. */
 *{box-sizing:border-box;margin:0;padding:0;font-family:'DM Sans',sans-serif;-webkit-tap-highlight-color:transparent}
 body{background:var(--bg);color:var(--gray-800);font-size:13px;min-height:100vh}
 
@@ -288,8 +273,134 @@ table.t{width:100%;border-collapse:separate;border-spacing:0;min-width:920px}
 .muted{color:var(--gray-400)}
 .note-row{background:var(--info-light);border:1px solid color-mix(in srgb,var(--info) 22%,transparent);border-radius:10px;padding:10px 13px;font-size:11.5px;color:var(--info);margin-bottom:12px;display:flex;align-items:center;gap:8px}
 .note-row svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;flex-shrink:0}
+
+/* ============ DARK MODE ============
+   Token remap now comes from theme-tokens.css. Component-level overrides
+   that aren't token-driven stay here. */
+[data-dark="true"] body{background:var(--bg)}
+
+/* borders/backgrounds that were hardcoded against light (rgba(0,0,0,...) / white) rather than tokens */
+[data-dark="true"] .table-card{border-color:rgba(255,255,255,.06)}
+[data-dark="true"] .table-card-header{border-bottom-color:rgba(255,255,255,.07);background:var(--white)}
+[data-dark="true"] .filter-row{background:var(--white);border-bottom-color:rgba(255,255,255,.05)}
+[data-dark="true"] .l2-tree,[data-dark="true"] .rh-summary,[data-dark="true"] .hier-card{border-color:rgba(255,255,255,.06)}
+[data-dark="true"] .linked{box-shadow:0 1px 2px rgba(0,0,0,.25)}
+[data-dark="true"] .drawer-backdrop{background:rgba(0,0,0,0.6)}
+[data-dark="true"] .detail-drawer{box-shadow:-8px 0 40px rgba(0,0,0,0.5)}
+[data-dark="true"] .modal-overlay{background:rgba(0,0,0,.6)}
+
+/* buttons — secondary/ghost only, not primary/CTA */
+[data-dark="true"] .btn-secondary{background:var(--white);border-color:var(--gray-200);color:var(--gray-700)}
+[data-dark="true"] .btn-secondary:hover{background:var(--gray-50)}
+[data-dark="true"] .btn-ghost:hover{background:var(--gray-100)}
+
+/* tabs */
+[data-dark="true"] .tab:hover:not(.active){background:var(--gray-100);color:var(--gray-700)}
+
+/* status pills / classification badges / linked-acts chip — use tinted dark backgrounds instead of pastel -light vars */
+[data-dark="true"] .pill.ok{color:#52c48a;background:rgba(74,124,89,0.18)}
+[data-dark="true"] .pill.warn{color:#e6b050;background:rgba(184,137,58,0.18)}
+[data-dark="true"] .pill.danger{color:#e08078;background:rgba(184,92,82,0.18)}
+[data-dark="true"] .pill.info{color:#8fb4dd;background:rgba(90,127,168,0.18)}
+[data-dark="true"] .pill.muted{color:var(--gray-500);background:var(--gray-100)}
+[data-dark="true"] .pill.cta{color:var(--cta);background:color-mix(in srgb,var(--cta) 18%,var(--gray-50))}
+[data-dark="true"] .cls.svc{color:#8fb4dd;background:rgba(90,127,168,0.15);border-color:rgba(90,127,168,.35)}
+[data-dark="true"] .cls.inv{color:#e6b050;background:rgba(184,137,58,0.15);border-color:rgba(184,137,58,.35)}
+[data-dark="true"] .cls.both{color:#7fae8c;background:rgba(74,124,89,0.18);border-color:rgba(74,124,89,.4)}
+[data-dark="true"] .linked-acts{background:color-mix(in srgb,var(--cta) 16%,var(--gray-50));border-color:color-mix(in srgb,var(--cta) 35%,transparent)}
+
+/* "Not linked" warning pill lives inside .rh-summary via .pill.warn — covered above */
+
+/* note-row / zoho-banner info callouts */
+[data-dark="true"] .note-row{background:rgba(90,127,168,0.14);border-color:rgba(90,127,168,.35);color:#8fb4dd}
+[data-dark="true"] .zoho-banner{background:rgba(90,127,168,0.14);border-color:rgba(90,127,168,.35);color:#8fb4dd}
+
+/* layout-switch preview banner */
+[data-dark="true"] .layout-switch{background:rgba(184,137,58,0.14);border-color:rgba(184,137,58,.4)}
+
+/* drawer */
+[data-dark="true"] .drawer-close{background:var(--gray-100);color:var(--gray-600)}
+[data-dark="true"] .drawer-close:hover{background:rgba(184,92,82,0.18);color:#e08078}
+[data-dark="true"] .drawer-footer{background:var(--gray-50)}
+[data-dark="true"] .ro-tag{background:var(--gray-100);color:var(--gray-500)}
+
+/* modal */
+[data-dark="true"] .modal{background:var(--white)}
+[data-dark="true"] .modal-footer{background:var(--gray-50)}
+
+/* form fields (modals + drawer-adjacent forms) */
+[data-dark="true"] .field input,
+[data-dark="true"] .field select,
+[data-dark="true"] .field textarea{background:var(--gray-50);border-color:var(--gray-200);color:var(--gray-800)}
+[data-dark="true"] .field input:focus,
+[data-dark="true"] .field select:focus,
+[data-dark="true"] .field textarea:focus{box-shadow:0 0 0 3px color-mix(in srgb,var(--primary) 25%,transparent)}
+[data-dark="true"] .field .err{background:rgba(184,92,82,0.14)}
+[data-dark="true"] .search-input{background:var(--white);border-color:var(--gray-200)}
+[data-dark="true"] .fpill{background:var(--white);border-color:var(--gray-200)}
+[data-dark="true"] .fpill:hover{border-color:var(--gray-300)}
+
+/* activity → materials modal row list */
+[data-dark="true"] .lm-act-list{background:var(--gray-50);border-color:var(--gray-200)}
+[data-dark="true"] .lm-act-row{background:var(--white);border-color:var(--gray-200)}
+[data-dark="true"] .lm-act-row input[type="number"],
+[data-dark="true"] .lm-act-row select{background:var(--gray-50);border-color:var(--gray-200);color:var(--gray-800)}
+[data-dark="true"] .lm-act-row .rem{background:var(--white);border-color:var(--gray-200);color:var(--gray-400)}
+[data-dark="true"] .lm-act-row .rem:hover{background:rgba(184,92,82,0.18);color:#e08078;border-color:rgba(184,92,82,.4)}
+
+/* hier / tree chips */
+[data-dark="true"] .hier-type-chip{background:var(--gray-50);border-color:var(--gray-200)}
+[data-dark="true"] .hier-type-chip:hover{background:rgba(45,74,53,0.25);border-color:color-mix(in srgb,var(--primary) 40%,transparent);color:#a7d4b6}
+[data-dark="true"] .hier-type-chip .ct{background:var(--white)}
+[data-dark="true"] .hier-type-chip:hover .ct{background:var(--white);color:#a7d4b6}
+[data-dark="true"] .tree-rh:hover{background:var(--gray-50)}
+[data-dark="true"] .tree-type:hover{background:var(--gray-50)}
+
+/* text/icons colored var(--primary) are unreadable on dark surfaces (brand green is tuned for light bg) —
+   mirror index.html's established dark-mode substitute #a7d4b6 (light mint) for primary-colored text,
+   and rgba(45,74,53,0.25) for primary-light-colored backgrounds */
+[data-dark="true"] .rh-summary .rh-name,
+[data-dark="true"] .hier-card .rh-name,
+[data-dark="true"] .drawer-title,
+[data-dark="true"] .drawer-meta-value.primary{color:#a7d4b6}
+[data-dark="true"] .l2-tree-h .add{background:rgba(45,74,53,0.25);color:#a7d4b6}
+[data-dark="true"] .tree-rh.active{background:rgba(45,74,53,0.25);color:#a7d4b6}
+[data-dark="true"] .tree-rh.active .ico,
+[data-dark="true"] .tree-rh.active .ct{color:#a7d4b6}
+[data-dark="true"] .tree-rh.active .ct{background:var(--white)}
+[data-dark="true"] .tree-type.active{background:rgba(45,74,53,0.25);color:#a7d4b6}
+[data-dark="true"] .tree-type.active .dot{background:#a7d4b6}
+[data-dark="true"] .tree-type.active .ct{color:#a7d4b6}
+
+/* toast keeps success/danger solid fill — already token-driven, no change needed */
+
+/* empty-state / no-results text already uses var(--gray-400) inline — token remap above covers it */
 </style></head>
 <body>
+<script>
+/* ============ DARK MODE SYNC (mirrors parent shell's toggleDarkMode) ============
+   This page is loaded inside an iframe on index.html. The parent toggles
+   data-dark on its own <html> element and persists to localStorage. Since
+   this document has no independent toggle UI, it mirrors the parent's
+   attribute on load and stays in sync live via MutationObserver. */
+(function(){
+  try{
+    if(window.parent && window.parent !== window && window.parent.document){
+      var parentHtml = window.parent.document.documentElement;
+      document.documentElement.setAttribute('data-dark', parentHtml.getAttribute('data-dark') === 'true' ? 'true' : 'false');
+      new MutationObserver(function(mutations){
+        mutations.forEach(function(m){
+          if(m.attributeName === 'data-dark'){
+            document.documentElement.setAttribute('data-dark', parentHtml.getAttribute('data-dark') === 'true' ? 'true' : 'false');
+          }
+        });
+      }).observe(parentHtml, {attributes:true, attributeFilter:['data-dark']});
+    }
+  }catch(e){
+    // Standalone (not embedded) or cross-origin access blocked — default to light mode silently.
+  }
+})();
+</script>
 <div class="app">
   <!-- page header -->
   <div class="page-header">
